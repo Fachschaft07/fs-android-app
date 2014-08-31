@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Fachschaft07</string>
+    <string name="apiFail">Derzeit leider nicht für OS2.3 verfügbar!</string>
+    <string name="version">Version</string>
+    <string name="roomsearch">Raumsuche</string>
+    <string name="news">News</string>
+    <string name="infoscreen">Schwarzes Brett</string>
+    <string name="mvv">MVV</string>
+    <string name="food">Mensa</string>
+    <string name="menu_settings">Settings</string>
+    <string name="info">Info</string>
+    <string name="teamMembers">Entwickelt von Studenten der Fakultät 07\n\nWer mitmachen möchte, kommt einfach in der Fachschaft vorbei \n\n</string>
+    <string name="team">Team:</string>
+    <string name="fs_contact">Kontakt:\napp@fs.cs.hm.edu\nLothstraße 64\nR0.013\n80355 München</string>
+    <string name="blackboard">Schwarzes Brett</string>
+    <string name="refresh">Neu laden</string>
+    <string name="roomnumber">Raumnummer</string>
+    <string name="change">Ändern</string>
+    <string name="send_mail">E-Mail senden…</string>
+    <string name="hall">Saal</string>
+    <string name="laboratory">Labor</string>
+    <string name="minute_short">min</string>
+
+    <!-- TimeTable -->
+    <string name="timetable">Stundenplan</string>
+    <string name="timetableoverview">Stundenplan Übersicht</string>
+    <string name="download">Download</string>
+    <string name="week">Woche</string>
+    <string name="day">Tag</string>
+    <string name="courses">Kurse</string>
+    <string name="faculty">Fakultät</string>
+    <string name="fk07">Fakultät 7</string>
+    <string name="fk10">Fakultät 10</string>
+    <string name="modify">Eintrag ändern</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Löschen</string>
+    <string name="deleteDialogText">Möchtest du diesen Eintrag löschen?</string>
+    <string name="add">Hinzufügen</string>
+    <string name="neu">Neu</string>
+    <string name="teacher">Dozent:</string>
+    <string name="titel">Titel</string>
+    <string name="prof">Dozent</string>
+    <string name="room">Raumnummer</string>
+    <string name="roomshort">Raum:</string>
+    <string name="suffix">Zusatz zur Veranstaltung</string>
+    <string name="mon">MO</string>
+    <string name="tue">DI</string>
+    <string name="wed">MI</string>
+    <string name="thu">DO</string>
+    <string name="fri">FR</string>
+    <string name="mo">Mo</string>
+    <string name="tu">Di</string>
+    <string name="we">Mi</string>
+    <string name="th">Do</string>
+    <string name="fr">Fr</string>
+    <string name="downloadError">Fehler beim Herunterladen!</string>
+    <string name="timeParseError">Fehler beim Parsen der Uhrzeit!</string>
+    <string name="weekParseError">Fehler beim Parsen des Wochentages!</string>
+    <string name="tutorialHeader">How-to (Erst lesen!)</string>
+    <string name="tutorialContent">Um einen Stundenplan herunterzuladen, klicke bitte auf das Download
+        Symbol in der oberen rechten Ecke. Du kannst mehrere Stundenpläne nacheinander herunterladen
+        und zu deinem aktuellen Stundenplan hinzufügen.\n\nJeder Eintrag lässt sich
+        durch einen langen Klick bearbeiten oder löschen.
+        Es ist auch möglich, neue Einträge zu erstellen und hinzuzufügen. Finden zwei Kurse
+        zur selben Zeit statt, so kannst du auf diesen Eintrag klicken und den gewünschen Kurs auswählen.
+        \n\nLinks neben dem Download Symbol kannst du in die Wochenansicht wechseln.
+        In der Tagesansicht kannst du durch wischen (swipen) zu einem anderen Tag springen.\n\nViel Spaß!
+        \n\nTipp: Über ein Widget kannst du dir auch die nächste Vorlesung auf dem Homescreen anzeigen
+        lassen ;)</string>
+    <!-- TimeTable Widget -->
+    <string name="widgetPlainText">Keine Vorlesung gefunden!</string>
+    <string name="lothstraße">Lothstraße</string>
+    <string name="pasing">Pasing</string>
+    <string name="find">Suchen</string>
+    <string name="no_internet">Leider keine Netzwerkverbindung verfügbar. \n\n Dieser Dienst funktioniert nur Online</string>
+
+    <!-- Food -->
+    <string name="legend">Legende</string>
+    <string name="legendContent">(f) fleischloses Gericht\n(v)
+   	    veganes Gericht\n(S)
+   	    mit Schweinefleisch\n(R)
+   	    mit Rindfleisch\n(1)
+		mit Farbstoff\n(2)
+		mit Konservierungsstoff\n(3)
+		mit Antioxidationsmittel\n(4)
+		mit Geschmacksverstärker\n(6)
+		geschwärzt (Oliven)\n(8)
+		mit Phosphat\n(9)
+		mit Süßungsmitteln\n(10)
+		enthält eine Phenylalaninquelle\n(99)
+		mit Alkohol	</string>
+
+    <!-- Presence -->
+    <string name="presence">FSPresence</string>
+    <string name="presenceTitle">Jetzt in der Fachschaft</string>
+    <string name="presencePhone">Tel: 089 1265-3777</string>
+    <string name="presenceMail">Mail: info@fs.cs.hm.edu</string>
+    <string name="presenceEmpty">Keine Daten für FSPresence erhalten.\nSchau einfach vorbei oder frag per Anruf oder Mail nach.</string>
+    
+</resources>

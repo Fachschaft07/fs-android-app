@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_margin="15dp"
+        android:text="@string/edit"
+        android:textSize="22sp"
+        android:textColor="#ffff4444" />
+    
+    <View
+        android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="#ffff4444"/>
+
+    <EditText
+        android:id="@+id/editTitel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/titel"
+        android:inputType="textPersonName"
+        android:textColor="@color/holo_light_red_dialog_text" >
+    	<requestFocus />
+    </EditText>	
+
+    <EditText
+        android:id="@+id/editProf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" 
+        android:hint="@string/prof"
+        android:inputType="textPersonName"
+        android:textColor="@color/holo_light_red_dialog_text" />
+    
+    <EditText
+        android:id="@+id/editRoom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/room"
+        android:inputType="textPersonName"
+        android:textColor="@color/holo_light_red_dialog_text" />
+
+    <EditText
+        android:id="@+id/editSuffix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" 
+        android:hint="@string/suffix"
+        android:inputType="textPersonName"
+        android:textColor="@color/holo_light_red_dialog_text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/divider_horizontal_bright"
+            android:layout_alignParentTop="true"/>
+        <View
+            android:id="@+id/ViewColorPickerHelper"
+            android:layout_width="1dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/divider_horizontal_bright" 
+            android:layout_centerHorizontal="true"/>
+        <Button
+            android:id="@+id/negativeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/ViewColorPickerHelper"
+            android:background="@drawable/holo_light_red_list_selector_holo_light"
+            android:text="@android:string/cancel" 
+            android:textSize="14sp"
+            android:textColor="@color/holo_light_red_dialog_text"
+            android:layout_alignParentBottom="true"/>
+        <Button
+            android:id="@+id/positiveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/holo_light_red_list_selector_holo_light"
+            android:text="@android:string/ok" 
+            android:textSize="14sp"
+            android:textColor="@color/holo_light_red_dialog_text"
+            android:layout_alignParentBottom="true" 
+            android:layout_toRightOf="@id/ViewColorPickerHelper"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<resources>  
+
+<string-array name="list">  
+<item>go2</item>
+<item >go4</item>
+<item >go6</item>
+<item >ib</item>  
+<item>ib2a</item>
+<item>ib2b</item>
+<item>ib2c</item>
+<item>ib4a</item>
+<item>ib4b</item>
+<item>ib4c</item>
+<item>ib6a</item>
+<item>ib6b</item>
+<item>ib6c</item>
+<item>ic</item>
+<item>ic2</item>
+<item>ic4</item>
+<item>ic6</item>
+<item>if</item>
+<item>if2a</item>
+<item>if2b</item>
+<item>if2c</item>
+<item>if4a</item>
+<item>if4b</item>
+<item>if5</item>
+<item>if6</item>
+<item>if7</item>
+<item>ig</item>
+<item>in2</item>
+<item>in3</item>
+<item>is</item>
+</string-array>  
+  
+<string-array name="starttimes">
+    <item>08:15</item>
+    <item>10:00</item>
+    <item>11:45</item>
+    <item>13:30</item>
+    <item>15:15</item>
+    <item>17:00</item>
+    <item>18:45</item>
+</string-array>  
+<string-array name="endtimes">
+    <item>09:45</item>
+    <item>11:30</item>
+    <item>13:15</item>
+    <item>15:00</item>
+    <item>16:45</item>
+    <item>18:30</item>
+    <item>20:15</item>
+</string-array> 
+  
+<string-array name="days">
+    <item>Sonntag</item>
+    <item>Montag</item>
+    <item>Dienstag</item>
+    <item>Mittwoch</item>
+    <item>Donnerstag</item>
+    <item>Freitag</item>
+    <item>Samstag</item>
+</string-array>  
+
+</resources> 

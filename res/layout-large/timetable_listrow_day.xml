@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:minHeight="?android:attr/listPreferredItemHeightLarge"
+    android:background="@drawable/list_selector" >
+    
+    <TextView 
+	     android:id="@+id/timeFrom"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:layout_marginTop="10dp"
+	     android:layout_marginLeft="10dp"
+	     android:textSize="28sp"/>
+
+    <TextView 
+        android:id="@+id/course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/timeFrom"
+   	    android:textSize="30sp"
+   	    android:textColor="#ffff4444"
+        android:textStyle="bold" />
+    
+    <TextView 
+        android:id="@+id/room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+   	    android:textSize="28sp"
+   	    android:textColor="#000000"
+        android:textStyle="bold" />
+    
+    <TextView 
+        android:id="@+id/courseCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/timeFrom"
+   	    android:textSize="28sp"
+   	    android:textColor="#000000" />
+</RelativeLayout>

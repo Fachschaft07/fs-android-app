@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="AutoCompleteTextViewHolo_Light_Red" parent="android:Widget.Holo.Light.AutoCompleteTextView">
+      <item name="android:dropDownSelector">@drawable/holo_light_red_list_selector_holo_light</item>
+	    <item name="android:background">@drawable/holo_light_red_edit_text_holo_light</item>
+  </style>
+
+  <style name="ButtonHolo_Light_Red" parent="android:Widget.Holo.Light.Button">
+	  <item name="android:background">@drawable/holo_light_red_btn_default_holo_light</item>
+  </style>
+
+  <style name="ImageButtonHolo_Light_Red" parent="android:Widget.Holo.Light.ImageButton">
+	  <item name="android:background">@drawable/holo_light_red_btn_default_holo_light</item>
+  </style>
+
+  <style name="SpinnerHolo_Light_Red" parent="android:Widget.Holo.Light.Spinner">
+      <item name="android:background">@drawable/holo_light_red_spinner_background_holo_light</item>
+      <item name="android:dropDownSelector">@drawable/holo_light_red_list_selector_holo_light</item>
+  </style>
+
+  <style name="SeekBarHolo_Light_Red" parent="android:Widget.Holo.Light.SeekBar">
+      <item name="android:progressDrawable">@drawable/holo_light_red_scrubber_progress_horizontal_holo_light</item>
+      <item name="android:indeterminateDrawable">@drawable/holo_light_red_scrubber_progress_horizontal_holo_light</item>
+      <item name="android:thumb">@drawable/holo_light_red_scrubber_control_selector_holo_light</item>
+  </style>
+
+  <style name="ToggleHolo_Light_Red" parent="android:Widget.Holo.Light.Button.Toggle">
+      <item name="android:background">@drawable/holo_light_red_btn_toggle_holo_light</item>
+  </style>
+
+</resources>

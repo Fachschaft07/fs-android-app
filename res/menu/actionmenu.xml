@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item 
+        android:id="@+id/menu_presence"
+        android:icon="@drawable/circle_red_dark" 
+        android:title="@string/presence"
+        android:showAsAction="always"/>
+    <item 
+        android:id="@+id/menu_info"
+        android:icon="@drawable/ic_action_info" 
+        android:title="@string/info"
+        android:showAsAction="always"/>
+</menu>

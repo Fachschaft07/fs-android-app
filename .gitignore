@@ -1,0 +1,15 @@
+.DS_Store
+
+# IntelliJ Idea
+.idea/*
+*.iml
+*.class
+
+.gradle
+build/
+bin/
+gen/
+target/
+out/
+
+gen-external-apklibs/
