@@ -42,28 +42,26 @@ public class FK10Handler {
 		final Elements rows = table.getElementsByTag("td");
 		final List<FK10Day> days = new ArrayList<FK10Day>();
 		for (final Element row : rows) {
-			if (row.toString().contains("<h1")) {
+			if (row.toString().contains("<h1")) { // i.e. <h1>Montag</h1>
 				final FK10Day day = new FK10Day(row.text());
 				days.add(day);
-			} else if (row.toString().contains("<h3")) {
+			} else if (row.toString().contains("<h3")) { // i.e. <h3>10:00-11:30 UHR</h3>
 				final Lecture one = new Lecture(row.text());
 				final FK10Day lastDay = days.get(days.size() - 1);
 				lastDay.addLecture(one);
-			} else if (row.text().toString().matches("[A-Za-z]+[0-9]+ .*")) {
+			} else if (row.text().toString().matches("[A-Za-z ]+[0-9]+ .*")) { // i.e. B 24 Marketing
 				final FK10Day lastDay = days.get(days.size() - 1);
 				final Lecture lastClass = lastDay.getLectures().get(lastDay.getLectures().size() - 1);
 				lastClass.setName(row.text());
-			} else if (row.text().toString().matches("[A-Za-z]+[0-9]+")) {
+			} else if (row.text().toString().matches("[A-Za-z]+[0-9]*")) { // i.e. LE001
 				final FK10Day lastDay = days.get(days.size() - 1);
 				final Lecture lastClass = lastDay.getLectures().get(lastDay.getLectures().size() - 1);
 				lastClass.setRoom(row.text());
-			} else {
-				if (!row.text().equals("")) {
-					final FK10Day lastDay = days.get(days.size() - 1);
-					final Lecture lastClass = lastDay.getLectures().get(lastDay.getLectures().size() - 1);
-					if (lastClass.getTeacher() == null) {
-						lastClass.setTeacher(row.text());
-					}
+			} else if (!row.text().equals("")) {
+				final FK10Day lastDay = days.get(days.size() - 1);
+				final Lecture lastClass = lastDay.getLectures().get(lastDay.getLectures().size() - 1);
+				if (lastClass.getTeacher() == null) {
+					lastClass.setTeacher(row.text());
 				}
 			}
 		}
@@ -78,7 +76,7 @@ public class FK10Handler {
 		final Document doc = conn.get();
 		final Elements scripts = doc.select("script");
 		final Pattern pattern = Pattern.compile("addOption\\([^\\)]*\\)");
-		final Matcher matcher = pattern.matcher(scripts.get(6).toString());
+		final Matcher matcher = pattern.matcher(scripts.get(5).toString()); // SS14 = 6; WS1415 = 5
 		final List<FK10Group> groups = new ArrayList<FK10Group>();
 		while (matcher.find()) {
 			final String match = matcher.group();
