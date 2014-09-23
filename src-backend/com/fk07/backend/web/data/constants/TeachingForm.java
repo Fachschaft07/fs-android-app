@@ -13,7 +13,7 @@ public enum TeachingForm {
 	PROJECT("projekt"),
 	/** Seminar */
 	SEMINAR("seminar"),
-	/** Seminaristischer Unterricht - Übungen */
+	/** Seminaristischer Unterricht - Ãœbungen */
 	LECTORS_EXERCISES("su-uebungen"),
 	/** Seminaristischer Unterricht */
 	LECTORS("su"),

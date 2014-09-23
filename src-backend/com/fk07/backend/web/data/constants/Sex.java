@@ -5,7 +5,7 @@ package com.fk07.backend.web.data.constants;
  *
  */
 public enum Sex {
-	/** Männlich */
+	/** MÃ¤nnlich */
 	MALE("m"),
 	/** Weiblich */
 	FEMALE("w");

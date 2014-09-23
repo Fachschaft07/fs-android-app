@@ -14,7 +14,7 @@ public enum Faculty {
 	/** Elektrotechnik und Informationstechnik */
 	_04("04"),
 	/**
-	 * Versorgungs- und Geb‰udetechnik, Verfahrenstechnik Papier und Verpackung,
+	 * Versorgungs- und Geb√§udetechnik, Verfahrenstechnik Papier und Verpackung,
 	 * Druck- und Medientechnik
 	 */
 	_05("05"),
@@ -32,7 +32,7 @@ public enum Faculty {
 	_11("11"),
 	/** Design */
 	_12("12"),
-	/** Studium Generale und Interdisziplin‰re Studien */
+	/** Studium Generale und Interdisziplin√§re Studien */
 	_13("13"),
 	/** Tourismus */
 	_14("14");
