@@ -31,7 +31,7 @@ public class StudyGroup {
 	/**
 	 * @return the study group.
 	 */
-	public Study getStudyGroup() {
+	public Study getStudy() {
 		return mStudy;
 	}
 
@@ -52,7 +52,7 @@ public class StudyGroup {
 	@Override
 	public String toString() {
 		final StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append(getStudyGroup().toString());
+		strBuilder.append(getStudy().toString());
 		if (getSemester().isPresent()) {
 			strBuilder.append(getSemester().get().getNumber());
 		}
@@ -72,7 +72,7 @@ public class StudyGroup {
 		final Matcher matcher = PATTERN.matcher(name);
 
 		matcher.find(); // Muss immer vorhanden sein!
-		final Study studyGroup = Study.valueOf(matcher.group(1).toUpperCase());
+		final Study studyGroup = Study.of(matcher.group(1));
 
 		final Semester semester;
 		final String semesterMatch = matcher.group(2);

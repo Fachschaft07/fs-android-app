@@ -121,7 +121,7 @@ public class News {
 	 */
 	public static class Builder extends AbstractBuilder<Builder, News> {
 		private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/news.xml";
-		private static final String ROOT_NODE = "news";
+		private static final String ROOT_NODE = "/newslist/news";
 		@SuppressLint("SimpleDateFormat")
 		private static final DateFormat DATE_PARSER = new SimpleDateFormat(
 				"yyyy-MM-dd");
@@ -223,12 +223,12 @@ public class News {
 				final Optional<Letter> letter = group.getLetter();
 
 				if (letter.isPresent()) {
-					addGroupFilter(group.getStudyGroup(), semester.get(),
+					addGroupFilter(group.getStudy(), semester.get(),
 							letter.get());
 				} else if (semester.isPresent()) {
-					addGroupFilter(group.getStudyGroup(), semester.get());
+					addGroupFilter(group.getStudy(), semester.get());
 				} else {
-					addGroupFilter(group.getStudyGroup());
+					addGroupFilter(group.getStudy());
 				}
 			}
 			return this;
@@ -280,7 +280,7 @@ public class News {
 		}
 
 		@Override
-		protected News onCreateItem(final int index) throws Exception {
+		protected News onCreateItem(final String rootPath) throws Exception {
 			// reset Variables...
 			mTeacherList = new ArrayList<String>();
 			mGroupList = new ArrayList<StudyGroup>();
@@ -288,42 +288,41 @@ public class News {
 			mExpire = null;
 
 			// Parse Elements...
-			final String xPathRoot = "/newslist/news[" + index + "]";
-			mAuthor = findByXPath(xPathRoot + "/author/text()",
+			mAuthor = findByXPath(rootPath + "/author/text()",
 					XPathConstants.STRING);
-			mSubject = findByXPath(xPathRoot + "/subject/text()",
+			mSubject = findByXPath(rootPath + "/subject/text()",
 					XPathConstants.STRING);
-			mText = findByXPath(xPathRoot + "/text/text()",
+			mText = findByXPath(rootPath + "/text/text()",
 					XPathConstants.STRING);
-			mScope = findByXPath(xPathRoot + "/scope/text()",
+			mScope = findByXPath(rootPath + "/scope/text()",
 					XPathConstants.STRING);
 
-			final String publishDate = findByXPath(xPathRoot
-					+ "/publish/text()", XPathConstants.STRING);
+			final String publishDate = findByXPath(
+					rootPath + "/publish/text()", XPathConstants.STRING);
 			if (!TextUtils.isEmpty(publishDate)) {
 				mPublish = DATE_PARSER.parse(publishDate);
 			}
 
-			final String expireDate = findByXPath(xPathRoot + "/expire/text()",
+			final String expireDate = findByXPath(rootPath + "/expire/text()",
 					XPathConstants.STRING);
 			if (!TextUtils.isEmpty(expireDate)) {
 				mExpire = DATE_PARSER.parse(expireDate);
 			}
 
-			mUrl = findByXPath(xPathRoot + "/url/text()", XPathConstants.STRING);
+			mUrl = findByXPath(rootPath + "/url/text()", XPathConstants.STRING);
 
-			final int teacherCount = getCountByXPath(xPathRoot + "/teacher");
+			final int teacherCount = getCountByXPath(rootPath + "/teacher");
 			for (int teacherIndex = 1; teacherIndex <= teacherCount; teacherIndex++) {
-				final String teacherName = findByXPath(xPathRoot + "/teacher["
+				final String teacherName = findByXPath(rootPath + "/teacher["
 						+ teacherIndex + "]/text()", XPathConstants.STRING);
 				if (!TextUtils.isEmpty(teacherName)) {
 					mTeacherList.add(teacherName);
 				}
 			}
 
-			final int groupCount = getCountByXPath(xPathRoot + "/group");
+			final int groupCount = getCountByXPath(rootPath + "/group");
 			for (int groupIndex = 1; groupIndex <= groupCount; groupIndex++) {
-				final String groupName = findByXPath(xPathRoot + "/group["
+				final String groupName = findByXPath(rootPath + "/group["
 						+ groupIndex + "]/text()", XPathConstants.STRING);
 				if (!TextUtils.isEmpty(groupName)) {
 					mGroupList.add(StudyGroup.of(groupName));

@@ -99,7 +99,7 @@ public class Job {
 	 */
 	public static final class Builder extends AbstractBuilder<Builder, Job> {
 		private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/job.xml";
-		private static final String ROOT_NODE = "job";
+		private static final String ROOT_NODE = "/joblist/job";
 		@SuppressLint("SimpleDateFormat")
 		private static final DateFormat DATE_PARSER = new SimpleDateFormat(
 				"yyyy-MM-dd");
@@ -165,28 +165,27 @@ public class Job {
 		}
 
 		@Override
-		protected Job onCreateItem(final int index) throws Exception {
+		protected Job onCreateItem(final String rootPath) throws Exception {
 			// reset Variables...
 			mProgram = null;
 
 			// Parse Elements...
-			final String xPathRoot = "/joblist/job[" + index + "]";
-			mTitle = findByXPath(xPathRoot + "/title/text()",
+			mTitle = findByXPath(rootPath + "/title/text()",
 					XPathConstants.STRING);
-			mProvider = findByXPath(xPathRoot + "/provider/text()",
+			mProvider = findByXPath(rootPath + "/provider/text()",
 					XPathConstants.STRING);
-			mDescription = findByXPath(xPathRoot + "/description/text()",
+			mDescription = findByXPath(rootPath + "/description/text()",
 					XPathConstants.STRING);
-			mContact = findByXPath(xPathRoot + "/contact/text()",
+			mContact = findByXPath(rootPath + "/contact/text()",
 					XPathConstants.STRING);
-			final String program = findByXPath(xPathRoot + "/contact/text()",
+			final String program = findByXPath(rootPath + "/program/text()",
 					XPathConstants.STRING);
 			if (!TextUtils.isEmpty(program)) {
-				mProgram = StudyGroup.of(program).getStudyGroup();
+				mProgram = StudyGroup.of(program).getStudy();
 			}
-			mExpire = DATE_PARSER.parse((String) findByXPath(xPathRoot
+			mExpire = DATE_PARSER.parse((String) findByXPath(rootPath
 					+ "/expire/text()", XPathConstants.STRING));
-			mUrl = findByXPath(xPathRoot + "/url/text()", XPathConstants.STRING);
+			mUrl = findByXPath(rootPath + "/url/text()", XPathConstants.STRING);
 
 			return new Job(this);
 		}

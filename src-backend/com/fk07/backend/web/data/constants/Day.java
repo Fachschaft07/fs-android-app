@@ -1,30 +1,46 @@
 package com.fk07.backend.web.data.constants;
 
-import android.annotation.SuppressLint;
-
 /**
  * @author Fabio
  *
  */
 public enum Day {
-	MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
+	/** Montag */
+	MONDAY("mo"),
+	/** Dienstag */
+	TUESDAY("di"),
+	/** Mittwoch */
+	WEDNESDAY("mi"),
+	/** Donnerstag */
+	THURSDAY("do"),
+	/** Freitag */
+	FRIDAY("fr"),
+	/** Samstag */
+	SATURDAY("sa"),
+	/** Sonntag */
+	SUNDAY("so");
 
-	@SuppressLint("DefaultLocale")
-	public static Day getDayByName(final String name) {
-		final String dayCutOff = name.substring(0, 1).toLowerCase();
-		if ("mo".equals(dayCutOff)) {
-			return Day.MONDAY;
-		} else if ("di".equals(dayCutOff)) {
-			return Day.TUESDAY;
-		} else if ("mi".equals(dayCutOff)) {
-			return Day.WEDNESDAY;
-		} else if ("do".equals(dayCutOff)) {
-			return Day.THURSDAY;
-		} else if ("fr".equals(dayCutOff)) {
-			return Day.FRIDAY;
-		} else if ("sa".equals(dayCutOff)) {
-			return Day.SATURDAY;
+	private final String mKey;
+
+	private Day(final String key) {
+		mKey = key;
+	}
+
+	private String getKey() {
+		return mKey;
+	}
+
+	/**
+	 * @param key
+	 * @return
+	 */
+	public static Day of(final String key) {
+		for (final Day day : values()) {
+			if (day.getKey().equalsIgnoreCase(key)) {
+				return day;
+			}
 		}
-		return Day.SUNDAY;
+		throw new IllegalArgumentException(
+				"Argument can not be converted into a day: " + key);
 	}
 }
