@@ -3,21 +3,25 @@ package com.fk07.backend.web.data.builder;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.http.ParseException;
+import org.json.JSONArray;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import com.fk07.backend.web.data.utils.DataUtils;
-
 import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
+
+import com.fk07.backend.web.data.utils.DataUtils;
+import com.google.gson.Gson;
 
 /**
  * @author Fabio
@@ -28,13 +32,19 @@ import android.content.Context;
  *            The Content type
  */
 public abstract class AbstractBuilder<B extends AbstractBuilder<B, T>, T> {
+	private static final String TAG = AbstractBuilder.class.getSimpleName();
+	private final XPathFactory mXPathfactory = XPathFactory.newInstance();
+	private final XPath mXPath = mXPathfactory.newXPath();
 	private final Context mContext;
 	private final String mUrl;
 	private File mOfflineFile;
 	private Document xmlDoc;
+	private final Gson mGson = new Gson();
+	private final Handler mHandler = new Handler();
 	private final List<IFilter<T>> mFilterList = new ArrayList<IFilter<T>>();
 	private final String mRootNode;
 	private boolean mOfflineMode;
+	private long mUpdateIntervalMillis;
 
 	protected AbstractBuilder(final Context context, final String url,
 			final String rootNode) {
@@ -74,44 +84,98 @@ public abstract class AbstractBuilder<B extends AbstractBuilder<B, T>, T> {
 	}
 
 	/**
+	 * Set a update interval for the offline storage file to automaticaly update
+	 * the file with a request. No need to load the data every time from the web
+	 * if a connection is available.
+	 *
+	 * @param timeUnit
+	 *            for convertion.
+	 * @param time
+	 *            of next update.
+	 * @return the builder.
+	 */
+	@SuppressWarnings("unchecked")
+	public B setOfflineUpdateInterval(final TimeUnit timeUnit, final long time) {
+		mUpdateIntervalMillis = TimeUnit.MILLISECONDS.convert(time, timeUnit);
+		return (B) this;
+	}
+
+	/**
 	 * Downloads and reads the content from the web if a connection is
 	 * available. Otherwise the offline file will be read.
 	 *
 	 * @return a list with the content.
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public final List<T> build() throws Exception {
 		final List<T> content = new ArrayList<T>();
-		final boolean online = DataUtils.isOnline(mContext) && !mOfflineMode;
 
-		if (!online && mOfflineFile == null) {
+		if (!isOnline() && mOfflineFile == null) {
 			// No internet connection and no offline file --> exit
 			throw new IllegalArgumentException(
-					"You can not work offline due to the fact that there is no offline storage file");
+					"You can not work offline and have no offline storage file");
 		}
 
-		xmlDoc = DataUtils.read(online ? mUrl : mOfflineFile.getAbsolutePath());
+		// Only load the data from xml if necassary!
+		if (isLocale()) {
+			// Otherwise load the data from json offline file
+			final List<T> result = mGson.fromJson(DataUtils.read(mOfflineFile)
+					.toString(), List.class);
 
-		if (xmlDoc == null) {
-			// Unable to parse xml --> exit
-			throw new ParseException("Unable to parse url");
-		}
-
-		if (mOfflineFile != null && online) {
-			// Only save the xml if the device is connected to the internet
-			try {
-				DataUtils.save(xmlDoc, mOfflineFile);
-			} catch (final Exception e) {
-				throw e;
+			// do the filtering stuff...
+			for (final T item : result) {
+				if (apply(item)) {
+					content.add(item);
+				}
 			}
-		}
+		} else {
+			xmlDoc = DataUtils.read(mUrl);
 
-		for (int index = 1; index <= xmlDoc.getElementsByTagName(mRootNode)
-				.getLength(); index++) {
-			final T item = onCreateItem(index);
+			if (xmlDoc == null) {
+				// Unable to parse xml --> exit
+				throw new ParseException("Unable to parse url");
+			}
 
-			if (apply(item)) {
-				content.add(item);
+			// Convert everything into json format
+			final JSONArray jsonArray = new JSONArray();
+
+			// 2014-09-18: BugFix: Wrong count with
+			// xmlDoc.getElementByTagName(...)
+			// 2014-09-19: Put the getCountByXPah method outside the for-loop to
+			// increase speed
+			final int countElements = getCountByXPath(mRootNode);
+			for (int index = 1; index <= countElements; index++) {
+				final String path = mRootNode + "[" + index + "]";
+				final T item = onCreateItem(path);
+
+				// add every item to the json --> we want to save all items not
+				// only the filtered
+				jsonArray.put(mGson.toJson(item));
+
+				// do the filtering stuff...
+				if (apply(item)) {
+					content.add(item);
+				}
+			}
+
+			if (mOfflineFile != null && !isLocale()) {
+				mHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						// Only save the xml if the device is connected to the
+						// internet
+						try {
+							// DataUtils.save(xmlDoc, mOfflineFile);
+
+							// 2014-09-23: Save as json to wrap json after
+							// reading to objects
+							DataUtils.save(jsonArray, mOfflineFile);
+						} catch (final Exception e) {
+							Log.e(TAG, "", e);
+						}
+					}
+				});
 			}
 		}
 
@@ -119,14 +183,14 @@ public abstract class AbstractBuilder<B extends AbstractBuilder<B, T>, T> {
 	}
 
 	/**
-	 * Create the next item at the specified index position.
+	 * Create the next item at the specified index.
 	 *
-	 * @param index
+	 * @param rootPath
 	 *            of the item.
 	 * @return the item.
 	 * @throws Exception
 	 */
-	protected abstract T onCreateItem(int index) throws Exception;
+	protected abstract T onCreateItem(String rootPath) throws Exception;
 
 	/**
 	 * Find a element by using the {@link XPath}.
@@ -141,10 +205,7 @@ public abstract class AbstractBuilder<B extends AbstractBuilder<B, T>, T> {
 	@SuppressWarnings("unchecked")
 	protected <X> X findByXPath(final String xPath, final QName name)
 			throws XPathExpressionException {
-		final XPathFactory xPathfactory = XPathFactory.newInstance();
-		final XPath xpath = xPathfactory.newXPath();
-		final XPathExpression expr = xpath.compile(xPath);
-		return (X) expr.evaluate(xmlDoc, name);
+		return (X) mXPath.evaluate(xPath, xmlDoc, name);
 	}
 
 	/**
@@ -157,12 +218,8 @@ public abstract class AbstractBuilder<B extends AbstractBuilder<B, T>, T> {
 	 */
 	protected int getCountByXPath(final String xPath)
 			throws XPathExpressionException {
-		final XPathFactory xPathfactory = XPathFactory.newInstance();
-		final XPath xpath = xPathfactory.newXPath();
-		final XPathExpression expr = xpath.compile(xPath);
-		final NodeList nodeList = (NodeList) expr.evaluate(xmlDoc,
-				XPathConstants.NODESET);
-		return nodeList.getLength();
+		return ((NodeList) findByXPath(xPath, XPathConstants.NODESET))
+				.getLength();
 	}
 
 	/**
@@ -182,5 +239,16 @@ public abstract class AbstractBuilder<B extends AbstractBuilder<B, T>, T> {
 			apply &= filter.apply(item);
 		}
 		return apply;
+	}
+
+	private boolean isLocale() {
+		return mOfflineFile != null
+				&& mOfflineFile.exists()
+				&& mOfflineFile.lastModified() + mUpdateIntervalMillis < System
+				.currentTimeMillis() || !DataUtils.isOnline(mContext);
+	}
+
+	private boolean isOnline() {
+		return DataUtils.isOnline(mContext) && !mOfflineMode;
 	}
 }

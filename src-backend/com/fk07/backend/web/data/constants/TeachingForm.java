@@ -7,11 +7,13 @@ package com.fk07.backend.web.data.constants;
 public enum TeachingForm {
 	/** Seminaristischer Unterricht - Praktikum */
 	LECTORS_PLACEMENT("su-praktikum"),
+	/** Praktikum */
+	PLACEMENT("praktikum"),
 	/** Projekt */
 	PROJECT("projekt"),
 	/** Seminar */
 	SEMINAR("seminar"),
-	/** Seminaristischer Unterricht - �bungen */
+	/** Seminaristischer Unterricht - Übungen */
 	LECTORS_EXERCISES("su-uebungen"),
 	/** Seminaristischer Unterricht */
 	LECTORS("su"),

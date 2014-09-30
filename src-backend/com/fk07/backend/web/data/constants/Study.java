@@ -1,8 +1,7 @@
 package com.fk07.backend.web.data.constants;
 
-
 /**
- * The study groups at the University of applied Science Munich.
+ * Studies at the University of applied Science Munich.
  *
  * @author Fabio
  *
@@ -22,4 +21,18 @@ public enum Study {
 	IN,
 	/** Stochastic Engineering in Business and Finance Master */
 	IS;
+
+	/**
+	 * @param studyKey
+	 * @return the study.
+	 */
+	public static Study of(final String studyKey) {
+		for (final Study study : values()) {
+			if (study.toString().equalsIgnoreCase(studyKey)) {
+				return study;
+			}
+		}
+		throw new IllegalArgumentException("Unable to convert this '"
+				+ studyKey + "' to a study");
+	}
 }

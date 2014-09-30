@@ -6,12 +6,12 @@ import java.util.Date;
 
 import javax.xml.xpath.XPathConstants;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+
 import com.fk07.backend.web.data.builder.AbstractBuilder;
 import com.fk07.backend.web.data.builder.IFilter;
 import com.fk07.backend.web.data.utils.DataUtils;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
 
 /**
  * The things which gone lost and found. (Url: <a
@@ -50,7 +50,7 @@ public class LostFound {
 	 */
 	public static class Builder extends AbstractBuilder<Builder, LostFound> {
 		private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/lostfound.xml";
-		private static final String ROOT_NODE = "lostfound";
+		private static final String ROOT_NODE = "/lostfoundlist/lostfound";
 		@SuppressLint("SimpleDateFormat")
 		private static final DateFormat DATE_FORMATTER = new SimpleDateFormat(
 				"yyyy-MM-dd");
@@ -103,12 +103,12 @@ public class LostFound {
 		}
 
 		@Override
-		protected LostFound onCreateItem(final int index) throws Exception {
+		protected LostFound onCreateItem(final String rootPath)
+				throws Exception {
 			// Parse Elements...
-			final String xPathRoot = "/lostfoundlist/lostfound[" + index + "]";
-			mSubject = findByXPath(xPathRoot + "/subject/text()",
+			mSubject = findByXPath(rootPath + "/subject/text()",
 					XPathConstants.STRING);
-			mDate = DATE_FORMATTER.parse((String) findByXPath(xPathRoot
+			mDate = DATE_FORMATTER.parse((String) findByXPath(rootPath
 					+ "/date/text()", XPathConstants.STRING));
 
 			return new LostFound(this);

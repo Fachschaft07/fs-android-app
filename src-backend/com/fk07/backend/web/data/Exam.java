@@ -139,7 +139,7 @@ public class Exam {
 	 */
 	public static class Builder extends AbstractBuilder<Builder, Exam> {
 		private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/exam.xml";
-		private static final String ROOT_NODE = "exam";
+		private static final String ROOT_NODE = "/examlist/exam";
 		@SuppressLint("SimpleDateFormat")
 		private static final DateFormat DATE_PARSER = new SimpleDateFormat(
 				"dd.MM.yyyy");
@@ -252,7 +252,7 @@ public class Exam {
 		}
 
 		@Override
-		protected Exam onCreateItem(final int index) throws Exception {
+		protected Exam onCreateItem(final String rootPath) throws Exception {
 			// reset Variables...
 			mGroup = null;
 			mReferences = new ArrayList<Study>();
@@ -261,46 +261,45 @@ public class Exam {
 			mAllocation = null;
 
 			// Parse Elements...
-			final String xPathRoot = "/examlist/exam[" + index + "]";
-			mCode = findByXPath(xPathRoot + "/code/text()",
+			mCode = findByXPath(rootPath + "/code/text()",
 					XPathConstants.STRING);
-			final String group = findByXPath(xPathRoot + "/program/text()",
+			final String group = findByXPath(rootPath + "/program/text()",
 					XPathConstants.STRING);
 			if (!TextUtils.isEmpty(group)) {
-				mGroup = StudyGroup.of(group).getStudyGroup();
+				mGroup = StudyGroup.of(group).getStudy();
 			}
-			mModul = findByXPath(xPathRoot + "/modul/text()",
+			mModul = findByXPath(rootPath + "/modul/text()",
 					XPathConstants.STRING);
-			mSubtitle = findByXPath(xPathRoot + "/subtitle/text()",
+			mSubtitle = findByXPath(rootPath + "/subtitle/text()",
 					XPathConstants.STRING);
 
-			for (int indexRef = 0; indexRef < getCountByXPath(xPathRoot
-					+ "/reference"); indexRef++) {
-				final String ref = findByXPath(xPathRoot + "/reference["
+			final int countRef = getCountByXPath(rootPath + "/reference");
+			for (int indexRef = 1; indexRef <= countRef; indexRef++) {
+				final String ref = findByXPath(rootPath + "/reference["
 						+ indexRef + "]/text()", XPathConstants.STRING);
 				if (!TextUtils.isEmpty(ref)) {
-					mReferences.add(StudyGroup.of(ref).getStudyGroup());
+					mReferences.add(StudyGroup.of(ref).getStudy());
 				}
 			}
 
-			for (int indexRef = 0; indexRef < getCountByXPath(xPathRoot
-					+ "/examiner"); indexRef++) {
-				final String examiner = findByXPath(xPathRoot + "/examiner["
-						+ indexRef + "]/text()", XPathConstants.STRING);
+			final int countExaminer = getCountByXPath(rootPath + "/examiner");
+			for (int indexExaminer = 1; indexExaminer <= countExaminer; indexExaminer++) {
+				final String examiner = findByXPath(rootPath + "/examiner["
+						+ indexExaminer + "]/text()", XPathConstants.STRING);
 				if (!TextUtils.isEmpty(examiner)) {
 					mExaminers.add(examiner);
 				}
 			}
 
-			final String type = findByXPath(xPathRoot + "/type/text()",
+			final String type = findByXPath(rootPath + "/type/text()",
 					XPathConstants.STRING);
 			if (!TextUtils.isEmpty(type)) {
 				mType = ExamType.of(type);
 			}
 
-			mMaterial = findByXPath(xPathRoot + "/material/text()",
+			mMaterial = findByXPath(rootPath + "/material/text()",
 					XPathConstants.STRING);
-			final String allocation = findByXPath(xPathRoot
+			final String allocation = findByXPath(rootPath
 					+ "/allocation/text()", XPathConstants.STRING);
 			if (!TextUtils.isEmpty(allocation)) {
 				mAllocation = ExamGroup.of(allocation);

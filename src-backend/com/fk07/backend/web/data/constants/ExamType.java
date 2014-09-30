@@ -5,13 +5,13 @@ package com.fk07.backend.web.data.constants;
  *
  */
 public enum ExamType {
-	/** schriftliche Pr�fung - 60 Minuten */
+	/** schriftliche Prüfung - 60 Minuten */
 	WRITTEN_EXAMINATION_60("sp60"),
-	/** schriftliche Pr�fung - 90 Minuten */
+	/** schriftliche Prüfung - 90 Minuten */
 	WRITTEN_EXAMINATION_90("sp90"),
-	/** m�ndliche Pr�fung */
+	/** mündliche Prüfung */
 	ORAL_EXAMINATION("mp"),
-	/** praktische Pr�fung */
+	/** praktische Prüfung */
 	PRACTICAL_EXAMINATION("pl"),
 	/** Referat */
 	SEMINAR_PAPER("ref"),

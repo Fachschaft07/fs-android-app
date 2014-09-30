@@ -2,10 +2,12 @@ package com.fk07.backend.web.data.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.w3c.dom.Document;
 
 import android.annotation.SuppressLint;
@@ -27,6 +31,9 @@ import com.fk07.backend.web.data.constants.Letter;
 import com.fk07.backend.web.data.constants.Semester;
 import com.fk07.backend.web.data.constants.Study;
 import com.fk07.backend.web.data.constants.StudyGroup;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
+import com.google.gson.Gson;
 
 /**
  * @author Fabio
@@ -43,10 +50,6 @@ public final class DataUtils {
 	private DataUtils() {
 	}
 
-	/**
-	 * @param content
-	 * @return
-	 */
 	public static String toHtml(final String content) {
 		final String replaced = content.replaceAll("#", "\n");
 		final String bold = replaceAll(replaced, "*", "b");
@@ -78,6 +81,7 @@ public final class DataUtils {
 			result = firstPart + "\n" + LIST_CLOSEING_TAG + secondPart;
 		}
 
+		// System.out.println(result);
 		return insertListItems(result);
 	}
 
@@ -169,7 +173,9 @@ public final class DataUtils {
 	 * @param content
 	 * @param file
 	 * @throws Exception
+	 * @Deprecated use {@link #save(JSONArray, File)} instead of this method.
 	 */
+	@Deprecated
 	public static void save(final Document content, final File file)
 			throws Exception {
 		// Use a Transformer for output
@@ -179,6 +185,27 @@ public final class DataUtils {
 		final DOMSource source = new DOMSource(content);
 		final StreamResult result = new StreamResult(new FileOutputStream(file));
 		transformer.transform(source, result);
+	}
+
+	/**
+	 * @param jsonArray
+	 * @param offlineFile
+	 * @throws IOException
+	 */
+	public static void save(final JSONArray jsonArray, final File offlineFile)
+			throws IOException {
+		Files.write(jsonArray.toString(), offlineFile, Charsets.UTF_8);
+	}
+
+	/**
+	 * @param offlineFile
+	 * @return
+	 * @throws IOException
+	 * @throws JSONException
+	 */
+	public static JSONArray read(final File offlineFile) throws JSONException,
+			IOException {
+		return new JSONArray(Files.toString(offlineFile, Charsets.UTF_8));
 	}
 
 	/**
@@ -217,7 +244,7 @@ public final class DataUtils {
 			final Study study) {
 		final List<StudyGroup> result = new ArrayList<StudyGroup>();
 		for (final StudyGroup studyGroup : studyGroups) {
-			if (studyGroup.getStudyGroup() == study) {
+			if (studyGroup.getStudy() == study) {
 				result.add(studyGroup);
 			}
 		}
@@ -263,5 +290,29 @@ public final class DataUtils {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * @param languageCode
+	 * @return
+	 */
+	public static Locale toLocale(final String languageCode) {
+		for (final Locale locale : Locale.getAvailableLocales()) {
+			if (locale.getLanguage().equalsIgnoreCase(languageCode)) {
+				return locale;
+			}
+		}
+		throw new IllegalArgumentException("Not a valid language code: "
+				+ languageCode);
+	}
+
+	/**
+	 * @param data
+	 * @return
+	 * @throws JSONException
+	 */
+	public static <T> JSONArray toJsonArray(final List<T> data)
+			throws JSONException {
+		return new JSONArray(new Gson().toJson(data));
 	}
 }

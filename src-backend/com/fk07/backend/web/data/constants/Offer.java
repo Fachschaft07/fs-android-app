@@ -8,12 +8,18 @@ public enum Offer {
 	/** Einzeln */
 	SINGLE("einzeln"),
 	/** Wechsel */
-	SWITCHED("wechsel");
+	SWITCHED("wechsel"),
+	/** Sommersemester */
+	SUMMER_SEMESTER("ss"),
+	/** Wintersemester */
+	WINTER_SEMESTER("ws"),
+	/** Alle */
+	ALL("alle");
 
 	private final String mKey;
 
 	private Offer(final String key) {
-		this.mKey = key;
+		mKey = key;
 	}
 
 	/**
@@ -23,6 +29,10 @@ public enum Offer {
 		return mKey;
 	}
 
+	/**
+	 * @param key
+	 * @return
+	 */
 	public static Offer of(final String key) {
 		for (final Offer offer : values()) {
 			if (offer.getKey().equalsIgnoreCase(key)) {

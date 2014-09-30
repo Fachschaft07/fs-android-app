@@ -6,13 +6,13 @@ import java.util.Date;
 
 import javax.xml.xpath.XPathConstants;
 
-import com.fk07.backend.web.data.builder.AbstractBuilder;
-import com.fk07.backend.web.data.builder.IFilter;
-import com.fk07.backend.web.data.utils.DataUtils;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
+
+import com.fk07.backend.web.data.builder.AbstractBuilder;
+import com.fk07.backend.web.data.builder.IFilter;
+import com.fk07.backend.web.data.utils.DataUtils;
 
 /**
  * The appointments at the faculty 07. (Url: <a
@@ -60,7 +60,7 @@ public class Termin {
 	 */
 	public static class Builder extends AbstractBuilder<Builder, Termin> {
 		private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/termin.xml";
-		private static final String ROOT_NODE = "termin";
+		private static final String ROOT_NODE = "/terminlist/termin";
 		@SuppressLint("SimpleDateFormat")
 		private static final DateFormat DATE_PARSER = new SimpleDateFormat(
 				"yyyy-MM-dd");
@@ -97,17 +97,16 @@ public class Termin {
 		}
 
 		@Override
-		protected Termin onCreateItem(final int index) throws Exception {
+		protected Termin onCreateItem(final String rootPath) throws Exception {
 			// reset Variables...
 			mDate = null;
 
 			// Parse Elements...
-			final String xPathRoot = "/terminlist/termin[" + index + "]";
-			mSubject = findByXPath(xPathRoot + "/subject/text()",
+			mSubject = findByXPath(rootPath + "/subject/text()",
 					XPathConstants.STRING);
-			mScope = findByXPath(xPathRoot + "/scope/text()",
+			mScope = findByXPath(rootPath + "/scope/text()",
 					XPathConstants.STRING);
-			final String date = findByXPath(xPathRoot + "/date/text()",
+			final String date = findByXPath(rootPath + "/date/text()",
 					XPathConstants.STRING);
 			if (!TextUtils.isEmpty(date)) {
 				mDate = DATE_PARSER.parse(date);
