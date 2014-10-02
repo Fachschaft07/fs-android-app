@@ -6,6 +6,7 @@
         android:icon="@drawable/ic_action_calendar_month"
         android:showAsAction="always"
         android:title="@string/week"/>
+    
     <item
         android:id="@+id/menu_download"
         android:icon="@drawable/ic_action_download"

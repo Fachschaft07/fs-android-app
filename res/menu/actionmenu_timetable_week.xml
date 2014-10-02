@@ -5,11 +5,22 @@
         android:id="@+id/menu_view"
         android:title="@string/day"
         android:icon="@drawable/ic_action_calendar_day" 
-        android:showAsAction="ifRoom" />
+        android:showAsAction="always" />
     
-    <item 
+    <item
         android:id="@+id/menu_download"
-        android:title="@string/download"
-        android:icon="@drawable/ic_action_download" 
-        android:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_action_download"
+        android:showAsAction="always"
+        android:title="@string/download">
+        <menu>
+            <item
+                android:id="@+id/menu_fk07"
+                android:showAsAction="always"
+                android:title="@string/fk07"/>
+            <item
+                android:id="@+id/menu_fk10"
+                android:showAsAction="always"
+                android:title="@string/fk10"/>
+        </menu>
+    </item>
 </menu>
