@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.Window;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fk07.R;
 import com.fk07.timetable.adapter.WeekAdapter;
@@ -32,7 +33,11 @@ public class TimetableWeekActivity extends TimetableActivity {
 		
 		if (timetableFile.exists()) {
 			timetable = TimetableHandler.readTimetable(timetableFile);
-			generateViews();
+			if (timetable != null) {
+				generateViews();
+			} else {
+				Toast.makeText(this, getString(R.string.loadTimetableError), Toast.LENGTH_LONG).show();
+			}
 		}
 		
 		SharedPreferences timetablePreferences = getSharedPreferences("Timetable", 0);

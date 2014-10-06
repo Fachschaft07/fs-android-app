@@ -6,7 +6,7 @@ import com.google.common.base.Optional;
 
 /**
  * @author Fabio
- *
+ * 
  */
 public enum Time {
 	/** 08:15 - 9:45 */

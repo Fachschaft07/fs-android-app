@@ -75,6 +75,7 @@
     <string name="pasing">Pasing</string>
     <string name="find">Suchen</string>
     <string name="no_internet">Leider keine Netzwerkverbindung verfügbar. \n\n Dieser Dienst funktioniert nur Online</string>
+    <string name="loadTimetableError">Stundenplan konnte nicht geladen werden!</string>
 
     <!-- Food -->
     <string name="legend">Legende</string>
@@ -98,5 +99,5 @@
     <string name="presencePhone">Tel: 089 1265-3777</string>
     <string name="presenceMail">Mail: info@fs.cs.hm.edu</string>
     <string name="presenceEmpty">Keine Daten für FSPresence erhalten.\nSchau einfach vorbei oder frag per Anruf oder Mail nach.</string>
-    
+
 </resources>

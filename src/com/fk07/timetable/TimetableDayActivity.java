@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fk07.R;
 import com.fk07.timetable.adapter.DayAdapter;
@@ -67,7 +68,12 @@ public class TimetableDayActivity extends TimetableActivity {
 		
 		if (timetableFile.exists()) {
 			timetable = TimetableHandler.readTimetable(timetableFile);
-			generateViews();
+			if (timetable != null) {
+				generateViews();
+			} else {
+				Toast.makeText(this, getString(R.string.loadTimetableError), Toast.LENGTH_LONG).show();
+			}
+			
 		} else {
 			setContentView(R.layout.timetable_tutorial);
 		}

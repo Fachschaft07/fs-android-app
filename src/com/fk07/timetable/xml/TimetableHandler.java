@@ -93,13 +93,13 @@ public class TimetableHandler {
 			timetable = (Timetable) objectInputStream.readObject();
 			objectInputStream.close();
 		} catch (StreamCorruptedException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, e.toString());
 		} catch (FileNotFoundException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, e.toString());
 		} catch (IOException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, e.toString());
 		} catch (ClassNotFoundException e) {
-			Log.e(TAG, e.getMessage());
+			Log.e(TAG, e.toString());
 		}
 		return  timetable;
 	}
