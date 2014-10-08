@@ -71,7 +71,7 @@ public class Entry implements Serializable {
 		String roomString = "";
 		if (room != null && room.size() > 0) {
 			roomString = room.get(0);
-			if (roomString.matches("[r0-9.0-90-90-9]+")) {
+			if (roomString.matches("(r[0-9][0-9][0-9][0-9])+")) {
 				roomString = roomString.substring(0, 2) + "." + roomString.substring(2);
 				if (room.size() > 1) {
 					for (int i = 1; i < room.size(); i++) {
