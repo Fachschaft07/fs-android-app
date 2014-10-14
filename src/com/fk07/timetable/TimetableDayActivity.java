@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fk07.R;
+import com.fk07.backend.web.data.constants.Day;
 import com.fk07.timetable.adapter.DayAdapter;
 import com.fk07.timetable.adapter.PageAdapter;
 import com.fk07.timetable.xml.TimetableHandler;
@@ -63,7 +64,14 @@ public class TimetableDayActivity extends TimetableActivity {
 		otherActivity = TimetableWeekActivity.class;
 		Calendar calendar = Calendar.getInstance();
 		
-		int weekday = calendar.get(Calendar.DAY_OF_WEEK);
+		String day = getIntent().getStringExtra("Day");
+		int weekday;
+		if (day == null) {
+			weekday = calendar.get(Calendar.DAY_OF_WEEK);
+		} else {
+			weekday = Day.of(day.toLowerCase()).getId();
+		}
+		
 		currentPage = (weekday == 1 || weekday == 7)? 0 : weekday - 2;
 		
 		if (timetableFile.exists()) {

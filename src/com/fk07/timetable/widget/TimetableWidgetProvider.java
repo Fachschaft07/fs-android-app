@@ -30,16 +30,14 @@ public class TimetableWidgetProvider extends AppWidgetProvider {
 		Log.d(TAG, "onUpdate");
 		this.context = context;
 		
-		RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget);
 		Intent intent = new Intent(context, TimetableDayActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        views.setOnClickPendingIntent(R.id.widget, pendingIntent);
-        
+		RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.timetable_appwidget);
 		for (int i = 0; i < appWidgetIds.length; i++) {
 			int appWidgetId = appWidgetIds[i];
 			if (loadTimetable()) {
 				Entry nextLecture = TimetableHandler.getCurrentTimeEntry(timetable);
 				if (nextLecture != null) {
+					intent.putExtra("Day", nextLecture.getDay());
 					views.setTextViewText(R.id.weekDay, nextLecture.getDay());
 					views.setTextViewText(R.id.timeFrom, nextLecture.getTime());
 					views.setTextViewText(R.id.course, nextLecture.getTitle());
@@ -56,9 +54,10 @@ public class TimetableWidgetProvider extends AppWidgetProvider {
 				views.setTextViewText(R.id.course, context.getString(R.string.widgetPlainText));
 				views.setTextViewText(R.id.room, "");
 			}
+			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+	        views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 			appWidgetManager.updateAppWidget(appWidgetId, views);
 		}
-		
 	}
 	
 	private boolean loadTimetable() {

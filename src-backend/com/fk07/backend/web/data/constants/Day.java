@@ -6,28 +6,35 @@ package com.fk07.backend.web.data.constants;
  */
 public enum Day {
 	/** Montag */
-	MONDAY("mo"),
+	MONDAY("mo", 2),
 	/** Dienstag */
-	TUESDAY("di"),
+	TUESDAY("di", 3),
 	/** Mittwoch */
-	WEDNESDAY("mi"),
+	WEDNESDAY("mi", 4),
 	/** Donnerstag */
-	THURSDAY("do"),
+	THURSDAY("do", 5),
 	/** Freitag */
-	FRIDAY("fr"),
+	FRIDAY("fr", 6),
 	/** Samstag */
-	SATURDAY("sa"),
+	SATURDAY("sa", 7),
 	/** Sonntag */
-	SUNDAY("so");
+	SUNDAY("so", 1);
 
 	private final String mKey;
+	
+	private final int id;
 
-	private Day(final String key) {
+	private Day(final String key, int id) {
 		mKey = key;
+		this.id = id;
 	}
 
-	private String getKey() {
+	public String getKey() {
 		return mKey;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	/**
