@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="holo_light_red_color">#ff4444</color>
-    <color name="holo_light_red_color_hm">#bc0e33</color>
-    <color name="holo_light_red_dialog_text">#000000</color>
-    <color name="gray">#ffdddddd</color>
-    <color name="light_gray">#eeeeee</color>
-    <color name="dark_gray">#666666</color>
-</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Holo_Light_Red" parent="@style/_Holo_Light_Red"/>
+
+    <style name="_Holo_Light_Red" parent="MaterialNavigationDrawerTheme.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextStyle">@style/EditTextHolo_Light_Red</item>
+        <item name="android:textColorHighlight">#99ff4444</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewHolo_Light_Red
+        </item>
+        <item name="android:checkboxStyle">@style/CheckBoxHolo_Light_Red</item>
+        <item name="android:radioButtonStyle">@style/RadioButtonHolo_Light_Red</item>
+        <item name="android:buttonStyle">@style/ButtonHolo_Light_Red</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonHolo_Light_Red</item>
+        <item name="android:spinnerStyle">@style/SpinnerHolo_Light_Red</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItemHolo_Light_Red
+        </item>
+        <item name="android:seekBarStyle">@style/SeekBarHolo_Light_Red</item>
+        <item name="android:buttonStyleToggle">@style/ToggleHolo_Light_Red</item>
+        <item name="android:listViewStyle">@style/ListViewHolo_Light_Red</item>
+        <item name="android:listViewWhiteStyle">@style/ListViewHolo_Light_Red.White</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItemHolo_Light_Red</item>
+        <item name="android:textAppearanceSmall">@style/TextAppearanceSmallHolo_Light_Red</item>
+        <item name="android:textAppearanceMedium">@style/TextAppearanceMediumHolo_Light_Red</item>
+        <item name="android:textAppearanceLarge">@style/TextAppearanceLargeHolo_Light_Red</item>
+    </style>
+
+</resources>
