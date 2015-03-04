@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.app.datastore.model.helper;
+package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
 
@@ -13,7 +13,9 @@ import edu.hm.cs.fs.app.datastore.model.Group;
 import edu.hm.cs.fs.app.datastore.model.News;
 import edu.hm.cs.fs.app.datastore.model.Person;
 import edu.hm.cs.fs.app.datastore.model.impl.NewsImpl;
-import edu.hm.cs.fs.app.datastore.model.impl.StudyGroup;
+import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
+import edu.hm.cs.fs.app.datastore.web.NewsFetcher;
+import edu.hm.cs.fs.app.util.NetworkUtils;
 import io.realm.Realm;
 
 /**
@@ -41,7 +43,7 @@ public class NewsHelper implements News {
         }
         groups = new ArrayList<>();
         for (String groupId : news.getGroups()) {
-            groups.add(StudyGroup.of(groupId));
+            groups.add(GroupImpl.of(groupId));
         }
         publish = news.getPublish();
         expire = news.getExpire();
@@ -87,50 +89,62 @@ public class NewsHelper implements News {
     public String getUrl() {
         return url;
     }
-
-    static News parse(Context context, JSONObject jsonObject) {
-        NewsImpl news = new NewsImpl();
-        news.setId(jsonObject.getString("id"));
-        news.setContact(jsonObject.getString("contact"));
-        news.setDescription(jsonObject.getString("description"));
-        news.setExpire(new Date(jsonObject.getLong("expire")));
-        news.setProgram(Study.of(jsonObject.getString("program")));
-        news.setProvider(jsonObject.getString("provider"));
-        news.setTitle(jsonObject.getString("title"));
-        news.setUrl(jsonObject.getString("url"));
-        return new RealmExecutor<NewsImpl>(context) {
+    
+    public static void listAll(final Context context, final Callback<List<News>> callback) {
+    	// Request data from database...
+    	new RealmExecutor<List<News>>(context) {
             @Override
-            public NewsImpl run(final Realm realm) {
-                return new NewsHelper(
-                        context,
-                        realm.where(NewsImpl.class).equalTo("id", id).findFirst()
-                );
+            public List<News> run(final Realm realm) {
+            	List<News> result = new ArrayList<>();
+            	for(NewsImpl news : realm.where(NewsImpl.class).findAll()) {
+            		result.add(new NewsHelper(context, news));
+            	}
+            	return result;
             }
-        }.execute();
+    	}.executeAsync(callback);
+
+    	// Request data from web...
+    	if(NetworkUtils.isConnected(context)) {
+    		// TODO Don't update every time the device is connected to the internet
+        	new RealmExecutor<List<News>>(context) {
+                @Override
+                public List<News> run(final Realm realm) {
+                	List<News> result = new ArrayList<>();
+                	List<NewsImpl> newsImplList = fetchOnlineData(context, realm);
+                	for(NewsImpl news : newsImplList) {
+                		result.add(new NewsHelper(context, news));
+                	}
+                	return result;
+                }
+        	}.executeAsync(callback);
+    	}
     }
 
     static News findById(final Context context, final String id) {
         return new RealmExecutor<News>(context) {
             @Override
             public News run(final Realm realm) {
-                return new NewsHelper(
-                        context,
-                        realm.where(NewsImpl.class).equalTo("id", id).findFirst()
-                );
+            	NewsImpl news = realm.where(NewsImpl.class).equalTo("id", id).findFirst();
+            	if(news == null) {
+            		List<NewsImpl> newsList = fetchOnlineData(context, realm);
+            		for (NewsImpl newsImpl : newsList) {
+						if(newsImpl.getId().equals(id)) {
+							news = newsImpl;
+							break;
+						}
+					}
+            	}
+                return new NewsHelper(context, news);
             }
         }.execute();
     }
-
-    static List<News> listAll(final Context context) {
-        return new RealmExecutor<List<News>>(context) {
-            @Override
-            public List<News> run(final Realm realm) {
-                List<News> helperList = new ArrayList<>();
-                for (NewsImpl news : realm.where(NewsImpl.class).findAll()) {
-                    helperList.add(new NewsHelper(context, news));
-                }
-                return helperList;
-            }
-        }.execute();
+    
+    private static List<NewsImpl> fetchOnlineData(Context context, Realm realm) {
+    	List<NewsImpl> newsList = new NewsFetcher(context).build();
+    	for(NewsImpl news : newsList) {
+    		// Add to or update database
+    		realm.copyToRealmOrUpdate(news);
+    	}
+    	return newsList;
     }
 }

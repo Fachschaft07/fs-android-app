@@ -1,7 +1,5 @@
 package edu.hm.cs.fs.app.datastore.model;
 
-import com.google.common.base.Optional;
-
 import edu.hm.cs.fs.app.datastore.model.constants.Letter;
 import edu.hm.cs.fs.app.datastore.model.constants.Semester;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
@@ -18,10 +16,10 @@ public interface Group {
     /**
      * @return the semester.
      */
-    Optional<Semester> getSemester();
+    Semester getSemester();
 
     /**
      * @return the letter.
      */
-    Optional<Letter> getLetter();
+    Letter getLetter();
 }

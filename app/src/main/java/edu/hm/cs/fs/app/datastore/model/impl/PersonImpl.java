@@ -1,5 +1,9 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
+import edu.hm.cs.fs.app.datastore.model.constants.Day;
+import edu.hm.cs.fs.app.datastore.model.constants.Faculty;
+import edu.hm.cs.fs.app.datastore.model.constants.PersonStatus;
+import edu.hm.cs.fs.app.datastore.model.constants.Sex;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 

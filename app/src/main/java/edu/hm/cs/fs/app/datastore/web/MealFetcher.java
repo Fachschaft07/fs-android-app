@@ -1,6 +1,17 @@
 package edu.hm.cs.fs.app.datastore.web;
 
-import java.util.Date;
+import android.annotation.SuppressLint;
+import android.content.Context;
+
+import org.jsoup.nodes.Document;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import edu.hm.cs.fs.app.datastore.model.impl.MealImpl;
+import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractHtmlFetcher;
 
 /**
  * The meal stores the data for a meal with the name of the meal and the date.
@@ -8,38 +19,18 @@ import java.util.Date;
  * @author Fabio
  * @version 2
  */
-public class MealFetcher {
-	private final Date date;
-	private final String description;
+public class MealFetcher extends AbstractHtmlFetcher<MealFetcher, MealImpl> {
+    private static final String URL = "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_432_-de.html";
+    private static final Pattern PATTERN_MEAL = Pattern.compile(".*<span style=\"float:left\">(.*)</span>.*");
+    @SuppressLint("SimpleDateFormat")
+    private static final DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-	/**
-	 * Creates a new meal.
-	 * 
-	 * @param date
-	 *            when the meal is offered in the mensa.
-	 * @param description
-	 *            of the meal.
-	 */
-	public MealFetcher(final Date date, final String description) {
-		this.date = date;
-		this.description = description;
-	}
+    protected MealFetcher(final Context context) {
+        super(context, URL);
+    }
 
-	/**
-	 * The date when the mensa offers this meal.
-	 * 
-	 * @return the date.
-	 */
-	public Date getDate() {
-		return date;
-	}
-
-	/**
-	 * The description of the meal.
-	 * 
-	 * @return the description.
-	 */
-	public String getDescription() {
-		return description;
-	}
+    @Override
+    protected List<MealImpl> readFromDoc(final Document document) {
+        return null;
+    }
 }

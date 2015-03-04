@@ -9,6 +9,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
@@ -27,13 +29,13 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
 	private final String mRootNode;
 	private Document mXmlDoc;
 
-	protected AbstractXmlFetcher(final Context context, File offlineFile, final String url, String rootNode) {
-		super(context, offlineFile, url);
+	protected AbstractXmlFetcher(final Context context, final String url, String rootNode) {
+		super(context, url);
 		mRootNode = rootNode;
 	}
 
 	@Override
-	protected JSONArray read(final String url) {
+	protected List<T> read(final String url) {
 		mXmlDoc = DataUtils.read(url);
 
 		if (mXmlDoc == null) {
@@ -41,8 +43,7 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
 			throw new ParseException("Unable to parse url");
 		}
 
-		// Convert everything into json format
-		final JSONArray jsonArray = new JSONArray();
+		List<T> result = new ArrayList<>();
 
 		try {
 			// 2014-09-18: BugFix: Wrong count with
@@ -52,13 +53,12 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
 			final int countElements = getCountByXPath(mRootNode);
 			for (int index = 1; index <= countElements; index++) {
 				final String path = mRootNode + "[" + index + "]";
-				final T item = onCreateItem(path);
-				jsonArray.put(mGson.toJson(item));
+				result.add(onCreateItem(path));
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "", e);
 		}
-		return jsonArray;
+		return result;
 	}
 
 	/**

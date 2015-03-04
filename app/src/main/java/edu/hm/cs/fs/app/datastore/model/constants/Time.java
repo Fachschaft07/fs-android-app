@@ -2,8 +2,6 @@ package edu.hm.cs.fs.app.datastore.model.constants;
 
 import java.util.Calendar;
 
-import com.google.common.base.Optional;
-
 /**
  * @author Fabio
  * 
@@ -71,16 +69,17 @@ public enum Time {
 	 * @param timeString
 	 * @return
 	 */
-	public static Optional<Time> of(final String timeString) {
+	public static Time of(final String timeString) {
 		final String[] split = timeString.split(":");
 		final int hour = Integer.parseInt(split[0]);
 		final int minute = Integer.parseInt(split[1]);
 
 		for (final Time time : values()) {
 			if (time.getHour() == hour && time.getMinute() == minute) {
-				return Optional.of(time);
+				return time;
 			}
 		}
-		return Optional.absent();
+		throw new IllegalArgumentException("Not a valid time form: "
+				+ timeString);
 	}
 }

@@ -3,20 +3,19 @@ package edu.hm.cs.fs.app.datastore.web;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.google.common.base.Optional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import javax.xml.xpath.XPathConstants;
 
-import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractFetcher;
-import edu.hm.cs.fs.app.datastore.web.fetcher.IFilter;
+import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractXmlFetcher;
 import edu.hm.cs.fs.app.datastore.model.constants.Offer;
 import edu.hm.cs.fs.app.datastore.model.constants.Semester;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.datastore.model.constants.TeachingForm;
+import edu.hm.cs.fs.app.datastore.model.impl.ModuleCodeImpl;
+import edu.hm.cs.fs.app.datastore.model.impl.ModuleImpl;
 import edu.hm.cs.fs.app.datastore.web.utils.DataUtils;
 
 /**
@@ -27,541 +26,163 @@ import edu.hm.cs.fs.app.datastore.web.utils.DataUtils;
  * @author Fabio
  *
  */
-public class ModuleFetcher {
-	private final String mName;
-	private final int mCredits;
-	private final int mSws;
-	private final String mResponsible;
-	private final List<String> mTeachers;
-	private final List<Locale> mLanguages;
-	private final TeachingForm mTeachingForm;
-	private final String mExpenditure;
-	private final String mRequirements;
-	private final String mGoals;
-	private final String mContent;
-	private final String mMedia;
-	private final String mLiterature;
-	private final Study mProgram;
-	private final List<ModulCode> mModulCodes;
+public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl> {
+	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/modul.xml";
+	private static final String ROOT_NODE = "/modullist/modul";
 
-	private ModuleFetcher(final Builder builder) {
-		mName = builder.mName;
-		mCredits = builder.mCredits;
-		mSws = builder.mSws;
-		mResponsible = builder.mResponsible;
-		mTeachers = new ArrayList<String>(builder.mTeachers);
-		mLanguages = new ArrayList<Locale>(builder.mLanguages);
-		mTeachingForm = builder.mTeachingForm;
-		mExpenditure = builder.mExpenditure;
-		mRequirements = builder.mRequirements;
-		mGoals = builder.mGoals;
-		mContent = builder.mContent;
-		mMedia = builder.mMedia;
-		mLiterature = builder.mLiterature;
-		mProgram = builder.mProgram;
-		mModulCodes = new ArrayList<ModulCode>(builder.mModulCodes);
+	public ModuleFetcher(final Context context) {
+		super(context, URL, ROOT_NODE);
 	}
 
-	/**
-	 * @return the name.
-	 */
-	public String getName() {
-		return mName;
-	}
+	@Override
+	protected ModuleImpl onCreateItem(final String rootPath) throws Exception {
+		String name;
+		int credits;
+		int sws;
+		String responsible;
+		List<String> teachers = new ArrayList<>();
+		List<Locale> languages = new ArrayList<>();
+		TeachingForm teachingForm = null;
+		String expenditure;
+		String requirements;
+		String goals;
+		String content;
+		String media;
+		String literature;
+		Study program = null;
+		List<ModuleCodeImpl> modulCodes = new ArrayList<>();
 
-	/**
-	 * @return the credits.
-	 */
-	public int getCredits() {
-		return mCredits;
-	}
+		// Parse Elements...
+		name = findByXPath(rootPath + "/name/text()",
+				XPathConstants.STRING);
+		credits = ((Double) findByXPath(rootPath + "/credits/text()",
+				XPathConstants.NUMBER)).intValue();
+		sws = ((Double) findByXPath(rootPath + "/sws/text()",
+				XPathConstants.NUMBER)).intValue();
+		responsible = findByXPath(rootPath + "/verantwortlich/text()",
+				XPathConstants.STRING);
 
-	/**
-	 * @return the semester week hours.
-	 */
-	public int getSws() {
-		return mSws;
-	}
-
-	/**
-	 * @return the responsible.
-	 */
-	public String getResponsible() {
-		return mResponsible;
-	}
-
-	/**
-	 * @return the teachers.
-	 */
-	public List<String> getTeachers() {
-		return new ArrayList<String>(mTeachers);
-	}
-
-	/**
-	 * @return the languages.
-	 */
-	public List<Locale> getLanguages() {
-		return new ArrayList<Locale>(mLanguages);
-	}
-
-	/**
-	 * @return the teaching form.
-	 */
-	public TeachingForm getTeachingForm() {
-		return mTeachingForm;
-	}
-
-	/**
-	 * @return the expenditure.
-	 */
-	public String getExpenditure() {
-		return mExpenditure;
-	}
-
-	/**
-	 * @return the requirements.
-	 */
-	public String getRequirements() {
-		return mRequirements;
-	}
-
-	/**
-	 * @return the goals.
-	 */
-	public String getGoals() {
-		return mGoals;
-	}
-
-	/**
-	 * @return the content.
-	 */
-	public String getContent() {
-		return mContent;
-	}
-
-	/**
-	 * @return the used media.
-	 */
-	public String getMedia() {
-		return mMedia;
-	}
-
-	/**
-	 * @return the literature.
-	 */
-	public String getLiterature() {
-		return mLiterature;
-	}
-
-	/**
-	 * @return the program.
-	 */
-	public Optional<Study> getProgram() {
-		return Optional.fromNullable(mProgram);
-	}
-
-	/**
-	 * @return the modul codes.
-	 */
-	public List<ModulCode> getModulCodes() {
-		return new ArrayList<ModulCode>(mModulCodes);
-	}
-
-	/**
-	 * @author Fabio
-	 *
-	 */
-	public static class Builder extends AbstractFetcher<Builder, ModuleFetcher> {
-		private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/modul.xml";
-		private static final String ROOT_NODE = "/modullist/modul";
-		private String mName;
-		private int mCredits;
-		private int mSws;
-		private String mResponsible;
-		private List<String> mTeachers;
-		private List<Locale> mLanguages;
-		private TeachingForm mTeachingForm;
-		private String mExpenditure;
-		private String mRequirements;
-		private String mGoals;
-		private String mContent;
-		private String mMedia;
-		private String mLiterature;
-		private Study mProgram;
-		private List<ModulCode> mModulCodes;
-
-		public Builder(final Context context) {
-			super(context, URL, ROOT_NODE);
-		}
-
-		/**
-		 * Filter for a key word in the modul name.
-		 *
-		 * @param keyWord
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addNameFilter(final String keyWord) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					return DataUtils
-							.containsIgnoreCase(data.getName(), keyWord);
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filter for a semester of a modul code.
-		 *
-		 * @param semester
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addSemesterFilter(final Semester semester) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					for (final ModulCode code : data.getModulCodes()) {
-						for (final Semester codeSemester : code.getSemester()) {
-							if (codeSemester == semester) {
-								return true;
-							}
-						}
-					}
-					return false;
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filter for a language the modul is teached in.
-		 *
-		 * @param languageCode
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addLanguageFilter(final String languageCode) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					return data.getTeachers().contains(
-							DataUtils.toLocale(languageCode));
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filter for a teacher who is teaching the modul.
-		 *
-		 * @param teacher
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addTeacherFilter(final String teacher) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					return data.getTeachers().contains(teacher);
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filte for a key word in the goals the student should reach.
-		 *
-		 * @param keyWord
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addGoalsFilter(final String keyWord) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					return DataUtils.containsIgnoreCase(data.getGoals(),
-							keyWord);
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filter for a key word in the content description.
-		 *
-		 * @param keyWord
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addContentFilter(final String keyWord) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					return DataUtils.containsIgnoreCase(data.getContent(),
-							keyWord);
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filter for a key word in the requiremenets.
-		 *
-		 * @param keyWord
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addRequirementFilter(final String keyWord) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					return DataUtils.containsIgnoreCase(data.getRequirements(),
-							keyWord);
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filter for a teaching form.
-		 *
-		 * @param teachingForm
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addTeachingFormFilter(final TeachingForm teachingForm) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					return data.getTeachingForm() == teachingForm;
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filter for a study.
-		 *
-		 * @param study
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addStudyFilter(final Study study) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					return data.getProgram().isPresent()
-							&& data.getProgram().get() == study;
-				}
-			});
-			return this;
-		}
-
-		/**
-		 * Filter for an offer.
-		 *
-		 * @param offer
-		 *            to filter for.
-		 * @return the builder.
-		 */
-		public Builder addOfferFilter(final Offer offer) {
-			addFilter(new IFilter<ModuleFetcher>() {
-				@Override
-				public boolean apply(final ModuleFetcher data) {
-					for (final ModulCode code : data.getModulCodes()) {
-						if (code.getOffer() == offer) {
-							return true;
-						}
-					}
-					return false;
-				}
-			});
-			return this;
-		}
-
-		@Override
-		protected ModuleFetcher onCreateItem(final String rootPath) throws Exception {
-			// reset Variables...
-			mTeachers = new ArrayList<String>();
-			mLanguages = new ArrayList<Locale>();
-			mTeachingForm = null;
-			mProgram = null;
-			mModulCodes = new ArrayList<ModulCode>();
-
-			// Parse Elements...
-			mName = findByXPath(rootPath + "/name/text()",
-					XPathConstants.STRING);
-			mCredits = ((Double) findByXPath(rootPath + "/credits/text()",
-					XPathConstants.NUMBER)).intValue();
-			mSws = ((Double) findByXPath(rootPath + "/sws/text()",
-					XPathConstants.NUMBER)).intValue();
-			mResponsible = findByXPath(rootPath + "/verantwortlich/text()",
-					XPathConstants.STRING);
-
-			final int countTeachers = getCountByXPath(rootPath + "/teacher");
-			for (int indexTeacher = 1; indexTeacher <= countTeachers; indexTeacher++) {
-				final String teacher = findByXPath(rootPath + "/teacher["
-						+ indexTeacher + "]/text()", XPathConstants.STRING);
-				if (!TextUtils.isEmpty(teacher)) {
-					mTeachers.add(teacher);
-				}
+		final int countTeachers = getCountByXPath(rootPath + "/teacher");
+		for (int indexTeacher = 1; indexTeacher <= countTeachers; indexTeacher++) {
+			final String teacher = findByXPath(rootPath + "/teacher["
+					+ indexTeacher + "]/text()", XPathConstants.STRING);
+			if (!TextUtils.isEmpty(teacher)) {
+				teachers.add(teacher);
 			}
+		}
 
-			final int countLanguage = getCountByXPath(rootPath + "/language");
-			for (int indexLanguage = 1; indexLanguage <= countLanguage; indexLanguage++) {
-				final String language = findByXPath(rootPath + "/language["
-						+ indexLanguage + "]/text()", XPathConstants.STRING);
-				if (!TextUtils.isEmpty(language)) {
-					mLanguages.add(DataUtils.toLocale(language));
-				}
+		final int countLanguage = getCountByXPath(rootPath + "/language");
+		for (int indexLanguage = 1; indexLanguage <= countLanguage; indexLanguage++) {
+			final String language = findByXPath(rootPath + "/language["
+					+ indexLanguage + "]/text()", XPathConstants.STRING);
+			if (!TextUtils.isEmpty(language)) {
+				languages.add(toLocale(language));
 			}
+		}
 
-			final String teachingForm = findByXPath(rootPath
-					+ "/lehrform/text()", XPathConstants.STRING);
-			if (!TextUtils.isEmpty(teachingForm)) {
-				mTeachingForm = TeachingForm.of(teachingForm);
+		final String teachingFormStr = findByXPath(rootPath
+				+ "/lehrform/text()", XPathConstants.STRING);
+		if (!TextUtils.isEmpty(teachingFormStr)) {
+			teachingForm = TeachingForm.of(teachingFormStr);
+		}
+		expenditure = findByXPath(rootPath + "/aufwand/text()",
+				XPathConstants.STRING);
+		requirements = findByXPath(rootPath + "/voraussetzungen/text()",
+				XPathConstants.STRING);
+		goals = findByXPath(rootPath + "/ziele/text()",
+				XPathConstants.STRING);
+		content = findByXPath(rootPath + "/inhalt/text()",
+				XPathConstants.STRING);
+		media = findByXPath(rootPath + "/medien/text()",
+				XPathConstants.STRING);
+		literature = findByXPath(rootPath + "/literatur/text()",
+				XPathConstants.STRING);
+		final String programStr = findByXPath(rootPath + "/program/text()",
+				XPathConstants.STRING);
+		if (!TextUtils.isEmpty(programStr)) {
+			program = Study.of(programStr);
+		}
+
+		final int countCodes = getCountByXPath(rootPath
+				+ "/modulcodes/modulcode");
+		for (int indexCodes = 1; indexCodes <= countCodes; indexCodes++) {
+			final String modulCodePath = rootPath
+					+ "/modulcodes/modulcode[" + indexCodes + "]";
+
+			final String modul = findByXPath(modulCodePath
+					+ "/modul/text()", XPathConstants.STRING);
+			final String regulation = findByXPath(modulCodePath
+					+ "/regulation/text()", XPathConstants.STRING);
+			final String stringOffer = findByXPath(modulCodePath
+					+ "/angebot/text()", XPathConstants.STRING);
+			Offer offer = null;
+			if (!TextUtils.isEmpty(stringOffer)) {
+				offer = Offer.of(stringOffer);
 			}
-			mExpenditure = findByXPath(rootPath + "/aufwand/text()",
+			final String services = findByXPath(modulCodePath
+					+ "/leistungen/text()", XPathConstants.STRING);
+			final String code = findByXPath(modulCodePath + "/code/text()",
 					XPathConstants.STRING);
-			mRequirements = findByXPath(rootPath + "/voraussetzungen/text()",
-					XPathConstants.STRING);
-			mGoals = findByXPath(rootPath + "/ziele/text()",
-					XPathConstants.STRING);
-			mContent = findByXPath(rootPath + "/inhalt/text()",
-					XPathConstants.STRING);
-			mMedia = findByXPath(rootPath + "/medien/text()",
-					XPathConstants.STRING);
-			mLiterature = findByXPath(rootPath + "/literatur/text()",
-					XPathConstants.STRING);
-			final String program = findByXPath(rootPath + "/program/text()",
-					XPathConstants.STRING);
-			if (!TextUtils.isEmpty(program)) {
-				mProgram = Study.of(program);
-			}
 
-			final int countCodes = getCountByXPath(rootPath
-					+ "/modulcodes/modulcode");
-			for (int indexCodes = 1; indexCodes <= countCodes; indexCodes++) {
-				final String modulCodePath = rootPath
-						+ "/modulcodes/modulcode[" + indexCodes + "]";
-
-				final String modul = findByXPath(modulCodePath
-						+ "/modul/text()", XPathConstants.STRING);
-				final String regulation = findByXPath(modulCodePath
-						+ "/regulation/text()", XPathConstants.STRING);
-				final String stringOffer = findByXPath(modulCodePath
-						+ "/angebot/text()", XPathConstants.STRING);
-				Offer offer = null;
-				if (!TextUtils.isEmpty(stringOffer)) {
-					offer = Offer.of(stringOffer);
-				}
-				final String services = findByXPath(modulCodePath
-						+ "/leistungen/text()", XPathConstants.STRING);
-				final String code = findByXPath(modulCodePath + "/code/text()",
+			final List<Semester> semesterList = new ArrayList<Semester>();
+			final int countSemester = getCountByXPath(modulCodePath
+					+ "/semester");
+			for (int indexSemester = 1; indexSemester <= countSemester; indexSemester++) {
+				final String semester = findByXPath(modulCodePath
+						+ "/semester[" + indexSemester + "]/text()",
 						XPathConstants.STRING);
-
-				final List<Semester> semesterList = new ArrayList<Semester>();
-				final int countSemester = getCountByXPath(modulCodePath
-						+ "/semester");
-				for (int indexSemester = 1; indexSemester <= countSemester; indexSemester++) {
-					final String semester = findByXPath(modulCodePath
-							+ "/semester[" + indexSemester + "]/text()",
-							XPathConstants.STRING);
-					if (!TextUtils.isEmpty(semester)) {
-						semesterList
-						.add(Semester.of(Integer.parseInt(semester)));
-					}
+				if (!TextUtils.isEmpty(semester)) {
+					semesterList
+					.add(Semester.of(Integer.parseInt(semester)));
 				}
-
-				final String curriculum = findByXPath(modulCodePath
-						+ "/curriculum/text()", XPathConstants.STRING);
-
-				mModulCodes.add(new ModulCode(modul, regulation, offer,
-						services, code, semesterList, curriculum));
 			}
 
-			return new ModuleFetcher(this);
+			final String curriculum = findByXPath(modulCodePath
+					+ "/curriculum/text()", XPathConstants.STRING);
+			
+			ModuleCodeImpl moduleCode = new ModuleCodeImpl();
+			moduleCode.setModul(modul);
+			moduleCode.setRegulation(regulation);
+			moduleCode.setOffer(offer);
+			moduleCode.setServices(services);
+			moduleCode.setCode(code);
+			moduleCode.setSemester(semesterList);
+			moduleCode.setCurriculum(curriculum);
+
+			modulCodes.add(moduleCode);
 		}
+		
+		ModuleImpl module = new ModuleImpl();
+		module.setName(name);
+		module.setCredits(credits);
+		module.setSws(sws);
+		module.setResponsible(responsible);
+		module.setTeachers(teachers);
+		module.setLanguages(languages);
+		module.setTeachingForm(teachingForm);
+		module.setExpenditure(expenditure);
+		module.setRequirements(requirements);
+		module.setGoals(goals);
+		module.setContent(content);
+		module.setMedia(media);
+		module.setLiterature(literature);
+		module.setProgram(program);
+		module.setModulCodes(modulCodes);
+
+		return module;
 	}
 
 	/**
-	 * There can be more then one code for a modul. It is a detailed information
-	 * about the modul.
-	 *
-	 * @author Fabio
-	 *
+	 * @param languageCode
+	 * @return
 	 */
-	public static class ModulCode {
-		private final String mModul;
-		private final String mRegulation;
-		private final Offer mOffer;
-		private final String mServices;
-		private final String mCode;
-		private final List<Semester> mSemester;
-		private final String mCurriculum;
-
-		private ModulCode(final String modul, final String regulation,
-				final Offer offer, final String services, final String code,
-				final List<Semester> semesters, final String curriculum) {
-			mModul = modul;
-			mRegulation = regulation;
-			mOffer = offer;
-			mServices = services;
-			mCode = code;
-			mSemester = semesters;
-			mCurriculum = curriculum;
+	private static Locale toLocale(final String languageCode) {
+		for (final Locale locale : Locale.getAvailableLocales()) {
+			if (locale.getLanguage().equalsIgnoreCase(languageCode)) {
+				return locale;
+			}
 		}
-
-		/**
-		 * @return the modul.
-		 */
-		public String getModul() {
-			return mModul;
-		}
-
-		/**
-		 * @return the regulation.
-		 */
-		public String getRegulation() {
-			return mRegulation;
-		}
-
-		/**
-		 * @return the offer.
-		 */
-		public Offer getOffer() {
-			return mOffer;
-		}
-
-		/**
-		 * @return the services.
-		 */
-		public String getServices() {
-			return mServices;
-		}
-
-		/**
-		 * @return the code.
-		 */
-		public String getCode() {
-			return mCode;
-		}
-
-		/**
-		 * @return the semesters.
-		 */
-		public List<Semester> getSemester() {
-			return mSemester;
-		}
-
-		/**
-		 * @return curriculum.
-		 */
-		public String getCurriculum() {
-			return mCurriculum;
-		}
+		throw new IllegalArgumentException("Not a valid language code: "
+				+ languageCode);
 	}
 }

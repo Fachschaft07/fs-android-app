@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.app.datastore.model.helper;
+package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -17,15 +17,27 @@ public abstract class RealmExecutor<T> {
 
     public abstract T run(Realm realm);
 
+    /**
+     * Call this method for sync work e.g. with local database access.
+     * 
+     * @return the data.
+     */
     public T execute() {
         Realm mRealm = Realm.getInstance(mContext);
         try {
+        	mRealm.beginTransaction();
             return run(mRealm);
         } finally {
+        	mRealm.commitTransaction();
             mRealm.close();
         }
     }
 
+    /**
+     * Call this method for asnyc work e.g. with internet access.
+     * 
+     * @param callback to retrieve the data.
+     */
     public void executeAsync(final Callback<T> callback) {
         new AsyncTask<Void, Void, T>() {
             @Override

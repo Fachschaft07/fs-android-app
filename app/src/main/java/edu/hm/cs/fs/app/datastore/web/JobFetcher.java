@@ -15,7 +15,7 @@ import javax.xml.xpath.XPathConstants;
 import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractFetcher;
 import edu.hm.cs.fs.app.datastore.web.fetcher.IFilter;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
-import edu.hm.cs.fs.app.datastore.model.impl.StudyGroup;
+import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
 import edu.hm.cs.fs.app.datastore.web.utils.DataUtils;
 
 /**
@@ -182,7 +182,7 @@ public class JobFetcher {
 			final String program = findByXPath(rootPath + "/program/text()",
 					XPathConstants.STRING);
 			if (!TextUtils.isEmpty(program)) {
-				mProgram = StudyGroup.of(program).getStudy();
+				mProgram = GroupImpl.of(program).getStudy();
 			}
 			mExpire = DATE_PARSER.parse((String) findByXPath(rootPath
 					+ "/expire/text()", XPathConstants.STRING));

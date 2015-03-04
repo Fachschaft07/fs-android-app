@@ -1,39 +1,11 @@
 package edu.hm.cs.fs.app.datastore.web.utils;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.ConnectivityManager;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.google.gson.Gson;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.w3c.dom.Document;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import edu.hm.cs.fs.app.datastore.model.constants.Letter;
-import edu.hm.cs.fs.app.datastore.model.constants.Semester;
-import edu.hm.cs.fs.app.datastore.model.constants.Study;
-import edu.hm.cs.fs.app.datastore.model.impl.StudyGroup;
 
 /**
  * @author Fabio
@@ -140,78 +112,6 @@ public final class DataUtils {
 	}
 
 	/**
-	 * @param url
-	 * @return
-	 * @throws javax.xml.parsers.ParserConfigurationException
-	 */
-	public static Document read(final String url) {
-		final DocumentBuilderFactory factory = DocumentBuilderFactory
-				.newInstance();
-		DocumentBuilder documentBuilder = null;
-		try {
-			documentBuilder = factory.newDocumentBuilder();
-			return documentBuilder.parse(url);
-		} catch (final Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 * @param context
-	 * @return
-	 */
-	public static boolean isOnline(final Context context) {
-		final ConnectivityManager connectionManager = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		return connectionManager
-				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnected()
-				|| connectionManager.getNetworkInfo(
-						ConnectivityManager.TYPE_WIFI).isConnected();
-	}
-
-	/**
-	 * @param content
-	 * @param file
-	 * @throws Exception
-	 * @Deprecated use {@link #save(org.json.JSONArray, java.io.File)} instead of this method.
-	 */
-	@Deprecated
-	public static void save(final Document content, final File file)
-			throws Exception {
-		// Use a Transformer for output
-		final TransformerFactory tFactory = TransformerFactory.newInstance();
-		final Transformer transformer = tFactory.newTransformer();
-
-		final DOMSource source = new DOMSource(content);
-		final StreamResult result = new StreamResult(new FileOutputStream(file));
-		transformer.transform(source, result);
-	}
-
-	/**
-	 * @param jsonArray
-	 * @param offlineFile
-	 * @throws java.io.IOException
-	 */
-	public static void save(final JSONArray jsonArray, final File offlineFile)
-			throws IOException {
-		Files.write(jsonArray.toString(), offlineFile, Charsets.UTF_8);
-	}
-
-	/**
-	 * @param offlineFile
-	 * @return
-	 * @throws java.io.IOException
-	 * @throws org.json.JSONException
-	 */
-	public static JSONArray read(final File offlineFile) {
-		try {
-			return new JSONArray(Files.toString(offlineFile, Charsets.UTF_8));
-		} catch (Exception e) {
-			return new JSONArray();
-		}
-	}
-
-	/**
 	 * @param text
 	 * @param contains
 	 * @return
@@ -238,86 +138,5 @@ public final class DataUtils {
 		return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
 				&& cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
 				&& cal1.get(Calendar.DATE) == cal2.get(Calendar.DATE);
-	}
-
-	/**
-	 * @param studyGroups
-	 * @param study
-	 * @return
-	 */
-	public static List<StudyGroup> filter(final List<StudyGroup> studyGroups,
-			final Study study) {
-		final List<StudyGroup> result = new ArrayList<StudyGroup>();
-		for (final StudyGroup studyGroup : studyGroups) {
-			if (studyGroup.getStudy() == study) {
-				result.add(studyGroup);
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * @param studyGroups
-	 * @param study
-	 * @param semester
-	 * @return
-	 */
-	public static List<StudyGroup> filter(final List<StudyGroup> studyGroups,
-			final Study study, final Semester semester) {
-		final List<StudyGroup> result = new ArrayList<StudyGroup>();
-		final List<StudyGroup> filterList = filter(studyGroups, study);
-		for (final StudyGroup studyGroup : filterList) {
-			if (!studyGroup.getSemester().isPresent()) {
-				result.add(studyGroup);
-			} else if (studyGroup.getSemester().get() == semester) {
-				result.add(studyGroup);
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * @param studyGroups
-	 * @param study
-	 * @param semester
-	 * @param letter
-	 * @return
-	 */
-	public static List<StudyGroup> filter(final List<StudyGroup> studyGroups,
-			final Study study, final Semester semester, final Letter letter) {
-		final List<StudyGroup> result = new ArrayList<StudyGroup>();
-		final List<StudyGroup> filterList = filter(studyGroups, study, semester);
-		for (final StudyGroup studyGroup : filterList) {
-			if (!studyGroup.getLetter().isPresent()) {
-				result.add(studyGroup);
-			} else if (studyGroup.getLetter().get() == letter) {
-				result.add(studyGroup);
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * @param languageCode
-	 * @return
-	 */
-	public static Locale toLocale(final String languageCode) {
-		for (final Locale locale : Locale.getAvailableLocales()) {
-			if (locale.getLanguage().equalsIgnoreCase(languageCode)) {
-				return locale;
-			}
-		}
-		throw new IllegalArgumentException("Not a valid language code: "
-				+ languageCode);
-	}
-
-	/**
-	 * @param data
-	 * @return
-	 * @throws org.json.JSONException
-	 */
-	public static <T> JSONArray toJsonArray(final List<T> data)
-			throws JSONException {
-		return new JSONArray(new Gson().toJson(data));
 	}
 }

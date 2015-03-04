@@ -45,7 +45,6 @@
         android:autoLink="web"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:onClick="openMail"
         android:text="@string/fs_contact"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#000055" />

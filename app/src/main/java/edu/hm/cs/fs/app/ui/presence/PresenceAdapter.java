@@ -10,22 +10,13 @@ import android.widget.TextView;
 
 import com.fk07.R;
 
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import edu.hm.cs.fs.app.datastore.model.helper.Callback;
-import edu.hm.cs.fs.app.datastore.web.PresenceFetcher;
+import edu.hm.cs.fs.app.datastore.model.Presence;
 
-public class PresenceAdapter extends ArrayAdapter<PresenceFetcher> {
+public class PresenceAdapter extends ArrayAdapter<Presence> {
 	public PresenceAdapter(final Context context) {
 		super(context, android.R.layout.simple_list_item_1);
-		DataSource.getInstance(context).getPresence(new Callback<PresenceFetcher>() {
-			@Override
-			public void onResult(final List<PresenceFetcher> result) {
-				addAll(result);
-			}
-		});
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -38,12 +29,12 @@ public class PresenceAdapter extends ArrayAdapter<PresenceFetcher> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		final PresenceFetcher person = getItem(position);
+		final Presence presence = getItem(position);
 
-		holder.name.setText(person.getName());
+		holder.name.setText(presence.getName());
 
 		holder.status.setImageResource(
-				person.isBusy() ?
+				presence.isBusy() ?
 				R.drawable.circle_yellow_light :
 				R.drawable.circle_green_dark
 		);
