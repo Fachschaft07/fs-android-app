@@ -22,20 +22,18 @@ public enum Offer {
 		mKey = key;
 	}
 
-	/**
-	 * @return the key.
-	 */
-	private String getKey() {
-		return mKey;
-	}
+    @Override
+    public String toString() {
+        return mKey;
+    }
 
-	/**
+    /**
 	 * @param key
 	 * @return
 	 */
 	public static Offer of(final String key) {
 		for (final Offer offer : values()) {
-			if (offer.getKey().equalsIgnoreCase(key)) {
+			if (offer.toString().equalsIgnoreCase(key)) {
 				return offer;
 			}
 		}

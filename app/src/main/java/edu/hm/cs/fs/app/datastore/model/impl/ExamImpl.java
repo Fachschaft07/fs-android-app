@@ -1,11 +1,7 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
-import java.util.List;
-
-import edu.hm.cs.fs.app.datastore.model.constants.ExamGroup;
-import edu.hm.cs.fs.app.datastore.model.constants.ExamType;
-import edu.hm.cs.fs.app.datastore.model.constants.Study;
-
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -16,14 +12,14 @@ public class ExamImpl extends RealmObject {
 	@PrimaryKey
 	private String id;
 	private String code;
-	private Study group;
+	private String group;
 	private String module;
 	private String subtitle;
-	private List<Study> references;
-	private List<String> examiners;
-	private ExamType type;
+	private RealmList<RealmString> references;
+	private RealmList<RealmString> examiners;
+	private String type;
 	private String material;
-	private ExamGroup allocation;
+	private String allocation;
 
 	public String getId() {
 		return id;
@@ -41,11 +37,11 @@ public class ExamImpl extends RealmObject {
 		this.code = code;
 	}
 
-	public Study getGroup() {
+	public String getGroup() {
 		return group;
 	}
 
-	public void setGroup(Study group) {
+	public void setGroup(String group) {
 		this.group = group;
 	}
 
@@ -65,27 +61,27 @@ public class ExamImpl extends RealmObject {
 		this.subtitle = subtitle;
 	}
 
-	public List<Study> getReferences() {
+	public RealmList<RealmString> getReferences() {
 		return references;
 	}
 
-	public void setReferences(List<Study> references) {
+	public void setReferences(RealmList<RealmString> references) {
 		this.references = references;
 	}
 
-	public List<String> getExaminers() {
+	public RealmList<RealmString> getExaminers() {
 		return examiners;
 	}
 
-	public void setExaminers(List<String> examiners) {
+	public void setExaminers(RealmList<RealmString> examiners) {
 		this.examiners = examiners;
 	}
 
-	public ExamType getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(ExamType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -97,11 +93,11 @@ public class ExamImpl extends RealmObject {
 		this.material = material;
 	}
 
-	public ExamGroup getAllocation() {
+	public String getAllocation() {
 		return allocation;
 	}
 
-	public void setAllocation(ExamGroup allocation) {
+	public void setAllocation(String allocation) {
 		this.allocation = allocation;
 	}
 }

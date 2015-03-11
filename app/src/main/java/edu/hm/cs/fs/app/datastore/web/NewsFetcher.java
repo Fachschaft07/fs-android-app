@@ -6,14 +6,14 @@ import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.xpath.XPathConstants;
 
-import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractXmlFetcher;
 import edu.hm.cs.fs.app.datastore.model.impl.NewsImpl;
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
+import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractXmlFetcher;
+import io.realm.RealmList;
 
 /**
  * The news which are shown at the black board. (Url: <a
@@ -40,8 +40,8 @@ public class NewsFetcher extends AbstractXmlFetcher<NewsFetcher, NewsImpl> {
 		String mAuthor;
 		String mSubject;
 		String mText;
-		List<String> mTeacherList = new ArrayList<String>();
-		List<String> mGroupList = new ArrayList<String>();
+		RealmList<RealmString> mTeacherList = new RealmList<>();
+		RealmList<RealmString> mGroupList = new RealmList<>();
 		Date mPublish = null;
 		Date mExpire = null;
 		String mUrl;
@@ -75,7 +75,7 @@ public class NewsFetcher extends AbstractXmlFetcher<NewsFetcher, NewsImpl> {
 			final String teacherName = findByXPath(rootPath + "/teacher["
 					+ teacherIndex + "]/text()", XPathConstants.STRING);
 			if (!TextUtils.isEmpty(teacherName)) {
-				mTeacherList.add(teacherName);
+				mTeacherList.add(new RealmString(teacherName));
 			}
 		}
 
@@ -84,7 +84,7 @@ public class NewsFetcher extends AbstractXmlFetcher<NewsFetcher, NewsImpl> {
 			final String groupName = findByXPath(rootPath + "/group["
 					+ groupIndex + "]/text()", XPathConstants.STRING);
 			if (!TextUtils.isEmpty(groupName)) {
-				mGroupList.add(groupName);
+				mGroupList.add(new RealmString(groupName));
 			}
 		}
 		

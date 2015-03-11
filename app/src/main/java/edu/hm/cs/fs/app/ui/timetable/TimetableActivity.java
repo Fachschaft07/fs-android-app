@@ -1,9 +1,5 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import edu.hm.cs.fs.app.ui.MainActivity;
 import com.fk07.R;
-import com.fk07.backend.utils.NetworkUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.ui.timetable.dialogs.DownloadDialog;
 import edu.hm.cs.fs.app.ui.timetable.dialogs.DownloadFK10Dialog;
 import edu.hm.cs.fs.app.ui.timetable.xml.FK10Handler;
@@ -27,7 +26,7 @@ import edu.hm.cs.fs.app.ui.timetable.xml.groups.FK07Group;
 import edu.hm.cs.fs.app.ui.timetable.xml.timetable.Timetable;
 import edu.hm.cs.fs.app.ui.timetable.xml.timetablefk10.FK10Group;
 import edu.hm.cs.fs.app.util.DownloadException;
-import edu.hm.cs.fs.app.util.ParseException;
+import edu.hm.cs.fs.app.util.NetworkUtils;
 
 /**
  * TimetableActivity
@@ -299,9 +298,6 @@ public abstract class TimetableActivity extends Activity {
 					timetable.addAll(nextTable);
 				}
 			} catch (final IOException e) {
-				showToast(e.getMessage());
-				Log.e(TAG, e.getMessage());
-			} catch (final ParseException e) {
 				showToast(e.getMessage());
 				Log.e(TAG, e.getMessage());
 			}

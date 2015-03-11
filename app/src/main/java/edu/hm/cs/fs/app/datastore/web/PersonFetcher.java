@@ -22,7 +22,7 @@ import edu.hm.cs.fs.app.datastore.model.impl.PersonImpl;
  */
 public class PersonFetcher extends AbstractXmlFetcher<PersonFetcher, PersonImpl> {
 	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/person.xml";
-	private static final String ROOT_NODE = "person";
+	private static final String ROOT_NODE = "/persons/person";
 
 	public PersonFetcher(final Context context) {
 		super(context, URL, ROOT_NODE);
@@ -81,7 +81,7 @@ public class PersonFetcher extends AbstractXmlFetcher<PersonFetcher, PersonImpl>
 			mStatus = PersonStatus.of(status);
 		}
 		mHidden = findByXPath(rootPath + "/hidden/text()",
-				XPathConstants.STRING);
+				XPathConstants.BOOLEAN);
 		mEmail = findByXPath(rootPath + "/email/text()",
 				XPathConstants.STRING);
 		mWebsite = findByXPath(rootPath + "/website/text()",
@@ -102,9 +102,9 @@ public class PersonFetcher extends AbstractXmlFetcher<PersonFetcher, PersonImpl>
 		mOffice = findByXPath(rootPath + "/office/text()",
 				XPathConstants.STRING);
 		mEmailOptin = findByXPath(rootPath + "/emailoptin/text()",
-				XPathConstants.STRING);
+				XPathConstants.BOOLEAN);
 		mReferenceOptin = findByXPath(rootPath + "/referenceoptin/text()",
-				XPathConstants.STRING);
+				XPathConstants.BOOLEAN);
 		final String officeHourWeekday = findByXPath(rootPath
 				+ "/officehourweekday/text()", XPathConstants.STRING);
 		if (!TextUtils.isEmpty(officeHourWeekday)) {
@@ -129,10 +129,10 @@ public class PersonFetcher extends AbstractXmlFetcher<PersonFetcher, PersonImpl>
 		person.setId(mId);
 		person.setLastName(mLastName);
 		person.setFirstName(mFirstName);
-		person.setSex(mSex);
+		person.setSex(mSex.toString());
 		person.setTitle(mTitle);
-		person.setFaculty(mFaculty);
-		person.setStatus(mStatus);
+		person.setFaculty(mFaculty.toString());
+		person.setStatus(mStatus.toString());
 		person.setHidden(mHidden);
 		person.setEmail(mEmail);
 		person.setPhone(mPhone);
@@ -143,7 +143,7 @@ public class PersonFetcher extends AbstractXmlFetcher<PersonFetcher, PersonImpl>
 		person.setOffice(mOffice);
 		person.setEmailOptin(mEmailOptin);
 		person.setReferenceOptin(mReferenceOptin);
-		person.setOfficeHourWeekday(mOfficeHourWeekday);
+		person.setOfficeHourWeekday(mOfficeHourWeekday == null ? null : mOfficeHourWeekday.toString());
 		person.setOfficeHourTime(mOfficeHourTime);
 		person.setOfficeHourRoom(mOfficeHourRoom);
 		person.setOfficeHourComment(mOfficeHourComment);

@@ -1,14 +1,12 @@
 package edu.hm.cs.fs.app.datastore.web;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +27,20 @@ public class PresenceFetcher extends
 	@Override
 	protected List<PresenceImpl> convert(JSONObject data) {
 		List<PresenceImpl> result = new ArrayList<>();
-		JSONArray jsonArray = data.getJSONArray("persons");
-		for (int i = 0; i < jsonArray.length(); i++) {
-			JSONObject person = jsonArray.getJSONObject(i);
-			
-			PresenceImpl presenceImpl = new PresenceImpl();
-			presenceImpl.setName(person.getString("nickName"));
-			presenceImpl.setStatus(person.getString("status"));
-			
-			result.add(presenceImpl);
-		}
+        try {
+            JSONArray jsonArray = data.getJSONArray("persons");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject person = jsonArray.getJSONObject(i);
+
+                PresenceImpl presenceImpl = new PresenceImpl();
+                presenceImpl.setName(person.getString("nickName"));
+                presenceImpl.setStatus(person.getString("status"));
+
+                result.add(presenceImpl);
+            }
+        } catch (JSONException e) {
+            Log.e(getClass().getSimpleName(), "", e);
+        }
 		return result;
 	}
 }

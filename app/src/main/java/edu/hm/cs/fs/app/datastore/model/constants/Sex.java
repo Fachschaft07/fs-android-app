@@ -16,20 +16,21 @@ public enum Sex {
 		mKey = key;
 	}
 
-	/**
-	 * @return the key.
-	 */
-	private String getKey() {
-		return mKey;
-	}
+    @Override
+    public String toString() {
+        return mKey;
+    }
 
-	/**
+    /**
 	 * @param key
 	 * @return
 	 */
 	public static Sex of(final String key) {
+        if("f".equalsIgnoreCase(key)) {
+            return FEMALE;
+        }
 		for (final Sex sex : values()) {
-			if (sex.getKey().equalsIgnoreCase(key)) {
+			if (sex.toString().equalsIgnoreCase(key)) {
 				return sex;
 			}
 		}

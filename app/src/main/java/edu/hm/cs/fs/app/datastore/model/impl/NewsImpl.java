@@ -1,8 +1,9 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
 import java.util.Date;
-import java.util.List;
 
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -15,8 +16,8 @@ public class NewsImpl extends RealmObject {
     private String author;
     private String subject;
     private String text;
-    private List<String> teachers;
-    private List<String> groups;
+    private RealmList<RealmString> teachers;
+    private RealmList<RealmString> groups;
     private Date publish;
     private Date expire;
     private String url;
@@ -53,19 +54,19 @@ public class NewsImpl extends RealmObject {
         this.text = text;
     }
 
-    public List<String> getTeachers() {
+    public RealmList<RealmString> getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(final List<String> teachers) {
+    public void setTeachers(final RealmList<RealmString> teachers) {
         this.teachers = teachers;
     }
 
-    public List<String> getGroups() {
+    public RealmList<RealmString> getGroups() {
         return groups;
     }
 
-    public void setGroups(final List<String> groups) {
+    public void setGroups(final RealmList<RealmString> groups) {
         this.groups = groups;
     }
 

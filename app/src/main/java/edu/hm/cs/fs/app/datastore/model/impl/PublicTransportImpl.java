@@ -1,12 +1,14 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
+import java.util.Date;
+
 /**
  * Created by Fabio on 18.02.2015.
  */
 public class PublicTransportImpl {
 	private int line;
 	private String destination;
-	private int departureTimeInMinutes;
+	private Date departure;
 	
 	public int getLine() {
 		return line;
@@ -24,11 +26,11 @@ public class PublicTransportImpl {
 		this.destination = destination;
 	}
 	
-	public int getDepartureTimeInMinutes() {
-		return departureTimeInMinutes;
+	public Date getDepartureTimeInMinutes() {
+		return departure;
 	}
 	
-	public void setDepartureTimeInMinutes(int departureTimeInMinutes) {
-		this.departureTimeInMinutes = departureTimeInMinutes;
+	public void setDepartureTimeInMinutes(Date departure) {
+		this.departure = departure;
 	}
 }

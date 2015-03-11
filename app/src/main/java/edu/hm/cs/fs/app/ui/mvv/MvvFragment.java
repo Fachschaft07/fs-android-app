@@ -15,18 +15,17 @@ import com.fk07.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import edu.hm.cs.fs.app.util.NetworkUtils;
 
 public class MvvFragment extends Fragment {
-	@InjectView(R.id.listViewLoth) ListView listLoth;
-	@InjectView(R.id.listViewPasing) ListView listPasing;
+	@InjectView(R.id.listViewLoth) ListView mListLoth;
+	@InjectView(R.id.listViewPasing) ListView mListPasing;
 
-	private MvvAdapter lothAdapter;
-	private MvvAdapter pasiAdapter;
+	private MvvAdapter mAdapterLoth;
+	private MvvAdapter mAdapterPasing;
 
 	@Override
-	public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.activity_mvv, container, false);
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_mvv, container, false);
 		ButterKnife.inject(this, view);
 		return view;
 	}
@@ -35,16 +34,22 @@ public class MvvFragment extends Fragment {
 	public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		listLoth.setAdapter(new MvvAdapter());
+		mAdapterLoth = new MvvAdapter(getActivity());
+		mListLoth.setAdapter(mAdapterLoth);
+
+		mAdapterPasing = new MvvAdapter(getActivity());
+		mListPasing.setAdapter(mAdapterPasing);
 	}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+		refresh();
+    }
 
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-		if (NetworkUtils.isConnected(getActivity())) {
-			inflater.inflate(R.menu.actionmenu_mvv, menu);
-		} else {
-			inflater.inflate(R.menu.actionmenu, menu);
-		}
+		inflater.inflate(R.menu.mvv, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -52,21 +57,20 @@ public class MvvFragment extends Fragment {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_refresh:
-				onRefresh();
+				refresh();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
-
-	private void onRefresh() {
-		new MvvParser(this, lothAdapter).execute(Urls.MVV_LOTHSTR, Files.MVV_LOTHSTR);
-		new MvvParser(this, pasiAdapter).execute(Urls.MVV_PASING, Files.MVV_PASING);
-	}
-
+	
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
 		ButterKnife.reset(this);
+	}
+	
+	private void refresh() {
+        // TODO Call PublicTransportHelper.listAll(...);
 	}
 }

@@ -1,9 +1,5 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
-import edu.hm.cs.fs.app.datastore.model.constants.Day;
-import edu.hm.cs.fs.app.datastore.model.constants.Faculty;
-import edu.hm.cs.fs.app.datastore.model.constants.PersonStatus;
-import edu.hm.cs.fs.app.datastore.model.constants.Sex;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -15,10 +11,10 @@ public class PersonImpl extends RealmObject {
     private String id;
     private String lastName;
     private String firstName;
-    private Sex sex;
+    private String sex;
     private String title;
-    private Faculty faculty;
-    private PersonStatus status;
+    private String faculty;
+    private String status;
     private boolean hidden;
     private String email;
     private String website;
@@ -29,7 +25,7 @@ public class PersonImpl extends RealmObject {
     private String office;
     private boolean emailOptin;
     private boolean referenceOptin;
-    private Day officeHourWeekday;
+    private String officeHourWeekday;
     private String officeHourTime;
     private String officeHourRoom;
     private String officeHourComment;
@@ -62,11 +58,11 @@ public class PersonImpl extends RealmObject {
         this.firstName = firstName;
     }
 
-    public Sex getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(final Sex sex) {
+    public void setSex(final String sex) {
         this.sex = sex;
     }
 
@@ -78,19 +74,19 @@ public class PersonImpl extends RealmObject {
         this.title = title;
     }
 
-    public Faculty getFaculty() {
+    public String getFaculty() {
         return faculty;
     }
 
-    public void setFaculty(final Faculty faculty) {
+    public void setFaculty(final String faculty) {
         this.faculty = faculty;
     }
 
-    public PersonStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(final PersonStatus status) {
+    public void setStatus(final String status) {
         this.status = status;
     }
 
@@ -174,11 +170,11 @@ public class PersonImpl extends RealmObject {
         this.referenceOptin = referenceOptin;
     }
 
-    public Day getOfficeHourWeekday() {
+    public String getOfficeHourWeekday() {
         return officeHourWeekday;
     }
 
-    public void setOfficeHourWeekday(final Day officeHourWeekday) {
+    public void setOfficeHourWeekday(final String officeHourWeekday) {
         this.officeHourWeekday = officeHourWeekday;
     }
 

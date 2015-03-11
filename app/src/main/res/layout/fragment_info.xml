@@ -1,52 +1,44 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textViewFS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_centerHorizontal="true"
         android:text="@string/app_name"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#555555" />
-    
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"
+        android:textColor="#555555"
+        android:layout_gravity="center_horizontal"/>
+
     <TextView
         android:id="@+id/textViewVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:layout_below="@id/textViewFS"
-        android:layout_centerHorizontal="true"
         android:text="@string/version"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#555555" />
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+        android:textColor="#555555"
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
-        android:id="@+id/textViewTeamMembers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewVersion"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:text="@string/teamMembers" />
+        android:text="@string/teamMembers"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
 
-    
     <TextView
-        android:id="@+id/textViewMail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="12dp"
         android:clickable="true"
-        android:autoLink="web"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
+        android:gravity="bottom|center_horizontal"
         android:text="@string/fs_contact"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000055" />
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+        android:textColor="#000055"
+        android:layout_gravity="center_horizontal"/>
 
-</RelativeLayout>
+</LinearLayout>

@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView 
+    <TextView
         android:id="@+id/presenceTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,28 +16,5 @@
     <ListView
         android:id="@+id/presenceListView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"/>
-    
-    <TextView 
-        android:id="@+id/presencePhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:autoLink="phone"
-        android:text="@string/presencePhone"
-        android:textColor="#000000"
-        android:textSize="15sp" />
-    
-    <TextView 
-        android:id="@+id/presenceMail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:autoLink="email"
-        android:text="@string/presenceMail"
-        android:textColor="#000000"
-        android:textSize="15sp" />
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

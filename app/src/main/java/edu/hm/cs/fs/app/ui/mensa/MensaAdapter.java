@@ -46,13 +46,14 @@ public class MensaAdapter extends ArrayAdapter<Meal> implements StickyListHeader
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        holder.text.setText(getItem(position).getDate());
+        //holder.text.setText(getItem(position).getDate());
         return convertView;
     }
 
     @Override
     public long getHeaderId(final int position) {
-        return getItem(position).getDate();
+        //return getItem(position).getDate();
+        return position;
     }
 
     static class HeaderViewHolder {

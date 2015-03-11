@@ -42,7 +42,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="@null"
                     android:onClick="startModule"
-                    android:src="@drawable/news_holo_light" />
+                    android:src="@drawable/ic_news" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="@null"
                     android:onClick="startModule"
-                    android:src="@drawable/ic_action_paste" />
+                    android:src="@drawable/ic_blackboard" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -92,7 +92,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="@null"
                     android:onClick="startModule"
-                    android:src="@drawable/timetable_holo_light" />
+                    android:src="@drawable/ic_timetable" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="@null"
                     android:onClick="startModule"
-                    android:src="@drawable/roomsearch_holo_light" />
+                    android:src="@drawable/ic_roomsearch" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -149,7 +149,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="@null"
                     android:onClick="startModule"
-                    android:src="@drawable/mvv_holo_light" />
+                    android:src="@drawable/ic_mvv" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -174,7 +174,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="@null"
                     android:onClick="startModule"
-                    android:src="@drawable/ic_action_coffee" />
+                    android:src="@drawable/ic_mensa" />
 
                 <TextView
                     android:layout_width="match_parent"

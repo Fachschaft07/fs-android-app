@@ -31,21 +31,22 @@ public enum Day {
 		this.id = id;
 	}
 
-	public String getKey() {
-		return mKey;
-	}
-	
 	public int getId() {
 		return id;
 	}
 
-	/**
+    @Override
+    public String toString() {
+        return mKey;
+    }
+
+    /**
 	 * @param key
 	 * @return
 	 */
 	public static Day of(final String key) {
 		for (final Day day : values()) {
-			if (day.getKey().equalsIgnoreCase(key)) {
+			if (day.toString().equalsIgnoreCase(key)) {
 				return day;
 			}
 		}

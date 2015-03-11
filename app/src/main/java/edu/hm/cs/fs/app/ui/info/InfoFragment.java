@@ -1,6 +1,5 @@
 package edu.hm.cs.fs.app.ui.info;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +13,6 @@ import com.fk07.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 /**
  * Created by Fabio on 04.03.2015.
@@ -43,14 +41,6 @@ public class InfoFragment extends Fragment {
         } catch (final PackageManager.NameNotFoundException e) {
             Log.e(getClass().getSimpleName(), "", e);
         }
-    }
-
-    @OnClick(R.id.textViewMail)
-    public void openMail() {
-        final Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("plain/text");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "app@fs.cs.hm.edu" });
-        startActivity(Intent.createChooser(intent, getString(R.string.send_mail)));
     }
 
     @Override

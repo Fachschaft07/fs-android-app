@@ -22,7 +22,7 @@ public enum Study {
 	/** Stochastic Engineering in Business and Finance Master */
 	IS;
 
-	/**
+    /**
 	 * @param studyKey
 	 * @return the study.
 	 */

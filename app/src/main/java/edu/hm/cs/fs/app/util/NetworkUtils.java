@@ -24,4 +24,17 @@ public final class NetworkUtils {
 
 		return networkInfo != null && networkInfo.isConnected();
 	}
+
+	/**
+	 * Checks the interent connection.
+	 * 
+	 * @param context
+	 * @return <code>true</code> if the device is connected to the internet.
+	 */
+	public static boolean isWifiConnected(final Context context) {
+		final NetworkInfo networkInfoWifi = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE))
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		return networkInfoWifi != null && networkInfoWifi.isConnected();
+	}
 }

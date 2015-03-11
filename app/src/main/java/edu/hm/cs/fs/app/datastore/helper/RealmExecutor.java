@@ -25,10 +25,8 @@ public abstract class RealmExecutor<T> {
     public T execute() {
         Realm mRealm = Realm.getInstance(mContext);
         try {
-        	mRealm.beginTransaction();
             return run(mRealm);
         } finally {
-        	mRealm.commitTransaction();
             mRealm.close();
         }
     }

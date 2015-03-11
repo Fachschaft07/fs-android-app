@@ -41,7 +41,12 @@ public enum Semester {
 		return number;
 	}
 
-	/**
+    @Override
+    public String toString() {
+        return Integer.toString(number);
+    }
+
+    /**
 	 * @param semesterNumber
 	 * @return the semester.
 	 */

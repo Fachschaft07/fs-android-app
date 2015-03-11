@@ -1,11 +1,7 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
-import java.util.List;
-import java.util.Locale;
-
-import edu.hm.cs.fs.app.datastore.model.constants.Study;
-import edu.hm.cs.fs.app.datastore.model.constants.TeachingForm;
-
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -19,17 +15,17 @@ public class ModuleImpl extends RealmObject {
 	private int credits;
 	private int sws;
 	private String responsible;
-	private List<String> teachers;
-	private List<Locale> languages;
-	private TeachingForm teachingForm;
+	private RealmList<RealmString> teachers;
+	private RealmList<RealmString> languages;
+	private String teachingForm;
 	private String expenditure;
 	private String requirements;
 	private String goals;
 	private String content;
 	private String media;
 	private String literature;
-	private Study program;
-	private List<ModuleCodeImpl> modulCodes;
+	private String program;
+	private RealmList<ModuleCodeImpl> modulCodes;
 
 	public String getId() {
 		return id;
@@ -71,27 +67,27 @@ public class ModuleImpl extends RealmObject {
 		this.responsible = responsible;
 	}
 
-	public List<String> getTeachers() {
+	public RealmList<RealmString> getTeachers() {
 		return teachers;
 	}
 
-	public void setTeachers(List<String> teachers) {
+	public void setTeachers(RealmList<RealmString> teachers) {
 		this.teachers = teachers;
 	}
 
-	public List<Locale> getLanguages() {
+	public RealmList<RealmString> getLanguages() {
 		return languages;
 	}
 
-	public void setLanguages(List<Locale> languages) {
+	public void setLanguages(RealmList<RealmString> languages) {
 		this.languages = languages;
 	}
 
-	public TeachingForm getTeachingForm() {
+	public String getTeachingForm() {
 		return teachingForm;
 	}
 
-	public void setTeachingForm(TeachingForm teachingForm) {
+	public void setTeachingForm(String teachingForm) {
 		this.teachingForm = teachingForm;
 	}
 
@@ -143,19 +139,19 @@ public class ModuleImpl extends RealmObject {
 		this.literature = literature;
 	}
 
-	public Study getProgram() {
+	public String getProgram() {
 		return program;
 	}
 
-	public void setProgram(Study program) {
+	public void setProgram(String program) {
 		this.program = program;
 	}
 
-	public List<ModuleCodeImpl> getModulCodes() {
+	public RealmList<ModuleCodeImpl> getModulCodes() {
 		return modulCodes;
 	}
 
-	public void setModulCodes(List<ModuleCodeImpl> modulCodes) {
+	public void setModulCodes(RealmList<ModuleCodeImpl> modulCodes) {
 		this.modulCodes = modulCodes;
 	}
 }

@@ -28,20 +28,18 @@ public enum TeachingForm {
 		mKey = key;
 	}
 
-	/**
-	 * @return the key.
-	 */
-	private String getKey() {
-		return mKey;
-	}
+    @Override
+    public String toString() {
+        return mKey;
+    }
 
-	/**
+    /**
 	 * @param teachingForm
 	 * @return
 	 */
 	public static TeachingForm of(final String teachingForm) {
 		for (final TeachingForm teachForm : values()) {
-			if (teachForm.getKey().equalsIgnoreCase(teachingForm)) {
+			if (teachForm.toString().equalsIgnoreCase(teachingForm)) {
 				return teachForm;
 			}
 		}

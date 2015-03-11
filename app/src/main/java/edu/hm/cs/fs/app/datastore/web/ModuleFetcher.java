@@ -3,20 +3,17 @@ package edu.hm.cs.fs.app.datastore.web;
 import android.content.Context;
 import android.text.TextUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import javax.xml.xpath.XPathConstants;
 
-import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractXmlFetcher;
 import edu.hm.cs.fs.app.datastore.model.constants.Offer;
 import edu.hm.cs.fs.app.datastore.model.constants.Semester;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.datastore.model.constants.TeachingForm;
 import edu.hm.cs.fs.app.datastore.model.impl.ModuleCodeImpl;
 import edu.hm.cs.fs.app.datastore.model.impl.ModuleImpl;
-import edu.hm.cs.fs.app.datastore.web.utils.DataUtils;
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
+import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractXmlFetcher;
+import io.realm.RealmList;
 
 /**
  * A modul can be choosen by a student. Some moduls are mandatory. (Url: <a
@@ -40,8 +37,8 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 		int credits;
 		int sws;
 		String responsible;
-		List<String> teachers = new ArrayList<>();
-		List<Locale> languages = new ArrayList<>();
+		RealmList<RealmString> teachers = new RealmList<>();
+        RealmList<RealmString> languages = new RealmList<>();
 		TeachingForm teachingForm = null;
 		String expenditure;
 		String requirements;
@@ -50,7 +47,7 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 		String media;
 		String literature;
 		Study program = null;
-		List<ModuleCodeImpl> modulCodes = new ArrayList<>();
+        RealmList<ModuleCodeImpl> modulCodes = new RealmList<>();
 
 		// Parse Elements...
 		name = findByXPath(rootPath + "/name/text()",
@@ -67,7 +64,7 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 			final String teacher = findByXPath(rootPath + "/teacher["
 					+ indexTeacher + "]/text()", XPathConstants.STRING);
 			if (!TextUtils.isEmpty(teacher)) {
-				teachers.add(teacher);
+				teachers.add(new RealmString(teacher));
 			}
 		}
 
@@ -76,7 +73,7 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 			final String language = findByXPath(rootPath + "/language["
 					+ indexLanguage + "]/text()", XPathConstants.STRING);
 			if (!TextUtils.isEmpty(language)) {
-				languages.add(toLocale(language));
+				languages.add(new RealmString(language));
 			}
 		}
 
@@ -124,7 +121,7 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 			final String code = findByXPath(modulCodePath + "/code/text()",
 					XPathConstants.STRING);
 
-			final List<Semester> semesterList = new ArrayList<Semester>();
+			final RealmList<RealmString> semesterList = new RealmList<>();
 			final int countSemester = getCountByXPath(modulCodePath
 					+ "/semester");
 			for (int indexSemester = 1; indexSemester <= countSemester; indexSemester++) {
@@ -133,7 +130,7 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 						XPathConstants.STRING);
 				if (!TextUtils.isEmpty(semester)) {
 					semesterList
-					.add(Semester.of(Integer.parseInt(semester)));
+					.add(new RealmString(Semester.of(Integer.parseInt(semester)).toString()));
 				}
 			}
 
@@ -143,10 +140,10 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 			ModuleCodeImpl moduleCode = new ModuleCodeImpl();
 			moduleCode.setModul(modul);
 			moduleCode.setRegulation(regulation);
-			moduleCode.setOffer(offer);
+			moduleCode.setOffer(offer.toString());
 			moduleCode.setServices(services);
 			moduleCode.setCode(code);
-			moduleCode.setSemester(semesterList);
+			moduleCode.setSemesters(semesterList);
 			moduleCode.setCurriculum(curriculum);
 
 			modulCodes.add(moduleCode);
@@ -159,30 +156,16 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 		module.setResponsible(responsible);
 		module.setTeachers(teachers);
 		module.setLanguages(languages);
-		module.setTeachingForm(teachingForm);
+		module.setTeachingForm(teachingForm.toString());
 		module.setExpenditure(expenditure);
 		module.setRequirements(requirements);
 		module.setGoals(goals);
 		module.setContent(content);
 		module.setMedia(media);
 		module.setLiterature(literature);
-		module.setProgram(program);
+		module.setProgram(program.toString());
 		module.setModulCodes(modulCodes);
 
 		return module;
-	}
-
-	/**
-	 * @param languageCode
-	 * @return
-	 */
-	private static Locale toLocale(final String languageCode) {
-		for (final Locale locale : Locale.getAvailableLocales()) {
-			if (locale.getLanguage().equalsIgnoreCase(languageCode)) {
-				return locale;
-			}
-		}
-		throw new IllegalArgumentException("Not a valid language code: "
-				+ languageCode);
 	}
 }

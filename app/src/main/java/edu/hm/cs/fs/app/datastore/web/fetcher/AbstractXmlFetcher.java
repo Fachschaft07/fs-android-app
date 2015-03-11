@@ -3,12 +3,9 @@ package edu.hm.cs.fs.app.datastore.web.fetcher;
 import android.content.Context;
 import android.util.Log;
 
-import org.apache.http.ParseException;
-import org.json.JSONArray;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +15,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import edu.hm.cs.fs.app.datastore.web.utils.DataUtils;
+import edu.hm.cs.fs.app.util.DataUtils;
 
 /**
  * Created by Fabio on 18.02.2015.
@@ -38,26 +35,26 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
 	protected List<T> read(final String url) {
 		mXmlDoc = DataUtils.read(url);
 
-		if (mXmlDoc == null) {
-			// Unable to parse xml --> exit
-			throw new ParseException("Unable to parse url");
-		}
-
 		List<T> result = new ArrayList<>();
 
-		try {
-			// 2014-09-18: BugFix: Wrong count with
-			// mXmlDoc.getElementByTagName(...)
-			// 2014-09-19: Put the getCountByXPah method outside the for-loop to
-			// increase speed
-			final int countElements = getCountByXPath(mRootNode);
-			for (int index = 1; index <= countElements; index++) {
-				final String path = mRootNode + "[" + index + "]";
-				result.add(onCreateItem(path));
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "", e);
-		}
+        if(mXmlDoc != null) {
+            try {
+                // 2014-09-18: BugFix: Wrong count with
+                // mXmlDoc.getElementByTagName(...)
+                // 2014-09-19: Put the getCountByXPah method outside the for-loop to
+                // increase speed
+                final int countElements = getCountByXPath(mRootNode);
+                for (int index = 1; index <= countElements; index++) {
+                    final String path = mRootNode + "[" + index + "]";
+                    T value = onCreateItem(path);
+                    if(value != null) {
+                        result.add(value);
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "", e);
+            }
+        }
 		return result;
 	}
 

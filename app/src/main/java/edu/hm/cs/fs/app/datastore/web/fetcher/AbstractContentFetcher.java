@@ -24,7 +24,7 @@ import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
 import edu.hm.cs.fs.app.datastore.model.constants.TeachingForm;
 import edu.hm.cs.fs.app.datastore.model.constants.Time;
-import edu.hm.cs.fs.app.datastore.web.utils.DataUtils;
+import edu.hm.cs.fs.app.util.DataUtils;
 import edu.hm.cs.fs.app.util.NetworkUtils;
 
 /**

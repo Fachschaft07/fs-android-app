@@ -1,5 +1,8 @@
 package edu.hm.cs.fs.app.ui.timetable.xml;
 
+import android.app.Activity;
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,10 +15,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.app.Activity;
-import android.util.Log;
-
-import com.fk07.R;
 import edu.hm.cs.fs.app.ui.timetable.xml.timetable.Day;
 import edu.hm.cs.fs.app.ui.timetable.xml.timetable.Entry;
 import edu.hm.cs.fs.app.ui.timetable.xml.timetable.Time;
@@ -24,7 +23,6 @@ import edu.hm.cs.fs.app.ui.timetable.xml.timetablefk10.FK10Day;
 import edu.hm.cs.fs.app.ui.timetable.xml.timetablefk10.FK10Group;
 import edu.hm.cs.fs.app.ui.timetable.xml.timetablefk10.Lecture;
 import edu.hm.cs.fs.app.util.DownloadException;
-import edu.hm.cs.fs.app.util.ParseException;
 
 public class TimetableHandler {
 	
@@ -43,7 +41,7 @@ public class TimetableHandler {
 		return timetable;
 	}
 	
-	public static Timetable downloadTimetableFK10(final Activity activity, final FK10Group group) throws IOException, ParseException {
+	public static Timetable downloadTimetableFK10(final Activity activity, final FK10Group group) throws IOException {
 		
 		List<FK10Day> fk10Days = FK10Handler.downloadHTMLtoObject(group);
 		
@@ -72,12 +70,8 @@ public class TimetableHandler {
 						entry.setStartTime(lecture.getTime());
 						entry.setType("FK10");
 						time.getEntry().add(entry);
-					} else {
-						throw new ParseException(activity.getString(R.string.timeParseError));
 					}
 				}
-			} else {
-				throw new ParseException(activity.getString(R.string.weekParseError));
 			}
 			
 		}

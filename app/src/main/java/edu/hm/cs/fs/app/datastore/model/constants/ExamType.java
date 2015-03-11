@@ -32,20 +32,18 @@ public enum ExamType {
 		mKey = key;
 	}
 
-	/**
-	 * @return the key.
-	 */
-	private String getKey() {
-		return mKey;
-	}
+    @Override
+    public String toString() {
+        return mKey;
+    }
 
-	/**
+    /**
 	 * @param key
 	 * @return
 	 */
 	public static ExamType of(final String key) {
 		for (final ExamType type : values()) {
-			if (type.getKey().equalsIgnoreCase(key)) {
+			if (type.toString().equalsIgnoreCase(key)) {
 				return type;
 			}
 		}

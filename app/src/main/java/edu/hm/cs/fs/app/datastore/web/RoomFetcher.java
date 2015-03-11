@@ -10,11 +10,10 @@ import java.util.Map;
 
 import javax.xml.xpath.XPathConstants;
 
-import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractXmlFetcher;
 import edu.hm.cs.fs.app.datastore.model.constants.Day;
 import edu.hm.cs.fs.app.datastore.model.constants.Time;
 import edu.hm.cs.fs.app.datastore.model.impl.RoomImpl;
-import edu.hm.cs.fs.app.datastore.web.utils.DataUtils;
+import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractXmlFetcher;
 
 /**
  * All the rooms with their occupancy. (Url: <a href="http://fi.cs.hm.edu/fi/rest/public/timetable/room"
@@ -61,12 +60,14 @@ public class RoomFetcher extends AbstractXmlFetcher<RoomFetcher, RoomImpl> {
 						+ indexDay + "]/time[" + indexTime
 						+ "]/starttime/text()", XPathConstants.STRING);
 				if (!TextUtils.isEmpty(time)) {
-					addToMap(mOccupied, mDay, Time.of(time).get());
+					addToMap(mOccupied, mDay, Time.of(time));
 				}
 			}
 		}
 
-		return new RoomFetcher(this);
+        // TODO Create RoomImpl
+
+		return null;
 	}
 
 	private void addToMap(final Map<Day, List<Time>> map, final Day day,

@@ -1,8 +1,10 @@
 package edu.hm.cs.fs.app.datastore.web;
 
-import java.util.List;
-
 import android.content.Context;
+
+import org.jsoup.nodes.Document;
+
+import java.util.List;
 
 import edu.hm.cs.fs.app.datastore.model.impl.PublicTransportImpl;
 import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractHtmlFetcher;
@@ -24,13 +26,12 @@ public class PublicTransportFetcher extends AbstractHtmlFetcher<PublicTransportF
 		super(context, type == Type.PASING ? MVV_PASING : MVV_LOTHSTR);
 	}
 
-	@Override
-	protected List<PublicTransportImpl> read(String url) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public enum Type {
+    @Override
+    protected List<PublicTransportImpl> readFromDoc(final Document document) {
+        return null;
+    }
+
+    public enum Type {
 		PASING, LOTHSTR
 	}
 }

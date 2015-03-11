@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="multi_pane_stretch_compress">false</bool>
+    <bool name="multi_pane_stack">false</bool>
+    <bool name="multi_pane_expand_collapse">false</bool>
+    <bool name="multi_pane_show_hide">false</bool>
+</resources>

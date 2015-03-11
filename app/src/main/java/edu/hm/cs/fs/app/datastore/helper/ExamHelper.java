@@ -12,15 +12,16 @@ import edu.hm.cs.fs.app.datastore.model.constants.ExamGroup;
 import edu.hm.cs.fs.app.datastore.model.constants.ExamType;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.datastore.model.impl.ExamImpl;
+import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
 import edu.hm.cs.fs.app.datastore.web.ExamFetcher;
-import edu.hm.cs.fs.app.util.NetworkUtils;
 import io.realm.Realm;
+import io.realm.RealmList;
 
 /**
  * Created by Fabio on 03.03.2015.
  */
-public class ExamHelper implements Exam {
-    private final Context mContext;
+public class ExamHelper extends BaseHelper implements Exam {
 	private String code;
 	private Module module;
 	private Study group;
@@ -31,20 +32,24 @@ public class ExamHelper implements Exam {
 	private String material;
 	private ExamGroup allocation;
 
-    private ExamHelper(Context context, ExamImpl exam) {
-        mContext = context;
+    ExamHelper(Context context, ExamImpl exam) {
+        super(context);
         code = exam.getCode();
         module = ModuleHelper.findById(context, exam.getModule());
-        group = exam.getGroup();
+        group = GroupImpl.of(exam.getGroup()).getStudy();
         subtitle = exam.getSubtitle();
-        references = exam.getReferences();
-        examiners = new ArrayList<>();
-        for(String personId : exam.getExaminers()) {
-        	examiners.add(PersonHelper.findById(context, personId));
+        references = new ArrayList<>();
+        final RealmList<RealmString> referencesRealm = exam.getReferences();
+        for (RealmString realmString : referencesRealm) {
+            references.add(GroupImpl.of(realmString.getValue()).getStudy());
         }
-        type = exam.getType();
+        examiners = new ArrayList<>();
+        for(RealmString personId : exam.getExaminers()) {
+        	examiners.add(PersonHelper.findById(context, personId.getValue()));
+        }
+        type = ExamType.of(exam.getType());
         material = exam.getMaterial();
-        allocation = exam.getAllocation();
+        allocation = ExamGroup.of(exam.getAllocation());
     }
 
 	@Override
@@ -93,33 +98,17 @@ public class ExamHelper implements Exam {
 	}
     
     public static void listAll(final Context context, final Callback<List<Exam>> callback) {
-    	// Request data from database...
-    	new RealmExecutor<List<Exam>>(context) {
-            @Override
-            public List<Exam> run(final Realm realm) {
-            	List<Exam> result = new ArrayList<>();
-            	for(ExamImpl exam : realm.where(ExamImpl.class).findAll()) {
-            		result.add(new ExamHelper(context, exam));
-            	}
-            	return result;
-            }
-    	}.executeAsync(callback);
+    	listAll(context, new ExamFetcher(context), ExamImpl.class, callback, new OnHelperCallback<Exam, ExamImpl>() {
+			@Override
+			public Exam createHelper(Context context, ExamImpl impl) {
+				return new ExamHelper(context, impl);
+			}
 
-    	// Request data from web...
-    	if(NetworkUtils.isConnected(context)) {
-    		// TODO Don't update every time the device is connected to the internet
-        	new RealmExecutor<List<Exam>>(context) {
-                @Override
-                public List<Exam> run(final Realm realm) {
-                	List<Exam> result = new ArrayList<>();
-                	List<ExamImpl> examImplList = fetchOnlineData(context, realm);
-                	for(ExamImpl exam : examImplList) {
-                		result.add(new ExamHelper(context, exam));
-                	}
-                	return result;
-                }
-        	}.executeAsync(callback);
-    	}
+			@Override
+			public void copyToRealmOrUpdate(Realm realm, ExamImpl impl) {
+	    		realm.copyToRealmOrUpdate(impl);
+			}
+		});
     }
 
     static Exam findById(final Context context, final String id) {
@@ -128,7 +117,17 @@ public class ExamHelper implements Exam {
             public Exam run(final Realm realm) {
             	ExamImpl exam = realm.where(ExamImpl.class).equalTo("id", id).findFirst();
             	if(exam == null) {
-            		List<ExamImpl> examList = fetchOnlineData(context, realm);
+            		List<ExamImpl> examList = fetchOnlineData(new ExamFetcher(context), realm, new OnHelperCallback<Exam, ExamImpl>() {
+            			@Override
+            			public Exam createHelper(Context context, ExamImpl impl) {
+            				return new ExamHelper(context, impl);
+            			}
+
+            			@Override
+            			public void copyToRealmOrUpdate(Realm realm, ExamImpl impl) {
+            	    		realm.copyToRealmOrUpdate(impl);
+            			}
+            		});
             		for (ExamImpl examImpl : examList) {
 						if(examImpl.getId().equals(id)) {
 							exam = examImpl;
@@ -139,14 +138,5 @@ public class ExamHelper implements Exam {
                 return new ExamHelper(context, exam);
             }
         }.execute();
-    }
-    
-    private static List<ExamImpl> fetchOnlineData(Context context, Realm realm) {
-    	List<ExamImpl> examList = new ExamFetcher(context).fetch();
-    	for(ExamImpl exam : examList) {
-    		// Add to or update database
-    		realm.copyToRealmOrUpdate(exam);
-    	}
-    	return examList;
     }
 }

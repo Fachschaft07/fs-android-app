@@ -26,20 +26,18 @@ public enum PersonStatus {
 		mKey = key;
 	}
 
-	/**
-	 * @return the key.
-	 */
-	private String getKey() {
-		return mKey;
-	}
+    @Override
+    public String toString() {
+        return mKey;
+    }
 
-	/**
+    /**
 	 * @param key
 	 * @return
 	 */
 	public static PersonStatus of(final String key) {
 		for (final PersonStatus state : values()) {
-			if (state.getKey().equalsIgnoreCase(key)) {
+			if (state.toString().equalsIgnoreCase(key)) {
 				return state;
 			}
 		}

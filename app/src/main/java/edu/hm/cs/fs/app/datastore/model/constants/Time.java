@@ -65,21 +65,32 @@ public enum Time {
 		return cal;
 	}
 
-	/**
+    @Override
+    public String toString() {
+        return hour + ":" + minute;
+    }
+
+    /**
 	 * @param timeString
 	 * @return
 	 */
 	public static Time of(final String timeString) {
-		final String[] split = timeString.split(":");
-		final int hour = Integer.parseInt(split[0]);
-		final int minute = Integer.parseInt(split[1]);
-
 		for (final Time time : values()) {
-			if (time.getHour() == hour && time.getMinute() == minute) {
+			if (time.toString().equals(timeString)) {
 				return time;
 			}
 		}
 		throw new IllegalArgumentException("Not a valid time form: "
 				+ timeString);
+	}
+	
+	public static Time getCurrentTime() {
+		Calendar current = Calendar.getInstance();
+		for (Time time : values()) {
+			if(time.getStart().before(current) && time.getEnd().after(current)) {
+				return time;
+			}
+		}
+		return Time.LESSON_1;
 	}
 }

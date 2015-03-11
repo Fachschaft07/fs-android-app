@@ -11,17 +11,18 @@ import edu.hm.cs.fs.app.datastore.model.ModuleCode;
 import edu.hm.cs.fs.app.datastore.model.Person;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.datastore.model.constants.TeachingForm;
+import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
 import edu.hm.cs.fs.app.datastore.model.impl.ModuleCodeImpl;
 import edu.hm.cs.fs.app.datastore.model.impl.ModuleImpl;
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
 import edu.hm.cs.fs.app.datastore.web.ModuleFetcher;
-import edu.hm.cs.fs.app.util.NetworkUtils;
+import edu.hm.cs.fs.app.util.DataUtils;
 import io.realm.Realm;
 
 /**
  * Created by Fabio on 03.03.2015.
  */
-public class ModuleHelper implements Module {
-    private final Context mContext;
+public class ModuleHelper extends BaseHelper implements Module {
     private String name;
     private int credits;
     private int sws;
@@ -38,28 +39,31 @@ public class ModuleHelper implements Module {
     private Study program;
     private List<ModuleCode> moduleCodes;
 
-    private ModuleHelper(Context context, ModuleImpl module) {
-        mContext = context;
+    ModuleHelper(Context context, ModuleImpl module) {
+    	super(context);
         name = module.getName();
         credits = module.getCredits();
         sws = module.getSws();
         responsible = PersonHelper.findById(context, module.getResponsible());
         teachers = new ArrayList<>();
-        for (String teacherId : module.getTeachers()) {
-			teachers.add(PersonHelper.findById(context, teacherId));
+        for (RealmString teacherId : module.getTeachers()) {
+			teachers.add(PersonHelper.findById(context, teacherId.getValue()));
 		}
-        languages = module.getLanguages();
-        teachingForm = module.getTeachingForm();
+        languages = new ArrayList<>();
+        for (RealmString realmString : module.getLanguages()) {
+            languages.add(DataUtils.toLocale(realmString.getValue()));
+        }
+        teachingForm = TeachingForm.of(module.getTeachingForm());
         expenditure = module.getExpenditure();
         requirements = module.getRequirements();
         goals = module.getGoals();
         content = module.getContent();
         media = module.getMedia();
         literatur = module.getLiterature();
-        program = module.getProgram();
+        program = GroupImpl.of(module.getProgram()).getStudy();
         moduleCodes = new ArrayList<>();
         for (ModuleCodeImpl moduleCode : module.getModulCodes()) {
-			moduleCodes.add(moduleCode);
+			moduleCodes.add(new ModuleCodeHelper(context, moduleCode));
 		}
     }
 
@@ -139,33 +143,20 @@ public class ModuleHelper implements Module {
 	}
 
     public static void listAll(final Context context, final Callback<List<Module>> callback) {
-    	// Request data from database...
-    	new RealmExecutor<List<Module>>(context) {
-            @Override
-            public List<Module> run(final Realm realm) {
-            	List<Module> result = new ArrayList<>();
-            	for(ModuleImpl module : realm.where(ModuleImpl.class).findAll()) {
-            		result.add(new ModuleHelper(context, module));
-            	}
-            	return result;
-            }
-    	}.executeAsync(callback);
+    	listAll(context, new ModuleFetcher(context), ModuleImpl.class, callback, new OnHelperCallback<Module, ModuleImpl>() {
+			@Override
+			public Module createHelper(Context context, ModuleImpl impl) {
+				return new ModuleHelper(context, impl);
+			}
 
-    	// Request data from web...
-    	if(NetworkUtils.isConnected(context)) {
-    		// TODO Don't update every time the device is connected to the internet
-        	new RealmExecutor<List<Module>>(context) {
-                @Override
-                public List<Module> run(final Realm realm) {
-                	List<Module> result = new ArrayList<>();
-                	List<ModuleImpl> moduleImplList = fetchOnlineData(context, realm);
-                	for(ModuleImpl module : moduleImplList) {
-                		result.add(new ModuleHelper(context, module));
-                	}
-                	return result;
-                }
-        	}.executeAsync(callback);
-    	}
+			@Override
+			public void copyToRealmOrUpdate(Realm realm, ModuleImpl impl) {
+	    		realm.copyToRealmOrUpdate(impl);
+	    		for (ModuleCodeImpl moduleCode : impl.getModulCodes()) {
+	        		realm.copyToRealmOrUpdate(moduleCode);
+				}
+			}
+		});
     }
 
     static Module findById(final Context context, final String id) {
@@ -174,7 +165,20 @@ public class ModuleHelper implements Module {
             public Module run(final Realm realm) {
             	ModuleImpl module = realm.where(ModuleImpl.class).equalTo("id", id).findFirst();
             	if(module == null) {
-            		List<ModuleImpl> moduleList = fetchOnlineData(context, realm);
+            		List<ModuleImpl> moduleList = fetchOnlineData(new ModuleFetcher(context), realm, new OnHelperCallback<Module, ModuleImpl>() {
+            			@Override
+            			public Module createHelper(Context context, ModuleImpl impl) {
+            				return new ModuleHelper(context, impl);
+            			}
+
+            			@Override
+            			public void copyToRealmOrUpdate(Realm realm, ModuleImpl impl) {
+            	    		realm.copyToRealmOrUpdate(impl);
+            	    		for (ModuleCodeImpl moduleCode : impl.getModulCodes()) {
+            	        		realm.copyToRealmOrUpdate(moduleCode);
+            				}
+            			}
+            		});
             		for (ModuleImpl moduleImpl : moduleList) {
 						if(moduleImpl.getId().equals(id)) {
 							module = moduleImpl;
@@ -185,17 +189,5 @@ public class ModuleHelper implements Module {
                 return new ModuleHelper(context, module);
             }
         }.execute();
-    }
-    
-    private static List<ModuleImpl> fetchOnlineData(Context context, Realm realm) {
-    	List<ModuleImpl> moduleList = new ModuleFetcher(context).fetch();
-    	for(ModuleImpl module : moduleList) {
-    		// Add to or update database
-    		realm.copyToRealmOrUpdate(module);
-    		for (ModuleCodeImpl moduleCode : module.getModulCodes()) {
-        		realm.copyToRealmOrUpdate(moduleCode);
-			}
-    	}
-    	return moduleList;
     }
 }

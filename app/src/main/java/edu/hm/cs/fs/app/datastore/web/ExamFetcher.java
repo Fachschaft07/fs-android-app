@@ -6,8 +6,6 @@ import android.text.TextUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.xpath.XPathConstants;
 
@@ -16,7 +14,9 @@ import edu.hm.cs.fs.app.datastore.model.constants.ExamType;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.datastore.model.impl.ExamImpl;
 import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
 import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractXmlFetcher;
+import io.realm.RealmList;
 
 /**
  * The exams with every information. (Url: <a
@@ -44,8 +44,8 @@ public class ExamFetcher extends AbstractXmlFetcher<ExamFetcher, ExamImpl> {
 		Study group = null;
 		String modul;
 		String subtitle;
-		List<Study> references = new ArrayList<Study>();
-		List<String> examiners = new ArrayList<String>();
+		RealmList<RealmString> references = new RealmList<>();
+        RealmList<RealmString> examiners = new RealmList<>();
 		ExamType type = null;
 		String material;
 		ExamGroup allocation = null;
@@ -70,7 +70,7 @@ public class ExamFetcher extends AbstractXmlFetcher<ExamFetcher, ExamImpl> {
 			final String ref = findByXPath(rootPath + "/reference["
 					+ indexRef + "]/text()", XPathConstants.STRING);
 			if (!TextUtils.isEmpty(ref)) {
-				references.add(GroupImpl.of(ref).getStudy());
+				references.add(new RealmString(ref));
 			}
 		}
 
@@ -79,7 +79,7 @@ public class ExamFetcher extends AbstractXmlFetcher<ExamFetcher, ExamImpl> {
 			final String examiner = findByXPath(rootPath + "/examiner["
 					+ indexExaminer + "]/text()", XPathConstants.STRING);
 			if (!TextUtils.isEmpty(examiner)) {
-				examiners.add(examiner);
+				examiners.add(new RealmString(examiner));
 			}
 		}
 
@@ -100,14 +100,14 @@ public class ExamFetcher extends AbstractXmlFetcher<ExamFetcher, ExamImpl> {
 		ExamImpl exam = new ExamImpl();
 		exam.setId(id);
 		exam.setModule(modul);
-		exam.setAllocation(allocation);
+		exam.setAllocation(allocation.toString());
 		exam.setCode(code);
 		exam.setExaminers(examiners);
-		exam.setGroup(group);
+		exam.setGroup(group.toString());
 		exam.setMaterial(material);
 		exam.setReferences(references);
 		exam.setSubtitle(subtitle);
-		exam.setType(type);
+		exam.setType(type.toString());
 
 		return exam;
 	}

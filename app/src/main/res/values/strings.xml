@@ -13,7 +13,7 @@
     <string name="info">Info</string>
     <string name="teamMembers">Entwickelt von Studenten der Fakultät 07\n\nWer mitmachen möchte, kommt einfach in der Fachschaft vorbei \n\n</string>
     <string name="team">Team:</string>
-    <string name="fs_contact">Kontakt:\napp@fs.cs.hm.edu\nLothstraße 64\nR0.013\n80355 München</string>
+    <string name="fs_contact">Kontakt: Lothstraße 64 R0.013 80355 München</string>
     <string name="blackboard">Schwarzes Brett</string>
     <string name="refresh">Neu laden</string>
     <string name="roomnumber">Raumnummer</string>
@@ -22,6 +22,7 @@
     <string name="hall">Saal</string>
     <string name="laboratory">Labor</string>
     <string name="minute_short">min</string>
+    <string name="help_feedback">Hilfe &amp; Feedback</string>
 
     <!-- TimeTable -->
     <string name="timetable">Stundenplan</string>
@@ -91,13 +92,41 @@
 		mit Phosphat\n(9)
 		mit Süßungsmitteln\n(10)
 		enthält eine Phenylalaninquelle\n(99)
-		mit Alkohol	</string>
+		mit Alkohol
+	</string>
 
     <!-- Presence -->
-    <string name="presence">FSPresence</string>
+    <string name="presence">FS Anwesenheit</string>
     <string name="presenceTitle">Jetzt in der Fachschaft</string>
-    <string name="presencePhone">Tel: 089 1265-3777</string>
+    <string name="presencePhone">Tel: 089–1265–3777</string>
     <string name="presenceMail">Mail: info@fs.cs.hm.edu</string>
     <string name="presenceEmpty">Keine Daten für FSPresence erhalten.\nSchau einfach vorbei oder frag per Anruf oder Mail nach.</string>
 
+    <!-- Proverbs -->
+	<string name="proverbs0">Wer zuletzt lacht, hat den höheren Ping!</string>
+    <string name="proverbs1">Computer können uns bei Entscheidungen helfen, bei welchen müssen wir entscheiden.</string>
+	<string name="proverbs2">Computer sind dazu da, uns die Arbeit zu erleichtern, die wir ohne sie nicht hätten.</string>
+	<string name="proverbs3">Du bist internetsüchtig,wenn … Du dich abends an den Computer setzt und dich wunderst,dass kurz darauf deine Kinder zur Schule müssen.</string>
+	<string name="proverbs4">Das Leben ist ein schlechtes Adventure-Game. Aber die Grafik ist verdammt gut.</string>
+	<string name="proverbs5">Was ist eine Demoversion? Der Versuch der Softwarehersteller, die Anwender vor einem neuen Produkt zu warnen und abzuschrecken!</string>
+	<string name="proverbs6">Der Computer ist die Antwort - doch was war die Frage?</string>	
+	<string name="proverbs7">Der Hardware - Mythos: Lieber noch ein paar Jahre warten, bis die Computer wirklich ausgereift sind.</string>
+	<string name="proverbs8">Der Mensch ist immer noch der beste Computer.</string>
+	<string name="proverbs9">Der Viren - Mythos: Auf meinem PC können keine Viren kommen.</string>
+	<string name="proverbs10">Dieses Programm verdient die 3 großen GGG: Gesehen - Gelacht - Gelöscht.</string>
+	<string name="proverbs11">Du bist internetsüchtig,wenn … Dir jemand einen Witz erzählt und Du "LOL" sagst.</string>
+	<string name="proverbs12">Du bist internetsüchtig,wenn … Du bei "www.wetter.de" nachchaust, anstatt aus dem Fenster.</string>
+	<string name="proverbs13">Du bist internetsüchtig,wenn … Dein Partner verlangt, dass dein Computer nicht mehr ins Bett kommt.</string>
+	<string name="proverbs14">Du bist internetsüchtig,wenn … Du dich an kalten Kaffe gewöhnt hast.</string>
+	<string name="proverbs15">Du bist internetsüchtig,wenn … Du dich im WWW so gut auskennst, dass du Suchmaschinen überflüssig findest.</string>
+	<string name="proverbs16">Du bist internetsüchtig,wenn … Du dich rühmst, dass keiner schneller doppelklickt als du.</string>
+	<string name="proverbs17">Du bist internetsüchtig,wenn … Du dich wunderst, dass man auch im Wasser surfen kann.</string>
+	<string name="proverbs18">Du bist internetsüchtig,wenn … Du die Homepage deiner Freundin küsst.</string>
+	<string name="proverbs19">Du bist internetsüchtig,wenn … Du im richtigen Leben immer nach dem Zurück-Knopf sucht.</string>
+	<string name="proverbs20">Du bist internetsüchtig,wenn … Du nur noch eine Viertelstunde online bleiben wolltest und das jede Stunde wieder verprichst.</string>
+	<string name="proverbs21">EDV = Ende der Vernuft.</string>
+	<string name="proverbs22">Ein Computer kann alles - aber sont nichts.</string>
+	<string name="proverbs23">Ein User ruft den Service an.\nUser: Hallo, ich habe Windows installiert…\nService:ja?!\nUser: und ich habe ein Problem…\nService:Das sagten sie bereits!</string>
+	<string name="proverbs24">Was bedeutet "www"? Warten, Warten, Warten</string>
+	<string name="proverbs25">Wenn am Anfang alles schief geht, nenne es Version 1.0!</string>
 </resources>

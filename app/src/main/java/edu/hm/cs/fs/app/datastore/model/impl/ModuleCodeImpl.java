@@ -1,21 +1,18 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
-import java.util.List;
-
-import edu.hm.cs.fs.app.datastore.model.ModuleCode;
-import edu.hm.cs.fs.app.datastore.model.constants.Offer;
-import edu.hm.cs.fs.app.datastore.model.constants.Semester;
+import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class ModuleCodeImpl extends RealmObject implements ModuleCode {
+public class ModuleCodeImpl extends RealmObject {
 	@PrimaryKey
 	private String modul;
 	private String regulation;
-	private Offer offer;
+	private String offer;
 	private String services;
 	private String code;
-	private List<Semester> semester;
+	private RealmList<RealmString> semesters;
 	private String curriculum;
 
 	public String getModul() {
@@ -34,11 +31,11 @@ public class ModuleCodeImpl extends RealmObject implements ModuleCode {
 		this.regulation = regulation;
 	}
 
-	public Offer getOffer() {
+	public String getOffer() {
 		return offer;
 	}
 
-	public void setOffer(Offer offer) {
+	public void setOffer(String offer) {
 		this.offer = offer;
 	}
 
@@ -58,12 +55,12 @@ public class ModuleCodeImpl extends RealmObject implements ModuleCode {
 		this.code = code;
 	}
 
-	public List<Semester> getSemester() {
-		return semester;
+	public RealmList<RealmString> getSemesters() {
+		return semesters;
 	}
 
-	public void setSemester(List<Semester> semester) {
-		this.semester = semester;
+	public void setSemesters(RealmList<RealmString> semesters) {
+		this.semesters = semesters;
 	}
 
 	public String getCurriculum() {

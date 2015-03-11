@@ -43,20 +43,18 @@ public enum Faculty {
 		mKey = key;
 	}
 
-	/**
-	 * @return the key.
-	 */
-	private String getKey() {
-		return mKey;
-	}
+    @Override
+    public String toString() {
+        return mKey;
+    }
 
-	/**
+    /**
 	 * @param key
 	 * @return
 	 */
 	public static Faculty of(final String key) {
 		for (final Faculty faculty : values()) {
-			if (faculty.getKey().equalsIgnoreCase(key)) {
+			if (faculty.toString().equalsIgnoreCase(key)) {
 				return faculty;
 			}
 		}

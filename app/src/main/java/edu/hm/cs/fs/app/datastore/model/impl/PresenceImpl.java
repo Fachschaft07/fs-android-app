@@ -1,10 +1,12 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
 
+import io.realm.RealmObject;
+
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class PresenceImpl {
+public class PresenceImpl extends RealmObject {
 	private String name;
 	private String status;
 

@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by Fabio on 04.03.2015.
  */
 public interface Meal {
-    public Date getDate();
+    Date getDate();
 
-    public String getDescription();
+    String getDescription();
 }

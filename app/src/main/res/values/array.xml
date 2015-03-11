@@ -3,9 +3,9 @@
 
 <string-array name="list">  
 <item>go2</item>
-<item >go4</item>
-<item >go6</item>
-<item >ib</item>  
+<item>go4</item>
+<item>go6</item>
+<item>ib</item>  
 <item>ib2a</item>
 <item>ib2b</item>
 <item>ib2c</item>
@@ -61,6 +61,35 @@
     <item>Donnerstag</item>
     <item>Freitag</item>
     <item>Samstag</item>
-</string-array>  
+</string-array>
+
+<string-array name="proverbs">
+    <item>@string/proverbs0</item>
+    <item>@string/proverbs1</item>
+    <item>@string/proverbs2</item>
+    <item>@string/proverbs3</item>
+    <item>@string/proverbs4</item>
+    <item>@string/proverbs5</item>
+    <item>@string/proverbs6</item>
+    <item>@string/proverbs7</item>
+    <item>@string/proverbs8</item>
+    <item>@string/proverbs9</item>
+    <item>@string/proverbs10</item>
+    <item>@string/proverbs11</item>
+    <item>@string/proverbs12</item>
+    <item>@string/proverbs13</item>
+    <item>@string/proverbs14</item>
+    <item>@string/proverbs15</item>
+    <item>@string/proverbs16</item>
+    <item>@string/proverbs17</item>
+    <item>@string/proverbs18</item>
+    <item>@string/proverbs19</item>
+    <item>@string/proverbs20</item>
+    <item>@string/proverbs21</item>
+    <item>@string/proverbs22</item>
+    <item>@string/proverbs23</item>
+    <item>@string/proverbs24</item>
+    <item>@string/proverbs25</item>
+</string-array>
 
 </resources> 
