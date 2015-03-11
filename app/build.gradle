@@ -47,5 +47,6 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.5.2'
     // ORM
     compile 'io.realm:realm-android:0.79.1'
+    // Widgets
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }

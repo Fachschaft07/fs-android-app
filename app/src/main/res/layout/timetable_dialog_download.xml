@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
     <TextView
         android:id="@+id/header"
@@ -15,14 +15,14 @@
         android:padding="15dp"
         android:text="@string/courses"
         android:textColor="#ffff4444"
-        android:textSize="22sp" />
+        android:textSize="22sp"/>
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/header"
-        android:background="#ffff4444" />
+        android:background="#ffff4444"/>
 
     <ListView
         android:id="@+id/listCourses"
@@ -30,26 +30,26 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/buttons"
         android:layout_below="@+id/header"
-        android:overScrollMode="never" >
+        android:overScrollMode="never">
     </ListView>
 
     <RelativeLayout
         android:id="@id/buttons"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_alignParentBottom="true" >
+        android:layout_alignParentBottom="true">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:layout_alignParentTop="true"
-            android:background="@drawable/divider_horizontal_bright" />
+            android:background="@drawable/divider_horizontal_bright"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/negativeButton"
@@ -59,12 +59,12 @@
                 android:background="@drawable/holo_light_red_list_selector_holo_light"
                 android:text="@android:string/cancel"
                 android:textSize="14sp"
-                android:textColor="@color/holo_light_red_dialog_text" />
+                android:textColor="@color/holo_light_red_dialog_text"/>
 
             <View
                 android:layout_width="1dip"
                 android:layout_height="match_parent"
-                android:background="@drawable/divider_horizontal_bright" />
+                android:background="@drawable/divider_horizontal_bright"/>
 
             <Button
                 android:id="@+id/neutralButton"
@@ -74,12 +74,12 @@
                 android:background="@drawable/holo_light_red_list_selector_holo_light"
                 android:text="@string/neu"
                 android:textSize="14sp"
-                android:textColor="@color/holo_light_red_dialog_text" />
+                android:textColor="@color/holo_light_red_dialog_text"/>
 
             <View
                 android:layout_width="1dip"
                 android:layout_height="match_parent"
-                android:background="@drawable/divider_horizontal_bright" />
+                android:background="@drawable/divider_horizontal_bright"/>
 
             <Button
                 android:id="@+id/positiveButton"
@@ -89,7 +89,7 @@
                 android:background="@drawable/holo_light_red_list_selector_holo_light"
                 android:text="@string/add"
                 android:textSize="14sp"
-                android:textColor="@color/holo_light_red_dialog_text" />
+                android:textColor="@color/holo_light_red_dialog_text"/>
         </LinearLayout>
     </RelativeLayout>
 

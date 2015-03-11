@@ -19,6 +19,7 @@ import edu.hm.cs.fs.app.datastore.model.Presence;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
 import edu.hm.cs.fs.app.ui.info.InfoFragment;
+import edu.hm.cs.fs.app.ui.mensa.MealFragment;
 import edu.hm.cs.fs.app.util.multipane.FragmentMultiPane;
 import edu.hm.cs.fs.app.ui.presence.PresenceFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableDayActivity;
@@ -30,6 +31,9 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
 
 	@Override
 	public void init(final Bundle bundle) {
+        // Style Toolbar
+        getSupportActionBar().setElevation(10f);
+
 		// Header View
         final TextView header = new TextView(this);
         header.setText(nextProverb());
@@ -57,14 +61,11 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
 		addSection(newSection(getString(R.string.timetable), R.drawable.ic_timetable, new Intent(this, TimetableDayActivity.class)));
 		//addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_roomsearch, new Fragment()));
 		//addSection(newSection(getString(R.string.mvv), R.drawable.ic_mvv, new Fragment()));
-		//addSection(newSection(getString(R.string.food), R.drawable.ic_mensa, new Fragment()));
-
-
+		addSection(newSection(getString(R.string.food), R.drawable.ic_mensa, new MealFragment()));
 
 		// Bottom Sections
         presenceSection = newSection(
                 getString(R.string.presence),
-                R.drawable.circle_yellow_light,
                 new PresenceFragment()
         );
         addBottomSection(presenceSection);
@@ -87,15 +88,12 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
                 int drawableId;
                 int sectionColorId;
                 if (PresenceHelper.isPresent(result)) {
-                    drawableId = R.drawable.circle_green_dark;
                     sectionColorId = R.color.green;
                     Log.d(getClass().getSimpleName(), "Presence green");
                 } else {
-                    drawableId = R.drawable.circle_yellow_light;
                     sectionColorId = R.color.yellow;
                     Log.d(getClass().getSimpleName(), "Presence yellow");
                 }
-                presenceSection.setIcon(getResources().getDrawable(drawableId));
                 presenceSection.setSectionColor(getResources().getColor(sectionColorId));
 
                 Log.d(getClass().getSimpleName(), "Presence count = " + result.size());

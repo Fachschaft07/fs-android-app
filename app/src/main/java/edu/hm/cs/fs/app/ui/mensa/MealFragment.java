@@ -1,7 +1,7 @@
 package edu.hm.cs.fs.app.ui.mensa;
 
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,21 +11,25 @@ import android.view.ViewGroup;
 
 import com.fk07.R;
 
-import edu.hm.cs.fs.app.util.NetworkUtils;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import edu.hm.cs.fs.app.datastore.helper.Callback;
+import edu.hm.cs.fs.app.datastore.helper.MealHelper;
+import edu.hm.cs.fs.app.datastore.model.Meal;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by Fabio on 04.03.2015.
  */
-public class MensaFragment extends ListFragment {
+public class MealFragment extends Fragment {
     @InjectView(R.id.stickyList)
     StickyListHeadersListView mListView;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_meal, container, false);
         ButterKnife.inject(this, view);
         return view;
     }
@@ -34,10 +38,18 @@ public class MensaFragment extends ListFragment {
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MensaAdapter adapter = new MensaAdapter(getActivity());
+        final MealAdapter adapter = new MealAdapter(getActivity());
         mListView.setAdapter(adapter);
 
-        // TODO Call MensaHelper.listAll(...);
+        MealHelper.listAll(getActivity(), new Callback<List<Meal>>() {
+            @Override
+            public void onResult(final List<Meal> result) {
+                adapter.clear();
+                for (Meal meal : result) {
+                    adapter.add(meal);
+                }
+            }
+        });
     }
 
 	@Override

@@ -4,6 +4,7 @@
               android:layout_height="match_parent"
               android:baselineAligned="false"
               android:orientation="vertical">
+
     <FrameLayout
         android:id="@+id/list_pane"
         android:layout_width="match_parent"
