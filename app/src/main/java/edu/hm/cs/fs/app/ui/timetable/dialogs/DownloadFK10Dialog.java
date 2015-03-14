@@ -54,8 +54,7 @@ public class DownloadFK10Dialog {
         ListView lv = (ListView) layout.findViewById(R.id.listCourses);
         final DownloadFK10Adapter downloadFK10Adapter = new DownloadFK10Adapter(activity, R.layout.timetable_dialog_download_row, groups);
         lv.setAdapter(downloadFK10Adapter);
-        lv.setSelector(R.drawable.holo_light_red_list_selector_holo_light);
-        
+
         Button positive = (Button) layout.findViewById(R.id.positiveButton);
         Button neutral = (Button) layout.findViewById(R.id.neutralButton);
         Button negative = (Button) layout.findViewById(R.id.negativeButton);

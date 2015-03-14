@@ -1,8 +1,5 @@
 package edu.hm.cs.fs.app.ui.timetable.dialogs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,6 +11,10 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.fk07.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.hm.cs.fs.app.ui.timetable.TimetableDayActivity;
 import edu.hm.cs.fs.app.ui.timetable.TimetableWeekActivity;
 import edu.hm.cs.fs.app.ui.timetable.xml.groups.FK07Group;
@@ -70,8 +71,7 @@ public class DownloadDialog {
         ListView lv = (ListView) layout.findViewById(R.id.listCourses);
         final DownloadAdapter downloadAdapter = new DownloadAdapter(activity, R.layout.timetable_dialog_download_row, groups);
         lv.setAdapter(downloadAdapter);
-        lv.setSelector(R.drawable.holo_light_red_list_selector_holo_light);
-        
+
         Button positive = (Button) layout.findViewById(R.id.positiveButton);
         Button neutral = (Button) layout.findViewById(R.id.neutralButton);
         Button negative = (Button) layout.findViewById(R.id.negativeButton);

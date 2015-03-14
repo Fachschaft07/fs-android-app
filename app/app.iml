@@ -86,8 +86,8 @@
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" scope="TEST" name="mockable-android-21" level="project" />
-    <orderEntry type="library" exported="" name="realm-android-0.79.1" level="project" />
     <orderEntry type="library" exported="" name="jsoup-1.8.1" level="project" />
+    <orderEntry type="library" exported="" name="realm-android-0.79.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="com.amulyakhare.textdrawable-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="stickylistheaders-2.5.2" level="project" />

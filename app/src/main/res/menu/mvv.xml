@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" >
     <item 
         android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_action_reload" 
+        android:icon="@drawable/ic_refresh_white_24dp"
         android:title="@string/refresh"
         tools:showAsAction="never"/>
 </menu>

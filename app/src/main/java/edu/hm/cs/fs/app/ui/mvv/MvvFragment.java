@@ -13,8 +13,13 @@ import android.widget.ListView;
 
 import com.fk07.R;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import edu.hm.cs.fs.app.datastore.helper.Callback;
+import edu.hm.cs.fs.app.datastore.helper.PublicTransportHelper;
+import edu.hm.cs.fs.app.datastore.model.PublicTransport;
 
 public class MvvFragment extends Fragment {
 	@InjectView(R.id.listViewLoth) ListView mListLoth;
@@ -39,13 +44,9 @@ public class MvvFragment extends Fragment {
 
 		mAdapterPasing = new MvvAdapter(getActivity());
 		mListPasing.setAdapter(mAdapterPasing);
-	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-		refresh();
-    }
+        refresh();
+	}
 
 	@Override
 	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
@@ -71,6 +72,24 @@ public class MvvFragment extends Fragment {
 	}
 	
 	private void refresh() {
-        // TODO Call PublicTransportHelper.listAll(...);
+        PublicTransportHelper.listAll(getActivity(), PublicTransport.Location.LOTHSTR, new Callback<List<PublicTransport>>() {
+            @Override
+            public void onResult(final List<PublicTransport> result) {
+                mAdapterLoth.clear();
+                for (PublicTransport publicTransport : result) {
+                    mAdapterLoth.add(publicTransport);
+                }
+            }
+        });
+
+        PublicTransportHelper.listAll(getActivity(), PublicTransport.Location.PASING, new Callback<List<PublicTransport>>() {
+            @Override
+            public void onResult(final List<PublicTransport> result) {
+                mAdapterPasing.clear();
+                for (PublicTransport publicTransport : result) {
+                    mAdapterPasing.add(publicTransport);
+                }
+            }
+        });
 	}
 }

@@ -1,13 +1,18 @@
 package edu.hm.cs.fs.app.ui.mvv;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.fk07.R;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,30 +30,34 @@ public class MvvAdapter extends ArrayAdapter<PublicTransport> {
 
 	@Override
 	public View getView(final int position, View convertView, final ViewGroup parent) {
-		ViewHolder holder;
-		if(convertView == null) {
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_mvv, parent, false);
-			holder = new ViewHolder(convertView);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
+        ViewHolder holder;
+        if(convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_mvv, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-		final PublicTransport entry = getItem(position);
+        final PublicTransport entry = getItem(position);
 
-		holder.line.setText(Integer.toString(entry.getLine()));
-		holder.destination.setText(entry.getDestination());
-		
-		long timeDifferenceInMs = entry.getDeparture().getTime() - System.currentTimeMillis();
-		long timeDifferenceInMin = timeDifferenceInMs / 1000 / 60;
-		
-		holder.time.setText(timeDifferenceInMin + " " + getContext().getString(R.string.minute_short));
+        TextDrawable drawable = TextDrawable.builder()
+                .beginConfig()
+                .withBorder(2)
+                .fontSize(29)
+                .textColor(Color.DKGRAY)
+                .endConfig()
+                .buildRound(Integer.toString(entry.getLine()), Color.TRANSPARENT);
 
-		return convertView;
-	}
+        holder.line.setImageDrawable(drawable);
+        holder.destination.setText(entry.getDestination());
+        holder.time.setText(getContext().getString(R.string.departure, entry.getDepartureIn(TimeUnit.MINUTES)));
+
+        return convertView;
+    }
 	
 	static class ViewHolder {
-		@InjectView(R.id.textLine) TextView line;
+		@InjectView(R.id.imageLine) ImageView line;
 		@InjectView(R.id.textDestination) TextView destination;
 		@InjectView(R.id.textTime) TextView time;
 		

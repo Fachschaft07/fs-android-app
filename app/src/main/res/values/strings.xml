@@ -22,6 +22,7 @@
     <string name="hall">Saal</string>
     <string name="laboratory">Labor</string>
     <string name="minute_short">min</string>
+    <string name="departure">in %1$d min</string>
     <string name="help_feedback">Hilfe &amp; Feedback</string>
 
     <!-- TimeTable -->

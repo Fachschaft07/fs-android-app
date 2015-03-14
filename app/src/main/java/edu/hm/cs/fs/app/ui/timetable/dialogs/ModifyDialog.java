@@ -58,7 +58,6 @@ public class ModifyDialog {
 
 		ListView lv = (ListView) layout.findViewById(R.id.listView);
 		lv.setAdapter(adapter);
-		lv.setSelector(R.drawable.holo_light_red_list_selector_holo_light);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

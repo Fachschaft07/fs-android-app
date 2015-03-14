@@ -2,10 +2,12 @@ package edu.hm.cs.fs.app.datastore.model.impl;
 
 import java.util.Date;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Fabio on 18.02.2015.
  */
-public class PublicTransportImpl {
+public class PublicTransportImpl extends RealmObject {
 	private int line;
 	private String destination;
 	private Date departure;
@@ -26,11 +28,11 @@ public class PublicTransportImpl {
 		this.destination = destination;
 	}
 	
-	public Date getDepartureTimeInMinutes() {
+	public Date getDeparture() {
 		return departure;
 	}
 	
-	public void setDepartureTimeInMinutes(Date departure) {
+	public void setDeparture(Date departure) {
 		this.departure = departure;
 	}
 }

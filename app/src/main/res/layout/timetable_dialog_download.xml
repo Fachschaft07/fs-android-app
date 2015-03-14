@@ -42,8 +42,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dip"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/divider_horizontal_bright"/>
+            android:layout_alignParentTop="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,37 +55,32 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/holo_light_red_list_selector_holo_light"
                 android:text="@android:string/cancel"
                 android:textSize="14sp"
                 android:textColor="@color/holo_light_red_dialog_text"/>
 
             <View
                 android:layout_width="1dip"
-                android:layout_height="match_parent"
-                android:background="@drawable/divider_horizontal_bright"/>
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/neutralButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/holo_light_red_list_selector_holo_light"
                 android:text="@string/neu"
                 android:textSize="14sp"
                 android:textColor="@color/holo_light_red_dialog_text"/>
 
             <View
                 android:layout_width="1dip"
-                android:layout_height="match_parent"
-                android:background="@drawable/divider_horizontal_bright"/>
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/positiveButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/holo_light_red_list_selector_holo_light"
                 android:text="@string/add"
                 android:textSize="14sp"
                 android:textColor="@color/holo_light_red_dialog_text"/>

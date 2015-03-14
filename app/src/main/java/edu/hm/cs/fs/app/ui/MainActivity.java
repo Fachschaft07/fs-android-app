@@ -20,6 +20,7 @@ import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
 import edu.hm.cs.fs.app.ui.info.InfoFragment;
 import edu.hm.cs.fs.app.ui.mensa.MealFragment;
+import edu.hm.cs.fs.app.ui.mvv.MvvFragment;
 import edu.hm.cs.fs.app.util.multipane.FragmentMultiPane;
 import edu.hm.cs.fs.app.ui.presence.PresenceFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableDayActivity;
@@ -58,24 +59,25 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
                 BlackBoardDetailFragment.class
         )));
 		//addSection(newSection(getString(R.string.news), R.drawable.ic_news, new Fragment()));
-		addSection(newSection(getString(R.string.timetable), R.drawable.ic_timetable, new Intent(this, TimetableDayActivity.class)));
+		addSection(newSection(getString(R.string.timetable), R.drawable.ic_view_week_grey600_24dp, new Intent(this, TimetableDayActivity.class)));
 		//addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_roomsearch, new Fragment()));
-		//addSection(newSection(getString(R.string.mvv), R.drawable.ic_mvv, new Fragment()));
-		addSection(newSection(getString(R.string.food), R.drawable.ic_mensa, new MealFragment()));
+		addSection(newSection(getString(R.string.mvv), R.drawable.ic_directions_train_grey600_24dp, new MvvFragment()));
+		addSection(newSection(getString(R.string.food), R.drawable.ic_local_restaurant_grey600_24dp, new MealFragment()));
 
 		// Bottom Sections
         presenceSection = newSection(
                 getString(R.string.presence),
+                R.drawable.ic_people_grey600_24dp,
                 new PresenceFragment()
         );
         addBottomSection(presenceSection);
         
-        addBottomSection(newSection(getString(R.string.info), new InfoFragment()));
+        addBottomSection(newSection(getString(R.string.info), R.drawable.ic_info_outline_grey600_24dp, new InfoFragment()));
 
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("plain/text");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});
-        addBottomSection(newSection(getString(R.string.help_feedback), intent));
+        addBottomSection(newSection(getString(R.string.help_feedback), R.drawable.ic_local_post_office_grey600_24dp, intent));
 	}
 
     @Override

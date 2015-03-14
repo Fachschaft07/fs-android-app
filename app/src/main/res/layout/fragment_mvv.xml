@@ -8,35 +8,38 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
         android:text="@string/lothstraße"/>
 
     <ListView
         android:id="@+id/listViewLoth"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
+        android:layout_weight="1"
+        android:divider="@null"
+        android:dividerHeight="0dp">
     </ListView>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:contentDescription="@null"
-        android:scaleType="fitXY"
-        android:src="@android:drawable/divider_horizontal_bright"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
         android:text="@string/pasing"/>
 
     <ListView
         android:id="@+id/listViewPasing"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
+        android:layout_weight="1"
+        android:divider="@null"
+        android:dividerHeight="0dp">
     </ListView>
 </LinearLayout>
