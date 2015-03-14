@@ -20,7 +20,7 @@ import edu.hm.cs.fs.app.datastore.model.Meal;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class MealAdapter extends ArrayAdapter<Meal> implements StickyListHeadersAdapter {
-    private static final String DATE_FORMAT = "%1$td.%1$tm.%1$tY";
+    private static final String DATE_FORMAT = "%1$tA, %1$td.%1$tm.%1$tY";
 
 	public MealAdapter(final Context context) {
 		super(context, android.R.layout.simple_list_item_1);
@@ -80,10 +80,7 @@ public class MealAdapter extends ArrayAdapter<Meal> implements StickyListHeaders
 
     @Override
     public long getHeaderId(final int position) {
-        String dateFormat = String.format(Locale.getDefault(), DATE_FORMAT, getItem(position).getDate());
-        int hashCode = dateFormat.hashCode();
-        return hashCode;
-        //return String.format(Locale.getDefault(), DATE_FORMAT, getItem(position).getDate()).hashCode();
+        return String.format(Locale.getDefault(), DATE_FORMAT, getItem(position).getDate()).hashCode();
     }
 
     static class HeaderViewHolder {

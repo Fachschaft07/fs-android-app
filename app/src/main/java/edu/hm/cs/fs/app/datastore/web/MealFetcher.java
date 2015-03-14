@@ -29,7 +29,7 @@ public class MealFetcher extends AbstractHtmlFetcher<MealFetcher, MealImpl> {
     private static final String URL = "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_431_-de.html";
     private static final Pattern PATTERN_MEAL = Pattern.compile(".*<span style=\"float:left\">(.*)</span>.*");
     @SuppressLint("SimpleDateFormat")
-    private static final DateFormat sdf = new SimpleDateFormat("dddd, dd.MM.yyyy");
+    private static final DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
     public MealFetcher(final Context context) {
         super(context, URL);
@@ -74,15 +74,17 @@ public class MealFetcher extends AbstractHtmlFetcher<MealFetcher, MealImpl> {
             final Element menu = menuList.get(index);
 
             final String dateStr = menu.getElementsByTag("strong").get(0).text();
+            Date date;
+            try {
+                date = sdf.parse(dateStr.substring(dateStr.indexOf(",")+1));
+            } catch (ParseException e) {
+                date = new Date();
+            }
 
             final Elements descriptionList = menu.getElementsByClass("beschreibung");
             for (int indexDesc = 0; indexDesc < descriptionList.size(); indexDesc++) {
                 MealImpl meal = new MealImpl();
-                try {
-                    meal.setDate(sdf.parse(dateStr));
-                } catch (ParseException e) {
-                    meal.setDate(new Date());
-                }
+                meal.setDate(date);
 
                 final Element description = descriptionList.get(indexDesc);
 
