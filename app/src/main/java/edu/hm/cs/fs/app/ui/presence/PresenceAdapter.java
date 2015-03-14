@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.fk07.R;
 
 import butterknife.ButterKnife;
@@ -22,7 +23,7 @@ public class PresenceAdapter extends ArrayAdapter<Presence> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.presence_row, parent, false);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_presence, parent, false);
 			holder = new ViewHolder(convertView);
 			convertView.setTag(holder);
 		} else {
@@ -31,20 +32,16 @@ public class PresenceAdapter extends ArrayAdapter<Presence> {
 
 		final Presence presence = getItem(position);
 
+        holder.status.setImageDrawable(TextDrawable.builder()
+                .buildRound("", presence.isBusy() ? R.color.yellow : R.color.green));
 		holder.name.setText(presence.getName());
-
-		holder.status.setImageResource(
-				presence.isBusy() ?
-				R.drawable.circle_yellow_light :
-				R.drawable.circle_green_dark
-		);
 
 		return convertView;
 	}
 
 	static class ViewHolder {
+        @InjectView(R.id.presenceStatus) ImageView status;
 		@InjectView(R.id.presenceName) TextView name;
-		@InjectView(R.id.presenceStatus) ImageView status;
 
 		public ViewHolder(View view) {
 			ButterKnife.inject(this, view);

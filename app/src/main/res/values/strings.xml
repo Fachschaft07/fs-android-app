@@ -98,9 +98,8 @@
 
     <!-- Presence -->
     <string name="presence">FS Anwesenheit</string>
-    <string name="presenceTitle">Jetzt in der Fachschaft</string>
-    <string name="presencePhone">Tel: 089–1265–3777</string>
-    <string name="presenceMail">Mail: info@fs.cs.hm.edu</string>
+    <string name="presencePhone">Anrufen</string>
+    <string name="presenceMail">e-Mail</string>
     <string name="presenceEmpty">Keine Daten für FSPresence erhalten.\nSchau einfach vorbei oder frag per Anruf oder Mail nach.</string>
 
     <!-- Proverbs -->
