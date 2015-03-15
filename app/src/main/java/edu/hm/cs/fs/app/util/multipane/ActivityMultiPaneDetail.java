@@ -1,6 +1,6 @@
 package edu.hm.cs.fs.app.util.multipane;
 
-import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,35 +9,46 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.fk07.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
- * This activity displays the detail fragment if there is no multi-pane available.
+ * Created by Fabio on 06.01.2015.
  */
 public class ActivityMultiPaneDetail extends ActionBarActivity {
-	private static Fragment mDetailFragment;
+	private static Fragment mFragment;
+
+	@InjectView(R.id.toolbar)
+	Toolbar mToolbar;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		setSupportActionBar(toolbar);
+		ButterKnife.inject(this);
+
+		MaterialMenuDrawable materialMenu = new MaterialMenuDrawable(this, Color.WHITE, MaterialMenuDrawable.Stroke.THIN);
+		materialMenu.setIconState(MaterialMenuDrawable.IconState.ARROW);
+		mToolbar.setNavigationIcon(materialMenu);
+		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 
 		final FragmentManager supportFragmentManager = getSupportFragmentManager();
 		final FragmentTransaction transaction = supportFragmentManager.beginTransaction();
 		transaction.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-		transaction.replace(R.id.frame_container, mDetailFragment);
+		transaction.replace(R.id.frame_container, mFragment);
 		transaction.disallowAddToBackStack();
 		transaction.commit();
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
-		if(android.R.id.home == item.getItemId()) {
+		if (android.R.id.home == item.getItemId()) {
 			finish();
 			return true;
 		}
@@ -45,22 +56,12 @@ public class ActivityMultiPaneDetail extends ActionBarActivity {
 	}
 
 	@Override
-	public void onConfigurationChanged(final Configuration newConfig) {
-		if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			// If the user rotate to landscape -> finish the activity and let the
-			// MultiPaneFragment handle this
-			finish();
-		}
-		super.onConfigurationChanged(newConfig);
-	}
-
-	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mDetailFragment = null;
+		mFragment = null;
 	}
 
-	protected static void setDetailFragment(final Fragment fragment) {
-		ActivityMultiPaneDetail.mDetailFragment = fragment;
+	public static void setDetailFragment(final Fragment fragment) {
+		ActivityMultiPaneDetail.mFragment = fragment;
 	}
 }

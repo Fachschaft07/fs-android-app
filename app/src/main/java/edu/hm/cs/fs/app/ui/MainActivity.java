@@ -15,6 +15,7 @@ import java.util.List;
 
 import edu.hm.cs.fs.app.datastore.helper.Callback;
 import edu.hm.cs.fs.app.datastore.helper.PresenceHelper;
+import edu.hm.cs.fs.app.datastore.model.News;
 import edu.hm.cs.fs.app.datastore.model.Presence;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
@@ -59,7 +60,8 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
                 R.drawable.ic_assignment_grey600_24dp,
                 FragmentMultiPane.build(
                         BlackBoardListFragment.class,
-                        BlackBoardDetailFragment.class
+                        BlackBoardDetailFragment.class,
+                        News.class
                 )
         ));
 		//addSection(newSection(getString(R.string.news), R.drawable.ic_bookmark_outline_grey600_24dp, new Fragment()));
