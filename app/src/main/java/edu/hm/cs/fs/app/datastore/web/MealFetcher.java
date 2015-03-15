@@ -98,6 +98,8 @@ public class MealFetcher extends AbstractHtmlFetcher<MealFetcher, MealImpl> {
                     meal.setType(MealType.VEGAN.toString());
                 }
 
+                meal.setId(dateStr+meal.getDescription());
+
                 result.add(meal);
             }
         }

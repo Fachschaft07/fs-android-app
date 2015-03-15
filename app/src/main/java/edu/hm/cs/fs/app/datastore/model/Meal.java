@@ -1,7 +1,9 @@
 package edu.hm.cs.fs.app.datastore.model;
 
 import java.util.Date;
+import java.util.List;
 
+import edu.hm.cs.fs.app.datastore.model.constants.Additive;
 import edu.hm.cs.fs.app.datastore.model.constants.MealType;
 
 /**
@@ -12,5 +14,7 @@ public interface Meal {
 
     MealType getType();
 
-    String getDescription();
+    String getName();
+
+    List<Additive> getAdditives();
 }

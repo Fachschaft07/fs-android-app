@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.fk07.R;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -27,6 +28,13 @@ public class MvvFragment extends Fragment {
 
 	private MvvAdapter mAdapterLoth;
 	private MvvAdapter mAdapterPasing;
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -76,8 +84,11 @@ public class MvvFragment extends Fragment {
             @Override
             public void onResult(final List<PublicTransport> result) {
                 mAdapterLoth.clear();
+                Date now = new Date();
                 for (PublicTransport publicTransport : result) {
-                    mAdapterLoth.add(publicTransport);
+                    if(publicTransport.getDeparture().before(now)) {
+                        mAdapterLoth.add(publicTransport);
+                    }
                 }
             }
         });
@@ -86,8 +97,11 @@ public class MvvFragment extends Fragment {
             @Override
             public void onResult(final List<PublicTransport> result) {
                 mAdapterPasing.clear();
+                Date now = new Date();
                 for (PublicTransport publicTransport : result) {
-                    mAdapterPasing.add(publicTransport);
+                    if(publicTransport.getDeparture().before(now)) {
+                        mAdapterPasing.add(publicTransport);
+                    }
                 }
             }
         });

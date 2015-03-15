@@ -33,7 +33,7 @@ public class PresenceAdapter extends ArrayAdapter<Presence> {
 		final Presence presence = getItem(position);
 
         holder.status.setImageDrawable(TextDrawable.builder()
-                .buildRound("", presence.isBusy() ? R.color.yellow : R.color.green));
+                .buildRound(" ", presence.isBusy() ? R.color.presence_busy : R.color.presence_available));
 		holder.name.setText(presence.getName());
 
 		return convertView;

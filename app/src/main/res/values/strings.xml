@@ -80,27 +80,25 @@
     <string name="loadTimetableError">Stundenplan konnte nicht geladen werden!</string>
 
     <!-- Food -->
-    <string name="legend">Legende</string>
-    <string name="legendContent">(f) fleischloses Gericht\n(v)
-   	    veganes Gericht\n(S)
-   	    mit Schweinefleisch\n(R)
-   	    mit Rindfleisch\n(1)
-		mit Farbstoff\n(2)
-		mit Konservierungsstoff\n(3)
-		mit Antioxidationsmittel\n(4)
-		mit Geschmacksverstärker\n(6)
-		geschwärzt (Oliven)\n(8)
-		mit Phosphat\n(9)
-		mit Süßungsmitteln\n(10)
-		enthält eine Phenylalaninquelle\n(99)
-		mit Alkohol
-	</string>
+    <string name="additives">Zusatzstoffe</string>
+    <string name="dye">mit Farbstoff</string>
+    <string name="preservative">mit Konservierungsstoff</string>
+    <string name="antioxidant">mit Antioxidationsmittel</string>
+    <string name="flavor_enhancers">mit Geschmacksverstärker</string>
+    <string name="sulphured">geschwefelt</string>
+    <string name="blackened">geschwärzt (Oliven)</string>
+    <string name="phosphate">mit Phosphat</string>
+    <string name="sweeteners">mit Süßungsmitteln</string>
+    <string name="phenylalaninquelle">enthält eine Phenylalaninquelle</string>
+    <string name="sugar_and_sweeteners">mit einer Zuckerart und Süßungsmittel</string>
+    <string name="alcohol">mit Alkohol</string>
+    <string name="pig">mit Schweinefleisch</string>
+    <string name="beef">mit Rindfleisch</string>
 
     <!-- Presence -->
     <string name="presence">FS Anwesenheit</string>
     <string name="presencePhone">Anrufen</string>
     <string name="presenceMail">e-Mail</string>
-    <string name="presenceEmpty">Keine Daten für FSPresence erhalten.\nSchau einfach vorbei oder frag per Anruf oder Mail nach.</string>
 
     <!-- Proverbs -->
 	<string name="proverbs0">Wer zuletzt lacht, hat den höheren Ping!</string>

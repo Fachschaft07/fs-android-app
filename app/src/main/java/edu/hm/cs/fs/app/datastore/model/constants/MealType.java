@@ -26,4 +26,13 @@ public enum MealType {
         throw new IllegalArgumentException("This is not a valid meal type: "
                 + key);
     }
+
+    public static MealType find(String sign) {
+        if("f".equalsIgnoreCase(sign)) {
+            return MEATLESS;
+        } else if("v".equalsIgnoreCase(sign)) {
+            return VEGAN;
+        }
+        return null;
+    }
 }

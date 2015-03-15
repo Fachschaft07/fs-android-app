@@ -59,7 +59,7 @@ public class MealAdapter extends ArrayAdapter<Meal> implements StickyListHeaders
                 .buildRound(meal.getType().toString(), color);
         holder.image.setImageDrawable(drawable);
 
-        holder.text.setText(meal.getDescription());
+        holder.text.setText(meal.getName());
 
 		return convertView;
 	}

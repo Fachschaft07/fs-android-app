@@ -51,7 +51,7 @@ public class PublicTransportFetcher extends AbstractHtmlFetcher<PublicTransportF
                 Date departure =  cal.getTime();
 
                 PublicTransportImpl publicTransport = new PublicTransportImpl();
-                publicTransport.setId(line+Long.toString(cal.getTimeInMillis()));
+                publicTransport.setId(line+station+Long.toString(cal.getTimeInMillis()));
                 publicTransport.setLine(line);
                 publicTransport.setDestination(station);
                 publicTransport.setDeparture(departure);
