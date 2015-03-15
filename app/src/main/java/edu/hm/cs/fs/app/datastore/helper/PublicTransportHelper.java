@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 import edu.hm.cs.fs.app.datastore.model.PublicTransport;
 import edu.hm.cs.fs.app.datastore.model.impl.PublicTransportImpl;
 import edu.hm.cs.fs.app.datastore.web.PublicTransportFetcher;
-import edu.hm.cs.fs.app.util.PrefUtils;
 import io.realm.Realm;
 
 /**
@@ -51,9 +50,7 @@ public class PublicTransportHelper extends BaseHelper implements PublicTransport
     }
 
     public static void listAll(Context context, PublicTransport.Location location, Callback<List<PublicTransport>> callback) {
-        PrefUtils.setUpdateInterval(context, PublicTransportFetcher.class, TimeUnit.MILLISECONDS.convert(5l, TimeUnit.MINUTES));
-
-        listAll(context, new PublicTransportFetcher(context, location), PublicTransportImpl.class, callback, new OnHelperCallback<PublicTransport, PublicTransportImpl>() {
+        listAllOnline(context, new PublicTransportFetcher(context, location), PublicTransportImpl.class, callback, new OnHelperCallback<PublicTransport, PublicTransportImpl>() {
             @Override
             public PublicTransport createHelper(final Context context, final PublicTransportImpl publicTransport) {
                 return new PublicTransportHelper(context, publicTransport);
@@ -61,7 +58,6 @@ public class PublicTransportHelper extends BaseHelper implements PublicTransport
 
             @Override
             public void copyToRealmOrUpdate(final Realm realm, final PublicTransportImpl publicTransport) {
-                realm.copyToRealmOrUpdate(publicTransport);
             }
         });
     }
