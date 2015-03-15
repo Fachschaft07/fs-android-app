@@ -22,7 +22,7 @@ import edu.hm.cs.fs.app.ui.info.InfoFragment;
 import edu.hm.cs.fs.app.ui.mensa.MealFragment;
 import edu.hm.cs.fs.app.ui.mvv.MvvFragment;
 import edu.hm.cs.fs.app.ui.presence.PresenceFragment;
-import edu.hm.cs.fs.app.ui.timetable.TimetableDayActivity;
+import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
 import edu.hm.cs.fs.app.util.multipane.FragmentMultiPane;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialSection;
@@ -54,20 +54,21 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
         setDrawerHeaderCustom(header);
 		
 		// Main Sections
-		addSection(newSection(getString(R.string.blackboard), R.drawable.ic_blackboard, FragmentMultiPane.build(
-                BlackBoardListFragment.class,
-                BlackBoardDetailFragment.class
-        )));
-		//addSection(newSection(getString(R.string.news), R.drawable.ic_news, new Fragment()));
-		addSection(newSection(getString(R.string.timetable), R.drawable.ic_view_week_grey600_24dp, new Intent(this, TimetableDayActivity.class)));
-		//addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_roomsearch, new Fragment()));
-        final MaterialSection mvvSection = newSection(
-                getString(R.string.mvv),
-                R.drawable.ic_directions_train_grey600_24dp,
-                new MvvFragment()
-        );
-        mvvSection.setSectionColor(getResources().getColor(R.color.mvv));
-        addSection(mvvSection);
+		addSection(newSection(
+                getString(R.string.blackboard),
+                R.drawable.ic_assignment_grey600_24dp,
+                FragmentMultiPane.build(
+                        BlackBoardListFragment.class,
+                        BlackBoardDetailFragment.class
+                )
+        ));
+		//addSection(newSection(getString(R.string.news), R.drawable.ic_bookmark_outline_grey600_24dp, new Fragment()));
+		addSection(newSection(
+                getString(R.string.timetable),
+                R.drawable.ic_view_week_grey600_24dp,
+                new TimetableFragment()
+        ));
+		//addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_search_grey600_24dp, new Fragment()));
         final MaterialSection mensaSection = newSection(
                 getString(R.string.food),
                 R.drawable.ic_local_restaurant_grey600_24dp,
@@ -75,6 +76,13 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
         );
         mensaSection.setSectionColor(getResources().getColor(R.color.mensa));
         addSection(mensaSection);
+        final MaterialSection mvvSection = newSection(
+                getString(R.string.mvv),
+                R.drawable.ic_directions_transit_grey600_24dp,
+                new MvvFragment()
+        );
+        mvvSection.setSectionColor(getResources().getColor(R.color.mvv));
+        addSection(mvvSection);
 
 		// Bottom Sections
         presenceSection = newSection(

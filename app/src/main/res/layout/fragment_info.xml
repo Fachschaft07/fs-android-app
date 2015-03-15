@@ -2,26 +2,26 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@android:color/white"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:paddingLeft="16dp"
+              android:paddingRight="16dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"
         android:text="@string/app_name"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"
-        android:textColor="#555555"
-        android:layout_gravity="center_horizontal"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"/>
 
     <TextView
         android:id="@+id/textViewVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="12dp"
         android:text="@string/version"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-        android:textColor="#555555"
-        android:layout_gravity="center_horizontal"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,12 +34,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"
         android:clickable="true"
         android:gravity="bottom|center_horizontal"
         android:text="@string/fs_contact"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-        android:textColor="#000055"
-        android:layout_gravity="center_horizontal"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"/>
 
 </LinearLayout>

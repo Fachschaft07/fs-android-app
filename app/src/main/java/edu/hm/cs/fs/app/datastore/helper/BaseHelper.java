@@ -24,17 +24,7 @@ public abstract class BaseHelper {
     }
 
     static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> void listAll(final Context context, final Fetcher fetcher, final Class<Impl> implType, final Callback<List<Interface>> callback, final OnHelperCallback<Interface, Impl> creator) {
-        // Request data from database...
-        new RealmExecutor<List<Interface>>(context) {
-            @Override
-            public List<Interface> run(final Realm realm) {
-                List<Interface> result = new ArrayList<>();
-                for (Impl impl : realm.where(implType).findAll()) {
-                    result.add(creator.createHelper(context, impl));
-                }
-                return result;
-            }
-        }.executeAsync(callback);
+        listAllOffline(context, implType, callback, creator);
 
         if (PrefUtils.isNotUpToDate(context, fetcher.getClass())) {
             listAllOnline(context, fetcher, implType, callback, creator);
@@ -43,7 +33,6 @@ public abstract class BaseHelper {
 
     static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> void listAllOnline(final Context context, final Fetcher fetcher, final Class<Impl> implType, final Callback<List<Interface>> callback, final OnHelperCallback<Interface, Impl> creator) {
         // Request data from web...
-        // TODO Don't update every time the device is connected to the internet
         new RealmExecutor<List<Interface>>(context) {
             @Override
             public List<Interface> run(final Realm realm) {

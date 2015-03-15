@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import com.fk07.R;
 
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -65,7 +64,6 @@ public class MvvFragment extends Fragment implements Runnable {
             @Override
             public void onResult(final List<PublicTransport> result) {
                 mAdapterLoth.clear();
-                Date now = new Date();
                 for (PublicTransport publicTransport : result) {
                     mAdapterLoth.add(publicTransport);
                 }
@@ -76,7 +74,6 @@ public class MvvFragment extends Fragment implements Runnable {
             @Override
             public void onResult(final List<PublicTransport> result) {
                 mAdapterPasing.clear();
-                Date now = new Date();
                 for (PublicTransport publicTransport : result) {
                     mAdapterPasing.add(publicTransport);
                 }
