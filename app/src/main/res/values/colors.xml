@@ -9,6 +9,8 @@
     <color name="gray">#ffdddddd</color>
     <color name="light_gray">#eeeeee</color>
     <color name="dark_gray">#666666</color>
-    <color name="yellow">#ffd7d500</color>
-    <color name="green">#ff079d01</color>
+    <color name="presence_busy">#ffd7d500</color>
+    <color name="presence_available">#ff079d01</color>
+    <color name="mensa">#ff74b02d</color>
+    <color name="mvv">#dd2160c7</color>
 </resources>

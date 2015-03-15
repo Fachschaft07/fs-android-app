@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public interface PublicTransport {
-	int getLine();
+	String getLine();
 	
 	String getDestination();
 

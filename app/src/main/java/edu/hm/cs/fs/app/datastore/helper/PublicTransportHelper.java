@@ -15,7 +15,7 @@ import io.realm.Realm;
  * Created by Fabio on 14.03.2015.
  */
 public class PublicTransportHelper extends BaseHelper implements PublicTransport {
-    private final int line;
+    private final String line;
     private final String destination;
     private final Date departure;
 
@@ -27,7 +27,7 @@ public class PublicTransportHelper extends BaseHelper implements PublicTransport
     }
 
     @Override
-    public int getLine() {
+    public String getLine() {
         return line;
     }
 
@@ -58,6 +58,7 @@ public class PublicTransportHelper extends BaseHelper implements PublicTransport
 
             @Override
             public void copyToRealmOrUpdate(final Realm realm, final PublicTransportImpl publicTransport) {
+                realm.copyToRealmOrUpdate(publicTransport);
             }
         });
     }

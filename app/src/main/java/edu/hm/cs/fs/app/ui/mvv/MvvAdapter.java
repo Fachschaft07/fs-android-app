@@ -47,7 +47,7 @@ public class MvvAdapter extends ArrayAdapter<PublicTransport> {
                 .fontSize(29)
                 .textColor(Color.DKGRAY)
                 .endConfig()
-                .buildRound(Integer.toString(entry.getLine()), Color.TRANSPARENT);
+                .buildRound(entry.getLine(), Color.TRANSPARENT);
 
         holder.line.setImageDrawable(drawable);
         holder.destination.setText(entry.getDestination());

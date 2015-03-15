@@ -40,15 +40,18 @@ public class PublicTransportFetcher extends AbstractHtmlFetcher<PublicTransportF
         for (int indexRow = 0; indexRow < rows.size(); indexRow++) {
             final Element row = rows.get(indexRow);
             if(row.hasClass("rowOdd") || row.hasClass("rowEven")) {
-                int line = Integer.parseInt(row.getElementsByClass("lineColumn").get(0).text());
+                String line = row.getElementsByClass("lineColumn").get(0).text();
                 String station = row.getElementsByClass("stationColumn").get(0).text();
 
                 int inMin = Integer.parseInt(row.getElementsByClass("inMinColumn").get(0).text());
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.MINUTE, -inMin);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
                 Date departure =  cal.getTime();
 
                 PublicTransportImpl publicTransport = new PublicTransportImpl();
+                publicTransport.setId(line+Long.toString(cal.getTimeInMillis()));
                 publicTransport.setLine(line);
                 publicTransport.setDestination(station);
                 publicTransport.setDeparture(departure);

@@ -3,7 +3,6 @@ package edu.hm.cs.fs.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,9 @@ import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
 import edu.hm.cs.fs.app.ui.info.InfoFragment;
 import edu.hm.cs.fs.app.ui.mensa.MealFragment;
 import edu.hm.cs.fs.app.ui.mvv.MvvFragment;
-import edu.hm.cs.fs.app.util.multipane.FragmentMultiPane;
 import edu.hm.cs.fs.app.ui.presence.PresenceFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableDayActivity;
+import edu.hm.cs.fs.app.util.multipane.FragmentMultiPane;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialSection;
 
@@ -61,8 +60,20 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
 		//addSection(newSection(getString(R.string.news), R.drawable.ic_news, new Fragment()));
 		addSection(newSection(getString(R.string.timetable), R.drawable.ic_view_week_grey600_24dp, new Intent(this, TimetableDayActivity.class)));
 		//addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_roomsearch, new Fragment()));
-		addSection(newSection(getString(R.string.mvv), R.drawable.ic_directions_train_grey600_24dp, new MvvFragment()));
-		addSection(newSection(getString(R.string.food), R.drawable.ic_local_restaurant_grey600_24dp, new MealFragment()));
+        final MaterialSection mvvSection = newSection(
+                getString(R.string.mvv),
+                R.drawable.ic_directions_train_grey600_24dp,
+                new MvvFragment()
+        );
+        mvvSection.setSectionColor(getResources().getColor(R.color.mvv));
+        addSection(mvvSection);
+        final MaterialSection mensaSection = newSection(
+                getString(R.string.food),
+                R.drawable.ic_local_restaurant_grey600_24dp,
+                new MealFragment()
+        );
+        mensaSection.setSectionColor(getResources().getColor(R.color.mensa));
+        addSection(mensaSection);
 
 		// Bottom Sections
         presenceSection = newSection(
@@ -90,15 +101,11 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
                 int drawableId;
                 int sectionColorId;
                 if (PresenceHelper.isPresent(result)) {
-                    sectionColorId = R.color.green;
-                    Log.d(getClass().getSimpleName(), "Presence green");
+                    sectionColorId = R.color.presence_available;
                 } else {
-                    sectionColorId = R.color.yellow;
-                    Log.d(getClass().getSimpleName(), "Presence yellow");
+                    sectionColorId = R.color.presence_busy;
                 }
                 presenceSection.setSectionColor(getResources().getColor(sectionColorId));
-
-                Log.d(getClass().getSimpleName(), "Presence count = " + result.size());
                 presenceSection.setNotifications(result.size());
             }
         });
