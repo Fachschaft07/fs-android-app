@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.app.datastore.model.Exam;
 import edu.hm.cs.fs.app.datastore.model.Module;
@@ -15,6 +16,7 @@ import edu.hm.cs.fs.app.datastore.model.impl.ExamImpl;
 import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
 import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
 import edu.hm.cs.fs.app.datastore.web.ExamFetcher;
+import edu.hm.cs.fs.app.util.PrefUtils;
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -98,6 +100,8 @@ public class ExamHelper extends BaseHelper implements Exam {
 	}
     
     public static void listAll(final Context context, final Callback<List<Exam>> callback) {
+        PrefUtils.setUpdateInterval(context, ExamFetcher.class, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.DAYS));
+
     	listAll(context, new ExamFetcher(context), ExamImpl.class, callback, new OnHelperCallback<Exam, ExamImpl>() {
 			@Override
 			public Exam createHelper(Context context, ExamImpl impl) {

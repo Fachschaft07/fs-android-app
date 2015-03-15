@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.app.datastore.model.Person;
 import edu.hm.cs.fs.app.datastore.model.constants.Day;
@@ -12,6 +13,7 @@ import edu.hm.cs.fs.app.datastore.model.constants.PersonStatus;
 import edu.hm.cs.fs.app.datastore.model.constants.Sex;
 import edu.hm.cs.fs.app.datastore.model.impl.PersonImpl;
 import edu.hm.cs.fs.app.datastore.web.PersonFetcher;
+import edu.hm.cs.fs.app.util.PrefUtils;
 import io.realm.Realm;
 
 /**
@@ -192,6 +194,8 @@ public class PersonHelper extends BaseHelper implements Person {
     }
 
     public static void listAll(final Context context, final Callback<List<Person>> callback) {
+        PrefUtils.setUpdateInterval(context, PersonFetcher.class, TimeUnit.MILLISECONDS.convert(50l, TimeUnit.DAYS));
+
         listAll(context, new PersonFetcher(context), PersonImpl.class, callback, new OnHelperCallback<Person, PersonImpl>() {
             @Override
             public Person createHelper(Context context, PersonImpl impl) {

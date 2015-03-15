@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.app.datastore.model.Module;
 import edu.hm.cs.fs.app.datastore.model.ModuleCode;
@@ -17,6 +18,7 @@ import edu.hm.cs.fs.app.datastore.model.impl.ModuleImpl;
 import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
 import edu.hm.cs.fs.app.datastore.web.ModuleFetcher;
 import edu.hm.cs.fs.app.util.DataUtils;
+import edu.hm.cs.fs.app.util.PrefUtils;
 import io.realm.Realm;
 
 /**
@@ -40,15 +42,15 @@ public class ModuleHelper extends BaseHelper implements Module {
     private List<ModuleCode> moduleCodes;
 
     ModuleHelper(Context context, ModuleImpl module) {
-    	super(context);
+        super(context);
         name = module.getName();
         credits = module.getCredits();
         sws = module.getSws();
         responsible = PersonHelper.findById(context, module.getResponsible());
         teachers = new ArrayList<>();
         for (RealmString teacherId : module.getTeachers()) {
-			teachers.add(PersonHelper.findById(context, teacherId.getValue()));
-		}
+            teachers.add(PersonHelper.findById(context, teacherId.getValue()));
+        }
         languages = new ArrayList<>();
         for (RealmString realmString : module.getLanguages()) {
             languages.add(DataUtils.toLocale(realmString.getValue()));
@@ -63,129 +65,131 @@ public class ModuleHelper extends BaseHelper implements Module {
         program = GroupImpl.of(module.getProgram()).getStudy();
         moduleCodes = new ArrayList<>();
         for (ModuleCodeImpl moduleCode : module.getModulCodes()) {
-			moduleCodes.add(new ModuleCodeHelper(context, moduleCode));
-		}
+            moduleCodes.add(new ModuleCodeHelper(context, moduleCode));
+        }
     }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public int getCredits() {
-		return credits;
-	}
+    @Override
+    public int getCredits() {
+        return credits;
+    }
 
-	@Override
-	public int getSemesterWeekHours() {
-		return sws;
-	}
+    @Override
+    public int getSemesterWeekHours() {
+        return sws;
+    }
 
-	@Override
-	public Person getResponsible() {
-		return responsible;
-	}
+    @Override
+    public Person getResponsible() {
+        return responsible;
+    }
 
-	@Override
-	public List<Person> getTeachers() {
-		return teachers;
-	}
+    @Override
+    public List<Person> getTeachers() {
+        return teachers;
+    }
 
-	@Override
-	public List<Locale> getLanguages() {
-		return languages;
-	}
+    @Override
+    public List<Locale> getLanguages() {
+        return languages;
+    }
 
-	@Override
-	public TeachingForm getTeachingForm() {
-		return teachingForm;
-	}
+    @Override
+    public TeachingForm getTeachingForm() {
+        return teachingForm;
+    }
 
-	@Override
-	public String getExpenditure() {
-		return expenditure;
-	}
+    @Override
+    public String getExpenditure() {
+        return expenditure;
+    }
 
-	@Override
-	public String getRequirements() {
-		return requirements;
-	}
+    @Override
+    public String getRequirements() {
+        return requirements;
+    }
 
-	@Override
-	public String getGoals() {
-		return goals;
-	}
+    @Override
+    public String getGoals() {
+        return goals;
+    }
 
-	@Override
-	public String getContent() {
-		return content;
-	}
+    @Override
+    public String getContent() {
+        return content;
+    }
 
-	@Override
-	public String getMedia() {
-		return media;
-	}
+    @Override
+    public String getMedia() {
+        return media;
+    }
 
-	@Override
-	public String getLiterature() {
-		return literatur;
-	}
+    @Override
+    public String getLiterature() {
+        return literatur;
+    }
 
-	@Override
-	public Study getProgram() {
-		return program;
-	}
+    @Override
+    public Study getProgram() {
+        return program;
+    }
 
-	@Override
-	public List<ModuleCode> getModulCodes() {
-		return moduleCodes;
-	}
+    @Override
+    public List<ModuleCode> getModulCodes() {
+        return moduleCodes;
+    }
 
     public static void listAll(final Context context, final Callback<List<Module>> callback) {
-    	listAll(context, new ModuleFetcher(context), ModuleImpl.class, callback, new OnHelperCallback<Module, ModuleImpl>() {
-			@Override
-			public Module createHelper(Context context, ModuleImpl impl) {
-				return new ModuleHelper(context, impl);
-			}
+        PrefUtils.setUpdateInterval(context, ModuleFetcher.class, TimeUnit.MILLISECONDS.convert(30l, TimeUnit.DAYS));
 
-			@Override
-			public void copyToRealmOrUpdate(Realm realm, ModuleImpl impl) {
-	    		realm.copyToRealmOrUpdate(impl);
-	    		for (ModuleCodeImpl moduleCode : impl.getModulCodes()) {
-	        		realm.copyToRealmOrUpdate(moduleCode);
-				}
-			}
-		});
+        listAll(context, new ModuleFetcher(context), ModuleImpl.class, callback, new OnHelperCallback<Module, ModuleImpl>() {
+            @Override
+            public Module createHelper(Context context, ModuleImpl impl) {
+                return new ModuleHelper(context, impl);
+            }
+
+            @Override
+            public void copyToRealmOrUpdate(Realm realm, ModuleImpl impl) {
+                realm.copyToRealmOrUpdate(impl);
+                for (ModuleCodeImpl moduleCode : impl.getModulCodes()) {
+                    realm.copyToRealmOrUpdate(moduleCode);
+                }
+            }
+        });
     }
 
     static Module findById(final Context context, final String id) {
         return new RealmExecutor<Module>(context) {
             @Override
             public Module run(final Realm realm) {
-            	ModuleImpl module = realm.where(ModuleImpl.class).equalTo("id", id).findFirst();
-            	if(module == null) {
-            		List<ModuleImpl> moduleList = fetchOnlineData(new ModuleFetcher(context), realm, new OnHelperCallback<Module, ModuleImpl>() {
-            			@Override
-            			public Module createHelper(Context context, ModuleImpl impl) {
-            				return new ModuleHelper(context, impl);
-            			}
+                ModuleImpl module = realm.where(ModuleImpl.class).equalTo("id", id).findFirst();
+                if (module == null) {
+                    List<ModuleImpl> moduleList = fetchOnlineData(new ModuleFetcher(context), realm, new OnHelperCallback<Module, ModuleImpl>() {
+                        @Override
+                        public Module createHelper(Context context, ModuleImpl impl) {
+                            return new ModuleHelper(context, impl);
+                        }
 
-            			@Override
-            			public void copyToRealmOrUpdate(Realm realm, ModuleImpl impl) {
-            	    		realm.copyToRealmOrUpdate(impl);
-            	    		for (ModuleCodeImpl moduleCode : impl.getModulCodes()) {
-            	        		realm.copyToRealmOrUpdate(moduleCode);
-            				}
-            			}
-            		});
-            		for (ModuleImpl moduleImpl : moduleList) {
-						if(moduleImpl.getId().equals(id)) {
-							module = moduleImpl;
-							break;
-						}
-					}
-            	}
+                        @Override
+                        public void copyToRealmOrUpdate(Realm realm, ModuleImpl impl) {
+                            realm.copyToRealmOrUpdate(impl);
+                            for (ModuleCodeImpl moduleCode : impl.getModulCodes()) {
+                                realm.copyToRealmOrUpdate(moduleCode);
+                            }
+                        }
+                    });
+                    for (ModuleImpl moduleImpl : moduleList) {
+                        if (moduleImpl.getId().equals(id)) {
+                            module = moduleImpl;
+                            break;
+                        }
+                    }
+                }
                 return new ModuleHelper(context, module);
             }
         }.execute();

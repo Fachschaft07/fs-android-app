@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,7 @@ import edu.hm.cs.fs.app.datastore.model.constants.Additive;
 import edu.hm.cs.fs.app.datastore.model.constants.MealType;
 import edu.hm.cs.fs.app.datastore.model.impl.MealImpl;
 import edu.hm.cs.fs.app.datastore.web.MealFetcher;
+import edu.hm.cs.fs.app.util.PrefUtils;
 import io.realm.Realm;
 
 /**
@@ -108,6 +110,8 @@ public class MealHelper extends BaseHelper implements Meal {
     }
 
     public static void listAll(Context context, Callback<List<Meal>> callback) {
+        PrefUtils.setUpdateInterval(context, MealFetcher.class, TimeUnit.MILLISECONDS.convert(3l, TimeUnit.DAYS));
+
         listAll(context, new MealFetcher(context), MealImpl.class, callback, new OnHelperCallback<Meal, MealImpl>() {
             @Override
             public Meal createHelper(final Context context, final MealImpl meal) {
