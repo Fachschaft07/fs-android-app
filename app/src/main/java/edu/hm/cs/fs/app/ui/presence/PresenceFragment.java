@@ -50,6 +50,8 @@ public class PresenceFragment extends Fragment {
 
         mAdapter = new PresenceAdapter(getActivity());
         mListView.setAdapter(mAdapter);
+
+        refresh();
     }
 
     @Override
@@ -61,10 +63,13 @@ public class PresenceFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_refresh: {
+                refresh();
+                return true;
+            }
             case R.id.menu_call: {
-                final Intent intent = new Intent(Intent.ACTION_CALL);
-                // TODO Set telephone number
-                //intent.putExtra(Intent.EXTRA_, new String[]{"info@fs.cs.hm.edu"});
+                final Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.putExtra(Intent.EXTRA_PHONE_NUMBER, "08912653777");
                 startActivity(intent);
                 return true;
             }
@@ -80,10 +85,7 @@ public class PresenceFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    private void refresh() {
         PresenceHelper.listAll(getActivity(), new Callback<List<Presence>>() {
             @Override
             public void onResult(final List<Presence> result) {

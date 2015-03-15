@@ -49,18 +49,7 @@
     <favorites_list name="FK07" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5139373" vertical-offset="487" max-vertical-offset="1564">
-              <caret line="75" column="33" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -1377,8 +1366,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/blackboard/BlackBoardDetailFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/presence/PresenceFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/info/InfoFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/blackboard/BlackBoardListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/mensa/MensaAdapter.java" />
@@ -1410,13 +1397,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/presence/PresenceAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_meal.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/model/PublicTransport.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/helper/PublicTransportHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/model/impl/PublicTransportImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/mvv/MvvAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/model/constants/Additives.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/mvv.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/web/PublicTransportFetcher.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/model/constants/MealType.java" />
@@ -1428,6 +1413,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/model/constants/Additive.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/helper/MealHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/mensa/MealFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/presence.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/menu/mvv.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/presence/PresenceFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -1548,80 +1537,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FK07" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mensa" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FK07" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datastore" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FK07" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="datastore" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helper" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1952,12 +1867,32 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20042644" sideWeight="0.50082916" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1972,7 +1907,7 @@
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3303671" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19616205" sideWeight="0.4991708" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19616205" sideWeight="0.4991708" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2147,14 +2082,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/presence.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17677642" vertical-offset="0" max-vertical-offset="577">
-          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_mvv.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -2210,6 +2137,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.42807627" vertical-offset="59" max-vertical-offset="697">
           <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2295,30 +2223,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/helper/BaseHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0248227" vertical-offset="0" max-vertical-offset="1564">
-          <caret line="47" column="55" selection-start-line="47" selection-start-column="55" selection-end-line="47" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/presence/PresenceFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.041594453" vertical-offset="163" max-vertical-offset="1479">
-          <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/mvv.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.058925476" vertical-offset="0" max-vertical-offset="577">
-          <caret line="2" column="52" selection-start-line="2" selection-start-column="52" selection-end-line="2" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/web/PublicTransportFetcher.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5177305" vertical-offset="354" max-vertical-offset="969">
@@ -2332,14 +2236,10 @@
         <state vertical-scroll-proportion="0.3830156" vertical-offset="0" max-vertical-offset="748">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding>
-            <element signature="e#375#376#0" expanded="true" />
-            <element signature="e#400#401#0" expanded="true" />
-            <element signature="e#442#443#0" expanded="true" />
-            <element signature="e#470#471#0" expanded="true" />
-            <element signature="e#776#777#0" expanded="true" />
-            <element signature="e#810#811#0" expanded="true" />
-            <element signature="e#870#871#0" expanded="true" />
-            <element signature="e#916#917#0" expanded="true" />
+            <element signature="e#375#376#0" expanded="false" />
+            <element signature="e#400#401#0" expanded="false" />
+            <element signature="e#442#443#0" expanded="false" />
+            <element signature="e#470#471#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2462,11 +2362,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/mvv.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13662457" vertical-offset="0" max-vertical-offset="871">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/presence.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.13662457" vertical-offset="0" max-vertical-offset="871">
+          <caret line="7" column="37" selection-start-line="7" selection-start-column="37" selection-end-line="7" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/presence/PresenceFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5074627" vertical-offset="0" max-vertical-offset="1513">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/helper/BaseHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21794872" vertical-offset="306" max-vertical-offset="1564">
+          <caret line="42" column="11" selection-start-line="42" selection-start-column="11" selection-end-line="42" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/datastore/helper/TimetableHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21928817" vertical-offset="982" max-vertical-offset="2924">
+          <caret line="109" column="19" selection-start-line="109" selection-start-column="19" selection-end-line="109" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/hm/cs/fs/app/ui/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5139373" vertical-offset="487" max-vertical-offset="1564">
-          <caret line="75" column="33" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
-          <folding />
+        <state vertical-scroll-proportion="0.6881533" vertical-offset="1033" max-vertical-offset="1904">
+          <caret line="114" column="0" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+          <folding>
+            <element signature="e#1707#1785#0" expanded="true" />
+            <element signature="e#1897#1975#0" expanded="true" />
+            <element signature="e#2331#2361#0" expanded="true" />
+            <element signature="e#2634#2663#0" expanded="true" />
+            <element signature="e#2924#2947#0" expanded="true" />
+            <element signature="e#3234#3258#0" expanded="true" />
+            <element signature="e#3555#3583#0" expanded="true" />
+            <element signature="e#3774#3798#0" expanded="true" />
+            <element signature="e#4079#4112#0" expanded="true" />
+            <element signature="e#4502#4503#0" expanded="true" />
+            <element signature="e#4543#4544#0" expanded="true" />
+            <element signature="e#4851#5408#0" expanded="true" />
+            <element signature="e#5397#5398#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

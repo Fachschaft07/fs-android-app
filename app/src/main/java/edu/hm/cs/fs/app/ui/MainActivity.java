@@ -3,6 +3,7 @@ package edu.hm.cs.fs.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,16 +90,33 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
         intent.setType("plain/text");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});
         addBottomSection(newSection(getString(R.string.help_feedback), R.drawable.ic_local_post_office_grey600_24dp, intent));
+
+        // Listen to the drawer to update the presence item
+        setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(final View drawerView, final float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerOpened(final View drawerView) {
+                refresh();
+            }
+
+            @Override
+            public void onDrawerClosed(final View drawerView) {
+            }
+
+            @Override
+            public void onDrawerStateChanged(final int newState) {
+            }
+        });
+        refresh();
 	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+    private void refresh() {
         PresenceHelper.listAll(this, new Callback<List<Presence>>() {
             @Override
             public void onResult(final List<Presence> result) {
-                int drawableId;
                 int sectionColorId;
                 if (PresenceHelper.isPresent(result)) {
                     sectionColorId = R.color.presence_available;
