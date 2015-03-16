@@ -9,6 +9,7 @@ import java.util.List;
 import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractContentFetcher;
 import edu.hm.cs.fs.app.util.NetworkUtils;
 import edu.hm.cs.fs.app.util.PrefUtils;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import io.realm.RealmObject;
 
@@ -23,6 +24,7 @@ public abstract class BaseHelper {
         return mContext;
     }
 
+    @DebugLog
     static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> void listAll(final Context context, final Fetcher fetcher, final Class<Impl> implType, final Callback<List<Interface>> callback, final OnHelperCallback<Interface, Impl> creator) {
         listAllOffline(context, implType, callback, creator);
 
@@ -31,6 +33,7 @@ public abstract class BaseHelper {
         }
     }
 
+    @DebugLog
     static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> void listAllOnline(final Context context, final Fetcher fetcher, final Class<Impl> implType, final Callback<List<Interface>> callback, final OnHelperCallback<Interface, Impl> creator) {
         // Request data from web...
         new RealmExecutor<List<Interface>>(context) {
@@ -49,7 +52,8 @@ public abstract class BaseHelper {
         }.executeAsync(callback);
     }
 
-    static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> void listAllOffline(final Context context, final Class<Impl> implType, final Callback<List<Interface>> callback, final OnHelperCallback<Interface, Impl> creator) {
+    @DebugLog
+    static <Interface, Impl extends RealmObject> void listAllOffline(final Context context, final Class<Impl> implType, final Callback<List<Interface>> callback, final OnHelperCallback<Interface, Impl> creator) {
         // Request data from database...
         new RealmExecutor<List<Interface>>(context) {
             @Override
@@ -63,6 +67,7 @@ public abstract class BaseHelper {
         }.executeAsync(callback);
     }
 
+    @DebugLog
     static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> List<Impl> fetchOnlineData(Fetcher fetcher, Realm realm, OnHelperCallback<Interface, Impl> callback) {
         List<Impl> implList = fetcher.fetch();
         if (!implList.isEmpty()) {

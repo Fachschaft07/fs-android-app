@@ -9,6 +9,7 @@ import edu.hm.cs.fs.app.datastore.model.Presence;
 import edu.hm.cs.fs.app.datastore.model.impl.PresenceImpl;
 import edu.hm.cs.fs.app.datastore.web.PresenceFetcher;
 import edu.hm.cs.fs.app.util.PrefUtils;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
 
 /**
@@ -39,6 +40,7 @@ public class PresenceHelper extends BaseHelper implements Presence {
         return "Busy".equalsIgnoreCase(status);
     }
 
+    @DebugLog
     public static boolean isPresent(List<Presence> presenceList) {
         boolean present = false;
         for (Presence presence : presenceList) {
@@ -49,6 +51,7 @@ public class PresenceHelper extends BaseHelper implements Presence {
         return present;
     }
 
+    @DebugLog
     public static void isPresent(Context context, final Callback<Boolean> callback) {
         listAll(context, new Callback<List<Presence>>() {
             @Override
@@ -58,6 +61,7 @@ public class PresenceHelper extends BaseHelper implements Presence {
         });
     }
 
+    @DebugLog
     public static void listAll(final Context context, final Callback<List<Presence>> callback) {
         PrefUtils.setUpdateInterval(context, PresenceFetcher.class, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.MINUTES));
 

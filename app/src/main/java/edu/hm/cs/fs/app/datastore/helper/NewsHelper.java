@@ -15,6 +15,7 @@ import edu.hm.cs.fs.app.datastore.model.impl.NewsImpl;
 import edu.hm.cs.fs.app.datastore.model.realm.RealmString;
 import edu.hm.cs.fs.app.datastore.web.NewsFetcher;
 import edu.hm.cs.fs.app.util.PrefUtils;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
 
 /**
@@ -88,6 +89,7 @@ public class NewsHelper extends BaseHelper implements News {
         return url;
     }
 
+    @DebugLog
     public static void listAll(final Context context, final Callback<List<News>> callback) {
         PrefUtils.setUpdateInterval(context, NewsFetcher.class, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.HOURS));
 
@@ -104,6 +106,7 @@ public class NewsHelper extends BaseHelper implements News {
         });
     }
 
+    @DebugLog
     static News findById(final Context context, final String id) {
         return new RealmExecutor<News>(context) {
             @Override

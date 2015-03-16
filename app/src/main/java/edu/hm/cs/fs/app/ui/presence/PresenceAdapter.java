@@ -16,35 +16,42 @@ import butterknife.InjectView;
 import edu.hm.cs.fs.app.datastore.model.Presence;
 
 public class PresenceAdapter extends ArrayAdapter<Presence> {
-	public PresenceAdapter(final Context context) {
-		super(context, android.R.layout.simple_list_item_1);
-	}
+    public PresenceAdapter(final Context context) {
+        super(context, android.R.layout.simple_list_item_1);
+    }
 
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-		if (convertView == null) {
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_presence, parent, false);
-			holder = new ViewHolder(convertView);
-			convertView.setTag(holder);
-		} else {
-			holder = (ViewHolder) convertView.getTag();
-		}
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_presence, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
-		final Presence presence = getItem(position);
+        final Presence presence = getItem(position);
 
-        holder.status.setImageDrawable(TextDrawable.builder()
-                .buildRound(" ", presence.isBusy() ? R.color.presence_busy : R.color.presence_available));
-		holder.name.setText(presence.getName());
+        final int color;
+        if (presence.isBusy()) {
+            color = getContext().getResources().getColor(R.color.presence_busy);
+        } else {
+            color = getContext().getResources().getColor(R.color.presence_available);
+        }
+        holder.status.setImageDrawable(TextDrawable.builder().buildRound("", color));
+        holder.name.setText(presence.getName());
 
-		return convertView;
-	}
+        return convertView;
+    }
 
-	static class ViewHolder {
-        @InjectView(R.id.presenceStatus) ImageView status;
-		@InjectView(R.id.presenceName) TextView name;
+    static class ViewHolder {
+        @InjectView(R.id.presenceStatus)
+        ImageView status;
+        @InjectView(R.id.presenceName)
+        TextView name;
 
-		public ViewHolder(View view) {
-			ButterKnife.inject(this, view);
-		}
-	}
+        public ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
+    }
 }
