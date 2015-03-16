@@ -20,6 +20,7 @@ import edu.hm.cs.fs.app.datastore.helper.Callback;
 import edu.hm.cs.fs.app.datastore.helper.MealHelper;
 import edu.hm.cs.fs.app.datastore.model.Meal;
 import edu.hm.cs.fs.app.datastore.model.constants.Additive;
+import edu.hm.cs.fs.app.util.DataUtils;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
@@ -51,7 +52,7 @@ public class MealFragment extends Fragment implements AdapterView.OnItemClickLis
                 mAdapter.clear();
                 Date today = new Date();
                 for (Meal meal : result) {
-                    if(meal.getDate().after(today)) {
+                    if(meal.getDate().after(today) || DataUtils.isSameDate(meal.getDate(), today)) {
                         mAdapter.add(meal);
                     }
                 }
