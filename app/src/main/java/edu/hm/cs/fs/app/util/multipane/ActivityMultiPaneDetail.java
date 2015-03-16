@@ -31,8 +31,11 @@ public class ActivityMultiPaneDetail extends ActionBarActivity {
 
 		ButterKnife.inject(this);
 
+        String title = ((OnMultiPaneDetailSegment<?>) mFragment).getTitle();
+
 		MaterialMenuDrawable materialMenu = new MaterialMenuDrawable(this, Color.WHITE, MaterialMenuDrawable.Stroke.THIN);
 		materialMenu.setIconState(MaterialMenuDrawable.IconState.ARROW);
+        mToolbar.setTitle(title);
 		mToolbar.setNavigationIcon(materialMenu);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.app.datastore.web.fetcher;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,14 +51,14 @@ public abstract class AbstractJsonFetcher<Builder extends AbstractJsonFetcher<Bu
 				result.addAll(convert(new JSONObject(rawJson)));
 			}
 		} catch (final Exception e) {
-			e.printStackTrace();
-		} finally {
+            Log.e(getClass().getSimpleName(), "", e);
+        } finally {
 			try {
 				if(reader != null) {
 					reader.close();
 				}
 			} catch(IOException e) {
-				e.printStackTrace();
+                Log.e(getClass().getSimpleName(), "", e);
 			}
 		}
 		return result;

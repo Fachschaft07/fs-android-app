@@ -96,6 +96,11 @@ public class FragmentMultiPane<T> extends Fragment implements OnMultiPaneDetailS
     }
 
     @Override
+    public String getTitle() {
+        return mDetailSegment.getTitle();
+    }
+
+    @Override
     public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SELECTED_ITEM, mListSegment.getSelectedPosition());

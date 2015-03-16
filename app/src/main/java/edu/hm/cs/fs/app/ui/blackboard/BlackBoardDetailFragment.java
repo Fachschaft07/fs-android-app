@@ -13,13 +13,14 @@ import com.fk07.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import edu.hm.cs.fs.app.datastore.model.News;
+import edu.hm.cs.fs.app.util.DataUtils;
 import edu.hm.cs.fs.app.util.multipane.OnMultiPaneDetailSegment;
 
 /**
  * Created by Fabio on 08.03.2015.
  */
 public class BlackBoardDetailFragment extends Fragment implements OnMultiPaneDetailSegment<News> {
-    @InjectView(R.id.textSubject) TextView subject;
+    //@InjectView(R.id.textSubject) TextView subject;
     @InjectView(R.id.textGroups) TextView groups;
     @InjectView(R.id.textDescription) TextView description;
     private News mNews;
@@ -43,13 +44,22 @@ public class BlackBoardDetailFragment extends Fragment implements OnMultiPaneDet
         initViewContent();
     }
 
+    @Override
+    public String getTitle() {
+        return mNews.getSubject();
+    }
+
     private void initViewContent() {
-        if(subject == null || mNews == null) {
+        if(groups == null || mNews == null) {
             return;
         }
 
-        subject.setText(mNews.getSubject());
-        groups.setText(mNews.getGroups().toString());
+        //subject.setText(mNews.getSubject());
+        if(mNews.getGroups().isEmpty()) {
+            groups.setVisibility(View.GONE);
+        } else {
+            groups.setText(mNews.getGroups().toString());
+        }
         description.setText(mNews.getText());
     }
 
