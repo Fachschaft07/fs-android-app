@@ -7,7 +7,6 @@ import org.w3c.dom.Document;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -18,22 +17,43 @@ import javax.xml.parsers.DocumentBuilderFactory;
  *
  */
 public final class DataUtils {
-	private static final Pattern PATTERN_LIST_ITEM = Pattern
-			.compile("\\s\\.([^\n]+)");
+    private static final Pattern PATTERN_BOLD = Pattern.compile("\\*([^\\n]+)\\*");
+    private static final Pattern PATTERN_NEW_LINE = Pattern.compile("\\n(#)\\n");
+    private static final Pattern PATTERN_LIST = Pattern.compile("^\\.([^\\n]+)");
+
+    private static final String BOLD_OPENING_TAG = "<b>";
+    private static final String BOLD_CLOSING_TAG = "</b>";
 	private static final String LIST_OPENING_TAG = "<ul>";
-	private static final String LIST_CLOSEING_TAG = "</ul>";
+	private static final String LIST_CLOSING_TAG = "</ul>";
 	private static final String LIST_ITEM_OPENING_TAG = "<li>";
-	private static final String LIST_ITEM_CLOSEING_TAG = "</li>";
+	private static final String LIST_ITEM_CLOSING_TAG = "</li>";
 
 	private DataUtils() {
 	}
 
 	public static String toHtml(final String content) {
-		final String replaced = content.replaceAll("#", "\n");
-		final String bold = replaceAll(replaced, "*", "b");
-		return insertList(bold);
+        String html = null;
+
+        // New Lines
+        html = content.replaceAll(PATTERN_NEW_LINE.pattern(), "\n");
+
+        // Bolds
+        /*
+        final Matcher matcher = PATTERN_BOLD.matcher(content);
+        if(matcher.find()) {
+            for (int index = 0; index < matcher.groupCount(); index++) {
+            }
+        }
+        */
+
+        //final String replaced = content.replaceAll("#", "\n");
+		//final String bold = replaceAll(replaced, "*", "b");
+		//return insertList(bold);
+
+        return html;
 	}
 
+    /*
 	private static String insertList(final String string) {
 		String result = string;
 		final String startString = " .";
@@ -56,10 +76,10 @@ public final class DataUtils {
 			firstPart = result.substring(0, index);
 			secondPart = result.substring(index + endString.length(),
 					result.length());
-			result = firstPart + "\n" + LIST_CLOSEING_TAG + secondPart;
+			result = firstPart + "\n" + LIST_CLOSING_TAG + secondPart;
 		}
 
-		// System.out.println(result);
+		System.out.println(result);
 		return insertListItems(result);
 	}
 
@@ -69,21 +89,21 @@ public final class DataUtils {
 		while (index > -1) {
 			final Matcher matcher = PATTERN_LIST_ITEM.matcher(result);
 			if (matcher.find(index)) {
-				final String group = matcher.group(1);
+				String group = matcher.group(1);
 				index = matcher.start();
 
 				final String firstPart = result.substring(0, index);
 				final String secondPart = result.substring(index
 						+ matcher.group().length(), result.length());
 
-				group.replaceAll("\\.", "");
+				group = group.replaceAll("\\.", "");
 				result = firstPart + LIST_ITEM_OPENING_TAG + group
-						+ LIST_ITEM_CLOSEING_TAG + secondPart;
+						+ LIST_ITEM_CLOSING_TAG + secondPart;
 			} else {
 				index = -1;
 			}
 		}
-		// System.out.println(result);
+		System.out.println(result);
 		return result;
 	}
 
@@ -116,6 +136,7 @@ public final class DataUtils {
 		}
 		return indexOf;
 	}
+	*/
 
     /**
      * @param url

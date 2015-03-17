@@ -41,11 +41,7 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
         header.setText(nextProverb());
         header.setGravity(Gravity.CENTER);
         header.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        header.setBackgroundResource(R.drawable.border_background);
-        header.setCompoundDrawablePadding(getResources().getDimensionPixelSize(R.dimen.textappearance_large_img_padding));
-        header.setCompoundDrawablesWithIntrinsicBounds(R.drawable.hotnews_3, 0, 0, 0);
-        int padding = getResources().getDimensionPixelSize(R.dimen.textappearance_large_img_padding);
-        header.setPadding(padding, padding, padding, padding);
+        header.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_hm, 0, 0);
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -55,6 +51,7 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
         setDrawerHeaderCustom(header);
 		
 		// Main Sections
+        addDivisor();
 		addSection(newSection(
                 getString(R.string.blackboard),
                 R.drawable.ic_assignment_grey600_24dp,
@@ -123,6 +120,11 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
         refresh();
 	}
 
+    public void updatePresenceColor(int memberCount, int colorId) {
+        presenceSection.setSectionColor(getResources().getColor(colorId));
+        presenceSection.setNotifications(memberCount);
+    }
+
     private void refresh() {
         PresenceHelper.listAll(this, new Callback<List<Presence>>() {
             @Override
@@ -133,8 +135,7 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
                 } else {
                     sectionColorId = R.color.presence_busy;
                 }
-                presenceSection.setSectionColor(getResources().getColor(sectionColorId));
-                presenceSection.setNotifications(result.size());
+                updatePresenceColor(result.size(), sectionColorId);
             }
         });
     }

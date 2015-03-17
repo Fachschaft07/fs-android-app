@@ -8,9 +8,7 @@ public interface Timetable {
 	void save();
 	
 	void delete();
-	
-	Group getGroup();
-	
+
 	List<Lesson> getLessons(Day day);
 	
 	void addLesson(Lesson lesson);

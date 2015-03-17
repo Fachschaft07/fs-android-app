@@ -14,7 +14,6 @@ import com.fk07.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import edu.hm.cs.fs.app.datastore.model.News;
-import edu.hm.cs.fs.app.util.DataUtils;
 import edu.hm.cs.fs.app.util.multipane.OnMultiPaneDetailSegment;
 
 /**

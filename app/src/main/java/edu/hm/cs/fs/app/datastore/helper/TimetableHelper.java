@@ -25,13 +25,11 @@ import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractContentFetcher;
 import io.realm.Realm;
 
 public class TimetableHelper extends BaseHelper implements Timetable {
-	private Group group;
 	private Map<Day, List<Lesson>> lessons;
 
 	TimetableHelper(final Context context, TimetableImpl timetable) {
     	super(context);
-        group = GroupImpl.of(timetable.getStudyGroup());
-        
+
         lessons = new HashMap<>();
         List<LessonImpl> tmpLessons = timetable.getLessons();
         for (final LessonImpl lessonImpl : tmpLessons) {
@@ -140,11 +138,6 @@ public class TimetableHelper extends BaseHelper implements Timetable {
 				return null;
 			}
 		}.execute();
-	}
-
-	@Override
-	public Group getGroup() {
-		return group;
 	}
 
 	@Override

@@ -105,7 +105,7 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
                     cal.set(Calendar.SECOND, 0);
                     cal.set(Calendar.MILLISECOND, 0);
                     event.setStartTime(cal);
-                    cal.add(Calendar.HOUR_OF_DAY, 23);
+                    cal.add(Calendar.HOUR_OF_DAY, 22);
                     event.setEndTime(cal);
 
                     event.setColor(Color.MAGENTA);
@@ -127,7 +127,8 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
         switch (item.getItemId()) {
             case R.id.menu_today:
                 mWeekView.goToToday();
-                mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+                // TODO This is a bug of the library which should be fixed with the next update
+                //mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
