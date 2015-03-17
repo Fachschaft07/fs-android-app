@@ -3,6 +3,7 @@ package edu.hm.cs.fs.app.ui.blackboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,10 @@ import edu.hm.cs.fs.app.util.multipane.OnMultiPaneDetailSegment;
  * Created by Fabio on 08.03.2015.
  */
 public class BlackBoardDetailFragment extends Fragment implements OnMultiPaneDetailSegment<News> {
-    //@InjectView(R.id.textSubject) TextView subject;
     @InjectView(R.id.textGroups) TextView groups;
     @InjectView(R.id.textDescription) TextView description;
+    @InjectView(R.id.textUrl) TextView url;
+    @InjectView(R.id.textAuthor) TextView author;
     private News mNews;
 
     @Override
@@ -54,13 +56,18 @@ public class BlackBoardDetailFragment extends Fragment implements OnMultiPaneDet
             return;
         }
 
-        //subject.setText(mNews.getSubject());
         if(mNews.getGroups().isEmpty()) {
             groups.setVisibility(View.GONE);
         } else {
             groups.setText(mNews.getGroups().toString());
         }
         description.setText(mNews.getText());
+        if(TextUtils.isEmpty(mNews.getUrl())) {
+            url.setVisibility(View.GONE);
+        } else {
+            url.setText(mNews.getUrl());
+        }
+        author.setText(mNews.getAuthor().getLastName() + " " + mNews.getAuthor().getFirstName());
     }
 
     @Override

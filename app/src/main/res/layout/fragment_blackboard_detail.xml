@@ -1,55 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:background="@android:color/white">
 
-    <!--
-    <TextView
-        android:id="@+id/textSubject"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
-        -->
-
-    <TextView
-        android:id="@+id/textGroups"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
-
-    <ScrollView
-        android:id="@+id/scrollView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout
+        android:orientation="vertical">
+        <!--
+        <TextView
+            android:id="@+id/textSubject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
+            -->
 
-            <TextView
-                android:id="@+id/textDescription"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
-        </LinearLayout>
-    </ScrollView>
+        <TextView
+            android:id="@+id/textGroups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
 
-    <TextView
-        android:id="@+id/textAuthor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="2dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead" />
+        <TextView
+            android:id="@+id/textDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:autoLink="web"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2" />
+
+        <TextView
+            android:id="@+id/textAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
+
+    </LinearLayout>
+</ScrollView>
