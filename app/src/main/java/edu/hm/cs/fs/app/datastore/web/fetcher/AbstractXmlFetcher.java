@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
-import edu.hm.cs.fs.app.util.DataUtils;
 
 /**
  * Created by Fabio on 18.02.2015.
@@ -33,9 +33,17 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
 
 	@Override
 	protected List<T> read(final String url) {
-		mXmlDoc = DataUtils.read(url);
-
 		List<T> result = new ArrayList<>();
+
+        final DocumentBuilderFactory factory = DocumentBuilderFactory
+                .newInstance();
+        DocumentBuilder documentBuilder = null;
+        try {
+            documentBuilder = factory.newDocumentBuilder();
+            mXmlDoc = documentBuilder.parse(url);
+        } catch (final Exception e) {
+            Log.w(getClass().getSimpleName(), "", e);
+        }
 
         if(mXmlDoc != null) {
             try {

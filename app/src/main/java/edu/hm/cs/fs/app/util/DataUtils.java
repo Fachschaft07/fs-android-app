@@ -1,16 +1,12 @@
 package edu.hm.cs.fs.app.util;
 
-import android.annotation.SuppressLint;
-
-import org.w3c.dom.Document;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * @author Fabio
@@ -21,6 +17,7 @@ public final class DataUtils {
     private static final Pattern PATTERN_NEW_LINE = Pattern.compile("\\n(#)\\n");
     private static final Pattern PATTERN_LIST = Pattern.compile("^\\.([^\\n]+)");
 
+    private static final String NEW_LINE_TAG = "\n";
     private static final String BOLD_OPENING_TAG = "<b>";
     private static final String BOLD_CLOSING_TAG = "</b>";
 	private static final String LIST_OPENING_TAG = "<ul>";
@@ -32,23 +29,30 @@ public final class DataUtils {
 	}
 
 	public static String toHtml(final String content) {
-        String html = null;
+        String html = content;
 
         // New Lines
-        html = content.replaceAll(PATTERN_NEW_LINE.pattern(), "\n");
+        Matcher matcher = PATTERN_NEW_LINE.matcher(content);
+        while(matcher.find()) {
+            Log.i("Html", "Matched from " + matcher.start() + " to " + matcher.end() + " -> " + matcher.group());
+            html = html.substring(0,matcher.start(1)) +
+                    NEW_LINE_TAG +
+                    html.substring(matcher.end(1), html.length());
+        }
 
         // Bolds
-        /*
-        final Matcher matcher = PATTERN_BOLD.matcher(content);
-        if(matcher.find()) {
-            for (int index = 0; index < matcher.groupCount(); index++) {
-            }
+        matcher = PATTERN_BOLD.matcher(content);
+        while(matcher.find()) {
+            html = html.substring(0,matcher.start()) +
+                    BOLD_OPENING_TAG + matcher.group(1) + BOLD_CLOSING_TAG +
+                    html.substring(matcher.end(), html.length());
         }
-        */
 
-        //final String replaced = content.replaceAll("#", "\n");
-		//final String bold = replaceAll(replaced, "*", "b");
-		//return insertList(bold);
+        // List
+        //matcher = PATTERN_LIST.matcher(content);
+        //while(matcher.find()) {
+
+        //}
 
         return html;
 	}
@@ -138,39 +142,6 @@ public final class DataUtils {
 	}
 	*/
 
-    /**
-     * @param url
-     * @return
-     */
-    public static Document read(final String url) {
-        final DocumentBuilderFactory factory = DocumentBuilderFactory
-                .newInstance();
-        DocumentBuilder documentBuilder = null;
-        try {
-            documentBuilder = factory.newDocumentBuilder();
-            return documentBuilder.parse(url);
-        } catch (final Exception e) {
-            return null;
-        }
-    }
-
-	/**
-	 * @param text
-	 * @param contains
-	 * @return
-	 */
-	@SuppressLint("DefaultLocale")
-	public static boolean containsIgnoreCase(final String text,
-			final String contains) {
-		return text.toLowerCase().contains(contains.toLowerCase());
-	}
-
-	/**
-	 *
-	 * @param date1
-	 * @param date2
-	 * @return
-	 */
 	public static boolean isSameDate(final Date date1, final Date date2) {
 		final Calendar cal1 = Calendar.getInstance();
 		cal1.setTime(date1);
@@ -183,10 +154,6 @@ public final class DataUtils {
 				&& cal1.get(Calendar.DATE) == cal2.get(Calendar.DATE);
 	}
 
-    /**
-     * @param languageCode
-     * @return
-     */
     public static Locale toLocale(final String languageCode) {
         for (final Locale locale : Locale.getAvailableLocales()) {
             if (locale.getLanguage().equalsIgnoreCase(languageCode)) {

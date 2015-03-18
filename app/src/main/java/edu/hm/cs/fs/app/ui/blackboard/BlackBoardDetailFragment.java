@@ -3,6 +3,7 @@ package edu.hm.cs.fs.app.ui.blackboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.fk07.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import edu.hm.cs.fs.app.datastore.model.News;
+import edu.hm.cs.fs.app.util.DataUtils;
 import edu.hm.cs.fs.app.util.multipane.OnMultiPaneDetailSegment;
 
 /**
@@ -60,7 +62,7 @@ public class BlackBoardDetailFragment extends Fragment implements OnMultiPaneDet
         } else {
             groups.setText(mNews.getGroups().toString());
         }
-        description.setText(mNews.getText());
+        description.setText(Html.fromHtml(DataUtils.toHtml(mNews.getText())));
         if(TextUtils.isEmpty(mNews.getUrl())) {
             url.setVisibility(View.GONE);
         } else {
