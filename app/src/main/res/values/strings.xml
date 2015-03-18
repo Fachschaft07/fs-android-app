@@ -24,6 +24,7 @@
     <string name="minute_short">min</string>
     <string name="departure">in %1$d min</string>
     <string name="help_feedback">Hilfe &amp; Feedback</string>
+    <string name="all">Alle</string>
 
     <!-- TimeTable -->
     <string name="timetable">Stundenplan</string>

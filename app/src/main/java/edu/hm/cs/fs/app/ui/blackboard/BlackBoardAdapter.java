@@ -1,7 +1,6 @@
 package edu.hm.cs.fs.app.ui.blackboard;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +11,14 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.fk07.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import edu.hm.cs.fs.app.datastore.model.Group;
 import edu.hm.cs.fs.app.datastore.model.News;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
 
@@ -24,18 +26,22 @@ import edu.hm.cs.fs.app.datastore.model.constants.Study;
  * Created by Fabio on 04.03.2015.
  */
 public class BlackBoardAdapter extends ArrayAdapter<News> {
+    private static final int FONT_SIZE = 37;
     private final Map<Study, Integer> studyColorMap = new HashMap<>();
-    private int mSelectedPosition;
+    private int mColorMixed;
+    private int mColorAll;
 
     public BlackBoardAdapter(final Context context) {
         super(context, android.R.layout.simple_list_item_1);
-        studyColorMap.put(Study.IF, Color.BLUE);
-        studyColorMap.put(Study.GO, Color.CYAN);
-        studyColorMap.put(Study.IB, Color.YELLOW);
-        studyColorMap.put(Study.IC, Color.GRAY);
-        studyColorMap.put(Study.IG, Color.GREEN);
-        studyColorMap.put(Study.IN, Color.MAGENTA);
-        studyColorMap.put(Study.IS, Color.RED);
+        studyColorMap.put(Study.IF, context.getResources().getColor(R.color.study_group_if));
+        studyColorMap.put(Study.GO, context.getResources().getColor(R.color.study_group_go));
+        studyColorMap.put(Study.IB, context.getResources().getColor(R.color.study_group_ib));
+        studyColorMap.put(Study.IC, context.getResources().getColor(R.color.study_group_ic));
+        studyColorMap.put(Study.IG, context.getResources().getColor(R.color.study_group_ig));
+        studyColorMap.put(Study.IN, context.getResources().getColor(R.color.study_group_in));
+        studyColorMap.put(Study.IS, context.getResources().getColor(R.color.study_group_is));
+        mColorMixed = context.getResources().getColor(R.color.study_group_mixed);
+        mColorAll = context.getResources().getColor(R.color.study_group_all);
     }
 
     @Override
@@ -50,17 +56,43 @@ public class BlackBoardAdapter extends ArrayAdapter<News> {
         }
 
         final News news = getItem(position);
-
-        if(!news.getGroups().isEmpty()) {
-            int color = studyColorMap.get(news.getGroups().get(0).getStudy());
-
-            TextDrawable drawable = TextDrawable.builder()
-                    .buildRoundRect(news.getGroups().get(0).getStudy().toString(), color, 5);
-            holder.image.setImageDrawable(drawable);
-        } else {
-            holder.image.setImageDrawable(null);
+        StringBuilder studyGroupsStr = new StringBuilder();
+        List<Study> studyGroups = new ArrayList<>();
+        for (Group group : news.getGroups()) {
+            if(!studyGroups.contains(group.getStudy())) {
+                if(!studyGroups.isEmpty()) {
+                    studyGroupsStr.append(", ");
+                }
+                studyGroups.add(group.getStudy());
+                studyGroupsStr.append(group.getStudy().toString());
+            }
         }
 
+        final TextDrawable drawable;
+        if(studyGroups.isEmpty() || studyGroups.size() == studyColorMap.size()) {
+            drawable = TextDrawable.builder()
+                    .beginConfig()
+                    .fontSize(FONT_SIZE)
+                    .endConfig()
+                    .buildRoundRect(getContext().getString(R.string.all), mColorAll, 5);
+        } else if(studyGroups.size() == 1) {
+            final Study study = studyGroups.get(0);
+            int color = studyColorMap.get(study);
+
+            drawable = TextDrawable.builder()
+                    .beginConfig()
+                    .fontSize(FONT_SIZE)
+                    .endConfig()
+                    .buildRoundRect(studyGroupsStr.toString(), color, 5);
+        } else {
+            drawable = TextDrawable.builder()
+                    .beginConfig()
+                    .fontSize(FONT_SIZE)
+                    .endConfig()
+                    .buildRoundRect(studyGroupsStr.toString(), mColorMixed, 5);
+        }
+
+        holder.image.setImageDrawable(drawable);
         holder.text.setText(news.getSubject());
 
         return convertView;

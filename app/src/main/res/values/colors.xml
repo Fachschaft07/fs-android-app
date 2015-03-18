@@ -13,4 +13,13 @@
     <color name="presence_available">#ff079d01</color>
     <color name="mensa">#ff74b02d</color>
     <color name="mvv">#dd2160c7</color>
+    <color name="study_group_is">#ff989b9b</color>
+    <color name="study_group_if">#ffa5e152</color>
+    <color name="study_group_ib">#ffe1941c</color>
+    <color name="study_group_ic">#ffbea4e1</color>
+    <color name="study_group_in">#ff94d4e1</color>
+    <color name="study_group_ig">#ffe16491</color>
+    <color name="study_group_go">#ff6f8be1</color>
+    <color name="study_group_mixed">#ffdee179</color>
+    <color name="study_group_all">#ff6be17d</color>
 </resources>
