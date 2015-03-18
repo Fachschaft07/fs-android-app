@@ -72,6 +72,8 @@
         In der Tagesansicht kannst du durch wischen (swipen) zu einem anderen Tag springen.\n\nViel Spaß!
         \n\nTipp: Über ein Widget kannst du dir auch die nächste Vorlesung auf dem Homescreen anzeigen
         lassen ;)</string>
+    <string name="today">Heute</string>
+
     <!-- TimeTable Widget -->
     <string name="widgetPlainText">Keine Vorlesung gefunden!</string>
     <string name="lothstraße">Lothstraße</string>
@@ -128,5 +130,4 @@
 	<string name="proverbs23">Ein User ruft den Service an.\nUser: Hallo, ich habe Windows installiert…\nService:ja?!\nUser: und ich habe ein Problem…\nService:Das sagten sie bereits!</string>
 	<string name="proverbs24">Was bedeutet "www"? Warten, Warten, Warten</string>
 	<string name="proverbs25">Wenn am Anfang alles schief geht, nenne es Version 1.0!</string>
-    <string name="today">Heute</string>
 </resources>
