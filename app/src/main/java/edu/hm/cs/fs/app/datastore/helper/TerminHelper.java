@@ -1,10 +1,16 @@
 package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.app.datastore.model.Holiday;
@@ -64,46 +70,94 @@ public class TerminHelper extends BaseHelper implements Termin {
         listAll(context, new Callback<List<Termin>>() {
             @Override
             public void onResult(List<Termin> result) {
-                List<Holiday> holidayList = new ArrayList<>();
+                /**
+                 Osterferien 2015, erster Tag
+                 Osterferien 2015, letzter Tag
+                 Pfingstferien 2015, erster Tag
+                  Pfingstferien 2015, letzter Tag
+                 SS2015, Pr&#252;fungszeitraum
+                 SS2015, erster Vorlesungstag
+                 SS2016, erster Vorlesungstag
+                 WS2014, Pr&#252;fungszeitraum
+                 WS2015, Pr&#252;fungszeitraum
+                 WS2015, erster Vorlesungstag
+                 Weihnachtsferien 2014, erster Tag
+                 Weihnachtsferien 2015, erster Tag
+                 Weihnachtsferien 2015, letzter Tag
+                 Weihnachtsferien 2016, letzter Tag
+                 */
+                Map<String, Holiday> holidayMap = new HashMap<>();
 
-                String tmpName = null;
-                Date tmpStart = null;
-                for (Termin termin : result) {
-                    if (termin.getSubject().endsWith("Tag")) {
-                        if (tmpName == null) {
-                            tmpName = termin.getSubject().substring(0, termin.getSubject().indexOf(","));
-                            tmpStart = termin.getDate();
-                        } else {
-                            final String name = tmpName;
-                            final Date start = tmpStart;
-                            final Date end = termin.getDate();
+                Collections.sort(result, new Comparator<Termin>() {
+                    @Override
+                    public int compare(Termin lhs, Termin rhs) {
+                        String leftName = lhs.getSubject().replaceAll("[0-9]+", "").trim();
+                        String rightName = rhs.getSubject().replaceAll("[0-9]+", "").trim();
+                        return leftName.compareTo(rightName);
+                    }
+                });
 
-                            holidayList.add(new Holiday() {
-                                @Override
-                                public Date getStart() {
-                                    return start;
-                                }
+                for (final Termin termin : result) {
+                    if (termin.getSubject().endsWith("erster Tag")) {
+                        final String name = extractName(termin.getSubject(), termin.getDate());
+                        holidayMap.put(name, new Holiday() {
+                            @Override
+                            public Date getStart() {
+                                return termin.getDate();
+                            }
 
-                                @Override
-                                public String getName() {
-                                    return name;
-                                }
+                            @Override
+                            public String getName() {
+                                return name;
+                            }
 
-                                @Override
-                                public Date getEnd() {
-                                    return end;
-                                }
-                            });
+                            @Override
+                            public Date getEnd() {
+                                return null;
+                            }
+                        });
+                    } else if(termin.getSubject().endsWith("letzter Tag")) {
+                        final String name = extractName(termin.getSubject(), termin.getDate());
+                        final Holiday holiday = holidayMap.get(name);
 
-                            tmpName = null;
-                            tmpStart = null;
-                        }
+                        holidayMap.put(name, new Holiday() {
+                            @Override
+                            public String getName() {
+                                return holiday.getName();
+                            }
+
+                            @Override
+                            public Date getStart() {
+                                return holiday.getStart();
+                            }
+
+                            @Override
+                            public Date getEnd() {
+                                return termin.getDate();
+                            }
+                        });
                     }
                 }
 
-                callback.onResult(holidayList);
+                Log.d("TerminHelper", "Found holidays: " + holidayMap.keySet());
+
+                callback.onResult(new ArrayList<Holiday>(holidayMap.values()));
             }
         });
+    }
+
+    private static String extractName(String subject, Date date) {
+        String tmpName = subject.substring(0, subject.indexOf(",")).trim();
+        if (tmpName.startsWith("Weihnachtsferien") && subject.endsWith("erster Tag")) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            tmpName += "/" + (cal.get(Calendar.YEAR) + 1);
+        } else if (tmpName.startsWith("Weihnachtsferien") && subject.endsWith("letzter Tag")) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            tmpName = tmpName.replaceAll("[0-9]+", "") + (cal.get(Calendar.YEAR) - 1) + "/" + cal.get(Calendar.YEAR);
+        }
+        return tmpName;
     }
 
     public static void listAll(final Context context, final Callback<List<Termin>> callback) {

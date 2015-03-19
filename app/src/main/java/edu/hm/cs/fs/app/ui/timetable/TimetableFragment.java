@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +19,6 @@ import com.fk07.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,7 +36,7 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
     @InjectView(R.id.weekView)
     WeekView mWeekView;
 
-    private final List<WeekViewEvent> mBaseEvents = new ArrayList<>();
+    private final List<WeekViewEvent> mHolidayEvents = new ArrayList<>();
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -68,50 +68,41 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
             }
         });
         mWeekView.setMonthChangeListener(this);
-        mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+
+        // TODO This is a bug of the library which should be fixed with the next update
+        //mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
 
         TerminHelper.listAllHolidays(getActivity(), new Callback<List<Holiday>>() {
             @Override
             public void onResult(final List<Holiday> result) {
+                mHolidayEvents.clear();
                 for (Holiday holiday : result) {
+                    Log.d("Timetable", holiday.getName() + " from " + holiday.getStart() + " to " + holiday.getEnd());
+
+                    Calendar start = Calendar.getInstance();
+                    start.setTime(holiday.getStart());
+                    start.set(Calendar.HOUR_OF_DAY, 0);
+                    start.set(Calendar.MINUTE, 0);
+                    start.set(Calendar.SECOND, 0);
+                    start.set(Calendar.MILLISECOND, 0);
+
+                    Calendar end = Calendar.getInstance();
+                    end.setTime(holiday.getEnd());
+                    end.set(Calendar.HOUR_OF_DAY, 23);
+                    end.set(Calendar.MINUTE, 59);
+                    end.set(Calendar.SECOND, 59);
+                    end.set(Calendar.MILLISECOND, 999);
+
                     WeekViewEvent event = new WeekViewEvent();
                     event.setId(holiday.getName().hashCode());
                     event.setName(holiday.getName());
+                    event.setStartTime(start);
+                    event.setEndTime(end);
+                    event.setColor(getResources().getColor(R.color.holiday));
 
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(holiday.getStart());
-                    event.setStartTime(cal);
-                    cal.setTime(holiday.getEnd());
-                    event.setEndTime(cal);
-
-                    event.setColor(Color.BLUE);
-                    mBaseEvents.add(event);
-                    mWeekView.notifyDatasetChanged();
+                    mHolidayEvents.add(event);
                 }
-            }
-        });
-        TerminHelper.listAllEvents(getActivity(), new Callback<List<Termin>>() {
-            @Override
-            public void onResult(final List<Termin> result) {
-                for (Termin termin : result) {
-                    WeekViewEvent event = new WeekViewEvent();
-                    event.setId(termin.getSubject().hashCode());
-                    event.setName(termin.getSubject());
-
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(termin.getDate());
-                    cal.set(Calendar.HOUR_OF_DAY, 1);
-                    cal.set(Calendar.MINUTE, 0);
-                    cal.set(Calendar.SECOND, 0);
-                    cal.set(Calendar.MILLISECOND, 0);
-                    event.setStartTime(cal);
-                    cal.add(Calendar.HOUR_OF_DAY, 22);
-                    event.setEndTime(cal);
-
-                    event.setColor(Color.MAGENTA);
-                    mBaseEvents.add(event);
-                    mWeekView.notifyDatasetChanged();
-                }
+                mWeekView.notifyDatasetChanged();
             }
         });
     }
@@ -137,19 +128,9 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
 
     @Override
     public List<WeekViewEvent> onMonthChange(final int year, final int month) {
-        //Date minDate = getMinDate(year, month);
-        //Date maxDate = getMaxDate(year, month);
+        List<WeekViewEvent> events = new ArrayList<>();
+        events.addAll(mHolidayEvents);
 
-        //List<WeekViewEvent> events = new ArrayList<>();
-
-        return mBaseEvents;
-    }
-
-    private Date getMaxDate(final int year, final int month) {
-        return null;
-    }
-
-    private Date getMinDate(final int year, final int month) {
-        return null;
+        return events;
     }
 }
