@@ -10,7 +10,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 21
         versionCode 19
-        versionName "2.0.0"
+        versionName "2.0"
     }
     buildTypes {
         release {
@@ -19,7 +19,7 @@ android {
         }
         debug {
             applicationIdSuffix '.debug'
-            versionNameSuffix 'BETA'
+            versionNameSuffix ' BETA'
         }
     }
     packagingOptions {
