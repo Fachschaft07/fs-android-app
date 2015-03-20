@@ -24,9 +24,8 @@
             android:id="@+id/listViewLoth"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-
-        </ListView>
+            android:divider="@null"
+            android:dividerHeight="0dp" />
     </LinearLayout>
 
     <ImageView
@@ -56,8 +55,8 @@
             android:id="@+id/listViewPasing"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-        </ListView>
+            android:divider="@null"
+            android:dividerHeight="0dp" />
     </LinearLayout>
 
 </LinearLayout>

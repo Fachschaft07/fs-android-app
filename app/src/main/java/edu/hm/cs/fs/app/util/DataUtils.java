@@ -1,23 +1,23 @@
 package edu.hm.cs.fs.app.util;
 
-import android.util.Log;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import hugo.weaving.DebugLog;
+
 /**
  * @author Fabio
  *
  */
 public final class DataUtils {
-    private static final Pattern PATTERN_BOLD = Pattern.compile("\\*([^\\n]+)\\*");
-    private static final Pattern PATTERN_NEW_LINE = Pattern.compile("\\n(#)\\n");
-    private static final Pattern PATTERN_LIST = Pattern.compile("^\\.([^\\n]+)");
+    private static final Pattern PATTERN_BOLD = Pattern.compile("\\*([^\\*]+)\\*");
+    private static final Pattern PATTERN_NEW_LINE = Pattern.compile("(?:#|\\n)");
+    private static final Pattern PATTERN_LIST = Pattern.compile("^\\.([^\\.]+)");
 
-    private static final String NEW_LINE_TAG = "\n";
+    private static final String NEW_LINE_TAG = "<br>";
     private static final String BOLD_OPENING_TAG = "<b>";
     private static final String BOLD_CLOSING_TAG = "</b>";
 	private static final String LIST_OPENING_TAG = "<ul>";
@@ -28,34 +28,59 @@ public final class DataUtils {
 	private DataUtils() {
 	}
 
+    @DebugLog
 	public static String toHtml(final String content) {
-        String html = content;
-
-        // New Lines
-        Matcher matcher = PATTERN_NEW_LINE.matcher(content);
-        while(matcher.find()) {
-            Log.i("Html", "Matched from " + matcher.start() + " to " + matcher.end() + " -> " + matcher.group());
-            html = html.substring(0,matcher.start(1)) +
-                    NEW_LINE_TAG +
-                    html.substring(matcher.end(1), html.length());
-        }
-
-        // Bolds
-        matcher = PATTERN_BOLD.matcher(content);
-        while(matcher.find()) {
-            html = html.substring(0,matcher.start()) +
-                    BOLD_OPENING_TAG + matcher.group(1) + BOLD_CLOSING_TAG +
-                    html.substring(matcher.end(), html.length());
-        }
-
-        // List
-        //matcher = PATTERN_LIST.matcher(content);
-        //while(matcher.find()) {
-
-        //}
-
-        return html;
+        String result = content;
+        result = replaceNewLines(result);
+        result = replaceBoldStrings(result);
+        return result;
 	}
+
+    @DebugLog
+    private static String replaceNewLines(String raw) {
+        StringBuilder result = new StringBuilder();
+        int lastSubStringEnd = 0;
+
+        final Matcher matcher = PATTERN_NEW_LINE.matcher(raw);
+        while(matcher.find()) {
+            int indexBegin = matcher.start();
+
+            result.append(raw.substring(lastSubStringEnd, indexBegin));
+            result.append(NEW_LINE_TAG);
+
+            lastSubStringEnd = indexBegin + matcher.group().length();
+        }
+
+        if(lastSubStringEnd != raw.length()) {
+            result.append(raw.substring(lastSubStringEnd, raw.length()));
+        }
+
+        return result.toString();
+    }
+
+    @DebugLog
+    private static String replaceBoldStrings(String raw) {
+        StringBuilder result = new StringBuilder();
+        int lastSubStringEnd = 0;
+
+        final Matcher matcher = PATTERN_BOLD.matcher(raw);
+        while(matcher.find()) {
+            int indexBegin = matcher.start();
+
+            result.append(raw.substring(lastSubStringEnd, indexBegin));
+            result.append(BOLD_OPENING_TAG);
+            result.append(matcher.group(1));
+            result.append(BOLD_CLOSING_TAG);
+
+            lastSubStringEnd = indexBegin + matcher.group().length();
+        }
+
+        if(lastSubStringEnd != raw.length()) {
+            result.append(raw.substring(lastSubStringEnd, raw.length()));
+        }
+
+        return result.toString();
+    }
 
     /*
 	private static String insertList(final String string) {

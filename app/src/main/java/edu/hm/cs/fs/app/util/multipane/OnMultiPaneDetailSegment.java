@@ -5,6 +5,4 @@ package edu.hm.cs.fs.app.util.multipane;
  */
 public interface OnMultiPaneDetailSegment<T> {
 	void onListItemClicked(T item);
-
-    String getTitle();
 }

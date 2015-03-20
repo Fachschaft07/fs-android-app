@@ -27,6 +27,8 @@ public class FragmentMultiPane<T> extends Fragment implements OnMultiPaneDetailS
     private Fragment mListFragment;
     private OnMultiPaneDetailSegment<T> mDetailSegment;
     private Fragment mDetailFragment;
+    @Nullable
+    private Bundle mSavedInstanceState;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -42,28 +44,33 @@ public class FragmentMultiPane<T> extends Fragment implements OnMultiPaneDetailS
     @SuppressWarnings({"unchecked"})
     @Override
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
+        mSavedInstanceState = savedInstanceState;
         super.onViewCreated(view, savedInstanceState);
 
         // Load left side fragment - List Fragment
-        String fragmentClassNameLeftPane = getArguments().getString(LEFT_PANE);
-        mListFragment = Fragment.instantiate(getActivity(), fragmentClassNameLeftPane);
-        if (!(mListFragment instanceof OnMultiPaneListSegment)) {
-            throw new IllegalArgumentException("The left side must implement the " +
-                    "OnMultiPaneListSegment interface");
+        if(mListFragment == null) {
+            String fragmentClassNameLeftPane = getArguments().getString(LEFT_PANE);
+            mListFragment = Fragment.instantiate(getActivity(), fragmentClassNameLeftPane);
+            if (!(mListFragment instanceof OnMultiPaneListSegment)) {
+                throw new IllegalArgumentException("The left side must implement the " +
+                        "OnMultiPaneListSegment interface");
+            }
+            mListFragment.setRetainInstance(true);
+            mListSegment = (OnMultiPaneListSegment<T>) mListFragment;
+            mListSegment.setDetailSegment(this);
         }
-        mListFragment.setRetainInstance(true);
-        mListSegment = (OnMultiPaneListSegment<T>) mListFragment;
-        mListSegment.setDetailSegment(this);
 
         // Load right side fragment - Detail Fragment
-        String fragmentClassNameRightPane = getArguments().getString(RIGHT_PANE);
-        mDetailFragment = Fragment.instantiate(getActivity(), fragmentClassNameRightPane);
-        if (!(mDetailFragment instanceof OnMultiPaneDetailSegment)) {
-            throw new IllegalArgumentException("The right side must implement the " +
-                    "OnMultiPaneDetailSegment interface");
+        if(mDetailFragment == null) {
+            String fragmentClassNameRightPane = getArguments().getString(RIGHT_PANE);
+            mDetailFragment = Fragment.instantiate(getActivity(), fragmentClassNameRightPane);
+            if (!(mDetailFragment instanceof OnMultiPaneDetailSegment)) {
+                throw new IllegalArgumentException("The right side must implement the " +
+                        "OnMultiPaneDetailSegment interface");
+            }
+            mDetailFragment.setRetainInstance(true);
+            mDetailSegment = (OnMultiPaneDetailSegment<T>) mDetailFragment;
         }
-        mDetailFragment.setRetainInstance(true);
-        mDetailSegment = (OnMultiPaneDetailSegment<T>) mDetailFragment;
 
         // Add Fragments to FrameLayouts
         final FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
@@ -71,17 +78,26 @@ public class FragmentMultiPane<T> extends Fragment implements OnMultiPaneDetailS
         transaction.setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.replace(R.id.list_pane, mListFragment);
         if (isMultiPane()) {
+            view.findViewById(R.id.content_pane).setVisibility(View.VISIBLE);
             transaction.replace(R.id.content_pane, mDetailFragment);
-            if (savedInstanceState == null) {
+        }
+        transaction.disallowAddToBackStack();
+        transaction.commit();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (isMultiPane()) {
+            if (mSavedInstanceState == null || mSavedInstanceState.isEmpty()) {
                 // Select first element only if this is a multi pane layout
                 onListItemClicked(mListSegment.getItemAt(0));
             } else {
                 // Select last selected element
-                onListItemClicked(mListSegment.getItemAt(savedInstanceState.getInt(SELECTED_ITEM)));
+                onListItemClicked(mListSegment.getItemAt(mSavedInstanceState.getInt(SELECTED_ITEM)));
             }
         }
-        transaction.disallowAddToBackStack();
-        transaction.commit();
     }
 
     @Override
@@ -96,14 +112,13 @@ public class FragmentMultiPane<T> extends Fragment implements OnMultiPaneDetailS
     }
 
     @Override
-    public String getTitle() {
-        return mDetailSegment.getTitle();
-    }
-
-    @Override
     public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(SELECTED_ITEM, mListSegment.getSelectedPosition());
+        if(mListSegment.getSelectedPosition() == -1) {
+            outState.putInt(SELECTED_ITEM, 0);
+        } else {
+            outState.putInt(SELECTED_ITEM, mListSegment.getSelectedPosition());
+        }
     }
 
     @Override

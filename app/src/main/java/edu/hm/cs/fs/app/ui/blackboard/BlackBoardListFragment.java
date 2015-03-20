@@ -73,7 +73,10 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
 
     @Override
     public News getItemAt(final int position) {
-        return (News) mListView.getItemAtPosition(position);
+        if(mListView != null && position < mListView.getCount()) {
+            return (News) mListView.getItemAtPosition(position);
+        }
+        return null;
     }
 
     @Override

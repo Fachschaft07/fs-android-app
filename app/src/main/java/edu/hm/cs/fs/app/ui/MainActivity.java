@@ -117,7 +117,6 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
             public void onDrawerStateChanged(final int newState) {
             }
         });
-        refresh();
 	}
 
     public void updatePresenceColor(int memberCount, int colorId) {

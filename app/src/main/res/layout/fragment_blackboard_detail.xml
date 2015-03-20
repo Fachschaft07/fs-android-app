@@ -9,15 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <!--
         <TextView
             android:id="@+id/textSubject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
-            -->
 
         <TextView
             android:id="@+id/textGroups"
@@ -35,6 +35,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:singleLine="false"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
         <TextView

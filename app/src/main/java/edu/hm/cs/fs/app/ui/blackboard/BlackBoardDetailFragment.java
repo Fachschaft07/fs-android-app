@@ -22,6 +22,7 @@ import edu.hm.cs.fs.app.util.multipane.OnMultiPaneDetailSegment;
  * Created by Fabio on 08.03.2015.
  */
 public class BlackBoardDetailFragment extends Fragment implements OnMultiPaneDetailSegment<News> {
+    @InjectView(R.id.textSubject) TextView subject;
     @InjectView(R.id.textGroups) TextView groups;
     @InjectView(R.id.textDescription) TextView description;
     @InjectView(R.id.textUrl) TextView url;
@@ -47,16 +48,12 @@ public class BlackBoardDetailFragment extends Fragment implements OnMultiPaneDet
         initViewContent();
     }
 
-    @Override
-    public String getTitle() {
-        return mNews.getSubject();
-    }
-
     private void initViewContent() {
-        if(groups == null || mNews == null) {
+        if(subject == null || mNews == null) {
             return;
         }
 
+        subject.setText(mNews.getSubject());
         if(mNews.getGroups().isEmpty()) {
             groups.setVisibility(View.GONE);
         } else {
