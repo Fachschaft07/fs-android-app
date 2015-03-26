@@ -106,7 +106,6 @@ public class FragmentMultiPane<T> extends Fragment implements OnMultiPaneDetailS
         if (!isMultiPane()) {
             // Single-Pane Layout
             ActivityMultiPaneDetail.setDetailFragment(mDetailFragment);
-
             startActivity(new Intent(getActivity(), ActivityMultiPaneDetail.class));
         }
     }

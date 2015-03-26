@@ -1,8 +1,12 @@
 package edu.hm.cs.fs.app.ui.mensa;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,6 +24,7 @@ import edu.hm.cs.fs.app.datastore.helper.Callback;
 import edu.hm.cs.fs.app.datastore.helper.MealHelper;
 import edu.hm.cs.fs.app.datastore.model.Meal;
 import edu.hm.cs.fs.app.datastore.model.constants.Additive;
+import edu.hm.cs.fs.app.datastore.model.constants.StudentWorkMunich;
 import edu.hm.cs.fs.app.util.DataUtils;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -30,6 +35,8 @@ public class MealFragment extends Fragment implements AdapterView.OnItemClickLis
     @InjectView(R.id.stickyList)
     StickyListHeadersListView mListView;
     private MealAdapter mAdapter;
+
+    private MenuItem mRefresh;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -46,7 +53,12 @@ public class MealFragment extends Fragment implements AdapterView.OnItemClickLis
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this);
 
-        MealHelper.listAll(getActivity(), new Callback<List<Meal>>() {
+        refresh();
+
+        // TODO Let the user decide which mensa/stucafé he want's to see...
+        // For this feature --> add a Spinner to the Toolbar where the user can pick the target
+
+        MealHelper.listAll(getActivity(), StudentWorkMunich.MENSA_LOTHSTRASSE, new Callback<List<Meal>>() {
             @Override
             public void onResult(final List<Meal> result) {
                 mAdapter.clear();
@@ -56,8 +68,21 @@ public class MealFragment extends Fragment implements AdapterView.OnItemClickLis
                         mAdapter.add(meal);
                     }
                 }
+
+                refresh();
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mRefresh = menu.add(R.string.refresh);
+            mRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            mRefresh.setActionView(R.layout.toolbar_item_refresh);
+            mRefresh.setVisible(false);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,5 +145,11 @@ public class MealFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    private void refresh() {
+        if(mRefresh != null) {
+            mRefresh.setVisible(!mRefresh.isVisible());
+        }
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import edu.hm.cs.fs.app.datastore.model.constants.MealType;
+import edu.hm.cs.fs.app.datastore.model.constants.StudentWorkMunich;
 import edu.hm.cs.fs.app.datastore.model.impl.MealImpl;
 import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractHtmlFetcher;
 
@@ -26,13 +27,12 @@ import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractHtmlFetcher;
  * @version 2
  */
 public class MealFetcher extends AbstractHtmlFetcher<MealFetcher, MealImpl> {
-    private static final String URL = "http://www.studentenwerk-muenchen.de/mensa/speiseplan/speiseplan_431_-de.html";
     private static final Pattern PATTERN_MEAL = Pattern.compile(".*<span style=\"float:left\">(.*)</span>.*");
     @SuppressLint("SimpleDateFormat")
     private static final DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
-    public MealFetcher(final Context context) {
-        super(context, URL);
+    public MealFetcher(final Context context, StudentWorkMunich studentWorkMunich) {
+        super(context, studentWorkMunich.getUrl());
     }
 
     @Override

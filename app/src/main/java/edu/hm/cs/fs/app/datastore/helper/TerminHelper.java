@@ -74,7 +74,7 @@ public class TerminHelper extends BaseHelper implements Termin {
                  Osterferien 2015, erster Tag
                  Osterferien 2015, letzter Tag
                  Pfingstferien 2015, erster Tag
-                  Pfingstferien 2015, letzter Tag
+                 Pfingstferien 2015, letzter Tag
                  SS2015, Pr&#252;fungszeitraum
                  SS2015, erster Vorlesungstag
                  SS2016, erster Vorlesungstag
@@ -116,27 +116,39 @@ public class TerminHelper extends BaseHelper implements Termin {
                                 return null;
                             }
                         });
-                    } else if(termin.getSubject().endsWith("letzter Tag")) {
+                    } else if (termin.getSubject().endsWith("letzter Tag")) {
                         final String name = extractName(termin.getSubject(), termin.getDate());
                         final Holiday holiday = holidayMap.get(name);
 
-                        holidayMap.put(name, new Holiday() {
-                            @Override
-                            public String getName() {
-                                return holiday.getName();
-                            }
+                        if(holiday != null) {
+                            holidayMap.put(name, new Holiday() {
+                                @Override
+                                public String getName() {
+                                    return holiday.getName();
+                                }
 
-                            @Override
-                            public Date getStart() {
-                                return holiday.getStart();
-                            }
+                                @Override
+                                public Date getStart() {
+                                    return holiday.getStart();
+                                }
 
-                            @Override
-                            public Date getEnd() {
-                                return termin.getDate();
-                            }
-                        });
+                                @Override
+                                public Date getEnd() {
+                                    return termin.getDate();
+                                }
+                            });
+                        }
                     }
+                }
+
+                List<String> brokenHolidayEntries = new ArrayList<>();
+                for (Map.Entry<String, Holiday> entry : holidayMap.entrySet()) {
+                    if (entry.getValue().getStart() == null || entry.getValue().getEnd() == null) {
+                        brokenHolidayEntries.add(entry.getKey());
+                    }
+                }
+                for (String brokenHolidayEntry : brokenHolidayEntries) {
+                    holidayMap.remove(brokenHolidayEntry);
                 }
 
                 Log.d("TerminHelper", "Found holidays: " + holidayMap.keySet());

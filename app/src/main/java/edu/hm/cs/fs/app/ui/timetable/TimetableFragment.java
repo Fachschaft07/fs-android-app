@@ -1,6 +1,5 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,7 +26,6 @@ import butterknife.InjectView;
 import edu.hm.cs.fs.app.datastore.helper.Callback;
 import edu.hm.cs.fs.app.datastore.helper.TerminHelper;
 import edu.hm.cs.fs.app.datastore.model.Holiday;
-import edu.hm.cs.fs.app.datastore.model.Termin;
 
 /**
  * Created by Fabio on 15.03.2015.
@@ -93,14 +91,26 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
                     end.set(Calendar.SECOND, 59);
                     end.set(Calendar.MILLISECOND, 999);
 
-                    WeekViewEvent event = new WeekViewEvent();
-                    event.setId(holiday.getName().hashCode());
-                    event.setName(holiday.getName());
-                    event.setStartTime(start);
-                    event.setEndTime(end);
-                    event.setColor(getResources().getColor(R.color.holiday));
+                    Calendar tmp = Calendar.getInstance();
+                    tmp.setTimeInMillis(start.getTimeInMillis());
 
-                    mHolidayEvents.add(event);
+                    do {
+                        WeekViewEvent event = new WeekViewEvent();
+                        event.setId(holiday.getName().hashCode());
+                        event.setName(holiday.getName());
+                        event.setStartTime((Calendar) tmp.clone());
+
+                        tmp.add(Calendar.HOUR_OF_DAY, 23);
+                        tmp.add(Calendar.MINUTE, 59);
+                        tmp.add(Calendar.SECOND, 59);
+                        tmp.add(Calendar.MILLISECOND, 999);
+                        event.setEndTime((Calendar) tmp.clone());
+                        event.setColor(getResources().getColor(R.color.holiday));
+
+                        mHolidayEvents.add(event);
+
+                        tmp.add(Calendar.MILLISECOND, 1);
+                    } while(end.after(tmp));
                 }
                 mWeekView.notifyDatasetChanged();
             }

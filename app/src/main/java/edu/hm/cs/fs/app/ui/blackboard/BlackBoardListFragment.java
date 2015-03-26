@@ -1,8 +1,12 @@
 package edu.hm.cs.fs.app.ui.blackboard;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,6 +32,8 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
     @InjectView(android.R.id.list)
     ListView mListView;
 
+    private MenuItem mRefresh;
+
     private BlackBoardAdapter mAdapter;
     private OnMultiPaneDetailSegment<News> mDetailSegment;
 
@@ -45,6 +51,7 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
         mAdapter = new BlackBoardAdapter(getActivity());
         mListView.setAdapter(mAdapter);
 
+        refresh();
         NewsHelper.listAll(getActivity(), new Callback<List<News>>() {
             @Override
             public void onResult(final List<News> result) {
@@ -52,8 +59,20 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
                 for (News news : result) {
                     mAdapter.add(news);
                 }
+                refresh();
             }
         });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mRefresh = menu.add(R.string.refresh);
+            mRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            mRefresh.setActionView(R.layout.toolbar_item_refresh);
+            mRefresh.setVisible(false);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @OnItemClick(android.R.id.list)
@@ -83,5 +102,11 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+    }
+
+    private void refresh() {
+        if(mRefresh != null) {
+            mRefresh.setVisible(!mRefresh.isVisible());
+        }
     }
 }

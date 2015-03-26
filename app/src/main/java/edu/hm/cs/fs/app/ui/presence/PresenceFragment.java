@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.app.ui.presence;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,8 @@ public class PresenceFragment extends Fragment implements Runnable {
     @InjectView(R.id.presenceListView)
     ListView mListView;
 
+    private MenuItem mRefresh;
+
     private PresenceAdapter mAdapter;
 
     @Override
@@ -62,6 +65,12 @@ public class PresenceFragment extends Fragment implements Runnable {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.presence, menu);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mRefresh = menu.add(R.string.refresh);
+            mRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            mRefresh.setActionView(R.layout.toolbar_item_refresh);
+            mRefresh.setVisible(false);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -88,6 +97,8 @@ public class PresenceFragment extends Fragment implements Runnable {
 
     @Override
     public void run() {
+        refresh();
+
         PresenceHelper.listAll(getActivity(), new Callback<List<Presence>>() {
             @Override
             public void onResult(final List<Presence> result) {
@@ -103,6 +114,8 @@ public class PresenceFragment extends Fragment implements Runnable {
                     sectionColorId = R.color.presence_busy;
                 }
                 ((MainActivity) getActivity()).updatePresenceColor(result.size(), sectionColorId);
+
+                refresh();
             }
         });
         mHandler.postDelayed(this, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.MINUTES));
@@ -113,5 +126,11 @@ public class PresenceFragment extends Fragment implements Runnable {
         super.onDestroyView();
         ButterKnife.reset(this);
         mHandler.removeCallbacks(this);
+    }
+
+    private void refresh() {
+        if(mRefresh != null) {
+            mRefresh.setVisible(!mRefresh.isVisible());
+        }
     }
 }

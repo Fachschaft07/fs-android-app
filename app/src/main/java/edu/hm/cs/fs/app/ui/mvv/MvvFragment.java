@@ -1,11 +1,15 @@
 package edu.hm.cs.fs.app.ui.mvv;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -26,6 +30,8 @@ public class MvvFragment extends Fragment implements Runnable {
 
 	@InjectView(R.id.listViewLoth) ListView mListLoth;
 	@InjectView(R.id.listViewPasing) ListView mListPasing;
+
+    private MenuItem mRefresh;
 
 	private MvvAdapter mAdapterLoth;
 	private MvvAdapter mAdapterPasing;
@@ -50,6 +56,17 @@ public class MvvFragment extends Fragment implements Runnable {
         mHandler.post(this);
 	}
 
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mRefresh = menu.add(R.string.refresh);
+            mRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            mRefresh.setActionView(R.layout.toolbar_item_refresh);
+            mRefresh.setVisible(false);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
@@ -60,6 +77,7 @@ public class MvvFragment extends Fragment implements Runnable {
     @Override
     public void run() {
         Log.d(getClass().getSimpleName(), "Update MVV data");
+        onRefresh();
         PublicTransportHelper.listAll(getActivity(), PublicTransport.Location.LOTHSTR, new Callback<List<PublicTransport>>() {
             @Override
             public void onResult(final List<PublicTransport> result) {
@@ -67,6 +85,7 @@ public class MvvFragment extends Fragment implements Runnable {
                 for (PublicTransport publicTransport : result) {
                     mAdapterLoth.add(publicTransport);
                 }
+                onRefreshFinished();
             }
         });
 
@@ -77,8 +96,21 @@ public class MvvFragment extends Fragment implements Runnable {
                 for (PublicTransport publicTransport : result) {
                     mAdapterPasing.add(publicTransport);
                 }
+                onRefreshFinished();
             }
         });
         mHandler.postDelayed(this, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.MINUTES));
+    }
+
+    private void onRefresh() {
+        if(mRefresh != null) {
+            mRefresh.setVisible(true);
+        }
+    }
+
+    private void onRefreshFinished() {
+        if(mRefresh != null) {
+            mRefresh.setVisible(false);
+        }
     }
 }

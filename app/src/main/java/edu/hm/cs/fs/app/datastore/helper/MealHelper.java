@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import edu.hm.cs.fs.app.datastore.model.Meal;
 import edu.hm.cs.fs.app.datastore.model.constants.Additive;
 import edu.hm.cs.fs.app.datastore.model.constants.MealType;
+import edu.hm.cs.fs.app.datastore.model.constants.StudentWorkMunich;
 import edu.hm.cs.fs.app.datastore.model.impl.MealImpl;
 import edu.hm.cs.fs.app.datastore.web.MealFetcher;
 import edu.hm.cs.fs.app.util.PrefUtils;
@@ -109,10 +110,10 @@ public class MealHelper extends BaseHelper implements Meal {
         return additives;
     }
 
-    public static void listAll(Context context, Callback<List<Meal>> callback) {
+    public static void listAll(Context context, StudentWorkMunich studentWorkMunich, Callback<List<Meal>> callback) {
         PrefUtils.setUpdateInterval(context, MealFetcher.class, TimeUnit.MILLISECONDS.convert(3l, TimeUnit.DAYS));
 
-        listAll(context, new MealFetcher(context), MealImpl.class, callback, new OnHelperCallback<Meal, MealImpl>() {
+        listAll(context, new MealFetcher(context, studentWorkMunich), MealImpl.class, callback, new OnHelperCallback<Meal, MealImpl>() {
             @Override
             public Meal createHelper(final Context context, final MealImpl meal) {
                 return new MealHelper(context, meal);
