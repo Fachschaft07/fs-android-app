@@ -2,9 +2,9 @@ package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import edu.hm.cs.fs.app.datastore.model.Course;
 import edu.hm.cs.fs.app.datastore.model.Group;
 import edu.hm.cs.fs.app.datastore.model.Lesson;
 import edu.hm.cs.fs.app.datastore.model.Module;
@@ -12,6 +12,7 @@ import edu.hm.cs.fs.app.datastore.model.Person;
 import edu.hm.cs.fs.app.datastore.model.constants.Day;
 import edu.hm.cs.fs.app.datastore.model.constants.Faculty;
 import edu.hm.cs.fs.app.datastore.model.constants.Time;
+import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
 import edu.hm.cs.fs.app.datastore.model.impl.LessonImpl;
 import edu.hm.cs.fs.app.datastore.web.LessonFk07Fetcher;
 import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractContentFetcher;
@@ -27,16 +28,17 @@ public class LessonHelper extends BaseHelper implements Lesson {
     private final String room;
     private final Module module;
     private final String suffix;
+    private final Group group;
 
     LessonHelper(Context context, LessonImpl lesson) {
         super(context);
-
         day = Day.of(lesson.getDay());
         time = Time.of(lesson.getTime());
         teacher = PersonHelper.findById(context, lesson.getTeacherId());
         room = lesson.getRoom();
         module = ModuleHelper.findById(context, lesson.getModuleId());
         suffix = lesson.getSuffix();
+        group = GroupImpl.of(lesson.getGroup());
     }
 
     @Override
@@ -69,7 +71,30 @@ public class LessonHelper extends BaseHelper implements Lesson {
         return suffix;
     }
 
-    public static void listAll(Context context, Faculty faculty, Callback<List<Lesson>> callback) {
+    @Override
+    public Group getGroup() {
+        return group;
+    }
+
+    public static void listAll(final Context context, final Faculty faculty, final Group group, final Callback<List<Lesson>> callback) {
+        listAll(context, faculty, new Callback<List<Lesson>>() {
+            @Override
+            public void onResult(final List<Lesson> result) {
+                List<Lesson> lessons = new ArrayList<>();
+                for (Lesson lesson : result) {
+                    if (lesson.getGroup().equals(group) ||
+                            lesson.getGroup().getStudy() == group.getStudy() &&
+                                    lesson.getGroup().getSemester() == group.getSemester() ||
+                            lesson.getGroup().getStudy() == group.getStudy()) {
+                        lessons.add(lesson);
+                    }
+                }
+                callback.onResult(lessons);
+            }
+        });
+    }
+
+    public static void listAll(final Context context, final Faculty faculty, final Callback<List<Lesson>> callback) {
         @SuppressWarnings("rawtypes")
         AbstractContentFetcher fetcher = null;
         switch (faculty) {

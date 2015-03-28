@@ -8,4 +8,10 @@
         tools:showAsAction="ifRoom"
         android:title="@string/today"/>
 
+    <item
+        android:id="@+id/menu_configure"
+        android:icon="@drawable/ic_launcher"
+        tools:showAsAction="never"
+        android:title="@string/configure"/>
+
 </menu>

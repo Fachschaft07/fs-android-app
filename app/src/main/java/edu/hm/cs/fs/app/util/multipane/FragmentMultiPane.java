@@ -48,29 +48,25 @@ public class FragmentMultiPane<T> extends Fragment implements OnMultiPaneDetailS
         super.onViewCreated(view, savedInstanceState);
 
         // Load left side fragment - List Fragment
-        if(mListFragment == null) {
-            String fragmentClassNameLeftPane = getArguments().getString(LEFT_PANE);
-            mListFragment = Fragment.instantiate(getActivity(), fragmentClassNameLeftPane);
-            if (!(mListFragment instanceof OnMultiPaneListSegment)) {
-                throw new IllegalArgumentException("The left side must implement the " +
-                        "OnMultiPaneListSegment interface");
-            }
-            mListFragment.setRetainInstance(true);
-            mListSegment = (OnMultiPaneListSegment<T>) mListFragment;
-            mListSegment.setDetailSegment(this);
+        String fragmentClassNameLeftPane = getArguments().getString(LEFT_PANE);
+        mListFragment = Fragment.instantiate(getActivity(), fragmentClassNameLeftPane);
+        if (!(mListFragment instanceof OnMultiPaneListSegment)) {
+            throw new IllegalArgumentException("The left side must implement the " +
+                    "OnMultiPaneListSegment interface");
         }
+        mListFragment.setRetainInstance(true);
+        mListSegment = (OnMultiPaneListSegment<T>) mListFragment;
+        mListSegment.setDetailSegment(this);
 
         // Load right side fragment - Detail Fragment
-        if(mDetailFragment == null) {
-            String fragmentClassNameRightPane = getArguments().getString(RIGHT_PANE);
-            mDetailFragment = Fragment.instantiate(getActivity(), fragmentClassNameRightPane);
-            if (!(mDetailFragment instanceof OnMultiPaneDetailSegment)) {
-                throw new IllegalArgumentException("The right side must implement the " +
-                        "OnMultiPaneDetailSegment interface");
-            }
-            mDetailFragment.setRetainInstance(true);
-            mDetailSegment = (OnMultiPaneDetailSegment<T>) mDetailFragment;
+        String fragmentClassNameRightPane = getArguments().getString(RIGHT_PANE);
+        mDetailFragment = Fragment.instantiate(getActivity(), fragmentClassNameRightPane);
+        if (!(mDetailFragment instanceof OnMultiPaneDetailSegment)) {
+            throw new IllegalArgumentException("The right side must implement the " +
+                    "OnMultiPaneDetailSegment interface");
         }
+        mDetailFragment.setRetainInstance(true);
+        mDetailSegment = (OnMultiPaneDetailSegment<T>) mDetailFragment;
 
         // Add Fragments to FrameLayouts
         final FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();

@@ -64,7 +64,16 @@ public class GroupImpl implements Group {
 		return strBuilder.toString();
 	}
 
-	/**
+    @Override
+    public boolean equals(final Object o) {
+        if(o instanceof GroupImpl) {
+            GroupImpl equalObject = (GroupImpl) o;
+            return toString().equals(equalObject.toString());
+        }
+        return super.equals(o);
+    }
+
+    /**
 	 * @param name
 	 *            of the study group (for example: "IB1A" or "IB" or "IC3").
 	 * @return the study group.

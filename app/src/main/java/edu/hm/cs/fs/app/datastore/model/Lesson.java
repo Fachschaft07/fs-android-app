@@ -1,7 +1,5 @@
 package edu.hm.cs.fs.app.datastore.model;
 
-import java.util.List;
-
 import edu.hm.cs.fs.app.datastore.model.constants.Day;
 import edu.hm.cs.fs.app.datastore.model.constants.Time;
 
@@ -17,4 +15,6 @@ public interface Lesson {
     Module getModule();
 
     String getSuffix();
+
+    Group getGroup();
 }

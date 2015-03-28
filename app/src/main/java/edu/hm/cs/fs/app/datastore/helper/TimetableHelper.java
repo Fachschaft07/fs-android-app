@@ -7,19 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.hm.cs.fs.app.datastore.model.Course;
 import edu.hm.cs.fs.app.datastore.model.Lesson;
-import edu.hm.cs.fs.app.datastore.model.Module;
-import edu.hm.cs.fs.app.datastore.model.Person;
 import edu.hm.cs.fs.app.datastore.model.Timetable;
 import edu.hm.cs.fs.app.datastore.model.constants.Day;
-import edu.hm.cs.fs.app.datastore.model.constants.Faculty;
-import edu.hm.cs.fs.app.datastore.model.constants.Time;
-import edu.hm.cs.fs.app.datastore.model.impl.CourseImpl;
 import edu.hm.cs.fs.app.datastore.model.impl.LessonImpl;
 import edu.hm.cs.fs.app.datastore.model.impl.TimetableImpl;
-import edu.hm.cs.fs.app.datastore.web.LessonFk07Fetcher;
-import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractContentFetcher;
 import io.realm.Realm;
 
 public class TimetableHelper extends BaseHelper implements Timetable {
@@ -78,7 +70,10 @@ public class TimetableHelper extends BaseHelper implements Timetable {
 
 	@Override
 	public List<Lesson> getLessons(Day day) {
-		return lessons.get(day);
+		if(lessons.containsKey(day)) {
+            return lessons.get(day);
+        }
+        return new ArrayList<>();
 	}
 
 	@Override

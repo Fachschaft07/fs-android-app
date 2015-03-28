@@ -53,4 +53,14 @@ public enum Day {
 		throw new IllegalArgumentException(
 				"Argument can not be converted into a day: " + key);
 	}
+
+    public static Day byCalendar(final int dayOfWeek) {
+        for (final Day day : values()) {
+            if (day.getId() == dayOfWeek) {
+                return day;
+            }
+        }
+        throw new IllegalArgumentException(
+                "Argument can not be converted into a day: " + dayOfWeek);
+    }
 }

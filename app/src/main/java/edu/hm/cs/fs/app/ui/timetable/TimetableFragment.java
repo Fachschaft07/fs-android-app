@@ -1,8 +1,10 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +27,11 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import edu.hm.cs.fs.app.datastore.helper.Callback;
 import edu.hm.cs.fs.app.datastore.helper.TerminHelper;
+import edu.hm.cs.fs.app.datastore.helper.TimetableHelper;
 import edu.hm.cs.fs.app.datastore.model.Holiday;
+import edu.hm.cs.fs.app.datastore.model.Lesson;
+import edu.hm.cs.fs.app.datastore.model.Timetable;
+import edu.hm.cs.fs.app.datastore.model.constants.Day;
 
 /**
  * Created by Fabio on 15.03.2015.
@@ -35,6 +41,7 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
     WeekView mWeekView;
 
     private final List<WeekViewEvent> mHolidayEvents = new ArrayList<>();
+    private Timetable mTimetable;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -115,6 +122,14 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
                 mWeekView.notifyDatasetChanged();
             }
         });
+
+        TimetableHelper.getTimetable(getActivity(), new Callback<Timetable>() {
+            @Override
+            public void onResult(final Timetable result) {
+                mTimetable = result;
+                mWeekView.notifyDatasetChanged();
+            }
+        });
     }
 
     @Override
@@ -131,6 +146,9 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
                 // TODO This is a bug of the library which should be fixed with the next update
                 //mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 return true;
+            case R.id.menu_configure:
+                startActivity(new Intent(getActivity(), TimetableConfiguratorActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -138,9 +156,49 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
 
     @Override
     public List<WeekViewEvent> onMonthChange(final int year, final int month) {
-        List<WeekViewEvent> events = new ArrayList<>();
-        events.addAll(mHolidayEvents);
+        List<WeekViewEvent> result = new ArrayList<>();
 
-        return events;
+        // Add holidays
+        result.addAll(mHolidayEvents);
+
+        // Add lessons
+        if(mTimetable != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.set(year, month, 1);
+            int maxDaysThisMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+            while(cal.get(Calendar.DAY_OF_MONTH) <= maxDaysThisMonth) {
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                final Day day = Day.byCalendar(dayOfWeek);
+
+                final List<Lesson> lessons = mTimetable.getLessons(day);
+                for (Lesson lesson : lessons) {
+                    cal.set(Calendar.HOUR_OF_DAY, lesson.getTime().getHour());
+                    cal.set(Calendar.MINUTE, lesson.getTime().getMinute());
+
+                    StringBuilder name = new StringBuilder();
+                    name.append(lesson.getModule().getName()).append("\n");
+                    name.append(lesson.getRoom()).append("\n");
+                    if(!TextUtils.isEmpty(lesson.getSuffix())) {
+                        name.append(lesson.getSuffix()).append("\n");
+                    }
+                    name.append(lesson.getTeacher().getTitle())
+                            .append(" ")
+                            .append(lesson.getTeacher().getLastName());
+
+                    WeekViewEvent event = new WeekViewEvent();
+                    event.setName(name.toString());
+                    event.setStartTime((Calendar) cal.clone());
+                    cal.add(Calendar.MINUTE, 90);
+                    event.setEndTime((Calendar) cal.clone());
+
+                    result.add(event);
+                }
+
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+            }
+        }
+
+        return result;
     }
 }

@@ -105,6 +105,7 @@
     <orderEntry type="library" exported="" name="material-ripple-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="butterknife-6.1.0" level="project" />
     <orderEntry type="library" exported="" name="material-menu-toolbar-1.5.0" level="project" />
+    <orderEntry type="library" exported="" name="wizardpager-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="simple-xml-2.7.1" level="project" />
   </component>
 </module>

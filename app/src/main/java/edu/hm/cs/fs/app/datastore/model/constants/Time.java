@@ -33,14 +33,14 @@ public enum Time {
 	/**
 	 * @return the start hour.
 	 */
-	private int getHour() {
+	public int getHour() {
 		return hour;
 	}
 
 	/**
 	 * @return the start minute.
 	 */
-	private int getMinute() {
+    public int getMinute() {
 		return minute;
 	}
 

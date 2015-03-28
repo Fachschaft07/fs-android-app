@@ -57,4 +57,5 @@ dependencies {
     compile 'com.afollestad:material-dialogs:0.6.4.1'
     compile 'com.github.alamkanak:android-week-view:1.2.1'
     compile 'com.balysv.materialmenu:material-menu-toolbar:1.5.0'
+    compile 'com.github.techfreak:wizardpager:1.0.0'
 }
