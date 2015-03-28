@@ -1,6 +1,5 @@
 package edu.hm.cs.fs.app.datastore.model.impl;
 
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -9,10 +8,11 @@ public class LessonImpl extends RealmObject {
 	private String id;
 	private String day;
 	private String time;
-	private String module;
-	private String teacher;
 	private String room;
-	private RealmList<CourseImpl> courses;
+    private String group;
+    private String suffix;
+    private String moduleId;
+    private String teacherId;
 
 	public String getId() {
 		return id;
@@ -38,22 +38,6 @@ public class LessonImpl extends RealmObject {
 		this.time = time;
 	}
 
-	public String getModule() {
-		return module;
-	}
-
-	public void setModule(String module) {
-		this.module = module;
-	}
-
-	public String getTeacher() {
-		return teacher;
-	}
-
-	public void setTeacher(String teacher) {
-		this.teacher = teacher;
-	}
-
 	public String getRoom() {
 		return room;
 	}
@@ -62,11 +46,35 @@ public class LessonImpl extends RealmObject {
 		this.room = room;
 	}
 
-	public RealmList<CourseImpl> getCourses() {
-		return courses;
-	}
+    public String getGroup() {
+        return group;
+    }
 
-	public void setCourses(RealmList<CourseImpl> courses) {
-		this.courses = courses;
-	}
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
+
+    public String getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
 }

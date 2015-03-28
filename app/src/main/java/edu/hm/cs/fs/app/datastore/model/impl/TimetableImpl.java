@@ -5,17 +5,17 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class TimetableImpl extends RealmObject {
-	@PrimaryKey
-	private String studyGroup;
+    @PrimaryKey
+    private String id;
 	private RealmList<LessonImpl> lessons;
 
-	public String getStudyGroup() {
-		return studyGroup;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setStudyGroup(String studyGroup) {
-		this.studyGroup = studyGroup;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
 	public RealmList<LessonImpl> getLessons() {
 		return lessons;

@@ -10,11 +10,11 @@ public interface Lesson {
 
 	Time getTime();
 
-	Module getModule();
-
 	Person getTeacher();
 
 	String getRoom();
-	
-	List<Course> getCourses();
+
+    Module getModule();
+
+    String getSuffix();
 }
