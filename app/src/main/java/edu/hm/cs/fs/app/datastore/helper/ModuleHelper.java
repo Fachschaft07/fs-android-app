@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import edu.hm.cs.fs.app.datastore.model.Group;
 import edu.hm.cs.fs.app.datastore.model.Module;
 import edu.hm.cs.fs.app.datastore.model.ModuleCode;
 import edu.hm.cs.fs.app.datastore.model.Person;
+import edu.hm.cs.fs.app.datastore.model.constants.Semester;
 import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.datastore.model.constants.TeachingForm;
 import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
@@ -142,6 +144,31 @@ public class ModuleHelper extends BaseHelper implements Module {
     @Override
     public List<ModuleCode> getModulCodes() {
         return moduleCodes;
+    }
+
+    public static void getModulesByGroups(final Context context, final List<Group> groups, final Callback<List<Module>> callback) {
+        listAll(context, new Callback<List<Module>>() {
+            @Override
+            public void onResult(final List<Module> result) {
+                List<Module> filtered = new ArrayList<Module>();
+                for (Module module : result) {
+                    if(groups.contains(GroupImpl.of(module.getProgram().toString()))) {
+                        filtered.add(module);
+                    } else {
+                        for (ModuleCode moduleCode : module.getModulCodes()) {
+                            final String study = moduleCode.getCode().substring(0, 1);
+                            for (Semester semester : moduleCode.getSemester()) {
+                                if(groups.contains(GroupImpl.of(study + semester.toString()))) {
+                                    filtered.add(module);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                callback.onResult(filtered);
+            }
+        });
     }
 
     public static void listAll(final Context context, final Callback<List<Module>> callback) {

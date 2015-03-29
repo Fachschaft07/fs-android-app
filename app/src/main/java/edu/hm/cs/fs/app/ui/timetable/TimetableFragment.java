@@ -32,6 +32,7 @@ import edu.hm.cs.fs.app.datastore.model.Holiday;
 import edu.hm.cs.fs.app.datastore.model.Lesson;
 import edu.hm.cs.fs.app.datastore.model.Timetable;
 import edu.hm.cs.fs.app.datastore.model.constants.Day;
+import edu.hm.cs.fs.app.ui.timetable.wizard.TimetableConfiguratorActivity;
 
 /**
  * Created by Fabio on 15.03.2015.

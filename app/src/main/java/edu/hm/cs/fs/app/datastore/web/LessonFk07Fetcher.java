@@ -1,12 +1,9 @@
 package edu.hm.cs.fs.app.datastore.web;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.xpath.XPathConstants;
-
 import android.content.Context;
 import android.text.TextUtils;
+
+import javax.xml.xpath.XPathConstants;
 
 import edu.hm.cs.fs.app.datastore.model.constants.Day;
 import edu.hm.cs.fs.app.datastore.model.constants.Time;

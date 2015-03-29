@@ -75,6 +75,9 @@
     <string name="today">Heute</string>
 
     <!-- Timetable Configurator -->
+    <string name="wizard_groups">Aus welchen Studiengruppen möchtest du Module belegen?</string>
+    <string name="wizard_modules">Welche Module möchtest du belegen?</string>
+    <string name="wizard_lessons">Welche Vorlesungen/Praktika möchtest du besuchen?</string>
     <string name="next">Weiter</string>
     <string name="prev">Zurück</string>
     <string name="finish">Bestätigen</string>
