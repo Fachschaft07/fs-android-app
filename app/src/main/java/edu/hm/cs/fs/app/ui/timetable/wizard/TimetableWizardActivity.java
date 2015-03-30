@@ -25,32 +25,40 @@ import com.tech.freak.wizardpager.ui.StepPagerStrip;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 /**
  * Created by Fabio on 30.03.2015.
  */
 public class TimetableWizardActivity extends ActionBarActivity implements
         PageFragmentCallbacks, ReviewFragment.Callbacks, ModelCallbacks {
-    private ViewPager mPager;
+    @InjectView(R.id.toolbar) Toolbar mToolbar;
+
+    @InjectView(R.id.pager) ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
 
     private boolean mEditingAfterReview;
 
-    private AbstractWizardModel mWizardModel = new StudyGroupWizardModel(this);
+    private AbstractWizardModel mWizardModel;
 
     private boolean mConsumePageSelectedEvent;
 
-    private Button mNextButton;
-    private Button mPrevButton;
+    @InjectView(R.id.next_button) Button mNextButton;
+    @InjectView(R.id.prev_button) Button mPrevButton;
 
     private List<Page> mCurrentPageSequence;
-    private StepPagerStrip mStepPagerStrip;
+    @InjectView(R.id.strip) StepPagerStrip mStepPagerStrip;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timetable_configurator);
+        setContentView(R.layout.activity_wizard_timetable);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
-        setSupportActionBar(toolbar);
+        ButterKnife.inject(this);
+
+        mWizardModel = new StudyGroupWizardModel(this);
+
+        setSupportActionBar(mToolbar);
 
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));
@@ -123,6 +131,9 @@ public class TimetableWizardActivity extends ActionBarActivity implements
             @Override
             public void onClick(View view) {
                 mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+                for (Page page : mCurrentPageSequence) {
+                    page.notifyDataChanged();
+                }
             }
         });
 

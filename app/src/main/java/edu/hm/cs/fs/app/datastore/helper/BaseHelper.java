@@ -28,7 +28,7 @@ public abstract class BaseHelper {
     static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> void listAll(final Context context, final Fetcher fetcher, final Class<Impl> implType, final Callback<List<Interface>> callback, final OnHelperCallback<Interface, Impl> creator) {
         listAllOffline(context, implType, callback, creator);
 
-        if (PrefUtils.isNotUpToDate(context, fetcher.getClass())) {
+        if (PrefUtils.isRefreshable(context, fetcher.getClass())) {
             listAllOnline(context, fetcher, implType, callback, creator);
         }
     }

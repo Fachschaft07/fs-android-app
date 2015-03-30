@@ -34,7 +34,7 @@ public abstract class BaseWizardFragment<T> extends Fragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wizard_groups, container, false);
+        View view = inflater.inflate(R.layout.fragment_wizard_page, container, false);
         ButterKnife.inject(this, view);
         return view;
     }

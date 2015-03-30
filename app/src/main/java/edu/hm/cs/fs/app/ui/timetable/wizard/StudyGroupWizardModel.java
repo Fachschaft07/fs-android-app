@@ -23,11 +23,14 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
             R.string.semester_6,
             R.string.semester_7
     };
-    private Context mContext;
+    private static final int[] GROUP_TEXT_ID = {
+            R.string.group_a,
+            R.string.group_b,
+            R.string.group_c
+    };
 
     public StudyGroupWizardModel(Context context) {
         super(context);
-        mContext = context;
     }
 
     @Override
@@ -36,16 +39,18 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
     }
 
     private Page getFaculty() {
-        return new BranchPage(this, "Fakultät auswählen")
+        return new BranchPage(this, getString(R.string.wizard_faculty))
                 .addBranch(
                         getString(R.string.faculty_07),
                         getStudies(Faculty._07)
-                );
-        // Add new Faculties here
+                )
+                        // Add new Faculties here
+                .setRequired(true);
     }
 
     private Page getStudies(Faculty faculty) {
-        BranchPage page = new BranchPage(this, "Studiengang auswählen");
+        BranchPage page = new BranchPage(this, getString(R.string.wizard_study));
+        page.setRequired(true);
         switch (faculty) {
             // Add new Faculties here AND
             // add the Study Tag to edu.hm.cs.fs.app.datastore.model.constants.Study
@@ -77,29 +82,32 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
     }
 
     private Page getSemester(int... semesterGroupCounts) {
-        BranchPage page = new BranchPage(this, "Semester auswählen");
-        int index = 0;
-        for (int groupCount : semesterGroupCounts) {
+        BranchPage page = new BranchPage(this, getString(R.string.wizard_semesters));
+        page.setRequired(true);
+        for (int index = 0; index < semesterGroupCounts.length; index++) {
             page.addBranch(
-                    getString(SEMESTER_TEXT_ID[index++]),
-                    getGroups(groupCount)
+                    getString(SEMESTER_TEXT_ID[index]),
+                    getGroups(semesterGroupCounts[index])
             );
         }
         return page;
     }
 
     private Page getGroups(int count) {
-        BranchPage page = new BranchPage(this, "Gruppe auswählen");
-        if (count > 0) {
-            page.addBranch(getString(R.string.group_a));
+        // FIXME: Bei 07 -> IF -> 3 oder 4 -> A, B, C (Hier darf nur A und B erscheinen)
+        if(count > 1) {
+            BranchPage page = new BranchPage(this, getString(R.string.wizard_groups));
+            page.setRequired(true);
+            for (int index = 0; index < count; index++) {
+                page.addBranch(
+                        getString(GROUP_TEXT_ID[index]),
+                        new LessonPage(this, getString(R.string.wizard_lessons)).setRequired(true)
+                );
+            }
+            return page;
+        } else {
+            return new LessonPage(this, getString(R.string.wizard_lessons)).setRequired(true);
         }
-        if (count > 1) {
-            page.addBranch(getString(R.string.group_b));
-        }
-        if (count > 2) {
-            page.addBranch(getString(R.string.group_c));
-        }
-        return page;
     }
 
     private String getString(int stringId) {

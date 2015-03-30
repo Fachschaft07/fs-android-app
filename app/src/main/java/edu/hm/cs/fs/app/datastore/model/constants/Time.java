@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.app.datastore.model.constants;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * @author Fabio
@@ -67,7 +68,7 @@ public enum Time {
 
     @Override
     public String toString() {
-        return hour + ":" + minute;
+        return String.format(Locale.getDefault(), "%1$02d:%2$02d", hour, minute);
     }
 
     /**

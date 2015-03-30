@@ -75,9 +75,17 @@
     <string name="today">Heute</string>
 
     <!-- Timetable Configurator -->
-    <string name="wizard_groups">Aus welchen Studiengruppen möchtest du Module belegen?</string>
-    <string name="wizard_modules">Welche Module möchtest du belegen?</string>
-    <string name="wizard_lessons">Welche Vorlesungen/Praktika möchtest du besuchen?</string>
+    <string name="configure">Konfigurieren</string>
+    <string name="wizard_semesters">Semester</string>
+    <string name="wizard_semesters_description">Wähle dein Semester aus.</string>
+    <string name="wizard_study">Studiengang</string>
+    <string name="wizard_study_description">Wähle deinen Studiengang aus.</string>
+    <string name="wizard_faculty">Fakultät</string>
+    <string name="wizard_faculty_description">Wähle deine Fakultät aus.</string>
+    <string name="wizard_groups">Studiengruppe</string>
+    <string name="wizard_groups_description">Wähle deine Studiengruppe aus.</string>
+    <string name="wizard_lessons">Vorlesungen &amp; Praktika</string>
+    <string name="wizard_lessons_description">Wähle die Vorlesungen und Praktika aus, welche du besuchen willst.</string>
     <string name="next">Weiter</string>
     <string name="prev">Zurück</string>
     <string name="finish">Bestätigen</string>
@@ -99,13 +107,13 @@
     <string name="faculty_12">12 - Design</string>
     <string name="faculty_13">13 - Studium Generale und Interdisziplinäre Studien</string>
     <string name="faculty_14">14 - Tourismus</string>
-    <string name="study_go">Geotelematik Bachelor</string>
-    <string name="study_ib">Wirtschaftsinformatik Bachelor</string>
-    <string name="study_if">Informatik Bachelor</string>
-    <string name="study_ic">Scientific Computing Bachelor</string>
-    <string name="study_ig">Informatik Master</string>
-    <string name="study_in">Wirtschaftsinformatik Master</string>
-    <string name="study_is">Stochastic Engineering in Business and Finance Master</string>
+    <string name="study_go">GO - Geotelematik Bachelor</string>
+    <string name="study_ib">IB - Wirtschaftsinformatik Bachelor</string>
+    <string name="study_if">IF - Informatik Bachelor</string>
+    <string name="study_ic">IC - Scientific Computing Bachelor</string>
+    <string name="study_ig">IG - Informatik Master</string>
+    <string name="study_in">IN - Wirtschaftsinformatik Master</string>
+    <string name="study_is">IS - Stochastic Engineering in Business and Finance Master</string>
     <string name="semester_1" translatable="false">1</string>
     <string name="semester_2" translatable="false">2</string>
     <string name="semester_3" translatable="false">3</string>
@@ -173,5 +181,5 @@
 	<string name="proverbs23">Ein User ruft den Service an.\nUser: Hallo, ich habe Windows installiert…\nService:ja?!\nUser: und ich habe ein Problem…\nService:Das sagten sie bereits!</string>
 	<string name="proverbs24">Was bedeutet "www"? Warten, Warten, Warten</string>
 	<string name="proverbs25">Wenn am Anfang alles schief geht, nenne es Version 1.0!</string>
-    <string name="configure">Konfigurieren</string>
+    <string name="timetable_configurator">Stundenplankonfigurator</string>
 </resources>

@@ -56,7 +56,11 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
                     final String path = mRootNode + "[" + index + "]";
                     T value = onCreateItem(path);
                     if(value != null) {
-                        result.add(value);
+                        if(value instanceof List) {
+                            result.addAll((List<T>) value);
+                        } else {
+                            result.add(value);
+                        }
                     }
                 }
             } catch (Exception e) {

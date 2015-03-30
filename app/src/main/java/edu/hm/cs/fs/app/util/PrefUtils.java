@@ -3,6 +3,7 @@ package edu.hm.cs.fs.app.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +23,7 @@ public final class PrefUtils {
         save(context, fetcher.getSimpleName() + "_update_interval", intervalInMillisecond);
     }
 
-    public static <Fetcher extends AbstractContentFetcher<?, ?>> long getLastUpdate(Context context, Class<Fetcher> fetcher) {
+    private static <Fetcher extends AbstractContentFetcher<?, ?>> long getLastUpdate(Context context, Class<Fetcher> fetcher) {
         return find(context, fetcher.getSimpleName() + "_last_update", -1l);
     }
 
@@ -30,8 +31,11 @@ public final class PrefUtils {
         save(context, fetcher.getSimpleName() + "_last_update", new Date().getTime());
     }
 
-    public static <Fetcher extends AbstractContentFetcher<?, ?>> boolean isNotUpToDate(Context context, Class<Fetcher> fetcher) {
-        return System.currentTimeMillis() > find(context, fetcher.getClass().getSimpleName() + "_update_interval", DEFAULT_UPDATE_INTERVAL) + getLastUpdate(context, fetcher);
+    public static <Fetcher extends AbstractContentFetcher<?, ?>> boolean isRefreshable(Context context, Class<Fetcher> fetcher) {
+        Log.i("PrefUtils", "Time NOW: " + System.currentTimeMillis());
+        Log.i("PrefUtils", "Interval: " + find(context, fetcher.getSimpleName() + "_update_interval", DEFAULT_UPDATE_INTERVAL));
+        Log.i("PrefUtils", "Time LAST: " + getLastUpdate(context, fetcher));
+        return System.currentTimeMillis() > find(context, fetcher.getSimpleName() + "_update_interval", DEFAULT_UPDATE_INTERVAL) + getLastUpdate(context, fetcher);
     }
 
     private static <T> void save(Context context, String key, T data) {

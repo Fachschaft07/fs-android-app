@@ -3,6 +3,8 @@ package edu.hm.cs.fs.app.datastore.web;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.util.Locale;
+
 import javax.xml.xpath.XPathConstants;
 
 import edu.hm.cs.fs.app.datastore.model.constants.Offer;
@@ -150,6 +152,7 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 		}
 		
 		ModuleImpl module = new ModuleImpl();
+        module.setId(name.replaceAll("\\s", "").replaceAll("[^A-z0-9]+", "").toLowerCase(Locale.getDefault()));
 		module.setName(name);
 		module.setCredits(credits);
 		module.setSws(sws);

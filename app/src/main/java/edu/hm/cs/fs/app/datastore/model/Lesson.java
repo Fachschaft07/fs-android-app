@@ -15,6 +15,4 @@ public interface Lesson {
     Module getModule();
 
     String getSuffix();
-
-    Group getGroup();
 }
