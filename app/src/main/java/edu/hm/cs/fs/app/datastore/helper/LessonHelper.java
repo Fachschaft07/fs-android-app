@@ -76,69 +76,12 @@ public class LessonHelper extends BaseHelper implements Lesson {
         return group;
     }
 
-    public static void getLessonsByModuleGroup(final Context context, final Faculty faculty, final List<Module> modules, final List<Group> groups, final Callback<List<Lesson>> callback) {
-        listAll(context, faculty, new Callback<List<Lesson>>() {
-            @Override
-            public void onResult(final List<Lesson> result) {
-
-            }
-        });
-    }
-
-    public static void getLessonsByGroups(final Context context, final Faculty faculty, final List<Group> groups, final Callback<List<Lesson>> callback) {
-        listAll(context, faculty, new Callback<List<Lesson>>() {
-            @Override
-            public void onResult(final List<Lesson> result) {
-                List<Lesson> filtered = new ArrayList<Lesson>();
-                for (Lesson lesson : result) {
-                    if(groups.contains(lesson.getGroup())) {
-                        filtered.add(lesson);
-                    }
-                }
-                callback.onResult(filtered);
-            }
-        });
-    }
-
-    public static void getGroups(final Context context, final Faculty faculty, final Callback<List<Group>> callback) {
-        listAll(context, faculty, new Callback<List<Lesson>>() {
-            @Override
-            public void onResult(final List<Lesson> result) {
-                List<Group> groupList = new ArrayList<>();
-                for (Lesson lesson : result) {
-                    if(!groupList.contains(lesson.getGroup())) {
-                        groupList.add(lesson.getGroup());
-                    }
-                }
-                callback.onResult(groupList);
-            }
-        });
-    }
-
     public static void listAll(final Context context, final Faculty faculty, final Group group, final Callback<List<Lesson>> callback) {
-        listAll(context, faculty, new Callback<List<Lesson>>() {
-            @Override
-            public void onResult(final List<Lesson> result) {
-                List<Lesson> lessons = new ArrayList<>();
-                for (Lesson lesson : result) {
-                    if (lesson.getGroup().equals(group) ||
-                            lesson.getGroup().getStudy() == group.getStudy() &&
-                                    lesson.getGroup().getSemester() == group.getSemester() ||
-                            lesson.getGroup().getStudy() == group.getStudy()) {
-                        lessons.add(lesson);
-                    }
-                }
-                callback.onResult(lessons);
-            }
-        });
-    }
-
-    public static void listAll(final Context context, final Faculty faculty, final Callback<List<Lesson>> callback) {
         @SuppressWarnings("rawtypes")
         AbstractContentFetcher fetcher = null;
         switch (faculty) {
             case _07:
-                fetcher = new LessonFk07Fetcher(context);
+                fetcher = new LessonFk07Fetcher(context, group);
                 break;
             default:
                 throw new IllegalStateException("Faculty " + faculty.toString() + " is not supported yet");

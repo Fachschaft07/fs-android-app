@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name="edu.hm.cs.fs.app.util.multipane.ActivityMultiPaneDetail" />
+        <activity android:name="edu.hm.cs.fs.app.ui.timetable.wizard.TimetableWizardActivity"/>
     </application>
 
 </manifest>

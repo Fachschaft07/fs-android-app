@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.fk07.R;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -30,7 +31,6 @@ public abstract class BaseWizardFragment<T> extends Fragment {
     ListView mList;
 
     private WizardListAdapter mAdapter;
-    private WizardContainer mContainer;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
@@ -53,18 +53,14 @@ public abstract class BaseWizardFragment<T> extends Fragment {
 
     public abstract void onItemText(T item, TextView textView);
 
-    public void setContainer(WizardContainer container) {
-        mContainer = container;
-    }
-
-    public WizardContainer getContainer() {
-        return mContainer;
-    }
-
     public void addItems(List<T> items) {
         for (T item : items) {
             mAdapter.add(item);
         }
+    }
+
+    public void addItems(T... items) {
+        addItems(Arrays.asList(items));
     }
 
     @OnItemClick(android.R.id.list)

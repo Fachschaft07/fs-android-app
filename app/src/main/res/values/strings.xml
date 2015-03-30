@@ -85,6 +85,38 @@
         confirmation.</string>
     <string name="submit_confirm_button">Place order</string>
 
+    <string name="faculty_01">1 - Architektur</string>
+    <string name="faculty_02">2 - Bauingenieurwesen</string>
+    <string name="faculty_03">3 - Maschinenbau, Fahrzeugtechnik, Flugzeugtechnik</string>
+    <string name="faculty_04">4 - Elektrotechnik und Informationstechnik</string>
+    <string name="faculty_05">5 - Versorgungs- und Gebäudetechnik, Verfahrenstechnik Papier und Verpackung, Druck- und Medientechnik</string>
+    <string name="faculty_06">6 - Angewandte Naturwissenschaften und Mechatronik</string>
+    <string name="faculty_07">7 - Informatik und Mathematik</string>
+    <string name="faculty_08">8 - Geoinformatik</string>
+    <string name="faculty_09">9 - Wirtschaftsingenieurwesen</string>
+    <string name="faculty_10">10 - Betriebswirtschaft</string>
+    <string name="faculty_11">11 - Angewandte Sozialwissenschaften</string>
+    <string name="faculty_12">12 - Design</string>
+    <string name="faculty_13">13 - Studium Generale und Interdisziplinäre Studien</string>
+    <string name="faculty_14">14 - Tourismus</string>
+    <string name="study_go">Geotelematik Bachelor</string>
+    <string name="study_ib">Wirtschaftsinformatik Bachelor</string>
+    <string name="study_if">Informatik Bachelor</string>
+    <string name="study_ic">Scientific Computing Bachelor</string>
+    <string name="study_ig">Informatik Master</string>
+    <string name="study_in">Wirtschaftsinformatik Master</string>
+    <string name="study_is">Stochastic Engineering in Business and Finance Master</string>
+    <string name="semester_1" translatable="false">1</string>
+    <string name="semester_2" translatable="false">2</string>
+    <string name="semester_3" translatable="false">3</string>
+    <string name="semester_4" translatable="false">4</string>
+    <string name="semester_5" translatable="false">5</string>
+    <string name="semester_6" translatable="false">6</string>
+    <string name="semester_7" translatable="false">7</string>
+    <string name="group_a" translatable="false">A</string>
+    <string name="group_b" translatable="false">B</string>
+    <string name="group_c" translatable="false">C</string>
+
     <!-- TimeTable Widget -->
     <string name="widgetPlainText">Keine Vorlesung gefunden!</string>
     <string name="lothstraße">Lothstraße</string>

@@ -32,7 +32,7 @@ import edu.hm.cs.fs.app.datastore.model.Holiday;
 import edu.hm.cs.fs.app.datastore.model.Lesson;
 import edu.hm.cs.fs.app.datastore.model.Timetable;
 import edu.hm.cs.fs.app.datastore.model.constants.Day;
-import edu.hm.cs.fs.app.ui.timetable.wizard.TimetableConfiguratorActivity;
+import edu.hm.cs.fs.app.ui.timetable.wizard.TimetableWizardActivity;
 
 /**
  * Created by Fabio on 15.03.2015.
@@ -148,7 +148,7 @@ public class TimetableFragment extends Fragment implements WeekView.MonthChangeL
                 //mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 return true;
             case R.id.menu_configure:
-                startActivity(new Intent(getActivity(), TimetableConfiguratorActivity.class));
+                startActivity(new Intent(getActivity(), TimetableWizardActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

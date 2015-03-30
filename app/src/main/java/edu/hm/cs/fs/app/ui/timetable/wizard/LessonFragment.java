@@ -23,13 +23,6 @@ public class LessonFragment extends BaseWizardFragment<Lesson> {
     public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final List<Group> groups = getContainer().getGroups();
-        LessonHelper.getLessonsByGroups(getActivity(), Faculty._07, groups, new Callback<List<Lesson>>() {
-            @Override
-            public void onResult(final List<Lesson> result) {
-                addItems(result);
-            }
-        });
     }
 
     @Override
