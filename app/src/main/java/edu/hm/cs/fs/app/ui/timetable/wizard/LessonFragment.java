@@ -1,17 +1,13 @@
 package edu.hm.cs.fs.app.ui.timetable.wizard;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fk07.R;
@@ -27,13 +23,13 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnItemClick;
 import edu.hm.cs.fs.app.datastore.helper.Callback;
 import edu.hm.cs.fs.app.datastore.helper.LessonHelper;
 import edu.hm.cs.fs.app.datastore.model.Group;
 import edu.hm.cs.fs.app.datastore.model.Lesson;
 import edu.hm.cs.fs.app.datastore.model.constants.Faculty;
 import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by Fabio on 29.03.2015.
@@ -48,12 +44,12 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
 
     @InjectView(R.id.wizardSideTitle)
     TextView mTitle;
-    @InjectView(android.R.id.list)
-    ListView mList;
+    @InjectView(R.id.wizardListView)
+    StickyListHeadersListView mList;
 
     private List<Lesson> mSelectedLessons = new ArrayList<>();
 
-    private WizardListAdapter mAdapter;
+    private LessonAdapter mAdapter;
     private AbstractWizardModel mWizardModel;
 
     @Override
@@ -97,8 +93,24 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
 
         mTitle.setText(R.string.wizard_lessons);
 
-        mAdapter = new WizardListAdapter(getActivity());
+        mAdapter = new LessonAdapter(getActivity());
         mList.setAdapter(mAdapter);
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+                final Lesson lesson = mAdapter.getItem(position);
+                if (mSelectedLessons.contains(lesson)) {
+                    mSelectedLessons.remove(lesson);
+                } else {
+                    mSelectedLessons.add(lesson);
+                }
+                mAdapter.setSelections(mSelectedLessons);
+                mAdapter.notifyDataSetChanged();
+
+                mPage.getData(); // TODO put...
+                mPage.notifyDataChanged();
+            }
+        });
 
         // Extract the previous results
         ArrayList<ReviewItem> reviewItems = new ArrayList<>();
@@ -117,10 +129,7 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
                 endIndex = 2;
             }
             groupBuilder.append(reviewItem.getDisplayValue().substring(0, endIndex));
-            Log.i("LessonFragment", "ReviewItem: "+ reviewItem.getTitle() + " -> " + reviewItem.getDisplayValue());
         }
-
-        Log.i("LessonFragment", "Group: "+ groupBuilder.toString());
 
         String facultyStr = reviewItems.get(0).getDisplayValue().substring(0, 2).trim();
         if(facultyStr.length() == 1) {
@@ -134,6 +143,7 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
             LessonHelper.listAll(getActivity(), faculty, group, new Callback<List<Lesson>>() {
                 @Override
                 public void onResult(final List<Lesson> result) {
+                    mSelectedLessons.clear();
                     mAdapter.clear();
                     for (Lesson lesson : result) {
                         mAdapter.add(lesson);
@@ -141,19 +151,6 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
                 }
             });
         }
-    }
-
-    @OnItemClick(android.R.id.list)
-    public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-        final Lesson lesson = mAdapter.getItem(position);
-        if (mSelectedLessons.contains(lesson)) {
-            mSelectedLessons.remove(lesson);
-        } else {
-            mSelectedLessons.add(lesson);
-        }
-
-        mPage.getData(); // TODO put...
-        mPage.notifyDataChanged();
     }
 
     @Override
@@ -166,25 +163,13 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
 
     @Override
     public void onPageDataChanged(final Page page) {
-
+        mSelectedLessons.clear();
+        mAdapter.clear();
     }
 
     @Override
     public void onPageTreeChanged() {
         onPageDataChanged(null);
-    }
-
-    private final class WizardListAdapter extends ArrayAdapter<Lesson> {
-        public WizardListAdapter(final Context context) {
-            super(context, android.R.layout.simple_list_item_1);
-        }
-
-        @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
-            View view = super.getView(position, convertView, parent);
-            ((TextView) view.findViewById(android.R.id.text1)).setText(getItem(position).getModule().getName());
-            return view;
-        }
     }
 
     public static LessonFragment create(final String key) {

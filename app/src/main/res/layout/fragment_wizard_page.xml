@@ -12,9 +12,9 @@
         android:layout_marginRight="16dp"
         android:id="@+id/wizardSideTitle"/>
 
-    <ListView
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarStyle="outsideInset"
-        android:id="@android:id/list"/>
+        android:id="@+id/wizardListView"/>
 </LinearLayout>

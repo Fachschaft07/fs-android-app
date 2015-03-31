@@ -69,28 +69,32 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
                         getSemester(3, 3, 2, 2, 1, 1, 1)
                 ).addBranch(
                         getString(R.string.study_ig),
-                        getSemester(1, 1, 1)
+                        getSemester(1)
                 ).addBranch(
                         getString(R.string.study_in),
                         getSemester(1, 1, 1)
                 ).addBranch(
                         getString(R.string.study_is),
-                        getSemester(1, 1, 1)
+                        getSemester(1)
                 );
         }
         return page;
     }
 
     private Page getSemester(int... semesterGroupCounts) {
-        BranchPage page = new BranchPage(this, getString(R.string.wizard_semesters));
-        page.setRequired(true);
-        for (int index = 0; index < semesterGroupCounts.length; index++) {
-            page.addBranch(
-                    getString(SEMESTER_TEXT_ID[index]),
-                    getGroups(semesterGroupCounts[index])
-            );
+        if(semesterGroupCounts.length > 1) {
+            BranchPage page = new BranchPage(this, getString(R.string.wizard_semesters));
+            page.setRequired(true);
+            for (int index = 0; index < semesterGroupCounts.length; index++) {
+                page.addBranch(
+                        getString(SEMESTER_TEXT_ID[index]),
+                        getGroups(semesterGroupCounts[index])
+                );
+            }
+            return page;
+        } else {
+            return new LessonPage(this, getString(R.string.wizard_lessons)).setRequired(true);
         }
-        return page;
     }
 
     private Page getGroups(int count) {

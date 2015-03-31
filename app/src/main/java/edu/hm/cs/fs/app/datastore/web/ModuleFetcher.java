@@ -166,7 +166,9 @@ public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl>
 		module.setContent(content);
 		module.setMedia(media);
 		module.setLiterature(literature);
-		module.setProgram(program.toString());
+        if(program != null) {
+            module.setProgram(program.toString());
+        }
 		module.setModulCodes(modulCodes);
 
 		return module;

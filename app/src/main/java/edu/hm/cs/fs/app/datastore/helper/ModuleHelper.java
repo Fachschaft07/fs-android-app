@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,11 @@ public class ModuleHelper extends BaseHelper implements Module {
         content = module.getContent();
         media = module.getMedia();
         literatur = module.getLiterature();
-        program = GroupImpl.of(module.getProgram()).getStudy();
+        if(module.getProgram() != null) {
+            program = GroupImpl.of(module.getProgram()).getStudy();
+        } else {
+            program = null;
+        }
         moduleCodes = new ArrayList<>();
         for (ModuleCodeImpl moduleCode : module.getModulCodes()) {
             moduleCodes.add(new ModuleCodeHelper(context, moduleCode));
@@ -211,6 +216,7 @@ public class ModuleHelper extends BaseHelper implements Module {
                         }
                     });
                     for (ModuleImpl moduleImpl : moduleList) {
+                        Log.i("ModuleHelper", "Module check => " + moduleImpl.getId() + " ?= " + id);
                         if (moduleImpl.getId().equals(id)) {
                             module = moduleImpl;
                             break;

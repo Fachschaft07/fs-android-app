@@ -68,7 +68,7 @@ public class MealAdapter extends ArrayAdapter<Meal> implements StickyListHeaders
     public View getHeaderView(final int position, View convertView, final ViewGroup viewGroup) {
         HeaderViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_meal_header, viewGroup, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listitem_sticky_header, viewGroup, false);
             holder = new HeaderViewHolder(convertView);
             convertView.setTag(holder);
         } else {
