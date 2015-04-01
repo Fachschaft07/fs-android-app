@@ -21,12 +21,17 @@ import edu.hm.cs.fs.app.datastore.model.impl.PersonImpl;
  *
  */
 public class PersonFetcher extends AbstractXmlFetcher<PersonFetcher, PersonImpl> {
-	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/person.xml";
+    private static final String BASE_URL = "http://fi.cs.hm.edu/fi/rest/public/";
+	private static final String URL = BASE_URL + "person.xml";
 	private static final String ROOT_NODE = "/persons/person";
 
 	public PersonFetcher(final Context context) {
 		super(context, URL, ROOT_NODE);
 	}
+
+    public PersonFetcher(final Context context, final String personId) {
+        super(context, BASE_URL + "person/name/"+personId+".xml", "person");
+    }
 
 	@Override
 	protected PersonImpl onCreateItem(final String rootPath) throws Exception {

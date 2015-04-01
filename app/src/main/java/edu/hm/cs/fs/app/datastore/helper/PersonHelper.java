@@ -215,7 +215,7 @@ public class PersonHelper extends BaseHelper implements Person {
             public Person run(final Realm realm) {
                 PersonImpl person = realm.where(PersonImpl.class).equalTo("id", id).findFirst();
                 if (person == null) {
-                    List<PersonImpl> personList = fetchOnlineData(new PersonFetcher(context), realm, new OnHelperCallback<Person, PersonImpl>() {
+                    List<PersonImpl> personList = fetchOnlineData(new PersonFetcher(context, id), realm, new OnHelperCallback<Person, PersonImpl>() {
                         @Override
                         public Person createHelper(Context context, PersonImpl impl) {
                             return new PersonHelper(context, impl);

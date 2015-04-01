@@ -26,12 +26,17 @@ import io.realm.RealmList;
  *
  */
 public class ModuleFetcher extends AbstractXmlFetcher<ModuleFetcher, ModuleImpl> {
-	private static final String URL = "http://fi.cs.hm.edu/fi/rest/public/modul.xml";
+    private static final String BASE_URL = "http://fi.cs.hm.edu/fi/rest/public/";
+	private static final String URL = BASE_URL + "modul.xml";
 	private static final String ROOT_NODE = "/modullist/modul";
 
 	public ModuleFetcher(final Context context) {
 		super(context, URL, ROOT_NODE);
 	}
+
+    public ModuleFetcher(final Context context, String moduleId) {
+        super(context, BASE_URL + "modul/title/"+moduleId+".xml", "modul");
+    }
 
 	@Override
 	protected ModuleImpl onCreateItem(final String rootPath) throws Exception {

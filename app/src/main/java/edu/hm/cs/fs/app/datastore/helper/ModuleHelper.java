@@ -201,7 +201,7 @@ public class ModuleHelper extends BaseHelper implements Module {
             public Module run(final Realm realm) {
                 ModuleImpl module = realm.where(ModuleImpl.class).equalTo("id", id).findFirst();
                 if (module == null) {
-                    List<ModuleImpl> moduleList = fetchOnlineData(new ModuleFetcher(context), realm, new OnHelperCallback<Module, ModuleImpl>() {
+                    List<ModuleImpl> moduleList = fetchOnlineData(new ModuleFetcher(context, id), realm, new OnHelperCallback<Module, ModuleImpl>() {
                         @Override
                         public Module createHelper(Context context, ModuleImpl impl) {
                             return new ModuleHelper(context, impl);
