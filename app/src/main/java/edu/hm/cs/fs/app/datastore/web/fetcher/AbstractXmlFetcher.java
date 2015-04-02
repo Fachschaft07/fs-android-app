@@ -38,12 +38,18 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
         final DocumentBuilderFactory factory = DocumentBuilderFactory
                 .newInstance();
         DocumentBuilder documentBuilder = null;
-        try {
-            documentBuilder = factory.newDocumentBuilder();
-            mXmlDoc = documentBuilder.parse(url);
-        } catch (final Exception e) {
-            Log.w(getClass().getSimpleName(), "", e);
-        }
+        String urlToParse = url;
+        do {
+            try {
+                documentBuilder = factory.newDocumentBuilder();
+                mXmlDoc = documentBuilder.parse(urlToParse);
+            } catch (final Exception e) {
+                String baseUrl = urlToParse.substring(0, urlToParse.lastIndexOf("/"));
+                String endPath = urlToParse.substring(urlToParse.lastIndexOf("/"));
+                urlToParse = baseUrl + endPath.replaceAll("ae", "").replaceAll("ue", "").replaceAll("oe", "");
+                Log.w(getClass().getSimpleName(), "Failed to connect to side -> Now try: " + urlToParse, e);
+            }
+        } while(mXmlDoc == null);
 
         if(mXmlDoc != null) {
             try {

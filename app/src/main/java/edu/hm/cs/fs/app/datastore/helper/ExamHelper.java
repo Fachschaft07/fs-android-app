@@ -121,7 +121,7 @@ public class ExamHelper extends BaseHelper implements Exam {
             public Exam run(final Realm realm) {
             	ExamImpl exam = realm.where(ExamImpl.class).equalTo("id", id).findFirst();
             	if(exam == null) {
-            		List<ExamImpl> examList = fetchOnlineData(new ExamFetcher(context), realm, new OnHelperCallback<Exam, ExamImpl>() {
+            		List<ExamImpl> examList = fetchOnlineData(new ExamFetcher(context), realm, false, new OnHelperCallback<Exam, ExamImpl>() {
             			@Override
             			public Exam createHelper(Context context, ExamImpl impl) {
             				return new ExamHelper(context, impl);

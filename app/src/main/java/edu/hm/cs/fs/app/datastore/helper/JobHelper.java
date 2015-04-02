@@ -91,7 +91,7 @@ public class JobHelper extends BaseHelper implements Job {
             public Job run(final Realm realm) {
                 JobImpl job = realm.where(JobImpl.class).equalTo("id", id).findFirst();
                 if (job == null) {
-                    List<JobImpl> jobList = fetchOnlineData(new JobFetcher(context), realm, new OnHelperCallback<Job, JobImpl>() {
+                    List<JobImpl> jobList = fetchOnlineData(new JobFetcher(context), realm, false, new OnHelperCallback<Job, JobImpl>() {
                         @Override
                         public Job createHelper(Context context, JobImpl impl) {
                             return new JobHelper(context, impl);

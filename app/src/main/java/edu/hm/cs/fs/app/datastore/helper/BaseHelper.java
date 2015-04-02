@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public abstract class BaseHelper {
             public List<Interface> run(final Realm realm) {
                 List<Interface> result = new ArrayList<>();
                 if (NetworkUtils.isConnected(context)) {
-                    List<Impl> implList = fetchOnlineData(fetcher, realm, creator);
+                    List<Impl> implList = fetchOnlineData(fetcher, realm, true, creator);
                     for (Impl impl : implList) {
                         result.add(creator.createHelper(context, impl));
                     }
@@ -68,7 +69,7 @@ public abstract class BaseHelper {
     }
 
     @DebugLog
-    static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> List<Impl> fetchOnlineData(Fetcher fetcher, Realm realm, OnHelperCallback<Interface, Impl> callback) {
+    static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> List<Impl> fetchOnlineData(Fetcher fetcher, Realm realm, boolean reset, OnHelperCallback<Interface, Impl> callback) {
         List<Impl> implList = fetcher.fetch();
         if (!implList.isEmpty()) {
             // Get Impl class
@@ -77,8 +78,11 @@ public abstract class BaseHelper {
 
             // Delete old data
             realm.beginTransaction();
-            for (Impl impl : realm.where(classType).findAll()) {
-                impl.removeFromRealm();
+            if(reset) {
+                Log.d(BaseHelper.class.getSimpleName(), "Reset all " + classType.getSimpleName());
+                for (Impl impl : realm.where(classType).findAll()) {
+                    impl.removeFromRealm();
+                }
             }
             // Insert new data
             for (Impl impl : implList) {

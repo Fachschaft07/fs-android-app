@@ -24,13 +24,16 @@ public class PersonFetcher extends AbstractXmlFetcher<PersonFetcher, PersonImpl>
     private static final String BASE_URL = "http://fi.cs.hm.edu/fi/rest/public/";
 	private static final String URL = BASE_URL + "person.xml";
 	private static final String ROOT_NODE = "/persons/person";
+    private final String mPersonId;
 
 	public PersonFetcher(final Context context) {
 		super(context, URL, ROOT_NODE);
+        mPersonId = null;
 	}
 
     public PersonFetcher(final Context context, final String personId) {
         super(context, BASE_URL + "person/name/"+personId+".xml", "person");
+        mPersonId = personId;
     }
 
 	@Override
@@ -62,8 +65,12 @@ public class PersonFetcher extends AbstractXmlFetcher<PersonFetcher, PersonImpl>
 		String mEinsichtComment;
 
 		// Parse Elements...
-		mId = findByXPath(rootPath + "/id/text()",
-				XPathConstants.STRING);
+        if(mPersonId == null) {
+            mId = findByXPath(rootPath + "/id/text()",
+                    XPathConstants.STRING);
+        } else {
+            mId = mPersonId;
+        }
 		mLastName = findByXPath(rootPath + "/lastname/text()",
 				XPathConstants.STRING);
 		mFirstName = findByXPath(rootPath + "/firstname/text()",

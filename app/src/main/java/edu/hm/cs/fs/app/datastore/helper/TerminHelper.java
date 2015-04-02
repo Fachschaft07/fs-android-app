@@ -194,7 +194,7 @@ public class TerminHelper extends BaseHelper implements Termin {
             public Termin run(final Realm realm) {
                 TerminImpl termin = realm.where(TerminImpl.class).equalTo("id", id).findFirst();
                 if (termin == null) {
-                    List<TerminImpl> terminList = fetchOnlineData(new TerminFetcher(context), realm, new OnHelperCallback<Termin, TerminImpl>() {
+                    List<TerminImpl> terminList = fetchOnlineData(new TerminFetcher(context), realm, false, new OnHelperCallback<Termin, TerminImpl>() {
                         @Override
                         public Termin createHelper(final Context context, final TerminImpl termin) {
                             return new TerminHelper(context, termin);

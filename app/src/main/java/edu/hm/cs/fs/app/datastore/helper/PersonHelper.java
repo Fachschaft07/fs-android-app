@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,7 @@ import io.realm.Realm;
  * Created by Fabio on 03.03.2015.
  */
 public class PersonHelper extends BaseHelper implements Person {
+    private static final String TAG = PersonHelper.class.getSimpleName();
     private String lastName;
     private String firstName;
     private Sex sex;
@@ -213,9 +215,11 @@ public class PersonHelper extends BaseHelper implements Person {
         return new RealmExecutor<Person>(context) {
             @Override
             public Person run(final Realm realm) {
+                Log.d(TAG, "Search for " + id);
                 PersonImpl person = realm.where(PersonImpl.class).equalTo("id", id).findFirst();
                 if (person == null) {
-                    List<PersonImpl> personList = fetchOnlineData(new PersonFetcher(context, id), realm, new OnHelperCallback<Person, PersonImpl>() {
+                    Log.d(TAG, id + " not found -> search in web");
+                    List<PersonImpl> personList = fetchOnlineData(new PersonFetcher(context, id), realm, false, new OnHelperCallback<Person, PersonImpl>() {
                         @Override
                         public Person createHelper(Context context, PersonImpl impl) {
                             return new PersonHelper(context, impl);
@@ -226,12 +230,14 @@ public class PersonHelper extends BaseHelper implements Person {
                             realm.copyToRealmOrUpdate(impl);
                         }
                     });
-                    for (PersonImpl personImpl : personList) {
-                        if (personImpl.getId().equals(id)) {
-                            person = personImpl;
-                            break;
-                        }
+                    if(!personList.isEmpty()) {
+                        person = personList.get(0);
+                        Log.d(TAG, "Person: " + person.getId());
+                    } else {
+                        Log.d(TAG, "Person not found");
                     }
+                } else {
+                    Log.d(TAG, "Person: " + person.getId());
                 }
                 return new PersonHelper(context, person);
             }

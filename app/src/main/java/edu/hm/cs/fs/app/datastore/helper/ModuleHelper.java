@@ -28,6 +28,7 @@ import io.realm.Realm;
  * Created by Fabio on 03.03.2015.
  */
 public class ModuleHelper extends BaseHelper implements Module {
+    private static final String TAG = ModuleHelper.class.getSimpleName();
     private String name;
     private int credits;
     private int sws;
@@ -65,7 +66,7 @@ public class ModuleHelper extends BaseHelper implements Module {
         content = module.getContent();
         media = module.getMedia();
         literatur = module.getLiterature();
-        if(module.getProgram() != null) {
+        if(module.getProgram() != null && GroupImpl.of(module.getProgram()) != null) {
             program = GroupImpl.of(module.getProgram()).getStudy();
         } else {
             program = null;
@@ -199,9 +200,11 @@ public class ModuleHelper extends BaseHelper implements Module {
         return new RealmExecutor<Module>(context) {
             @Override
             public Module run(final Realm realm) {
+                Log.d(TAG, "Search for " + id);
                 ModuleImpl module = realm.where(ModuleImpl.class).equalTo("id", id).findFirst();
                 if (module == null) {
-                    List<ModuleImpl> moduleList = fetchOnlineData(new ModuleFetcher(context, id), realm, new OnHelperCallback<Module, ModuleImpl>() {
+                    Log.d(TAG, id + " not found -> search in web");
+                    List<ModuleImpl> moduleList = fetchOnlineData(new ModuleFetcher(context, id), realm, false, new OnHelperCallback<Module, ModuleImpl>() {
                         @Override
                         public Module createHelper(Context context, ModuleImpl impl) {
                             return new ModuleHelper(context, impl);
@@ -215,13 +218,14 @@ public class ModuleHelper extends BaseHelper implements Module {
                             }
                         }
                     });
-                    for (ModuleImpl moduleImpl : moduleList) {
-                        Log.i("ModuleHelper", "Module check => " + moduleImpl.getId() + " ?= " + id);
-                        if (moduleImpl.getId().equals(id)) {
-                            module = moduleImpl;
-                            break;
-                        }
+                    if(!moduleList.isEmpty()) {
+                        module = moduleList.get(0);
+                        Log.d(TAG, "Module: " + module.getName());
+                    } else {
+                        Log.d(TAG, "Module not found");
                     }
+                } else {
+                    Log.d(TAG, "Module: " + module.getName());
                 }
                 return new ModuleHelper(context, module);
             }

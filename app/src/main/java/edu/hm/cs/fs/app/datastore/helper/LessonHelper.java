@@ -90,7 +90,6 @@ public class LessonHelper extends BaseHelper implements Lesson {
 
             @Override
             public void copyToRealmOrUpdate(Realm realm, LessonImpl lesson) {
-                realm.copyToRealm(lesson);
             }
         });
     }

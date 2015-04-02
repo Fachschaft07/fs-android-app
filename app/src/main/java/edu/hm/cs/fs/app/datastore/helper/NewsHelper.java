@@ -113,7 +113,7 @@ public class NewsHelper extends BaseHelper implements News {
             public News run(final Realm realm) {
                 NewsImpl news = realm.where(NewsImpl.class).equalTo("id", id).findFirst();
                 if (news == null) {
-                    List<NewsImpl> newsList = fetchOnlineData(new NewsFetcher(context), realm, new OnHelperCallback<News, NewsImpl>() {
+                    List<NewsImpl> newsList = fetchOnlineData(new NewsFetcher(context), realm, false, new OnHelperCallback<News, NewsImpl>() {
                         @Override
                         public News createHelper(Context context, NewsImpl impl) {
                             return new NewsHelper(context, impl);
