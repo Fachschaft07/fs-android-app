@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.fk07.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -67,15 +68,42 @@ public class LessonAdapter extends ArrayAdapter<Lesson> implements StickyListHea
             holder = (HeaderViewHolder) convertView.getTag();
         }
 
-        // TODO Don't use the key-word of the Day enum...
-        holder.text.setText(getItem(position).getDay().toString());
+        holder.text.setText(String.format(Locale.getDefault(), "%1$tA", getDate(getItem(position))));
 
         return convertView;
     }
 
     @Override
     public long getHeaderId(final int position) {
-        return getItem(position).getDay().toString().hashCode();
+        return String.format(Locale.getDefault(), "%1$tA", getDate(getItem(position))).hashCode();
+    }
+
+    private Calendar getDate(Lesson lesson) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(2015, 2, 30); // This is a monday
+
+        int weekDay = lesson.getDay().getId();
+        switch (weekDay) {
+            case Calendar.TUESDAY:
+                cal.add(Calendar.DATE, 1);
+                break;
+            case Calendar.WEDNESDAY:
+                cal.add(Calendar.DATE, 2);
+                break;
+            case Calendar.THURSDAY:
+                cal.add(Calendar.DATE, 3);
+                break;
+            case Calendar.FRIDAY:
+                cal.add(Calendar.DATE, 4);
+                break;
+            case Calendar.SATURDAY:
+                cal.add(Calendar.DATE, 5);
+                break;
+            case Calendar.SUNDAY:
+                cal.add(Calendar.DATE, 6);
+                break;
+        }
+        return cal;
     }
 
     public void setSelections(final List<Lesson> selectedLessons) {

@@ -3,7 +3,6 @@ package edu.hm.cs.fs.app.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -32,9 +31,6 @@ public final class PrefUtils {
     }
 
     public static <Fetcher extends AbstractContentFetcher<?, ?>> boolean isRefreshable(Context context, Class<Fetcher> fetcher) {
-        Log.i("PrefUtils", "Time NOW: " + System.currentTimeMillis());
-        Log.i("PrefUtils", "Interval: " + find(context, fetcher.getSimpleName() + "_update_interval", DEFAULT_UPDATE_INTERVAL));
-        Log.i("PrefUtils", "Time LAST: " + getLastUpdate(context, fetcher));
         return System.currentTimeMillis() > find(context, fetcher.getSimpleName() + "_update_interval", DEFAULT_UPDATE_INTERVAL) + getLastUpdate(context, fetcher);
     }
 

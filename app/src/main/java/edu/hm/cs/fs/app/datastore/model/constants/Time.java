@@ -50,7 +50,7 @@ public enum Time {
 	 */
 	public Calendar getStart() {
 		final Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR, hour);
+		cal.set(Calendar.HOUR_OF_DAY, hour);
 		cal.set(Calendar.MINUTE, minute);
 		return cal;
 	}
@@ -60,7 +60,7 @@ public enum Time {
 	 */
 	public Calendar getEnd() {
 		final Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR, hour);
+		cal.set(Calendar.HOUR_OF_DAY, hour);
 		cal.set(Calendar.MINUTE, minute);
 		cal.add(Calendar.MINUTE, 90);
 		return cal;

@@ -19,6 +19,9 @@ import com.tech.freak.wizardpager.ui.PageFragmentCallbacks;
 import com.tech.freak.wizardpager.ui.ReviewFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -121,9 +124,12 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
         StringBuilder groupBuilder = new StringBuilder();
         int index = 0;
         for (ReviewItem reviewItem : reviewItems) {
+            // While StudyGroupWizardModel does only have one Faculty to choose...
+            /*
             if(index++ == 0) {
                 continue;
             }
+            */
             int endIndex = 1;
             if(reviewItem.getDisplayValue().length() > 2) {
                 endIndex = 2;
@@ -131,18 +137,61 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
             groupBuilder.append(reviewItem.getDisplayValue().substring(0, endIndex));
         }
 
+        // While StudyGroupWizardModel does only have one Faculty to choose...
+        /*
         String facultyStr = reviewItems.get(0).getDisplayValue().substring(0, 2).trim();
         if(facultyStr.length() == 1) {
             facultyStr = "0" + facultyStr;
         }
 
         final Faculty faculty = Faculty.of(facultyStr);
+        */
+        final Faculty faculty = Faculty._07;
         final Group group = GroupImpl.of(groupBuilder.toString());
 
         if(!GroupImpl.of("IF3C").equals(group) && !GroupImpl.of("IF4C").equals(group)) {
+            mSelectedLessons.clear();
+            mAdapter.clear();
             LessonHelper.listAll(getActivity(), faculty, group, new Callback<List<Lesson>>() {
                 @Override
                 public void onResult(final List<Lesson> result) {
+                    Collections.sort(result, new Comparator<Lesson>() {
+                        @Override
+                        public int compare(final Lesson lhs, final Lesson rhs) {
+                            return getDate(lhs).compareTo(getDate(rhs));
+                        }
+
+                        private Calendar getDate(Lesson lesson) {
+                            Calendar cal = Calendar.getInstance();
+                            cal.set(2015, 2, 30); // This is a monday
+                            cal.set(Calendar.HOUR_OF_DAY, lesson.getTime().getHour());
+                            cal.set(Calendar.MINUTE, lesson.getTime().getMinute());
+
+                            int weekDay = lesson.getDay().getId();
+                            switch (weekDay) {
+                                case Calendar.TUESDAY:
+                                    cal.add(Calendar.DATE, 1);
+                                    break;
+                                case Calendar.WEDNESDAY:
+                                    cal.add(Calendar.DATE, 2);
+                                    break;
+                                case Calendar.THURSDAY:
+                                    cal.add(Calendar.DATE, 3);
+                                    break;
+                                case Calendar.FRIDAY:
+                                    cal.add(Calendar.DATE, 4);
+                                    break;
+                                case Calendar.SATURDAY:
+                                    cal.add(Calendar.DATE, 5);
+                                    break;
+                                case Calendar.SUNDAY:
+                                    cal.add(Calendar.DATE, 6);
+                                    break;
+                            }
+                            return cal;
+                        }
+                    });
+
                     mSelectedLessons.clear();
                     mAdapter.clear();
                     for (Lesson lesson : result) {
@@ -163,8 +212,6 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
 
     @Override
     public void onPageDataChanged(final Page page) {
-        mSelectedLessons.clear();
-        mAdapter.clear();
     }
 
     @Override

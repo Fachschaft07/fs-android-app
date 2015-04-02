@@ -39,6 +39,9 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
     }
 
     private Page getFaculty() {
+        return getStudies(Faculty._07);
+        // While only one faculty is available there is no need for an extra branch
+        /*
         return new BranchPage(this, getString(R.string.wizard_faculty))
                 .addBranch(
                         getString(R.string.faculty_07),
@@ -46,6 +49,7 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
                 )
                         // Add new Faculties here
                 .setRequired(true);
+                */
     }
 
     private Page getStudies(Faculty faculty) {

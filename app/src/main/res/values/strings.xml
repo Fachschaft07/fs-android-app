@@ -77,15 +77,10 @@
     <!-- Timetable Configurator -->
     <string name="configure">Konfigurieren</string>
     <string name="wizard_semesters">Semester</string>
-    <string name="wizard_semesters_description">Wähle dein Semester aus.</string>
     <string name="wizard_study">Studiengang</string>
-    <string name="wizard_study_description">Wähle deinen Studiengang aus.</string>
     <string name="wizard_faculty">Fakultät</string>
-    <string name="wizard_faculty_description">Wähle deine Fakultät aus.</string>
     <string name="wizard_groups">Studiengruppe</string>
-    <string name="wizard_groups_description">Wähle deine Studiengruppe aus.</string>
-    <string name="wizard_lessons">Vorlesungen &amp; Praktika</string>
-    <string name="wizard_lessons_description">Wähle die Vorlesungen und Praktika aus, welche du besuchen willst.</string>
+    <string name="wizard_lessons">Fächerbelegung</string>
     <string name="next">Weiter</string>
     <string name="prev">Zurück</string>
     <string name="finish">Bestätigen</string>

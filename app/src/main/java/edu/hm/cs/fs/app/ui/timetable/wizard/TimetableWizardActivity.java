@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.ui.timetable.wizard;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.fk07.R;
 import com.tech.freak.wizardpager.model.AbstractWizardModel;
 import com.tech.freak.wizardpager.model.ModelCallbacks;
@@ -44,8 +47,10 @@ public class TimetableWizardActivity extends ActionBarActivity implements
 
     private boolean mConsumePageSelectedEvent;
 
-    @InjectView(R.id.next_button) Button mNextButton;
-    @InjectView(R.id.prev_button) Button mPrevButton;
+    //@InjectView(R.id.next_button) Button mNextButton;
+    //@InjectView(R.id.prev_button) Button mPrevButton;
+    private MenuItem mMenuPrev;
+    private MenuItem mMenuNext;
 
     private List<Page> mCurrentPageSequence;
     @InjectView(R.id.strip) StepPagerStrip mStepPagerStrip;
@@ -58,6 +63,16 @@ public class TimetableWizardActivity extends ActionBarActivity implements
 
         mWizardModel = new StudyGroupWizardModel(this);
 
+        MaterialMenuDrawable materialMenu = new MaterialMenuDrawable(this, Color.WHITE, MaterialMenuDrawable.Stroke.THIN);
+        materialMenu.setIconState(MaterialMenuDrawable.IconState.X);
+        mToolbar.setNavigationIcon(materialMenu);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                finish();
+            }
+        });
+        mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
 
         if (savedInstanceState != null) {
@@ -82,9 +97,6 @@ public class TimetableWizardActivity extends ActionBarActivity implements
                     }
                 });
 
-        mNextButton = (Button) findViewById(R.id.next_button);
-        mPrevButton = (Button) findViewById(R.id.prev_button);
-
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -100,9 +112,29 @@ public class TimetableWizardActivity extends ActionBarActivity implements
             }
         });
 
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        onPageTreeChanged();
+        updateBottomBar();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.timetable_wizard, menu);
+        mMenuPrev = menu.findItem(R.id.menu_prev);
+        mMenuNext = menu.findItem(R.id.menu_next);
+        updateBottomBar();
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_prev:
+                mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+                for (Page page : mCurrentPageSequence) {
+                    page.notifyDataChanged();
+                }
+                return true;
+            case R.id.menu_next:
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
                     DialogFragment dg = new DialogFragment() {
                         @Override
@@ -124,50 +156,38 @@ public class TimetableWizardActivity extends ActionBarActivity implements
                         mPager.setCurrentItem(mPager.getCurrentItem() + 1);
                     }
                 }
-            }
-        });
-
-        mPrevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-                for (Page page : mCurrentPageSequence) {
-                    page.notifyDataChanged();
-                }
-            }
-        });
-
-        onPageTreeChanged();
-        updateBottomBar();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public void onPageTreeChanged() {
         mCurrentPageSequence = mWizardModel.getCurrentPageSequence();
         recalculateCutOffPage();
-        mStepPagerStrip.setPageCount(mCurrentPageSequence.size() + 1); // + 1 =
-        // review
-        // step
+        mStepPagerStrip.setPageCount(mCurrentPageSequence.size() + 1); // + 1 = review step
         mPagerAdapter.notifyDataSetChanged();
         updateBottomBar();
     }
 
     private void updateBottomBar() {
-        int position = mPager.getCurrentItem();
-        if (position == mCurrentPageSequence.size()) {
-            mNextButton.setText(R.string.finish);
-        } else {
-            mNextButton.setText(mEditingAfterReview ? R.string.review
-                    : R.string.next);
-            TypedValue v = new TypedValue();
-            getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, v,
-                    true);
-            mNextButton.setTextAppearance(this, v.resourceId);
-            mNextButton.setEnabled(position != mPagerAdapter.getCutOffPage());
-        }
+        if(mMenuNext != null && mMenuPrev != null) {
+            int position = mPager.getCurrentItem();
+            if (position == mCurrentPageSequence.size()) {
+                mMenuNext.setTitle(R.string.finish);
+                mMenuNext.setIcon(R.drawable.ic_done_white_24dp);
+            } else {
+                mMenuNext.setTitle(mEditingAfterReview ? R.string.review
+                        : R.string.next);
+                TypedValue v = new TypedValue();
+                getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, v,
+                        true);
+                mMenuNext.setEnabled(position != mPagerAdapter.getCutOffPage());
+            }
 
-        mPrevButton
-                .setVisibility(position <= 0 ? View.INVISIBLE : View.VISIBLE);
+            mMenuPrev.setVisible(position > 0);
+        }
     }
 
     @Override

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/menu_today"
-        android:icon="@drawable/ic_launcher"
-        tools:showAsAction="ifRoom"
+        android:icon="@drawable/ic_today_white_24dp"
+        app:showAsAction="ifRoom"
         android:title="@string/today"/>
 
     <item
         android:id="@+id/menu_configure"
-        android:icon="@drawable/ic_launcher"
-        tools:showAsAction="never"
+        android:icon="@drawable/ic_settings_white_24dp"
+        app:showAsAction="never"
         android:title="@string/configure"/>
 
 </menu>
