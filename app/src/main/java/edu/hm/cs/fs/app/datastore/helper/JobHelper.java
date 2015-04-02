@@ -72,15 +72,15 @@ public class JobHelper extends BaseHelper implements Job {
     public static void listAll(final Context context, final Callback<List<Job>> callback) {
         PrefUtils.setUpdateInterval(context, JobFetcher.class, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.DAYS));
 
-        listAll(context, new JobFetcher(context), JobImpl.class, callback, new OnHelperCallback<Job, JobImpl>() {
+        listAll(context, new JobFetcher(context), JobImpl.class, callback, new OnHelperCallback<Job, JobImpl>(JobImpl.class) {
             @Override
             public Job createHelper(Context context, JobImpl impl) {
                 return new JobHelper(context, impl);
             }
 
             @Override
-            public void copyToRealmOrUpdate(Realm realm, JobImpl impl) {
-                realm.copyToRealmOrUpdate(impl);
+            public void copyToRealmOrUpdate(final Realm realm, final JobImpl job) {
+                realm.copyToRealmOrUpdate(job);
             }
         });
     }
@@ -98,8 +98,8 @@ public class JobHelper extends BaseHelper implements Job {
                         }
 
                         @Override
-                        public void copyToRealmOrUpdate(Realm realm, JobImpl impl) {
-                            realm.copyToRealmOrUpdate(impl);
+                        public void copyToRealmOrUpdate(final Realm realm, final JobImpl job) {
+                            realm.copyToRealmOrUpdate(job);
                         }
                     });
                     for (JobImpl jobImpl : jobList) {

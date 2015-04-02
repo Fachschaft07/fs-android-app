@@ -3,7 +3,6 @@ package edu.hm.cs.fs.app.datastore.helper;
 import android.content.Context;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.app.datastore.model.Group;
 import edu.hm.cs.fs.app.datastore.model.Lesson;
@@ -15,8 +14,6 @@ import edu.hm.cs.fs.app.datastore.model.constants.Time;
 import edu.hm.cs.fs.app.datastore.model.impl.LessonImpl;
 import edu.hm.cs.fs.app.datastore.web.LessonFk07Fetcher;
 import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractContentFetcher;
-import edu.hm.cs.fs.app.util.PrefUtils;
-import io.realm.Realm;
 
 /**
  * Created by Fabio on 27.03.2015.
@@ -80,16 +77,10 @@ public class LessonHelper extends BaseHelper implements Lesson {
                 throw new IllegalStateException("Faculty " + faculty.toString() + " is not supported yet");
         }
 
-        PrefUtils.setUpdateInterval(context, fetcher.getClass(), TimeUnit.MILLISECONDS.convert(1l, TimeUnit.MILLISECONDS));
-
-        listAll(context, fetcher, LessonImpl.class, callback, new OnHelperCallback<Lesson, LessonImpl>() {
+        listAllOnline(context, fetcher, LessonImpl.class, callback, new OnHelperCallback<Lesson, LessonImpl>() {
             @Override
             public Lesson createHelper(Context context, LessonImpl lesson) {
                 return new LessonHelper(context, lesson);
-            }
-
-            @Override
-            public void copyToRealmOrUpdate(Realm realm, LessonImpl lesson) {
             }
         });
     }

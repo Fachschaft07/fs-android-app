@@ -21,37 +21,44 @@ import javax.xml.xpath.XPathFactory;
  * Created by Fabio on 18.02.2015.
  */
 public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Builder, T>, T> extends AbstractContentFetcher<Builder, T> {
-	private static final String TAG = AbstractXmlFetcher.class.getSimpleName();
-	private final XPath mXPath = XPathFactory.newInstance().newXPath();
-	private final String mRootNode;
-	private Document mXmlDoc;
+    private static final String TAG = AbstractXmlFetcher.class.getSimpleName();
+    private final XPath mXPath = XPathFactory.newInstance().newXPath();
+    private final String mRootNode;
+    private Document mXmlDoc;
 
-	protected AbstractXmlFetcher(final Context context, final String url, String rootNode) {
-		super(context, url);
-		mRootNode = rootNode;
-	}
+    protected AbstractXmlFetcher(final Context context, final String url, String rootNode) {
+        super(context, url);
+        mRootNode = rootNode;
+    }
 
-	@Override
-	protected List<T> read(final String url) {
-		List<T> result = new ArrayList<>();
-
+    private void readXml(String url) {
         final DocumentBuilderFactory factory = DocumentBuilderFactory
                 .newInstance();
         DocumentBuilder documentBuilder = null;
         String urlToParse = url;
-        do {
-            try {
-                documentBuilder = factory.newDocumentBuilder();
-                mXmlDoc = documentBuilder.parse(urlToParse);
-            } catch (final Exception e) {
-                String baseUrl = urlToParse.substring(0, urlToParse.lastIndexOf("/"));
-                String endPath = urlToParse.substring(urlToParse.lastIndexOf("/"));
+        try {
+            documentBuilder = factory.newDocumentBuilder();
+            mXmlDoc = documentBuilder.parse(urlToParse);
+        } catch (final Exception e) {
+            String baseUrl = urlToParse.substring(0, urlToParse.lastIndexOf("/"));
+            String endPath = urlToParse.substring(urlToParse.lastIndexOf("/"));
+            if(urlToParse.contains("ae") || urlToParse.contains("ue") || urlToParse.contains("oe")) {
                 urlToParse = baseUrl + endPath.replaceAll("ae", "").replaceAll("ue", "").replaceAll("oe", "");
                 Log.w(getClass().getSimpleName(), "Failed to connect to side -> Now try: " + urlToParse, e);
+                readXml(urlToParse);
+            } else {
+                Log.w(getClass().getSimpleName(), "Failed to connect to side: " + url, e);
             }
-        } while(mXmlDoc == null);
+        }
+    }
 
-        if(mXmlDoc != null) {
+    @Override
+    protected List<T> read(final String url) {
+        List<T> result = new ArrayList<>();
+
+        readXml(url);
+
+        if (mXmlDoc != null) {
             try {
                 // 2014-09-18: BugFix: Wrong count with
                 // mXmlDoc.getElementByTagName(...)
@@ -61,8 +68,8 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
                 for (int index = 1; index <= countElements; index++) {
                     final String path = mRootNode + "[" + index + "]";
                     T value = onCreateItem(path);
-                    if(value != null) {
-                        if(value instanceof List) {
+                    if (value != null) {
+                        if (value instanceof List) {
                             result.addAll((List<T>) value);
                         } else {
                             result.add(value);
@@ -73,46 +80,46 @@ public abstract class AbstractXmlFetcher<Builder extends AbstractXmlFetcher<Buil
                 Log.e(TAG, "", e);
             }
         }
-		return result;
-	}
+        return result;
+    }
 
-	/**
-	 * Create the next item at the specified index.
-	 *
-	 * @param rootPath
-	 *            of the item.
-	 * @return the item.
-	 * @throws Exception
-	 */
-	protected abstract T onCreateItem(String rootPath) throws Exception;
+    /**
+     * Create the next item at the specified index.
+     *
+     * @param rootPath
+     *         of the item.
+     * @return the item.
+     * @throws Exception
+     */
+    protected abstract T onCreateItem(String rootPath) throws Exception;
 
-	/**
-	 * Find a element by using the {@link javax.xml.xpath.XPath}.
-	 *
-	 * @param xPath
-	 *            for searching.
-	 * @param name
-	 *            of the type.
-	 * @return the found value.
-	 * @throws javax.xml.xpath.XPathExpressionException
-	 */
-	@SuppressWarnings("unchecked")
-	protected <X> X findByXPath(final String xPath, final QName name)
-			throws XPathExpressionException {
-		return (X) mXPath.evaluate(xPath, mXmlDoc, name);
-	}
+    /**
+     * Find a element by using the {@link javax.xml.xpath.XPath}.
+     *
+     * @param xPath
+     *         for searching.
+     * @param name
+     *         of the type.
+     * @return the found value.
+     * @throws javax.xml.xpath.XPathExpressionException
+     */
+    @SuppressWarnings("unchecked")
+    protected <X> X findByXPath(final String xPath, final QName name)
+            throws XPathExpressionException {
+        return (X) mXPath.evaluate(xPath, mXmlDoc, name);
+    }
 
-	/**
-	 * Get the count of elements of a name.
-	 *
-	 * @param xPath
-	 *            to the element.
-	 * @return the count.
-	 * @throws javax.xml.xpath.XPathExpressionException
-	 */
-	protected int getCountByXPath(final String xPath)
-			throws XPathExpressionException {
-		return ((NodeList) findByXPath(xPath, XPathConstants.NODESET))
-				.getLength();
-	}
+    /**
+     * Get the count of elements of a name.
+     *
+     * @param xPath
+     *         to the element.
+     * @return the count.
+     * @throws javax.xml.xpath.XPathExpressionException
+     */
+    protected int getCountByXPath(final String xPath)
+            throws XPathExpressionException {
+        return ((NodeList) findByXPath(xPath, XPathConstants.NODESET))
+                .getLength();
+    }
 }

@@ -93,7 +93,7 @@ public class NewsHelper extends BaseHelper implements News {
     public static void listAll(final Context context, final Callback<List<News>> callback) {
         PrefUtils.setUpdateInterval(context, NewsFetcher.class, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.HOURS));
 
-        listAll(context, new NewsFetcher(context), NewsImpl.class, callback, new OnHelperCallback<News, NewsImpl>() {
+        listAll(context, new NewsFetcher(context), NewsImpl.class, callback, new OnHelperCallback<News, NewsImpl>(NewsImpl.class) {
             @Override
             public News createHelper(Context context, NewsImpl impl) {
                 return new NewsHelper(context, impl);

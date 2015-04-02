@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 import edu.hm.cs.fs.app.datastore.model.PublicTransport;
 import edu.hm.cs.fs.app.datastore.model.impl.PublicTransportImpl;
 import edu.hm.cs.fs.app.datastore.web.PublicTransportFetcher;
-import io.realm.Realm;
 
 /**
  * Created by Fabio on 14.03.2015.
@@ -54,10 +53,6 @@ public class PublicTransportHelper extends BaseHelper implements PublicTransport
             @Override
             public PublicTransport createHelper(final Context context, final PublicTransportImpl publicTransport) {
                 return new PublicTransportHelper(context, publicTransport);
-            }
-
-            @Override
-            public void copyToRealmOrUpdate(final Realm realm, final PublicTransportImpl publicTransport) {
             }
         });
     }

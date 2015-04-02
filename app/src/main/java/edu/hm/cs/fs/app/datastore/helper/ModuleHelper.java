@@ -1,7 +1,6 @@
 package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,10 +199,8 @@ public class ModuleHelper extends BaseHelper implements Module {
         return new RealmExecutor<Module>(context) {
             @Override
             public Module run(final Realm realm) {
-                Log.d(TAG, "Search for " + id);
                 ModuleImpl module = realm.where(ModuleImpl.class).equalTo("id", id).findFirst();
                 if (module == null) {
-                    Log.d(TAG, id + " not found -> search in web");
                     List<ModuleImpl> moduleList = fetchOnlineData(new ModuleFetcher(context, id), realm, false, new OnHelperCallback<Module, ModuleImpl>() {
                         @Override
                         public Module createHelper(Context context, ModuleImpl impl) {
@@ -220,12 +217,7 @@ public class ModuleHelper extends BaseHelper implements Module {
                     });
                     if(!moduleList.isEmpty()) {
                         module = moduleList.get(0);
-                        Log.d(TAG, "Module: " + module.getName());
-                    } else {
-                        Log.d(TAG, "Module not found");
                     }
-                } else {
-                    Log.d(TAG, "Module: " + module.getName());
                 }
                 return new ModuleHelper(context, module);
             }

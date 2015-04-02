@@ -1,9 +1,7 @@
 package edu.hm.cs.fs.app.datastore.helper;
 
 import android.content.Context;
-import android.util.Log;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,18 +70,10 @@ public abstract class BaseHelper {
     static <Interface, Impl extends RealmObject, Fetcher extends AbstractContentFetcher<Fetcher, Impl>> List<Impl> fetchOnlineData(Fetcher fetcher, Realm realm, boolean reset, OnHelperCallback<Interface, Impl> callback) {
         List<Impl> implList = fetcher.fetch();
         if (!implList.isEmpty()) {
-            // Get Impl class
-            ParameterizedType listType = (ParameterizedType) implList.getClass().getGenericSuperclass();
-            Class<Impl> classType = (Class<Impl>) listType.getActualTypeArguments()[0].getClass();
-
             // Delete old data
             realm.beginTransaction();
-            if(reset) {
-                Log.d(BaseHelper.class.getSimpleName(), "Reset all " + classType.getSimpleName());
-                for (Impl impl : realm.where(classType).findAll()) {
-                    impl.removeFromRealm();
-                }
-            }
+            callback.reset(realm);
+
             // Insert new data
             for (Impl impl : implList) {
                 callback.copyToRealmOrUpdate(realm, impl);
@@ -93,9 +83,23 @@ public abstract class BaseHelper {
         return implList;
     }
 
-    interface OnHelperCallback<T, Impl> {
-        T createHelper(Context context, Impl impl);
+    abstract static class OnHelperCallback<T, Impl extends RealmObject> {
+        private final Class<Impl>[] mClassesToReset;
 
-        void copyToRealmOrUpdate(Realm realm, Impl impl);
+        @SafeVarargs
+        public OnHelperCallback(Class<Impl>... classesToReset) {
+            mClassesToReset = classesToReset;
+        }
+
+        public abstract T createHelper(Context context, Impl impl);
+
+        public void copyToRealmOrUpdate(Realm realm, Impl impl) {
+        }
+
+        private void reset(Realm realm) {
+            for (Class<Impl> implClass : mClassesToReset) {
+                realm.where(implClass).findAll().clear();
+            }
+        }
     }
 }

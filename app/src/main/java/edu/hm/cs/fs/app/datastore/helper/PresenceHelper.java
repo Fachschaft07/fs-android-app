@@ -10,7 +10,6 @@ import edu.hm.cs.fs.app.datastore.model.impl.PresenceImpl;
 import edu.hm.cs.fs.app.datastore.web.PresenceFetcher;
 import edu.hm.cs.fs.app.util.PrefUtils;
 import hugo.weaving.DebugLog;
-import io.realm.Realm;
 
 /**
  * Created by Fabio on 03.03.2015.
@@ -69,10 +68,6 @@ public class PresenceHelper extends BaseHelper implements Presence {
             @Override
             public Presence createHelper(Context context, PresenceImpl impl) {
                 return new PresenceHelper(context, impl);
-            }
-
-            @Override
-            public void copyToRealmOrUpdate(Realm realm, PresenceImpl impl) {
             }
         });
     }

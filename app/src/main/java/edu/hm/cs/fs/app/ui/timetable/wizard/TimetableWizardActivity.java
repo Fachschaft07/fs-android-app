@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
@@ -66,14 +65,11 @@ public class TimetableWizardActivity extends ActionBarActivity implements
         MaterialMenuDrawable materialMenu = new MaterialMenuDrawable(this, Color.WHITE, MaterialMenuDrawable.Stroke.THIN);
         materialMenu.setIconState(MaterialMenuDrawable.IconState.X);
         mToolbar.setNavigationIcon(materialMenu);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                finish();
-            }
-        });
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setElevation(10l);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));
@@ -128,6 +124,9 @@ public class TimetableWizardActivity extends ActionBarActivity implements
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.menu_prev:
                 mPager.setCurrentItem(mPager.getCurrentItem() - 1);
                 for (Page page : mCurrentPageSequence) {
@@ -180,6 +179,7 @@ public class TimetableWizardActivity extends ActionBarActivity implements
             } else {
                 mMenuNext.setTitle(mEditingAfterReview ? R.string.review
                         : R.string.next);
+                mMenuNext.setIcon(R.drawable.ic_keyboard_arrow_right_white_24dp);
                 TypedValue v = new TypedValue();
                 getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, v,
                         true);

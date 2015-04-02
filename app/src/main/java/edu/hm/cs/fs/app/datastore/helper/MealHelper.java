@@ -113,7 +113,7 @@ public class MealHelper extends BaseHelper implements Meal {
     public static void listAll(Context context, StudentWorkMunich studentWorkMunich, Callback<List<Meal>> callback) {
         PrefUtils.setUpdateInterval(context, MealFetcher.class, TimeUnit.MILLISECONDS.convert(3l, TimeUnit.DAYS));
 
-        listAll(context, new MealFetcher(context, studentWorkMunich), MealImpl.class, callback, new OnHelperCallback<Meal, MealImpl>() {
+        listAll(context, new MealFetcher(context, studentWorkMunich), MealImpl.class, callback, new OnHelperCallback<Meal, MealImpl>(MealImpl.class) {
             @Override
             public Meal createHelper(final Context context, final MealImpl meal) {
                 return new MealHelper(context, meal);

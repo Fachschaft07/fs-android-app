@@ -4,15 +4,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fk07.R;
 import com.tech.freak.wizardpager.model.AbstractWizardModel;
-import com.tech.freak.wizardpager.model.ModelCallbacks;
 import com.tech.freak.wizardpager.model.Page;
 import com.tech.freak.wizardpager.model.ReviewItem;
 import com.tech.freak.wizardpager.ui.PageFragmentCallbacks;
@@ -37,7 +39,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * Created by Fabio on 29.03.2015.
  */
-public class LessonFragment extends Fragment implements ModelCallbacks {
+public class LessonFragment extends Fragment {
     private static final String ARG_KEY = "key";
 
     private ReviewFragment.Callbacks mCallbacks;
@@ -49,6 +51,8 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
     TextView mTitle;
     @InjectView(R.id.wizardListView)
     StickyListHeadersListView mList;
+    @InjectView(R.id.progressBar)
+    ProgressBar mProgress;
 
     private List<Lesson> mSelectedLessons = new ArrayList<>();
 
@@ -70,8 +74,6 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
         mCallbacks = (ReviewFragment.Callbacks) activity;
 
         mWizardModel = mCallbacks.onGetModel();
-        mWizardModel.registerListener(this);
-        onPageTreeChanged();
     }
 
     @Override
@@ -85,7 +87,7 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_wizard_page, container, false);
+        View view = inflater.inflate(R.layout.fragment_wizard_page_lessons, container, false);
         ButterKnife.inject(this, view);
         return view;
     }
@@ -110,7 +112,16 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
                 mAdapter.setSelections(mSelectedLessons);
                 mAdapter.notifyDataSetChanged();
 
-                mPage.getData(); // TODO put...
+                ArrayList<String> selections = new ArrayList<String>();
+                for (Lesson item : mSelectedLessons) {
+                    selections.add(item.getDay().toString() +
+                            "|" + item.getTime().toString() +
+                            "|" + item.getModule().getName());
+                }
+
+                Log.i("LessonFragment", "Selections: " + selections);
+
+                mPage.getData().putStringArrayList(Page.SIMPLE_DATA_KEY, selections);
                 mPage.notifyDataChanged();
             }
         });
@@ -125,11 +136,9 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
         int index = 0;
         for (ReviewItem reviewItem : reviewItems) {
             // While StudyGroupWizardModel does only have one Faculty to choose...
-            /*
-            if(index++ == 0) {
+            if(TextUtils.isEmpty(reviewItem.getDisplayValue())) {// || index++ == 0) {
                 continue;
             }
-            */
             int endIndex = 1;
             if(reviewItem.getDisplayValue().length() > 2) {
                 endIndex = 2;
@@ -152,6 +161,7 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
         if(!GroupImpl.of("IF3C").equals(group) && !GroupImpl.of("IF4C").equals(group)) {
             mSelectedLessons.clear();
             mAdapter.clear();
+            setProgressEnabled(true);
             LessonHelper.listAll(getActivity(), faculty, group, new Callback<List<Lesson>>() {
                 @Override
                 public void onResult(final List<Lesson> result) {
@@ -197,6 +207,7 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
                     for (Lesson lesson : result) {
                         mAdapter.add(lesson);
                     }
+                    setProgressEnabled(false);
                 }
             });
         }
@@ -206,17 +217,11 @@ public class LessonFragment extends Fragment implements ModelCallbacks {
     public void onDetach() {
         super.onDetach();
         mCallbacks = null;
-
-        mWizardModel.unregisterListener(this);
     }
 
-    @Override
-    public void onPageDataChanged(final Page page) {
-    }
-
-    @Override
-    public void onPageTreeChanged() {
-        onPageDataChanged(null);
+    private void setProgressEnabled(boolean enabled) {
+        mProgress.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        mList.setVisibility(enabled ? View.GONE : View.VISIBLE);
     }
 
     public static LessonFragment create(final String key) {

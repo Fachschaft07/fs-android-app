@@ -102,16 +102,16 @@ public class ExamHelper extends BaseHelper implements Exam {
     public static void listAll(final Context context, final Callback<List<Exam>> callback) {
         PrefUtils.setUpdateInterval(context, ExamFetcher.class, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.DAYS));
 
-    	listAll(context, new ExamFetcher(context), ExamImpl.class, callback, new OnHelperCallback<Exam, ExamImpl>() {
+    	listAll(context, new ExamFetcher(context), ExamImpl.class, callback, new OnHelperCallback<Exam, ExamImpl>(ExamImpl.class) {
 			@Override
 			public Exam createHelper(Context context, ExamImpl impl) {
 				return new ExamHelper(context, impl);
 			}
 
-			@Override
-			public void copyToRealmOrUpdate(Realm realm, ExamImpl impl) {
-	    		realm.copyToRealmOrUpdate(impl);
-			}
+            @Override
+            public void copyToRealmOrUpdate(final Realm realm, final ExamImpl exam) {
+                realm.copyToRealmOrUpdate(exam);
+            }
 		});
     }
 
@@ -127,11 +127,11 @@ public class ExamHelper extends BaseHelper implements Exam {
             				return new ExamHelper(context, impl);
             			}
 
-            			@Override
-            			public void copyToRealmOrUpdate(Realm realm, ExamImpl impl) {
-            	    		realm.copyToRealmOrUpdate(impl);
-            			}
-            		});
+                        @Override
+                        public void copyToRealmOrUpdate(final Realm realm, final ExamImpl exam) {
+                            realm.copyToRealmOrUpdate(exam);
+                        }
+                    });
             		for (ExamImpl examImpl : examList) {
 						if(examImpl.getId().equals(id)) {
 							exam = examImpl;

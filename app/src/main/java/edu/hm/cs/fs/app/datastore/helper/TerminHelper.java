@@ -175,7 +175,7 @@ public class TerminHelper extends BaseHelper implements Termin {
     public static void listAll(final Context context, final Callback<List<Termin>> callback) {
         PrefUtils.setUpdateInterval(context, TerminFetcher.class, TimeUnit.MILLISECONDS.convert(30l, TimeUnit.DAYS));
 
-        listAll(context, new TerminFetcher(context), TerminImpl.class, callback, new OnHelperCallback<Termin, TerminImpl>() {
+        listAll(context, new TerminFetcher(context), TerminImpl.class, callback, new OnHelperCallback<Termin, TerminImpl>(TerminImpl.class) {
             @Override
             public Termin createHelper(Context context, TerminImpl impl) {
                 return new TerminHelper(context, impl);
