@@ -25,6 +25,8 @@
     <string name="departure">in %1$d min</string>
     <string name="help_feedback">Hilfe &amp; Feedback</string>
     <string name="all">Alle</string>
+    <string name="work_offer">Jobangebote</string>
+    <string name="others">Sonstiges</string>
 
     <!-- TimeTable -->
     <string name="timetable">Stundenplan</string>
@@ -86,7 +88,8 @@
     <string name="finish">Bestätigen</string>
     <string name="submit_confirm_message">Place the order with the deli? You will receive an email
         confirmation.</string>
-    <string name="submit_confirm_button">Place order</string>
+    <string name="submit_confirm_button">Place order</string
+    <string name="timetable_configurator">Stundenplankonfigurator</string>
 
     <string name="faculty_01">1 - Architektur</string>
     <string name="faculty_02">2 - Bauingenieurwesen</string>
@@ -176,5 +179,4 @@
 	<string name="proverbs23">Ein User ruft den Service an.\nUser: Hallo, ich habe Windows installiert…\nService:ja?!\nUser: und ich habe ein Problem…\nService:Das sagten sie bereits!</string>
 	<string name="proverbs24">Was bedeutet "www"? Warten, Warten, Warten</string>
 	<string name="proverbs25">Wenn am Anfang alles schief geht, nenne es Version 1.0!</string>
-    <string name="timetable_configurator">Stundenplankonfigurator</string>
 </resources>

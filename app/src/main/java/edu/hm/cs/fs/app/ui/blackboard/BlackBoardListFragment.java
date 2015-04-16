@@ -43,6 +43,13 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
     private OnMultiPaneDetailSegment<News> mDetailSegment;
 
     @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blackboard_list, container, false);
         ButterKnife.inject(this, view);
@@ -56,7 +63,7 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
         mAdapter = new BlackBoardAdapter(getActivity());
         mListView.setAdapter(mAdapter);
 
-        refresh();
+        refresh(true);
         NewsHelper.listAll(getActivity(), new Callback<List<News>>() {
             @Override
             public void onResult(final List<News> result) {
@@ -86,7 +93,7 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
                 for (News news : result) {
                     mAdapter.add(news);
                 }
-                refresh();
+                refresh(false);
             }
         });
     }
@@ -131,9 +138,9 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
         ButterKnife.reset(this);
     }
 
-    private void refresh() {
+    private void refresh(boolean visible) {
         if(mRefresh != null) {
-            mRefresh.setVisible(!mRefresh.isVisible());
+            mRefresh.setVisible(visible);
         }
     }
 }

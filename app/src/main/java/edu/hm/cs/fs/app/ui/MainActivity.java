@@ -15,11 +15,14 @@ import java.util.List;
 
 import edu.hm.cs.fs.app.datastore.helper.Callback;
 import edu.hm.cs.fs.app.datastore.helper.PresenceHelper;
+import edu.hm.cs.fs.app.datastore.model.Job;
 import edu.hm.cs.fs.app.datastore.model.News;
 import edu.hm.cs.fs.app.datastore.model.Presence;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
 import edu.hm.cs.fs.app.ui.info.InfoFragment;
+import edu.hm.cs.fs.app.ui.job.JobDetailFragment;
+import edu.hm.cs.fs.app.ui.job.JobListFragment;
 import edu.hm.cs.fs.app.ui.mensa.MealFragment;
 import edu.hm.cs.fs.app.ui.mvv.MvvFragment;
 import edu.hm.cs.fs.app.ui.presence.PresenceFragment;
@@ -31,12 +34,12 @@ import it.neokree.materialnavigationdrawer.elements.MaterialSection;
 public class MainActivity extends MaterialNavigationDrawer<Fragment> {
     private MaterialSection presenceSection;
 
-	@Override
-	public void init(final Bundle bundle) {
+    @Override
+    public void init(final Bundle bundle) {
         // Style Toolbar
         getSupportActionBar().setElevation(10f);
 
-		// Header View
+        // Header View
         final TextView header = new TextView(this);
         header.setText(nextProverb());
         header.setGravity(Gravity.CENTER);
@@ -49,10 +52,10 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
             }
         });
         setDrawerHeaderCustom(header);
-		
-		// Main Sections
-        addDivisor();
-		addSection(newSection(
+
+        // ==========================================================================
+        // Everything the student needs for his study
+        addSection(newSection(
                 getString(R.string.blackboard),
                 R.drawable.ic_assignment_grey600_24dp,
                 FragmentMultiPane.build(
@@ -61,13 +64,17 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
                         News.class
                 )
         ));
-		//addSection(newSection(getString(R.string.news), R.drawable.ic_bookmark_outline_grey600_24dp, new Fragment()));
-		addSection(newSection(
+        addSection(newSection(
                 getString(R.string.timetable),
                 R.drawable.ic_view_week_grey600_24dp,
                 new TimetableFragment()
         ));
-		//addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_search_grey600_24dp, new Fragment()));
+        //addSection(newSection(getString(R.string.news), R.drawable.ic_bookmark_outline_grey600_24dp, new Fragment()));
+        //addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_search_grey600_24dp, new Fragment()));
+
+        // ==========================================================================
+        // Others
+        addSubheader(getString(R.string.others));
         final MaterialSection mensaSection = newSection(
                 getString(R.string.food),
                 R.drawable.ic_local_restaurant_grey600_24dp,
@@ -75,6 +82,15 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
         );
         mensaSection.setSectionColor(getResources().getColor(R.color.mensa));
         addSection(mensaSection);
+        addSection(newSection(
+                getString(R.string.work_offer),
+                R.drawable.ic_work_grey600_24dp,
+                FragmentMultiPane.build(
+                        JobListFragment.class,
+                        JobDetailFragment.class,
+                        Job.class
+                )
+        ));
         final MaterialSection mvvSection = newSection(
                 getString(R.string.mvv),
                 R.drawable.ic_directions_transit_grey600_24dp,
@@ -83,14 +99,15 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
         mvvSection.setSectionColor(getResources().getColor(R.color.mvv));
         addSection(mvvSection);
 
-		// Bottom Sections
+        // ==========================================================================
+        // Bottom Sections
         presenceSection = newSection(
                 getString(R.string.presence),
                 R.drawable.ic_people_grey600_24dp,
                 new PresenceFragment()
         );
         addBottomSection(presenceSection);
-        
+
         addBottomSection(newSection(getString(R.string.info), R.drawable.ic_info_outline_grey600_24dp, new InfoFragment()));
 
         final Intent intent = new Intent(Intent.ACTION_SEND);
@@ -117,7 +134,7 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
             public void onDrawerStateChanged(final int newState) {
             }
         });
-	}
+    }
 
     public void updatePresenceColor(int memberCount, int colorId) {
         presenceSection.setSectionColor(getResources().getColor(colorId));

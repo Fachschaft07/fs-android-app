@@ -70,7 +70,7 @@ public class JobFetcher extends AbstractXmlFetcher<JobFetcher, JobImpl> {
 		job.setTitle(title);
 		job.setProvider(provider);
 		job.setDescription(description);
-		job.setProgram(program.toString());
+		job.setProgram(program == null ? null : program.toString());
 		job.setContact(contact);
 		job.setExpire(expire);
 		job.setUrl(url);

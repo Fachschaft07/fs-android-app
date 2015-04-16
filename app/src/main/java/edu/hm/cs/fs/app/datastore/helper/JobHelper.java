@@ -29,7 +29,7 @@ public class JobHelper extends BaseHelper implements Job {
         contact = job.getContact();
         provider = job.getProvider();
         description = job.getDescription();
-        program = GroupImpl.of(job.getProgram()).getStudy();
+        program = job.getProgram() == null ? null : GroupImpl.of(job.getProgram()).getStudy();
         expire = job.getExpire();
         url = job.getUrl();
     }
@@ -70,7 +70,7 @@ public class JobHelper extends BaseHelper implements Job {
     }
 
     public static void listAll(final Context context, final Callback<List<Job>> callback) {
-        PrefUtils.setUpdateInterval(context, JobFetcher.class, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.DAYS));
+        PrefUtils.setUpdateInterval(context, JobFetcher.class, TimeUnit.MILLISECONDS.convert(1l, TimeUnit.MILLISECONDS));
 
         listAll(context, new JobFetcher(context), JobImpl.class, callback, new OnHelperCallback<Job, JobImpl>(JobImpl.class) {
             @Override

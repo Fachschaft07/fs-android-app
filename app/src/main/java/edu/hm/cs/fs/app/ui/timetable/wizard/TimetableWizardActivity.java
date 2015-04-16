@@ -104,12 +104,12 @@ public class TimetableWizardActivity extends ActionBarActivity implements
                 }
 
                 mEditingAfterReview = false;
-                updateBottomBar();
+                updateNavigationButtons();
             }
         });
 
         onPageTreeChanged();
-        updateBottomBar();
+        updateNavigationButtons();
     }
 
     @Override
@@ -117,7 +117,7 @@ public class TimetableWizardActivity extends ActionBarActivity implements
         getMenuInflater().inflate(R.menu.timetable_wizard, menu);
         mMenuPrev = menu.findItem(R.id.menu_prev);
         mMenuNext = menu.findItem(R.id.menu_next);
-        updateBottomBar();
+        updateNavigationButtons();
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -167,10 +167,10 @@ public class TimetableWizardActivity extends ActionBarActivity implements
         recalculateCutOffPage();
         mStepPagerStrip.setPageCount(mCurrentPageSequence.size() + 1); // + 1 = review step
         mPagerAdapter.notifyDataSetChanged();
-        updateBottomBar();
+        updateNavigationButtons();
     }
 
-    private void updateBottomBar() {
+    private void updateNavigationButtons() {
         if(mMenuNext != null && mMenuPrev != null) {
             int position = mPager.getCurrentItem();
             if (position == mCurrentPageSequence.size()) {
@@ -214,7 +214,7 @@ public class TimetableWizardActivity extends ActionBarActivity implements
                 mConsumePageSelectedEvent = true;
                 mEditingAfterReview = true;
                 mPager.setCurrentItem(i);
-                updateBottomBar();
+                updateNavigationButtons();
                 break;
             }
         }
@@ -225,7 +225,7 @@ public class TimetableWizardActivity extends ActionBarActivity implements
         if (page.isRequired()) {
             if (recalculateCutOffPage()) {
                 mPagerAdapter.notifyDataSetChanged();
-                updateBottomBar();
+                updateNavigationButtons();
             }
         }
     }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +41,45 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class LessonFragment extends Fragment {
     private static final String ARG_KEY = "key";
 
-    private ReviewFragment.Callbacks mCallbacks;
+    private static final Comparator<Lesson> LESSON_COMPARATOR = new Comparator<Lesson>() {
+        @Override
+        public int compare(final Lesson lhs, final Lesson rhs) {
+            return getDate(lhs).compareTo(getDate(rhs));
+        }
+
+        private Calendar getDate(Lesson lesson) {
+            Calendar cal = Calendar.getInstance();
+            cal.set(2015, 2, 30); // This is a monday
+            cal.set(Calendar.HOUR_OF_DAY, lesson.getTime().getHour());
+            cal.set(Calendar.MINUTE, lesson.getTime().getMinute());
+
+            int weekDay = lesson.getDay().getId();
+            switch (weekDay) {
+                case Calendar.TUESDAY:
+                    cal.add(Calendar.DATE, 1);
+                    break;
+                case Calendar.WEDNESDAY:
+                    cal.add(Calendar.DATE, 2);
+                    break;
+                case Calendar.THURSDAY:
+                    cal.add(Calendar.DATE, 3);
+                    break;
+                case Calendar.FRIDAY:
+                    cal.add(Calendar.DATE, 4);
+                    break;
+                case Calendar.SATURDAY:
+                    cal.add(Calendar.DATE, 5);
+                    break;
+                case Calendar.SUNDAY:
+                    cal.add(Calendar.DATE, 6);
+                    break;
+            }
+            return cal;
+        }
+    };
+
     private PageFragmentCallbacks mPageCallbacks;
-    private String mKey;
-    private LessonPage mPage;
+    private Page mPage;
 
     @InjectView(R.id.wizardSideTitle)
     TextView mTitle;
@@ -71,9 +105,9 @@ public class LessonFragment extends Fragment {
         }
 
         mPageCallbacks = (PageFragmentCallbacks) activity;
-        mCallbacks = (ReviewFragment.Callbacks) activity;
 
-        mWizardModel = mCallbacks.onGetModel();
+        final ReviewFragment.Callbacks callbacks = (ReviewFragment.Callbacks) activity;
+        mWizardModel = callbacks.onGetModel();
     }
 
     @Override
@@ -81,8 +115,8 @@ public class LessonFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         final Bundle bundle = getArguments();
-        mKey = bundle.getString(ARG_KEY);
-        mPage = (LessonPage) mPageCallbacks.onGetPage(mKey);
+        final String key = bundle.getString(ARG_KEY);
+        mPage = mPageCallbacks.onGetPage(key);
     }
 
     @Override
@@ -112,14 +146,12 @@ public class LessonFragment extends Fragment {
                 mAdapter.setSelections(mSelectedLessons);
                 mAdapter.notifyDataSetChanged();
 
-                ArrayList<String> selections = new ArrayList<String>();
+                ArrayList<String> selections = new ArrayList<>();
                 for (Lesson item : mSelectedLessons) {
                     selections.add(item.getDay().toString() +
                             "|" + item.getTime().toString() +
                             "|" + item.getModule().getName());
                 }
-
-                Log.i("LessonFragment", "Selections: " + selections);
 
                 mPage.getData().putStringArrayList(Page.SIMPLE_DATA_KEY, selections);
                 mPage.notifyDataChanged();
@@ -165,48 +197,15 @@ public class LessonFragment extends Fragment {
             LessonHelper.listAll(getActivity(), faculty, group, new Callback<List<Lesson>>() {
                 @Override
                 public void onResult(final List<Lesson> result) {
-                    Collections.sort(result, new Comparator<Lesson>() {
-                        @Override
-                        public int compare(final Lesson lhs, final Lesson rhs) {
-                            return getDate(lhs).compareTo(getDate(rhs));
-                        }
-
-                        private Calendar getDate(Lesson lesson) {
-                            Calendar cal = Calendar.getInstance();
-                            cal.set(2015, 2, 30); // This is a monday
-                            cal.set(Calendar.HOUR_OF_DAY, lesson.getTime().getHour());
-                            cal.set(Calendar.MINUTE, lesson.getTime().getMinute());
-
-                            int weekDay = lesson.getDay().getId();
-                            switch (weekDay) {
-                                case Calendar.TUESDAY:
-                                    cal.add(Calendar.DATE, 1);
-                                    break;
-                                case Calendar.WEDNESDAY:
-                                    cal.add(Calendar.DATE, 2);
-                                    break;
-                                case Calendar.THURSDAY:
-                                    cal.add(Calendar.DATE, 3);
-                                    break;
-                                case Calendar.FRIDAY:
-                                    cal.add(Calendar.DATE, 4);
-                                    break;
-                                case Calendar.SATURDAY:
-                                    cal.add(Calendar.DATE, 5);
-                                    break;
-                                case Calendar.SUNDAY:
-                                    cal.add(Calendar.DATE, 6);
-                                    break;
-                            }
-                            return cal;
-                        }
-                    });
+                    Collections.sort(result, LESSON_COMPARATOR);
 
                     mSelectedLessons.clear();
                     mAdapter.clear();
+
                     for (Lesson lesson : result) {
                         mAdapter.add(lesson);
                     }
+
                     setProgressEnabled(false);
                 }
             });
@@ -216,7 +215,7 @@ public class LessonFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbacks = null;
+        mPageCallbacks = null;
     }
 
     private void setProgressEnabled(boolean enabled) {

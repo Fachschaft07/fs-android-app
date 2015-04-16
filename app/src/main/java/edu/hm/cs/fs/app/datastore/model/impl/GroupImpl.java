@@ -14,16 +14,16 @@ import edu.hm.cs.fs.app.datastore.model.constants.Study;
  */
 public class GroupImpl implements Group {
     private static final Pattern PATTERN = Pattern
-            .compile("([A-z]{2})([1-7]{0,1})([A-z]{0,1})");
+            .compile("([A-z]{2})([1-7]?)([A-z]?)");
     private final Study mStudy;
     private final Semester mSemester;
     private final Letter mLetter;
 
     public GroupImpl(final Study study, final Semester semester,
                      final Letter letter) {
-        if (study == null) {
-            throw new NullPointerException();
-        }
+        //if (study == null) {
+        //    throw new NullPointerException();
+        //}
         mStudy = study;
         mSemester = semester;
         mLetter = letter;
@@ -81,7 +81,7 @@ public class GroupImpl implements Group {
         final Matcher matcher = PATTERN.matcher(name);
 
         if (!matcher.find()) {
-            return null;
+            return new GroupImpl(null, null, null);
         }
         final Study studyGroup = Study.of(matcher.group(1));
 
