@@ -14,6 +14,9 @@ import android.widget.ListView;
 
 import com.fk07.R;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -21,7 +24,9 @@ import butterknife.InjectView;
 import butterknife.OnItemClick;
 import edu.hm.cs.fs.app.datastore.helper.Callback;
 import edu.hm.cs.fs.app.datastore.helper.NewsHelper;
+import edu.hm.cs.fs.app.datastore.model.Group;
 import edu.hm.cs.fs.app.datastore.model.News;
+import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.util.multipane.OnMultiPaneDetailSegment;
 import edu.hm.cs.fs.app.util.multipane.OnMultiPaneListSegment;
 
@@ -55,6 +60,28 @@ public class BlackBoardListFragment extends Fragment implements OnMultiPaneListS
         NewsHelper.listAll(getActivity(), new Callback<List<News>>() {
             @Override
             public void onResult(final List<News> result) {
+                Collections.sort(result, new Comparator<News>() {
+                    @Override
+                    public int compare(final News lhs, final News rhs) {
+                        return getGroups(lhs).compareTo(getGroups(rhs));
+                    }
+
+                    private String getGroups(News news) {
+                        StringBuilder studyGroupsStr = new StringBuilder();
+                        List<Study> studyGroups = new ArrayList<>();
+                        for (Group group : news.getGroups()) {
+                            if(!studyGroups.contains(group.getStudy())) {
+                                if(!studyGroups.isEmpty()) {
+                                    studyGroupsStr.append(", ");
+                                }
+                                studyGroups.add(group.getStudy());
+                                studyGroupsStr.append(group.getStudy().toString());
+                            }
+                        }
+                        return studyGroupsStr.toString();
+                    }
+                });
+
                 mAdapter.clear();
                 for (News news : result) {
                     mAdapter.add(news);

@@ -69,7 +69,7 @@ public class BlackBoardAdapter extends ArrayAdapter<News> {
         }
 
         final TextDrawable drawable;
-        if(studyGroups.isEmpty() || studyGroups.size() == studyColorMap.size() - 2) {
+        if(studyGroups.isEmpty() || studyGroups.size() == Study.values().length) {
             drawable = TextDrawable.builder()
                     .beginConfig()
                     .fontSize(FONT_SIZE)
