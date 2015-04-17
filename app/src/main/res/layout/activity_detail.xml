@@ -8,7 +8,7 @@
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/statusMargin"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorPrimaryDark"
         android:contentDescription="@null" />
 
     <android.support.v7.widget.Toolbar
