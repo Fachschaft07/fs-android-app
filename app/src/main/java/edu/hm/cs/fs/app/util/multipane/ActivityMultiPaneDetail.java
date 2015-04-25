@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,7 +28,7 @@ import butterknife.InjectView;
 /**
  * Created by Fabio on 06.01.2015.
  */
-public class ActivityMultiPaneDetail extends ActionBarActivity {
+public class ActivityMultiPaneDetail extends AppCompatActivity {
 	private static Fragment mFragment;
 
     @InjectView(R.id.statusBar)
@@ -70,6 +70,7 @@ public class ActivityMultiPaneDetail extends ActionBarActivity {
 		materialMenu.setIconState(MaterialMenuDrawable.IconState.ARROW);
 		mToolbar.setNavigationIcon(materialMenu);
 		setSupportActionBar(mToolbar);
+        getSupportActionBar().setElevation(10f);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowTitleEnabled(true);
 

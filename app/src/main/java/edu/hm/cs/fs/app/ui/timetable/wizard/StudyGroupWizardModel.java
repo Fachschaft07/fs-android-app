@@ -86,7 +86,7 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
     }
 
     private Page getSemester(int... semesterGroupCounts) {
-        if(semesterGroupCounts.length > 1) {
+        if (semesterGroupCounts.length > 1) {
             BranchPage page = new BranchPage(this, getString(R.string.wizard_semesters));
             page.setRequired(true);
             for (int index = 0; index < semesterGroupCounts.length; index++) {
@@ -97,25 +97,29 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
             }
             return page;
         } else {
-            return new LessonPage(this, getString(R.string.wizard_lessons)).setRequired(true);
+            return getLessonPage();
         }
     }
 
     private Page getGroups(int count) {
         // FIXME: Bei IF -> 3 oder 4 -> A, B, C (Hier darf nur A und B erscheinen)
-        if(count > 1) {
+        if (count > 1) {
             BranchPage page = new BranchPage(this, getString(R.string.wizard_groups));
             page.setRequired(true);
             for (int index = 0; index < count; index++) {
                 page.addBranch(
                         getString(GROUP_TEXT_ID[index]),
-                        new LessonPage(this, getString(R.string.wizard_lessons)).setRequired(true)
+                        getLessonPage()
                 );
             }
             return page;
         } else {
-            return new LessonPage(this, getString(R.string.wizard_lessons)).setRequired(true);
+            return getLessonPage();
         }
+    }
+
+    private Page getLessonPage() {
+        return new LessonPage(this, getString(R.string.wizard_lessons)).setRequired(true);
     }
 
     private String getString(int stringId) {

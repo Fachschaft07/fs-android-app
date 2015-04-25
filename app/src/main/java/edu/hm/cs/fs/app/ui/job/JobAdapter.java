@@ -1,15 +1,12 @@
 package edu.hm.cs.fs.app.ui.job;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
 import com.fk07.R;
 
 import butterknife.ButterKnife;

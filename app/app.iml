@@ -85,19 +85,19 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="appcompat-v7-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="hugo-annotations-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="realm-android-0.79.1" level="project" />
     <orderEntry type="library" exported="" name="jsoup-1.8.1" level="project" />
     <orderEntry type="library" exported="" name="com.amulyakhare.textdrawable-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="stickylistheaders-2.5.2" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-22.0.0" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="material-dialogs-0.6.4.1" level="project" />
     <orderEntry type="library" exported="" name="aspectjrt-1.8.5" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="android-week-view-1.2.1" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="hugo-runtime-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="stax-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="material-menu-1.5.0" level="project" />

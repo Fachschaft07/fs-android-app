@@ -1,20 +1,26 @@
 package edu.hm.cs.fs.app.ui.timetable.wizard;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.fk07.R;
@@ -33,11 +39,15 @@ import butterknife.InjectView;
 /**
  * Created by Fabio on 30.03.2015.
  */
-public class TimetableWizardActivity extends ActionBarActivity implements
+public class TimetableWizardActivity extends AppCompatActivity implements
         PageFragmentCallbacks, ReviewFragment.Callbacks, ModelCallbacks {
-    @InjectView(R.id.toolbar) Toolbar mToolbar;
+    @InjectView(R.id.statusBar)
+    ImageView mStatusBar;
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
 
-    @InjectView(R.id.pager) ViewPager mPager;
+    @InjectView(R.id.pager)
+    ViewPager mPager;
     private MyPagerAdapter mPagerAdapter;
 
     private boolean mEditingAfterReview;
@@ -46,13 +56,12 @@ public class TimetableWizardActivity extends ActionBarActivity implements
 
     private boolean mConsumePageSelectedEvent;
 
-    //@InjectView(R.id.next_button) Button mNextButton;
-    //@InjectView(R.id.prev_button) Button mPrevButton;
     private MenuItem mMenuPrev;
     private MenuItem mMenuNext;
 
     private List<Page> mCurrentPageSequence;
-    @InjectView(R.id.strip) StepPagerStrip mStepPagerStrip;
+    @InjectView(R.id.strip)
+    StepPagerStrip mStepPagerStrip;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +69,27 @@ public class TimetableWizardActivity extends ActionBarActivity implements
 
         ButterKnife.inject(this);
 
-        mWizardModel = new StudyGroupWizardModel(this);
+        // if device is kitkat
+        Resources.Theme theme = this.getTheme();
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            TypedArray windowTraslucentAttribute = theme.obtainStyledAttributes(new int[]{android.R.attr.windowTranslucentStatus});
+            boolean kitkatTraslucentStatusbar = windowTraslucentAttribute.getBoolean(0, false);
+            if (kitkatTraslucentStatusbar) {
+                Window window = this.getWindow();
+                window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+                RelativeLayout.LayoutParams statusParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.traslucentStatusMargin));
+                mStatusBar.setLayoutParams(statusParams);
+                mStatusBar.setImageDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark)));
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
 
         MaterialMenuDrawable materialMenu = new MaterialMenuDrawable(this, Color.WHITE, MaterialMenuDrawable.Stroke.THIN);
         materialMenu.setIconState(MaterialMenuDrawable.IconState.X);
@@ -70,6 +99,9 @@ public class TimetableWizardActivity extends ActionBarActivity implements
         getSupportActionBar().setElevation(10l);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Init Wizard
+        mWizardModel = new StudyGroupWizardModel(this);
 
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));
@@ -135,19 +167,7 @@ public class TimetableWizardActivity extends ActionBarActivity implements
                 return true;
             case R.id.menu_next:
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
-                    DialogFragment dg = new DialogFragment() {
-                        @Override
-                        public Dialog onCreateDialog(Bundle savedInstanceState) {
-                            return new AlertDialog.Builder(getActivity())
-                                    .setMessage(R.string.submit_confirm_message)
-                                    .setPositiveButton(
-                                            R.string.submit_confirm_button,
-                                            null)
-                                    .setNegativeButton(android.R.string.cancel,
-                                            null).create();
-                        }
-                    };
-                    dg.show(getSupportFragmentManager(), "place_order_dialog");
+                    // TODO Do after review is finished
                 } else {
                     if (mEditingAfterReview) {
                         mPager.setCurrentItem(mPagerAdapter.getCount() - 1);
@@ -171,7 +191,7 @@ public class TimetableWizardActivity extends ActionBarActivity implements
     }
 
     private void updateNavigationButtons() {
-        if(mMenuNext != null && mMenuPrev != null) {
+        if (mMenuNext != null && mMenuPrev != null) {
             int position = mPager.getCurrentItem();
             if (position == mCurrentPageSequence.size()) {
                 mMenuNext.setTitle(R.string.finish);
