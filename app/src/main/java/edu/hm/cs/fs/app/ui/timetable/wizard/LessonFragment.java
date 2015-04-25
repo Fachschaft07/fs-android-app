@@ -20,9 +20,6 @@ import com.tech.freak.wizardpager.ui.PageFragmentCallbacks;
 import com.tech.freak.wizardpager.ui.ReviewFragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -32,6 +29,7 @@ import edu.hm.cs.fs.app.datastore.helper.LessonHelper;
 import edu.hm.cs.fs.app.datastore.model.Group;
 import edu.hm.cs.fs.app.datastore.model.Lesson;
 import edu.hm.cs.fs.app.datastore.model.constants.Faculty;
+import edu.hm.cs.fs.app.datastore.model.constants.Study;
 import edu.hm.cs.fs.app.datastore.model.impl.GroupImpl;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -40,43 +38,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  */
 public class LessonFragment extends Fragment {
     private static final String ARG_KEY = "key";
-
-    private static final Comparator<Lesson> LESSON_COMPARATOR = new Comparator<Lesson>() {
-        @Override
-        public int compare(final Lesson lhs, final Lesson rhs) {
-            return getDate(lhs).compareTo(getDate(rhs));
-        }
-
-        private Calendar getDate(Lesson lesson) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(2015, 2, 30); // This is a monday
-            cal.set(Calendar.HOUR_OF_DAY, lesson.getTime().getHour());
-            cal.set(Calendar.MINUTE, lesson.getTime().getMinute());
-
-            int weekDay = lesson.getDay().getId();
-            switch (weekDay) {
-                case Calendar.TUESDAY:
-                    cal.add(Calendar.DATE, 1);
-                    break;
-                case Calendar.WEDNESDAY:
-                    cal.add(Calendar.DATE, 2);
-                    break;
-                case Calendar.THURSDAY:
-                    cal.add(Calendar.DATE, 3);
-                    break;
-                case Calendar.FRIDAY:
-                    cal.add(Calendar.DATE, 4);
-                    break;
-                case Calendar.SATURDAY:
-                    cal.add(Calendar.DATE, 5);
-                    break;
-                case Calendar.SUNDAY:
-                    cal.add(Calendar.DATE, 6);
-                    break;
-            }
-            return cal;
-        }
-    };
 
     private PageFragmentCallbacks mPageCallbacks;
     private Page mPage;
@@ -187,28 +148,33 @@ public class LessonFragment extends Fragment {
 
         final Faculty faculty = Faculty.of(facultyStr);
         */
-        final Faculty faculty = Faculty._07;
         final Group group = GroupImpl.of(groupBuilder.toString());
 
         if(!GroupImpl.of("IF3C").equals(group) && !GroupImpl.of("IF4C").equals(group)) {
             mSelectedLessons.clear();
             mAdapter.clear();
             setProgressEnabled(true);
-            LessonHelper.listAll(getActivity(), faculty, group, new Callback<List<Lesson>>() {
+            LessonHelper.listAll(getActivity(), Faculty._07, group, new Callback<List<Lesson>>() {
                 @Override
                 public void onResult(final List<Lesson> result) {
-                    Collections.sort(result, LESSON_COMPARATOR);
-
-                    mSelectedLessons.clear();
-                    mAdapter.clear();
-
                     for (Lesson lesson : result) {
                         mAdapter.add(lesson);
                     }
-
                     setProgressEnabled(false);
                 }
             });
+
+            if(group.getStudy() == Study.IB || group.getStudy() == Study.IN) {
+                LessonHelper.listAll(getActivity(), Faculty._10, group, new Callback<List<Lesson>>() {
+                    @Override
+                    public void onResult(final List<Lesson> result) {
+                        for (Lesson lesson : result) {
+                            mAdapter.add(lesson);
+                        }
+                        setProgressEnabled(false);
+                    }
+                });
+            }
         }
     }
 

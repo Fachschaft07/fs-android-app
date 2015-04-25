@@ -16,12 +16,20 @@ public enum Time {
 	LESSON_3(11, 45),
 	/** 13:30 - 15:00 */
 	LESSON_4(13, 30),
+    /** 14:00 - 15:30 */
+    LESSON_4_BREAK(14, 0),
 	/** 15:15 - 16:45 */
 	LESSON_5(15, 15),
+    /** 15:45 - 17:15 */
+    LESSON_5_BREAK(15, 45),
 	/** 17:00 - 18:30 */
 	LESSON_6(17, 0),
+    /** 17:30 - 19:00 */
+    LESSON_6_BREAK(17, 30),
 	/** 18:45 - 20:15 */
-	LESSON_7(18, 45);
+	LESSON_7(18, 45),
+    /** 19:15 - 20:45 */
+    LESSON_7_BREAK(19, 15);
 
 	private final int hour;
 	private final int minute;

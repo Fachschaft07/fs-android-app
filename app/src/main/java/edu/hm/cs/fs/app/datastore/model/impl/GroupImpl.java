@@ -64,12 +64,14 @@ public class GroupImpl implements Group {
     }
 
     @Override
-    public boolean equals(final Object o) {
-        if (o instanceof GroupImpl) {
-            GroupImpl equalObject = (GroupImpl) o;
-            return toString().equals(equalObject.toString());
+    public boolean equals(final Object object) {
+        if (object instanceof Group) {
+            Group group = (Group) object;
+            return getStudy() == group.getStudy() &&
+                    getSemester() == group.getSemester() &&
+                    getLetter() == group.getLetter();
         }
-        return super.equals(o);
+        return super.equals(object);
     }
 
     /**

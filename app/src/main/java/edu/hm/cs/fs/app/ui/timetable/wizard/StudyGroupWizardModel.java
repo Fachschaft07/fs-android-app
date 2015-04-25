@@ -102,7 +102,6 @@ public class StudyGroupWizardModel extends AbstractWizardModel {
     }
 
     private Page getGroups(int count) {
-        // FIXME: Bei IF -> 3 oder 4 -> A, B, C (Hier darf nur A und B erscheinen)
         if (count > 1) {
             BranchPage page = new BranchPage(this, getString(R.string.wizard_groups));
             page.setRequired(true);

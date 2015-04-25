@@ -13,6 +13,7 @@ import edu.hm.cs.fs.app.datastore.model.constants.Faculty;
 import edu.hm.cs.fs.app.datastore.model.constants.Time;
 import edu.hm.cs.fs.app.datastore.model.impl.LessonImpl;
 import edu.hm.cs.fs.app.datastore.web.LessonFk07Fetcher;
+import edu.hm.cs.fs.app.datastore.web.LessonFk10Fetcher;
 import edu.hm.cs.fs.app.datastore.web.fetcher.AbstractContentFetcher;
 
 /**
@@ -73,6 +74,9 @@ public class LessonHelper extends BaseHelper implements Lesson {
             case _07:
                 fetcher = new LessonFk07Fetcher(context, group);
                 break;
+            case _10:
+                fetcher = new LessonFk10Fetcher(context, group);
+                break;
             default:
                 throw new IllegalStateException("Faculty " + faculty.toString() + " is not supported yet");
         }
@@ -80,7 +84,14 @@ public class LessonHelper extends BaseHelper implements Lesson {
         listAllOnline(context, fetcher, LessonImpl.class, callback, new OnHelperCallback<Lesson, LessonImpl>() {
             @Override
             public Lesson createHelper(Context context, LessonImpl lesson) {
-                return new LessonHelper(context, lesson);
+                switch (faculty) {
+                    case _07:
+                        return new LessonHelper(context, lesson);
+                    case _10:
+                        return new LessonFk10Helper(context, lesson);
+                    default:
+                        throw new IllegalStateException("Faculty " + faculty.toString() + " is not supported yet");
+                }
             }
         });
     }

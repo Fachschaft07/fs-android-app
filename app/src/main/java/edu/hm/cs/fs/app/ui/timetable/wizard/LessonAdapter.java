@@ -13,6 +13,7 @@ import com.fk07.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,10 +26,52 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  * Created by Fabio on 31.03.2015.
  */
 public class LessonAdapter extends ArrayAdapter<Lesson> implements StickyListHeadersAdapter {
+    private static final Comparator<Lesson> LESSON_COMPARATOR = new Comparator<Lesson>() {
+        @Override
+        public int compare(final Lesson lhs, final Lesson rhs) {
+            return getDate(lhs).compareTo(getDate(rhs));
+        }
+
+        private Calendar getDate(Lesson lesson) {
+            Calendar cal = Calendar.getInstance();
+            cal.set(2015, 2, 30); // This is a monday
+            cal.set(Calendar.HOUR_OF_DAY, lesson.getTime().getHour());
+            cal.set(Calendar.MINUTE, lesson.getTime().getMinute());
+
+            int weekDay = lesson.getDay().getId();
+            switch (weekDay) {
+                case Calendar.TUESDAY:
+                    cal.add(Calendar.DATE, 1);
+                    break;
+                case Calendar.WEDNESDAY:
+                    cal.add(Calendar.DATE, 2);
+                    break;
+                case Calendar.THURSDAY:
+                    cal.add(Calendar.DATE, 3);
+                    break;
+                case Calendar.FRIDAY:
+                    cal.add(Calendar.DATE, 4);
+                    break;
+                case Calendar.SATURDAY:
+                    cal.add(Calendar.DATE, 5);
+                    break;
+                case Calendar.SUNDAY:
+                    cal.add(Calendar.DATE, 6);
+                    break;
+            }
+            return cal;
+        }
+    };
     private List<Lesson> mSelectedLessons = new ArrayList<>();
 
     public LessonAdapter(final Context context) {
         super(context, android.R.layout.simple_list_item_1);
+    }
+
+    @Override
+    public void add(final Lesson object) {
+        super.add(object);
+        sort(LESSON_COMPARATOR);
     }
 
     @Override

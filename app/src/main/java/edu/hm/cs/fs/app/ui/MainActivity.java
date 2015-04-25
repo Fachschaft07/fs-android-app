@@ -69,8 +69,16 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
                 R.drawable.ic_view_week_grey600_24dp,
                 new TimetableFragment()
         ));
+
+        addSubheader(getString(R.string.student_council));
         //addSection(newSection(getString(R.string.news), R.drawable.ic_bookmark_outline_grey600_24dp, new Fragment()));
         //addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_search_grey600_24dp, new Fragment()));
+        presenceSection = newSection(
+                getString(R.string.presence),
+                R.drawable.ic_people_grey600_24dp,
+                new PresenceFragment()
+        );
+        addSection(presenceSection);
 
         // ==========================================================================
         // Others
@@ -101,13 +109,6 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
 
         // ==========================================================================
         // Bottom Sections
-        presenceSection = newSection(
-                getString(R.string.presence),
-                R.drawable.ic_people_grey600_24dp,
-                new PresenceFragment()
-        );
-        addBottomSection(presenceSection);
-
         addBottomSection(newSection(getString(R.string.info), R.drawable.ic_info_outline_grey600_24dp, new InfoFragment()));
 
         final Intent intent = new Intent(Intent.ACTION_SEND);

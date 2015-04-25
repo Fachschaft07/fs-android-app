@@ -27,6 +27,7 @@
     <string name="all">Alle</string>
     <string name="work_offer">Jobangebote</string>
     <string name="others">Sonstiges</string>
+    <string name="student_council">Fachschaft</string>
 
     <!-- TimeTable -->
     <string name="timetable">Stundenplan</string>
@@ -148,7 +149,7 @@
     <string name="beef">mit Rindfleisch</string>
 
     <!-- Presence -->
-    <string name="presence">FS Anwesenheit</string>
+    <string name="presence">Anwesenheit</string>
     <string name="presencePhone">Anrufen</string>
     <string name="presenceMail">e-Mail</string>
 
