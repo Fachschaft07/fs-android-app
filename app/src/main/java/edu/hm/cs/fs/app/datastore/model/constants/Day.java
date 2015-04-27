@@ -63,4 +63,9 @@ public enum Day {
         throw new IllegalArgumentException(
                 "Argument can not be converted into a day: " + dayOfWeek);
     }
+
+    public static Day now() {
+        Calendar cal = Calendar.getInstance();
+        return byCalendar(cal.get(Calendar.DAY_OF_WEEK));
+    }
 }

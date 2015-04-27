@@ -102,4 +102,21 @@ public enum Time {
 		}
 		return Time.LESSON_1;
 	}
+
+    public static Time[] rawValues() {
+        return new Time[] {
+                LESSON_1, LESSON_2, LESSON_3, LESSON_4, LESSON_5, LESSON_6, LESSON_7
+        };
+    }
+
+    public static Time now() {
+        Time result = null;
+        Calendar cal = Calendar.getInstance();
+        for (Time time : rawValues()) {
+            if(cal.after(time.getStart()) && cal.before(time.getEnd())) {
+                result = time;
+            }
+        }
+        return result;
+    }
 }

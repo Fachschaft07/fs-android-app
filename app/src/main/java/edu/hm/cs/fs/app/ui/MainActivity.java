@@ -26,6 +26,7 @@ import edu.hm.cs.fs.app.ui.job.JobListFragment;
 import edu.hm.cs.fs.app.ui.mensa.MealFragment;
 import edu.hm.cs.fs.app.ui.mvv.MvvFragment;
 import edu.hm.cs.fs.app.ui.presence.PresenceFragment;
+import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
 import edu.hm.cs.fs.app.util.multipane.FragmentMultiPane;
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
@@ -69,10 +70,14 @@ public class MainActivity extends MaterialNavigationDrawer<Fragment> {
                 R.drawable.ic_view_week_grey600_24dp,
                 new TimetableFragment()
         ));
+        addSection(newSection(
+                getString(R.string.roomsearch),
+                R.drawable.ic_search_grey600_24dp,
+                new RoomSearchFragment()
+        ));
 
         addSubheader(getString(R.string.student_council));
         //addSection(newSection(getString(R.string.news), R.drawable.ic_bookmark_outline_grey600_24dp, new Fragment()));
-        //addSection(newSection(getString(R.string.roomsearch), R.drawable.ic_search_grey600_24dp, new Fragment()));
         presenceSection = newSection(
                 getString(R.string.presence),
                 R.drawable.ic_people_grey600_24dp,
