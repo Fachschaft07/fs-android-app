@@ -1,9 +1,11 @@
-package edu.hm.cs.fs.app.ui.timetable.wizard;
+package edu.hm.cs.fs.app.ui.timetable.wizard.model;
 
 import android.support.v4.app.Fragment;
 
 import com.tech.freak.wizardpager.model.ModelCallbacks;
 import com.tech.freak.wizardpager.model.MultipleFixedChoicePage;
+
+import edu.hm.cs.fs.app.ui.timetable.wizard.ui.LessonFragment;
 
 /**
  * Created by Fabio on 30.03.2015.

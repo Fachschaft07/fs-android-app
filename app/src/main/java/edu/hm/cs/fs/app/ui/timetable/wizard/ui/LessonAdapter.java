@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.app.ui.timetable.wizard;
+package edu.hm.cs.fs.app.ui.timetable.wizard.ui;
 
 import android.content.Context;
 import android.text.TextUtils;

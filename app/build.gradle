@@ -8,9 +8,10 @@ android {
     defaultConfig {
         applicationId "com.fk07"
         minSdkVersion 10
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 19
         versionName "2.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {

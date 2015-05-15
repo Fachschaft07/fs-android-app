@@ -9,6 +9,7 @@ import com.tech.freak.wizardpager.model.Page;
 import com.tech.freak.wizardpager.model.PageList;
 
 import edu.hm.cs.fs.app.datastore.model.constants.Faculty;
+import edu.hm.cs.fs.app.ui.timetable.wizard.model.LessonPage;
 
 /**
  * Created by Fabio on 30.03.2015.

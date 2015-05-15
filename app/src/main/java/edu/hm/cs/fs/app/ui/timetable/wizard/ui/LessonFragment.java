@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.app.ui.timetable.wizard;
+package edu.hm.cs.fs.app.ui.timetable.wizard.ui;
 
 import android.app.Activity;
 import android.os.Bundle;

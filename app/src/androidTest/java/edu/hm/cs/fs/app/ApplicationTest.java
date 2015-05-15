@@ -1,4 +1,4 @@
-package com.fk07;
+package edu.hm.cs.fs.app;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
