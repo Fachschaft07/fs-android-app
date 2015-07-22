@@ -33,16 +33,16 @@ public class MealFragment extends BaseFragment<MealPresenter> implements IMealVi
         adapter = new MealAdapter(getActivity());
         listView.setAdapter(adapter);
 
-        setPresenter(new MealPresenter(this));
-        getPresenter().loadMeals();
-
         swipeRefreshLayout.setOnRefreshListener(this);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            swipeRefreshLayout.setColorSchemeColors(android.R.color.holo_blue_bright,
+            swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
         }
+
+        setPresenter(new MealPresenter(this));
+        getPresenter().loadMeals();
     }
 
     @Override

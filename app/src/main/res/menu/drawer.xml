@@ -4,23 +4,23 @@
         <item
             android:checked="true"
             android:id="@+id/menu_blackboard"
-            android:icon="@drawable/ic_assignment_grey600_24dp"
+            android:icon="@drawable/ic_assignment_grey_600_24dp"
             android:title="@string/blackboard"
             />
         <item
             android:id="@+id/menu_timetable"
-            android:icon="@drawable/ic_view_week_grey600_24dp"
+            android:icon="@drawable/ic_view_week_grey_600_24dp"
             android:title="@string/timetable"
             />
         <item
             android:id="@+id/menu_roomsearch"
-            android:icon="@drawable/ic_search_grey600_24dp"
+            android:icon="@drawable/ic_search_grey_600_24dp"
             android:title="@string/roomsearch"
             />
 
         <item
             android:id="@+id/menu_presence"
-            android:icon="@drawable/ic_people_grey600_24dp"
+            android:icon="@drawable/ic_people_grey_600_24dp"
             android:title="@string/presence"
             />
 
@@ -31,19 +31,19 @@
             <menu>
                 <item
                     android:id="@+id/menu_food"
-                    android:icon="@drawable/ic_local_restaurant_grey600_24dp"
+                    android:icon="@drawable/ic_local_restaurant_grey_600_24dp"
                     android:title="@string/food"
                     />
 
                 <item
                     android:id="@+id/menu_jobs"
-                    android:icon="@drawable/ic_work_grey600_24dp"
+                    android:icon="@drawable/ic_work_grey_600_24dp"
                     android:title="@string/work_offer"
                     />
 
                 <item
                     android:id="@+id/menu_mvv"
-                    android:icon="@drawable/ic_directions_transit_grey600_24dp"
+                    android:icon="@drawable/ic_directions_transit_grey_600_24dp"
                     android:title="@string/mvv"
                     />
             </menu>
@@ -52,13 +52,13 @@
 
         <item
             android:id="@+id/menu_info"
-            android:icon="@drawable/ic_info_outline_grey600_24dp"
+            android:icon="@drawable/ic_info_outline_grey_600_24dp"
             android:title="@string/info"
             />
 
         <item
             android:id="@+id/menu_feedback"
-            android:icon="@drawable/ic_local_post_office_grey600_24dp"
+            android:icon="@drawable/ic_local_post_office_grey_600_24dp"
             android:title="@string/help_feedback"
             />
     </group>
