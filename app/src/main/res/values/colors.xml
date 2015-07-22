@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/holo_light_red_color</color>
-    <color name="colorPrimaryDark">@color/holo_light_red_color_hm</color>
-    <color name="colorAccent">#ff61cdff</color>
-    <color name="holo_light_red_color">#ffff2125</color>
-    <color name="holo_light_red_color_hm">#bc0e33</color>
-    <color name="holo_light_red_dialog_text">#000000</color>
-    <color name="gray">#ffdddddd</color>
-    <color name="light_gray">#eeeeee</color>
-    <color name="dark_gray">#666666</color>
+    <color name="colorPrimary">#9E9E9E</color>
+    <color name="colorPrimaryDark">#757575</color>
+    <color name="colorAccent">#D32F2F</color>
     <color name="presence_busy">#ffd7d500</color>
     <color name="presence_available">#ff079d01</color>
     <color name="mensa">#ff74b02d</color>
@@ -23,4 +17,7 @@
     <color name="study_group_mixed">#ffdee179</color>
     <color name="study_group_all">#ff6be17d</color>
     <color name="holiday">#ffe1e133</color>
+    <color name="meal_meatless">#F0C814</color>
+    <color name="meal_vegan">#1EC81E</color>
+    <color name="meal_meat">#C80A4B</color>
 </resources>

@@ -1,165 +1,187 @@
 package edu.hm.cs.fs.app.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.IdRes;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.fk07.R;
 
-import java.util.List;
-
-import edu.hm.cs.fs.app.datastore.helper.Callback;
-import edu.hm.cs.fs.app.datastore.helper.PresenceHelper;
-import edu.hm.cs.fs.app.datastore.model.Job;
-import edu.hm.cs.fs.app.datastore.model.News;
-import edu.hm.cs.fs.app.datastore.model.Presence;
-import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment;
-import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
-import edu.hm.cs.fs.app.ui.info.InfoFragment;
-import edu.hm.cs.fs.app.ui.job.JobDetailFragment;
-import edu.hm.cs.fs.app.ui.job.JobListFragment;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.ui.mensa.MealFragment;
-import edu.hm.cs.fs.app.ui.mvv.MvvFragment;
-import edu.hm.cs.fs.app.ui.presence.PresenceFragment;
-import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchFragment;
-import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
-import edu.hm.cs.fs.app.util.multipane.FragmentMultiPane;
-import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
-import it.neokree.materialnavigationdrawer.elements.MaterialSection;
+import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.util.Navigator;
 
-public class MainActivity extends MaterialNavigationDrawer<Fragment> {
-    private MaterialSection presenceSection;
+public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener,
+        NavigationView.OnNavigationItemSelectedListener {
+    @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+    @Bind(R.id.navigation_view) NavigationView mNavigationView;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+
+    private static Navigator mNavigator;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private @IdRes int mCurrentMenuItem;
 
     @Override
-    public void init(final Bundle bundle) {
-        // Style Toolbar
-        getSupportActionBar().setElevation(10f);
-
-        // Header View
-        final TextView header = new TextView(this);
-        header.setText(nextProverb());
-        header.setGravity(Gravity.CENTER);
-        header.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        header.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.logo_hm, 0, 0);
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                header.setText(nextProverb());
-            }
-        });
-        setDrawerHeaderCustom(header);
-
-        // ==========================================================================
-        // Everything the student needs for his study
-        addSection(newSection(
-                getString(R.string.blackboard),
-                R.drawable.ic_assignment_grey600_24dp,
-                FragmentMultiPane.build(
-                        BlackBoardListFragment.class,
-                        BlackBoardDetailFragment.class,
-                        News.class
-                )
-        ));
-        addSection(newSection(
-                getString(R.string.timetable),
-                R.drawable.ic_view_week_grey600_24dp,
-                new TimetableFragment()
-        ));
-        addSection(newSection(
-                getString(R.string.roomsearch),
-                R.drawable.ic_search_grey600_24dp,
-                new RoomSearchFragment()
-        ));
-
-        addSubheader(getString(R.string.student_council));
-        //addSection(newSection(getString(R.string.news), R.drawable.ic_bookmark_outline_grey600_24dp, new Fragment()));
-        presenceSection = newSection(
-                getString(R.string.presence),
-                R.drawable.ic_people_grey600_24dp,
-                new PresenceFragment()
-        );
-        addSection(presenceSection);
-
-        // ==========================================================================
-        // Others
-        addSubheader(getString(R.string.others));
-        final MaterialSection mensaSection = newSection(
-                getString(R.string.food),
-                R.drawable.ic_local_restaurant_grey600_24dp,
-                new MealFragment()
-        );
-        mensaSection.setSectionColor(getResources().getColor(R.color.mensa));
-        addSection(mensaSection);
-        addSection(newSection(
-                getString(R.string.work_offer),
-                R.drawable.ic_work_grey600_24dp,
-                FragmentMultiPane.build(
-                        JobListFragment.class,
-                        JobDetailFragment.class,
-                        Job.class
-                )
-        ));
-        final MaterialSection mvvSection = newSection(
-                getString(R.string.mvv),
-                R.drawable.ic_directions_transit_grey600_24dp,
-                new MvvFragment()
-        );
-        mvvSection.setSectionColor(getResources().getColor(R.color.mvv));
-        addSection(mvvSection);
-
-        // ==========================================================================
-        // Bottom Sections
-        addBottomSection(newSection(getString(R.string.info), R.drawable.ic_info_outline_grey600_24dp, new InfoFragment()));
-
-        final Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("plain/text");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});
-        addBottomSection(newSection(getString(R.string.help_feedback), R.drawable.ic_local_post_office_grey600_24dp, intent));
-
-        // Listen to the drawer to update the presence item
-        setDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(final View drawerView, final float slideOffset) {
-            }
-
-            @Override
-            public void onDrawerOpened(final View drawerView) {
-                refresh();
-            }
-
-            @Override
-            public void onDrawerClosed(final View drawerView) {
-            }
-
-            @Override
-            public void onDrawerStateChanged(final int newState) {
-            }
-        });
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        setupToolbar();
+        setupNavigationDrawer();
+        initNavigator();
     }
 
-    public void updatePresenceColor(int memberCount, int colorId) {
-        presenceSection.setSectionColor(getResources().getColor(colorId));
-        presenceSection.setNotifications(memberCount);
+    private void setupToolbar() {
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar == null) {
+            return;
+        }
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
-    private void refresh() {
-        PresenceHelper.listAll(this, new Callback<List<Presence>>() {
-            @Override
-            public void onResult(final List<Presence> result) {
-                int sectionColorId;
-                if (PresenceHelper.isPresent(result)) {
-                    sectionColorId = R.color.presence_available;
-                } else {
-                    sectionColorId = R.color.presence_busy;
-                }
-                updatePresenceColor(result.size(), sectionColorId);
+    private void setupNavigationDrawer() {
+        mDrawerLayout.setDrawerListener(this);
+        //TODO look at documantation => homepage do I really need like that?
+        mDrawerToggle = new ActionBarDrawerToggle(this
+                , mDrawerLayout
+                , mToolbar
+                , R.string.navigation_drawer_open
+                , R.string.navigation_drawer_close);
+
+        mDrawerToggle.syncState();
+        mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initNavigator() {
+        if(mNavigator != null) {
+            return;
+        }
+        mNavigator = new Navigator(getSupportFragmentManager(), R.id.container);
+    }
+
+    private void setNewRootFragment(BaseFragment fragment){
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            if(fragment.hasCustomToolbar()){
+                actionBar.hide();
+            }else {
+                actionBar.show();
             }
-        });
+        }
+        mNavigator.setRootFragment(fragment);
+        mDrawerLayout.closeDrawers();
+    }
+
+    @Override
+    protected void onPostCreate(final Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+        mDrawerToggle.onDrawerSlide(drawerView, slideOffset);
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        mDrawerToggle.onDrawerOpened(drawerView);
+    }
+
+    public void openDrawer(){
+        mDrawerLayout.openDrawer(Gravity.LEFT);
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        mDrawerToggle.onDrawerClosed(drawerView);
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+        mDrawerToggle.onDrawerStateChanged(newState);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        @IdRes int id = menuItem.getItemId();
+        if(id == mCurrentMenuItem) {
+            mDrawerLayout.closeDrawers();
+            return false;
+        }
+        switch (id){
+            case R.id.menu_blackboard:
+                //setNewRootFragment(StandardAppBarFragment.newInstance());
+                break;
+            case R.id.menu_timetable:
+                //setNewRootFragment(TabHolderFragment.newInstance());
+                break;
+
+            case R.id.menu_roomsearch:
+                //setNewRootFragment(FlexibleSpaceWithImageFragment.newInstance());
+                break;
+
+            case R.id.menu_presence:
+                //setNewRootFragment(FlexibleSpaceFragment.newInstance());
+                break;
+
+            case R.id.menu_food:
+                setNewRootFragment(new MealFragment());
+                break;
+
+            case R.id.menu_jobs:
+                //setNewRootFragment(FloatingActionButtonFragment.newInstance());
+                break;
+
+            case R.id.menu_mvv:
+                //setNewRootFragment(new MvvFragment());
+                break;
+
+            case R.id.menu_info:
+                //setNewRootFragment(FloatingActionButtonFragment.newInstance());
+                break;
+
+            case R.id.menu_feedback:
+                final Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("plain/text");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});
+                startActivity(intent);
+                return false;
+        }
+        mCurrentMenuItem = id;
+        menuItem.setChecked(true);
+        return false;
+    }
+
+    @Override
+    public void finish() {
+        mNavigator = null;
+        super.finish();
+    }
+
+    public void setTransparentStatusBar(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getWindow();
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            window.setStatusBarColor(getResources().getColor(android.R.color.transparent));
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        }
     }
 
     private String nextProverb() {

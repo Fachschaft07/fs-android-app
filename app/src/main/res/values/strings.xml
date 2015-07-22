@@ -181,4 +181,7 @@
 	<string name="proverbs24">Was bedeutet "www"? Warten, Warten, Warten</string>
 	<string name="proverbs25">Wenn am Anfang alles schief geht, nenne es Version 1.0!</string>
     <string name="time">Zeit</string>
+    <string name="not_title_set">Kein Titel gesetzt</string>
+    <string name="navigation_drawer_open">Navigation Drawer Open</string>
+    <string name="navigation_drawer_close">Navigation Drawer Close</string>
 </resources>
