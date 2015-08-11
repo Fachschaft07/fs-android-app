@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9E9E9E</color>
-    <color name="colorPrimaryDark">#757575</color>
-    <color name="colorAccent">#D32F2F</color>
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#D32F2F</color>
+    <color name="colorAccent">#FFC400</color>
     <color name="presence_busy">#ffd7d500</color>
     <color name="presence_available">#ff079d01</color>
     <color name="mensa">#ff74b02d</color>
     <color name="mvv">#dd2160c7</color>
-    <color name="study_group_is">#ff989b9b</color>
-    <color name="study_group_if">#ffa5e152</color>
-    <color name="study_group_ib">#ffe1941c</color>
-    <color name="study_group_ic">#ffbea4e1</color>
-    <color name="study_group_in">#ff94d4e1</color>
-    <color name="study_group_ig">#ffe16491</color>
-    <color name="study_group_go">#ff6f8be1</color>
-    <color name="study_group_mixed">#ffdee179</color>
-    <color name="study_group_all">#ff6be17d</color>
+    <color name="job">#ffe1941c</color>
     <color name="holiday">#ffe1e133</color>
     <color name="meal_meatless">#F0C814</color>
     <color name="meal_vegan">#1EC81E</color>

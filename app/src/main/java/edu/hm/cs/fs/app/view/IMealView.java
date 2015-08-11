@@ -1,13 +1,15 @@
 package edu.hm.cs.fs.app.view;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import edu.hm.cs.fs.app.presenter.MealPresenter;
 import edu.hm.cs.fs.common.model.Meal;
 
 /**
- * Created by Fabio on 12.07.2015.
+ * @author Fabio
  */
 public interface IMealView extends IView<MealPresenter> {
-    void showContent(List<Meal> content);
+    void showContent(@NonNull final List<Meal> content);
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height_small"
+    android:background="@android:color/white"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/list_item_margin_left"
+    android:paddingRight="@dimen/list_item_margin_right"
+    tools:text="Sticky Header">
+
+</TextView>

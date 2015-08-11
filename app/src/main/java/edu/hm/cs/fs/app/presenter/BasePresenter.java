@@ -24,7 +24,7 @@ public abstract class BasePresenter<V extends IView, M extends IModel> implement
      *
      * @return
      */
-    public M getModel() {
+    protected M getModel() {
         return model;
     }
 
@@ -32,7 +32,7 @@ public abstract class BasePresenter<V extends IView, M extends IModel> implement
      *
      * @return
      */
-    public V getView() {
+    protected V getView() {
         return view;
     }
 }

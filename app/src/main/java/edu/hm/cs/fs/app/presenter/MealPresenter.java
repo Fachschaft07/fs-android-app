@@ -16,7 +16,7 @@ public class MealPresenter extends BasePresenter<IMealView, MealModel> {
      * @param view
      */
     public MealPresenter(IMealView view) {
-        super(view, new MealModel());
+        super(view, MealModel.getInstance());
     }
 
     /**

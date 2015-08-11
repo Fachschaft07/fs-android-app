@@ -1,65 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item
-            android:checked="true"
-            android:id="@+id/menu_blackboard"
-            android:icon="@drawable/ic_assignment_grey_600_24dp"
-            android:title="@string/blackboard"
-            />
-        <item
-            android:id="@+id/menu_timetable"
-            android:icon="@drawable/ic_view_week_grey_600_24dp"
-            android:title="@string/timetable"
-            />
-        <item
-            android:id="@+id/menu_roomsearch"
-            android:icon="@drawable/ic_search_grey_600_24dp"
-            android:title="@string/roomsearch"
-            />
 
         <item
-            android:id="@+id/menu_presence"
-            android:icon="@drawable/ic_people_grey_600_24dp"
-            android:title="@string/presence"
-            />
+            android:id="@+id/menu_subheader_my_study"
+            android:title="@string/my_study">
+
+            <menu>
+                <item
+                    android:id="@+id/menu_blackboard"
+                    android:checked="true"
+                    android:icon="@drawable/ic_assignment_grey_600_24dp"
+                    android:title="@string/blackboard" />
+                <item
+                    android:id="@+id/menu_timetable"
+                    android:icon="@drawable/ic_view_week_grey_600_24dp"
+                    android:title="@string/timetable" />
+                <item
+                    android:id="@+id/menu_roomsearch"
+                    android:icon="@drawable/ic_search_grey_600_24dp"
+                    android:title="@string/roomsearch" />
+            </menu>
+        </item>
 
         <item
-            android:id="@+id/menu_subheader_externals"
-            android:title="@string/others">
+            android:id="@+id/menu_subheader_student_council"
+            android:title="@string/student_council">
+
+            <menu>
+                <item
+                    android:id="@+id/menu_news"
+                    android:icon="@drawable/ic_announcement_grey_600_24dp"
+                    android:title="@string/blackboard" />
+
+                <item
+                    android:id="@+id/menu_presence"
+                    android:icon="@drawable/ic_people_grey_600_24dp"
+                    android:title="@string/presence" />
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/menu_subheader_offers"
+            android:title="@string/offers">
 
             <menu>
                 <item
                     android:id="@+id/menu_food"
                     android:icon="@drawable/ic_local_restaurant_grey_600_24dp"
-                    android:title="@string/food"
-                    />
+                    android:title="@string/food" />
 
                 <item
                     android:id="@+id/menu_jobs"
                     android:icon="@drawable/ic_work_grey_600_24dp"
-                    android:title="@string/work_offer"
-                    />
+                    android:title="@string/work_offer" />
 
                 <item
                     android:id="@+id/menu_mvv"
                     android:icon="@drawable/ic_directions_transit_grey_600_24dp"
-                    android:title="@string/mvv"
-                    />
+                    android:title="@string/mvv" />
             </menu>
 
         </item>
 
         <item
-            android:id="@+id/menu_info"
-            android:icon="@drawable/ic_info_outline_grey_600_24dp"
-            android:title="@string/info"
-            />
+            android:id="@+id/menu_subheader_externals"
+            android:title="@string/others">
+            <menu>
+                <item
+                    android:id="@+id/menu_info"
+                    android:icon="@drawable/ic_info_outline_grey_600_24dp"
+                    android:title="@string/info" />
 
-        <item
-            android:id="@+id/menu_feedback"
-            android:icon="@drawable/ic_local_post_office_grey_600_24dp"
-            android:title="@string/help_feedback"
-            />
+                <item
+                    android:id="@+id/menu_feedback"
+                    android:icon="@drawable/ic_local_post_office_grey_600_24dp"
+                    android:title="@string/help_feedback" />
+            </menu>
+        </item>
     </group>
 </menu>

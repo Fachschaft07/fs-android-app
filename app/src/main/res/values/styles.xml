@@ -2,15 +2,11 @@
 
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="Theme_Holo_Light_Red" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme_Holo_Light_Red" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <!-- <item name="android:windowContentOverlay">@null</item> -->
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 </resources>

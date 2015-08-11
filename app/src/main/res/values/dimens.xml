@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="extended_toolbar_height">72dp</dimen>
+    <dimen name="text_margin_left">16dp</dimen>
+    <dimen name="text_margin_right">16dp</dimen>
+    <dimen name="text_margin_top">8dp</dimen>
+    <dimen name="text_margin_bottom">2dp</dimen>
+    <!-- List items -->
+    <dimen name="list_item_margin_left">16dp</dimen>
+    <dimen name="list_item_margin_right">16dp</dimen>
+    <dimen name="list_item_margin_top">8dp</dimen>
+    <dimen name="list_item_margin_bottom">8dp</dimen>
+    <dimen name="list_item_height_small">48dp</dimen>
+    <dimen name="list_item_height_small_image_size">32dp</dimen>
+    <dimen name="list_item_height_normal">56dp</dimen>
+    <dimen name="list_item_height_normal_image_size">40dp</dimen>
+    <dimen name="list_item_height_large">72dp</dimen>
 </resources>

@@ -1,8 +1,11 @@
 package edu.hm.cs.fs.app.ui.mensa;
 
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.fk07.R;
@@ -21,28 +24,45 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
  * Created by Fabio on 12.07.2015.
  */
 public class MealFragment extends BaseFragment<MealPresenter> implements IMealView, SwipeRefreshLayout.OnRefreshListener {
-    @Bind(R.id.swipeContainer) SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.stickyList) StickyListHeadersListView listView;
-    private MealAdapter adapter;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+    @Bind(R.id.swipeContainer)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.stickyList)
+    StickyListHeadersListView mListView;
+    private MealAdapter mAdapter;
 
     @Override
     public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        adapter = new MealAdapter(getActivity());
-        listView.setAdapter(adapter);
+        mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
 
-        swipeRefreshLayout.setOnRefreshListener(this);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light);
-        }
+        mAdapter = new MealAdapter(getActivity());
+        mListView.setAdapter(mAdapter);
+
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new MealPresenter(this));
         getPresenter().loadMeals();
+    }
+
+    @Override
+    public boolean hasCustomToolbar() {
+        return true;
+    }
+
+    @Override
+    protected int getTitle() {
+        return R.string.mensa;
     }
 
     @Override
@@ -51,10 +71,10 @@ public class MealFragment extends BaseFragment<MealPresenter> implements IMealVi
     }
 
     @Override
-    public void showContent(final List<Meal> content) {
-        adapter.clear();
+    public void showContent(@NonNull final List<Meal> content) {
+        mAdapter.clear();
         for (Meal meal : content) {
-            adapter.add(meal);
+            mAdapter.add(meal);
         }
     }
 
@@ -65,17 +85,25 @@ public class MealFragment extends BaseFragment<MealPresenter> implements IMealVi
 
     @Override
     public void showLoading() {
-        swipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        swipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showError(final String error) {
-
+    public void showError(@NonNull String error) {
+        if(mSwipeRefreshLayout != null) {
+            Snackbar.make(mSwipeRefreshLayout, error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getPresenter().loadMeals();
+                        }
+                    }).show();
+        }
     }
 
     @Override
