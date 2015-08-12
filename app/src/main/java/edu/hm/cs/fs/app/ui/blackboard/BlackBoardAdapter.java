@@ -51,7 +51,6 @@ public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.Vi
         holder.mListener = mListener;
         holder.mTitle.setText(MarkdownUtil.toHtml(entry.getSubject()));
         holder.mAuthor.setText(entry.getAuthor());
-        /*
         if(!entry.getGroups().isEmpty()) {
             holder.mGroups.setText(entry.getGroups().toString()
                     .substring(1, entry.getGroups().toString().length() - 1));
@@ -59,7 +58,6 @@ public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.Vi
         } else {
             holder.mGroups.setVisibility(View.GONE);
         }
-        */
     }
 
     @Override
