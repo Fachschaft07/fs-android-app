@@ -66,15 +66,15 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
                 android.R.layout.simple_spinner_dropdown_item, Day.values()) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                return setText(super.getView(position, convertView, parent), position);
+                return setText(super.getView(position, convertView, parent), position, Color.WHITE);
             }
 
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                return setText(super.getDropDownView(position, convertView, parent), position);
+                return setText(super.getDropDownView(position, convertView, parent), position, Color.BLACK);
             }
 
-            private View setText(View view, int position) {
+            private View setText(View view, int position, int color) {
                 final Day day = getItem(position);
 
                 final Calendar calendar = Calendar.getInstance();
@@ -83,7 +83,7 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
                 final String value = String.format("%1$tA", calendar);
                 final TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 textView.setText(value);
-                textView.setTextColor(Color.WHITE);
+                textView.setTextColor(color);
                 return view;
             }
         });
@@ -93,20 +93,20 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
                 android.R.layout.simple_spinner_dropdown_item, Time.values()) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                return setText(super.getView(position, convertView, parent), position);
+                return setText(super.getView(position, convertView, parent), position, Color.WHITE);
             }
 
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                return setText(super.getDropDownView(position, convertView, parent), position);
+                return setText(super.getDropDownView(position, convertView, parent), position, Color.BLACK);
             }
 
-            private View setText(View view, int position) {
+            private View setText(View view, int position, int color) {
                 final Time time = getItem(position);
                 final String value = String.format("%1$tH:%1$tM", time.getStart());
                 final TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 textView.setText(value);
-                textView.setTextColor(Color.WHITE);
+                textView.setTextColor(color);
                 return view;
             }
         });
@@ -139,16 +139,6 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
     @Override
     public void onRefresh() {
         getPresenter().loadFreeRooms(getSelectedDay(), getSelectedTime());
-    }
-
-    @Override
-    public void showLoading() {
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

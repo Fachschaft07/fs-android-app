@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.ui.info;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ import edu.hm.cs.fs.app.view.IInfoView;
  * @author Fabio
  */
 public class InfoFragment extends BaseFragment<InfoPresenter> implements IInfoView {
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
     @Bind(R.id.textViewVersion)
     TextView mVersion;
 
@@ -25,6 +28,14 @@ public class InfoFragment extends BaseFragment<InfoPresenter> implements IInfoVi
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
+
         setPresenter(new InfoPresenter(getActivity(), this));
         getPresenter().loadVersion();
     }
@@ -32,6 +43,11 @@ public class InfoFragment extends BaseFragment<InfoPresenter> implements IInfoVi
     @Override
     protected int getLayout() {
         return R.layout.fragment_info;
+    }
+
+    @Override
+    public boolean hasCustomToolbar() {
+        return true;
     }
 
     @Override

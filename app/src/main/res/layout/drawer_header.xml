@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="192dp">
 
@@ -8,33 +7,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/roter_wuerfel" />
+        android:src="@drawable/drawer_image" />
 
+    <!--
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#CFFFFFFF" />
+        android:background="#5FFFFFFF" />
+        -->
 
-    <!--
     <TextView
-        android:id="@+id/drawer_proverb"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:gravity="bottom|center_horizontal"
-        android:onClick="onNextProverb"
         android:paddingBottom="@dimen/text_margin_bottom"
         android:paddingLeft="@dimen/text_margin_left"
         android:paddingRight="@dimen/text_margin_right"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-        tools:text="@string/proverbs3" />
-        -->
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_launcher" />
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:text="@string/hm" />
 </RelativeLayout>

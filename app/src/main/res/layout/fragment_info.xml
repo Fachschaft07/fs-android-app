@@ -1,46 +1,61 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/white"
-              android:orientation="vertical"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:text="@string/app_name"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display2"
-        android:gravity="center"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/textViewVersion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:text="@string/version"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
-        android:gravity="center"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/app_name" />
+    </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/teamMembers"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-        android:gravity="center"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp"
-        android:clickable="true"
-        android:gravity="bottom|center_horizontal"
-        android:text="@string/fs_contact"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:layout_marginLeft="@dimen/text_margin_left"
+            android:layout_marginRight="@dimen/text_margin_right"
+            android:gravity="center"
+            android:text="@string/version"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:layout_marginLeft="@dimen/text_margin_left"
+            android:layout_marginRight="@dimen/text_margin_right"
+            android:gravity="center"
+            android:text="@string/teamMembers"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/text_margin_bottom"
+            android:layout_marginLeft="@dimen/text_margin_left"
+            android:layout_marginRight="@dimen/text_margin_right"
+            android:clickable="true"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/fs_contact"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
+    </LinearLayout>
 
 </LinearLayout>

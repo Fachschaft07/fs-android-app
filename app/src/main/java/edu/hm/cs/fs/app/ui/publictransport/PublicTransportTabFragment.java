@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -28,18 +29,25 @@ public class PublicTransportTabFragment extends BaseFragment {
     TabLayout mTabLayout;
     @Bind(R.id.viewPager)
     ViewPager mViewPager;
+    private ViewPagerAdapter mAdapter;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
-        adapter.addFrag(new LothstrFragment(), getString(R.string.lothstraße));
-        adapter.addFrag(new PasingFragment(), getString(R.string.pasing));
-        mViewPager.setAdapter(adapter);
+        mAdapter = new ViewPagerAdapter(getFragmentManager());
+        mAdapter.addFrag(new LothstrFragment(), getString(R.string.lothstrasse));
+        mAdapter.addFrag(new PasingFragment(), getString(R.string.pasing));
+        mViewPager.setAdapter(mAdapter);
 
-        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mTabLayout.setTabsFromPagerAdapter(mAdapter);
+                mTabLayout.setupWithViewPager(mViewPager);
+            }
+        });
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -69,6 +77,18 @@ public class PublicTransportTabFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        for (int index = 0; index < mAdapter.getCount(); index++) {
+            transaction.remove(mAdapter.getItem(index));
+        }
+        transaction.commit();
+        getFragmentManager().executePendingTransactions();
     }
 
     private final class ViewPagerAdapter extends FragmentPagerAdapter {

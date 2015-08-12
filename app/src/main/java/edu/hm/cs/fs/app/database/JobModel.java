@@ -45,10 +45,10 @@ public class JobModel implements IModel {
                 });
     }
 
-    public void getJob(@NonNull final String id, @NonNull final ICallback<Job> callback) {
+    public void getJob(@NonNull final String title, @NonNull final ICallback<Job> callback) {
         if(mJobCache != null) {
             for (Job job : mJobCache) {
-                if (id.equals(job.getId())) {
+                if (title.equals(job.getTitle())) {
                     callback.onSuccess(job);
                 }
             }
@@ -57,7 +57,7 @@ public class JobModel implements IModel {
                 @Override
                 public void onSuccess(List<Job> data) {
                     for (Job job : data) {
-                        if (job.getId().equals(id)) {
+                        if (job.getId().equals(title)) {
                             callback.onSuccess(job);
                             return;
                         }

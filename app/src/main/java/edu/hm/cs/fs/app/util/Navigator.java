@@ -1,28 +1,49 @@
 package edu.hm.cs.fs.app.util;
+
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.fk07.R;
+
+import edu.hm.cs.fs.app.ui.MainActivity;
+import edu.hm.cs.fs.app.ui.job.JobDetailFragment;
 
 
-public class Navigator{
+public class Navigator {
+    @NonNull
+    private MainActivity mMainActivity;
     @NonNull
     protected final FragmentManager mFragmentManager;
 
     @IdRes
     protected final int mDefaultContainer;
+    @IdRes
+    protected int mDetailContainer = -1;
 
     /**
      * This constructor should be only called once per
      *
-     * @param fragmentManager Your FragmentManger
+     * @param mainActivity     Your MainActivity
+     * @param fragmentManager  Your FragmentManger
      * @param defaultContainer Your container id where the fragments should be placed
      */
-    public Navigator(@NonNull final FragmentManager fragmentManager, @IdRes final int defaultContainer){
+    public Navigator(@NonNull final MainActivity mainActivity,
+                     @NonNull final FragmentManager fragmentManager,
+                     @IdRes final int defaultContainer) {
+        mMainActivity = mainActivity;
         mFragmentManager = fragmentManager;
-        mDefaultContainer =defaultContainer;
+        mDefaultContainer = defaultContainer;
+    }
+
+    public void setDetailContainer(@IdRes final int mDetailContainer) {
+        this.mDetailContainer = mDetailContainer;
+    }
+
+    public boolean hasDetailContainer() {
+        return mDetailContainer != -1;
     }
 
     /**
@@ -42,11 +63,28 @@ public class Navigator{
      *
      * @param fragment the fragment which
      */
-    public void goTo(final Fragment fragment) {
+    public void goTo(@NonNull final BaseFragment fragment) {
+        swapFragment(fragment, mDefaultContainer);
+    }
+
+    /**
+     * @param fragment
+     */
+    public void goToDetail(@NonNull final BaseFragment fragment) {
+        if(hasDetailContainer()) {
+            replaceFragment(fragment, mDetailContainer);
+        } else {
+            swapFragment(fragment, mDefaultContainer);
+        }
+    }
+
+    private void swapFragment(@NonNull final BaseFragment fragment, @IdRes final int container) {
         mFragmentManager.beginTransaction()
                 .addToBackStack(getName(fragment))
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                        android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(mDefaultContainer, fragment, getName(fragment))
+                .replace(container, fragment, getName(fragment))
                 .commit();
         mFragmentManager.executePendingTransactions();
     }
@@ -54,10 +92,11 @@ public class Navigator{
     /**
      * This is just a helper method which returns the simple name of
      * the fragment.
+     *
      * @param fragment that get added to the history (BackStack)
      * @return the simple name of the given fragment
      */
-    protected String getName(final Fragment fragment) {
+    protected String getName(@NonNull final BaseFragment fragment) {
         return fragment.getClass().getSimpleName();
     }
 
@@ -67,11 +106,11 @@ public class Navigator{
      *
      * @param startFragment the new root fragment
      */
-    public void setRootFragment(final Fragment startFragment){
-        if(getSize() > 0){
+    public void setRootFragment(@NonNull final BaseFragment startFragment) {
+        if (getSize() > 0) {
             this.clearHistory();
         }
-        this.replaceFragment(startFragment);
+        this.replaceFragment(startFragment, mDefaultContainer);
     }
 
     /**
@@ -81,9 +120,11 @@ public class Navigator{
      *
      * @param fragment the new fragment
      */
-    private void replaceFragment(final Fragment fragment) {
+    private void replaceFragment(@NonNull final BaseFragment fragment,
+                                 @IdRes final int container) {
         mFragmentManager.beginTransaction()
-                .replace(mDefaultContainer, fragment, getName(fragment))
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(container, fragment, getName(fragment))
                 .commit();
         mFragmentManager.executePendingTransactions();
     }
@@ -125,6 +166,6 @@ public class Navigator{
      */
     public void clearHistory() {
         //noinspection StatementWithEmptyBody - it works as wanted
-        while(mFragmentManager.popBackStackImmediate());
+        while (mFragmentManager.popBackStackImmediate()) ;
     }
 }

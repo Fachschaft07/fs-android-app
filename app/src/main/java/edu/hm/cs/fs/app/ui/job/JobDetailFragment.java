@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Spanned;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fk07.R;
@@ -20,6 +20,7 @@ import edu.hm.cs.fs.app.view.IJobDetailView;
  * Created by FHellman on 10.08.2015.
  */
 public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implements IJobDetailView, SwipeRefreshLayout.OnRefreshListener {
+    public static final String ARGUMENT_TITLE = "id";
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.textSubject)
@@ -33,7 +34,7 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
     @Bind(R.id.textAuthor)
     TextView mAuthor;
 
-    private String mJobId;
+    private String mJobTitle;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
         ButterKnife.bind(this, view);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
@@ -50,9 +52,9 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
             }
         });
 
-        mJobId = getArguments().getString("id");
+        mJobTitle = getArguments().getString(ARGUMENT_TITLE);
         setPresenter(new JobDetailPresenter(this));
-        getPresenter().loadJob(mJobId);
+        getPresenter().loadJob(mJobTitle);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
     }
 
     @Override
-    public void showSubject(@NonNull String subject) {
+    public void showSubject(@NonNull Spanned subject) {
         mSubject.setText(subject);
     }
 
@@ -81,7 +83,7 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
     }
 
     @Override
-    public void showDescription(@NonNull String description) {
+    public void showDescription(@NonNull Spanned description) {
         mDescription.setText(description);
     }
 
@@ -97,17 +99,7 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
 
     @Override
     public void onRefresh() {
-        getPresenter().loadJob(mJobId);
-    }
-
-    @Override
-    public void showLoading() {
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefreshLayout.setRefreshing(false);
+        getPresenter().loadJob(mJobTitle);
     }
 
     @Override
@@ -117,7 +109,7 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
                     .setAction(R.string.retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            getPresenter().loadJob(mJobId);
+                            getPresenter().loadJob(mJobTitle);
                         }
                     }).show();
         }

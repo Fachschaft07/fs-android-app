@@ -82,16 +82,6 @@ public class PresenceFragment extends BaseFragment<PresencePresenter> implements
     }
 
     @Override
-    public void showLoading() {
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
     public void showError(@NonNull String error) {
         if(mSwipeRefreshLayout != null) {
             Snackbar.make(mSwipeRefreshLayout, error, Snackbar.LENGTH_LONG)

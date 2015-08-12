@@ -19,8 +19,11 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
 import edu.hm.cs.fs.app.ui.calendar.CalendarFragment;
 import edu.hm.cs.fs.app.ui.fs.PresenceFragment;
+import edu.hm.cs.fs.app.ui.home.HomeFragment;
+import edu.hm.cs.fs.app.ui.info.InfoFragment;
 import edu.hm.cs.fs.app.ui.job.JobFragment;
 import edu.hm.cs.fs.app.ui.mensa.MealFragment;
 import edu.hm.cs.fs.app.ui.publictransport.PublicTransportTabFragment;
@@ -53,6 +56,15 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         setupToolbar();
         setupNavigationDrawer();
         initNavigator();
+
+        if(findViewById(R.id.container_detail) != null) {
+            mNavigator.setDetailContainer(R.id.container_detail);
+        } else {
+            mNavigator.setDetailContainer(-1);
+        }
+
+        mCurrentMenuItem = R.id.menu_home;
+        setNewRootFragment(new HomeFragment());
     }
 
     private void setupToolbar() {
@@ -82,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         if (mNavigator != null) {
             return;
         }
-        mNavigator = new Navigator(getSupportFragmentManager(), R.id.container);
+        mNavigator = new Navigator(this, getSupportFragmentManager(), R.id.container);
     }
 
     private void setNewRootFragment(BaseFragment fragment) {
@@ -145,8 +157,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         }
         switch (id) {
             // My study
+            case R.id.menu_home:
+                setNewRootFragment(new HomeFragment());
+                break;
+
             case R.id.menu_blackboard:
-                //setNewRootFragment(StandardAppBarFragment.newInstance());
+                setNewRootFragment(new BlackBoardFragment());
                 break;
 
             case R.id.menu_timetable:
@@ -181,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
             // Others
             case R.id.menu_info:
-                //setNewRootFragment(FloatingActionButtonFragment.newInstance());
+                setNewRootFragment(new InfoFragment());
                 break;
 
             case R.id.menu_feedback:
@@ -196,26 +212,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         return false;
     }
 
-    public void onNextProverb(View view) {
-        final String[] stringArray = getResources().getStringArray(R.array.proverbs);
-        ((TextView) view).setText(stringArray[((int) (Math.random() * stringArray.length))]);
-    }
-
     @Override
     public void finish() {
         mNavigator = null;
         super.finish();
     }
-
-    /*
-    public void setTransparentStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            window.setStatusBarColor(getResources().getColor(android.R.color.transparent));
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        }
-    }
-    */
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height_large"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/list_item_margin_bottom"
+    android:paddingLeft="@dimen/list_item_margin_left"
+    android:paddingRight="@dimen/list_item_margin_right"
+    android:paddingTop="@dimen/list_item_margin_top"
+    tools:ignore="UseCompoundDrawables">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        tools:text="Title" />
+
+    <TextView
+        android:id="@+id/textAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Author" />
+
+    <TextView
+        android:id="@+id/textGroups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        tools:text="Groups" />
+</LinearLayout>

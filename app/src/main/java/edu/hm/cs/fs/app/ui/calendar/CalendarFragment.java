@@ -33,6 +33,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        /*
         mWeekView.setMonthChangeListener(this);
         mWeekView.setScrollListener(new WeekView.ScrollListener() {
             @Override
@@ -41,6 +42,7 @@ public class CalendarFragment extends BaseFragment<CalendarPresenter> implements
                         newFirstVisibleDay.get(Calendar.DAY_OF_MONTH));
             }
         });
+        */
 
         setPresenter(new CalendarPresenter(this));
         /*

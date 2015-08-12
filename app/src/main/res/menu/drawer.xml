@@ -8,8 +8,12 @@
 
             <menu>
                 <item
-                    android:id="@+id/menu_blackboard"
+                    android:id="@+id/menu_home"
                     android:checked="true"
+                    android:icon="@drawable/ic_dashboard_grey_600_24dp"
+                    android:title="@string/home" />
+                <item
+                    android:id="@+id/menu_blackboard"
                     android:icon="@drawable/ic_assignment_grey_600_24dp"
                     android:title="@string/blackboard" />
                 <item
@@ -31,7 +35,7 @@
                 <item
                     android:id="@+id/menu_news"
                     android:icon="@drawable/ic_announcement_grey_600_24dp"
-                    android:title="@string/blackboard" />
+                    android:title="@string/news" />
 
                 <item
                     android:id="@+id/menu_presence"
@@ -48,12 +52,12 @@
                 <item
                     android:id="@+id/menu_food"
                     android:icon="@drawable/ic_local_restaurant_grey_600_24dp"
-                    android:title="@string/food" />
+                    android:title="@string/mensa" />
 
                 <item
                     android:id="@+id/menu_jobs"
                     android:icon="@drawable/ic_work_grey_600_24dp"
-                    android:title="@string/work_offer" />
+                    android:title="@string/job_offers" />
 
                 <item
                     android:id="@+id/menu_mvv"

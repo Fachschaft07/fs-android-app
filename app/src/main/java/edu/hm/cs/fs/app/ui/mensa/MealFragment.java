@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -81,16 +80,6 @@ public class MealFragment extends BaseFragment<MealPresenter> implements IMealVi
     @Override
     public void onRefresh() {
         getPresenter().loadMeals();
-    }
-
-    @Override
-    public void showLoading() {
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

@@ -19,11 +19,12 @@ import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.IPresenter;
 import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.IView;
-import edu.hm.cs.fs.common.constant.StudentWorkMunich;
 
 public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IView<P> {
     Toolbar mToolbar;
     private P presenter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean mRefresh;
 
     public MainActivity getMainActivity() {
         return ((MainActivity) super.getActivity());
@@ -57,7 +58,9 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     protected void setToolbar(@NonNull final View view) {
         if (hasCustomToolbar()) {
             mToolbar = ButterKnife.findById(view, getToolbarId());
-            mToolbar.setTitle(getTitle());
+            if (getTitle() != R.string.not_title_set) {
+                mToolbar.setTitle(getTitle());
+            }
             //mToolbar.setNavigationIcon(R.drawable.ic_menu);
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -95,10 +98,23 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
 
     @Override
     public void showLoading() {
+        mRefresh = true;
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(mRefresh);
+                }
+            });
+        }
     }
 
     @Override
     public void hideLoading() {
+        mRefresh = false;
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
@@ -106,6 +122,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     }
 
     public void initSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout) {
+        mSwipeRefreshLayout = swipeRefreshLayout;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,

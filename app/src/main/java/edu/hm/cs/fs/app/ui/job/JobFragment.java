@@ -23,7 +23,8 @@ import edu.hm.cs.fs.common.model.Job;
 /**
  * Created by FHellman on 10.08.2015.
  */
-public class JobFragment extends BaseFragment<JobPresenter> implements IJobView, SwipeRefreshLayout.OnRefreshListener {
+public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
+        SwipeRefreshLayout.OnRefreshListener, JobAdapter.OnItemClickListener {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.swipeContainer)
@@ -46,6 +47,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
         });
 
         mAdapter = new JobAdapter(getActivity());
+        mAdapter.setListener(this);
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -77,22 +79,21 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
     }
 
     @Override
-    public void showLoading() {
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void showContent(@NonNull List<Job> content) {
+    public void showContent(@NonNull final List<Job> content) {
         mAdapter.setData(content);
     }
 
     @Override
-    public void showError(@NonNull String error) {
+    public void onItemClicked(@NonNull Job job) {
+        JobDetailFragment fragment = new JobDetailFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString(JobDetailFragment.ARGUMENT_TITLE, job.getTitle());
+        fragment.setArguments(arguments);
+        getMainActivity().getNavigator().goToDetail(fragment);
+    }
+
+    @Override
+    public void showError(@NonNull final String error) {
         if(mSwipeRefreshLayout != null) {
             Snackbar.make(mSwipeRefreshLayout, error, Snackbar.LENGTH_LONG)
                     .setAction(R.string.retry, new View.OnClickListener() {

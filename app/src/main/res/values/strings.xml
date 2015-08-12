@@ -1,120 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Fachschaft07</string>
-    <string name="apiFail">Derzeit leider nicht für OS2.3 verfügbar!</string>
+    <string name="app_name">Student Council 07</string>
     <string name="version">Version</string>
     <!-- Navigation -->
-    <string name="roomsearch">Raumsuche</string>
+    <string name="blackboard">Black Board</string>
+    <string name="roomsearch">Room Search</string>
     <string name="news">News</string>
-    <string name="infoscreen">Schwarzes Brett</string>
     <string name="mvv">MVV</string>
-    <string name="food">Mensa</string>
-    <string name="menu_settings">Settings</string>
     <string name="info">Info</string>
-    <string name="job_offers">Jobangebote</string>
-    <string name="student_council">Fachschaft</string>
-    <!-- Others -->
-    <string name="teamMembers">Entwickelt von Studenten der Fakultät 07\n\nWer mitmachen möchte, kommt einfach in der Fachschaft vorbei \n\n</string>
-    <string name="team">Team:</string>
-    <string name="fs_contact">Kontakt: Lothstraße 64 R0.013 80355 München</string>
-    <string name="blackboard">Schwarzes Brett</string>
-    <string name="refresh">Neu laden</string>
-    <string name="roomnumber">Raumnummer</string>
-    <string name="change">Ändern</string>
-    <string name="send_mail">E-Mail senden…</string>
-    <string name="hall">Saal</string>
-    <string name="laboratory">Labor</string>
-    <string name="minute_short">min</string>
+    <string name="job_offers">Job offers</string>
+    <string name="student_council">Student Council</string>
+    <string name="mensa">Mensa</string>
+    <string name="offers">Offers</string>
+    <string name="my_study">My study</string>
+    <string name="home">Home</string>
+    <string name="hm">Hochschule München</string>
+    <string name="help_feedback">Help &amp; Feedback</string>
+    <string name="others">Others</string>
+    <string name="presence">Presence</string>
+    <string name="timetable">Timetable</string>
+
+    <!-- Public Transport -->
     <string name="departure">in %1$d min</string>
-    <string name="help_feedback">Hilfe &amp; Feedback</string>
-    <string name="all">Alle</string>
-    <string name="work_offer">Jobangebote</string>
-    <string name="others">Sonstiges</string>
+    <string name="lothstrasse">Lothstraße</string>
+    <string name="pasing">Pasing</string>
 
-    <!-- TimeTable -->
-    <string name="timetable">Stundenplan</string>
-    <string name="timetableoverview">Stundenplan Übersicht</string>
-    <string name="download">Download</string>
-    <string name="week">Woche</string>
-    <string name="day">Tag</string>
-    <string name="courses">Kurse</string>
-    <string name="faculty">Fakultät</string>
-    <string name="fk07">Fakultät 7</string>
-    <string name="fk10">Fakultät 10</string>
-    <string name="modify">Eintrag ändern</string>
-    <string name="edit">Bearbeiten</string>
-    <string name="delete">Löschen</string>
-    <string name="deleteDialogText">Möchtest du diesen Eintrag löschen?</string>
-    <string name="add">Hinzufügen</string>
-    <string name="neu">Neu</string>
-    <string name="teacher">Dozent:</string>
-    <string name="titel">Titel</string>
-    <string name="prof">Dozent</string>
-    <string name="room">Raumnummer</string>
-    <string name="roomshort">Raum:</string>
-    <string name="suffix">Zusatz zur Veranstaltung</string>
-    <string name="mon">MO</string>
-    <string name="tue">DI</string>
-    <string name="wed">MI</string>
-    <string name="thu">DO</string>
-    <string name="fri">FR</string>
-    <string name="mo">Mo</string>
-    <string name="tu">Di</string>
-    <string name="we">Mi</string>
-    <string name="th">Do</string>
-    <string name="fr">Fr</string>
-    <string name="downloadError">Fehler beim Herunterladen!</string>
-    <string name="timeParseError">Fehler beim Parsen der Uhrzeit!</string>
-    <string name="weekParseError">Fehler beim Parsen des Wochentages!</string>
-    <string name="tutorialHeader">How-to (Erst lesen!)</string>
-    <string name="tutorialContent">Um einen Stundenplan herunterzuladen, klicke bitte auf das Download
-        Symbol in der oberen rechten Ecke. Du kannst mehrere Stundenpläne nacheinander herunterladen
-        und zu deinem aktuellen Stundenplan hinzufügen.\n\nJeder Eintrag lässt sich
-        durch einen langen Klick bearbeiten oder löschen.
-        Es ist auch möglich, neue Einträge zu erstellen und hinzuzufügen. Finden zwei Kurse
-        zur selben Zeit statt, so kannst du auf diesen Eintrag klicken und den gewünschen Kurs auswählen.
-        \n\nLinks neben dem Download Symbol kannst du in die Wochenansicht wechseln.
-        In der Tagesansicht kannst du durch wischen (swipen) zu einem anderen Tag springen.\n\nViel Spaß!
-        \n\nTipp: Über ein Widget kannst du dir auch die nächste Vorlesung auf dem Homescreen anzeigen
-        lassen ;)</string>
-    <string name="today">Heute</string>
+    <!-- Info -->
+    <string name="teamMembers">Developed by students from the faculty 07\n\nAnyone willing to help, just come in the student council</string>
+    <string name="fs_contact">Contact: Lothstraße 64 R0.013 80355 Munich</string>
 
-    <!-- Timetable Configurator -->
-    <string name="configure">Konfigurieren</string>
-    <string name="wizard_semesters">Semester</string>
-    <string name="wizard_study">Studiengang</string>
-    <string name="wizard_faculty">Fakultät</string>
-    <string name="wizard_groups">Studiengruppe</string>
-    <string name="wizard_lessons">Fächerbelegung</string>
-    <string name="next">Weiter</string>
-    <string name="prev">Zurück</string>
-    <string name="finish">Bestätigen</string>
-    <string name="submit_confirm_message">Place the order with the deli? You will receive an email
-        confirmation.</string>
-    <string name="submit_confirm_button">Place order</string>
-    <string name="timetable_configurator">Stundenplankonfigurator</string>
-
-    <string name="faculty_01">1 - Architektur</string>
-    <string name="faculty_02">2 - Bauingenieurwesen</string>
-    <string name="faculty_03">3 - Maschinenbau, Fahrzeugtechnik, Flugzeugtechnik</string>
-    <string name="faculty_04">4 - Elektrotechnik und Informationstechnik</string>
-    <string name="faculty_05">5 - Versorgungs- und Gebäudetechnik, Verfahrenstechnik Papier und Verpackung, Druck- und Medientechnik</string>
-    <string name="faculty_06">6 - Angewandte Naturwissenschaften und Mechatronik</string>
-    <string name="faculty_07">7 - Informatik und Mathematik</string>
-    <string name="faculty_08">8 - Geoinformatik</string>
-    <string name="faculty_09">9 - Wirtschaftsingenieurwesen</string>
-    <string name="faculty_10">10 - Betriebswirtschaft</string>
-    <string name="faculty_11">11 - Angewandte Sozialwissenschaften</string>
+    <!-- Timetable -->
+    <string name="faculty_01">1 - Architecture</string>
+    <string name="faculty_02">2 - Civil Engineering</string>
+    <string name="faculty_03">3 - Engineering, Automotive Engineering, Aviation Technology</string>
+    <string name="faculty_04">4 - Electrical and Computer Engineering</string>
+    <string name="faculty_05">5 - Supply and Building Technology, Process Engineering and Packaging Paper, Printing and Media Technology</string>
+    <string name="faculty_06">6 - Applied Sciences and Mechatronics</string>
+    <string name="faculty_07">7 - Computer Science and Mathematics</string>
+    <string name="faculty_08">8 - Geoinformatics</string>
+    <string name="faculty_09">9 - Industrial Engineering</string>
+    <string name="faculty_10">10 - Business Management</string>
+    <string name="faculty_11">11 - Applied Social Sciences</string>
     <string name="faculty_12">12 - Design</string>
-    <string name="faculty_13">13 - Studium Generale und Interdisziplinäre Studien</string>
-    <string name="faculty_14">14 - Tourismus</string>
+    <string name="faculty_13">13 - General Studies and Interdisciplinary Studies</string>
+    <string name="faculty_14">14 - Tourism</string>
     <string name="study_go">GO - Geotelematik Bachelor</string>
-    <string name="study_ib">IB - Wirtschaftsinformatik Bachelor</string>
-    <string name="study_if">IF - Informatik Bachelor</string>
+    <string name="study_ib">IB - Economic Computer Science Bachelor</string>
+    <string name="study_if">IF - Computer Science Bachelor</string>
     <string name="study_ic">IC - Scientific Computing Bachelor</string>
-    <string name="study_ig">IG - Informatik Master</string>
-    <string name="study_in">IN - Wirtschaftsinformatik Master</string>
+    <string name="study_ig">IG - Computer Science Master</string>
+    <string name="study_in">IN - Economic Computer Master</string>
     <string name="study_is">IS - Stochastic Engineering in Business and Finance Master</string>
     <string name="semester_1" translatable="false">1</string>
     <string name="semester_2" translatable="false">2</string>
@@ -127,68 +62,29 @@
     <string name="group_b" translatable="false">B</string>
     <string name="group_c" translatable="false">C</string>
 
-    <!-- TimeTable Widget -->
-    <string name="widgetPlainText">Keine Vorlesung gefunden!</string>
-    <string name="lothstraße">Lothstraße</string>
-    <string name="pasing">Pasing</string>
-    <string name="find">Suchen</string>
-    <string name="no_internet">Leider keine Netzwerkverbindung verfügbar. \n\n Dieser Dienst funktioniert nur Online</string>
-    <string name="loadTimetableError">Stundenplan konnte nicht geladen werden!</string>
+    <!-- Mensa -->
+    <string name="additives">additives</string>
+    <string name="dye">with dye</string>
+    <string name="preservative">with preservative</string>
+    <string name="antioxidant">with antioxidant</string>
+    <string name="flavor_enhancers">with flavor enhancers</string>
+    <string name="sulphured">sulphured</string>
+    <string name="blackened">blackened (Olives)</string>
+    <string name="phosphate">with phosphate</string>
+    <string name="sweeteners">with sweeteners</string>
+    <string name="phenylalaninquelle">contains a phenylalaninquelle</string>
+    <string name="sugar_and_sweeteners">with sugar and sweeteners</string>
+    <string name="alcohol">with alcohol</string>
+    <string name="pig">with pig</string>
+    <string name="beef">with beef</string>
 
-    <!-- Food -->
-    <string name="additives">Zusatzstoffe</string>
-    <string name="dye">mit Farbstoff</string>
-    <string name="preservative">mit Konservierungsstoff</string>
-    <string name="antioxidant">mit Antioxidationsmittel</string>
-    <string name="flavor_enhancers">mit Geschmacksverstärker</string>
-    <string name="sulphured">geschwefelt</string>
-    <string name="blackened">geschwärzt (Oliven)</string>
-    <string name="phosphate">mit Phosphat</string>
-    <string name="sweeteners">mit Süßungsmitteln</string>
-    <string name="phenylalaninquelle">enthält eine Phenylalaninquelle</string>
-    <string name="sugar_and_sweeteners">mit einer Zuckerart und Süßungsmittel</string>
-    <string name="alcohol">mit Alkohol</string>
-    <string name="pig">mit Schweinefleisch</string>
-    <string name="beef">mit Rindfleisch</string>
+    <!-- Room Search -->
+    <string name="free_until">until %1$s free</string>
 
-    <!-- Presence -->
-    <string name="presence">Anwesenheit</string>
-    <string name="presencePhone">Anrufen</string>
-    <string name="presenceMail">e-Mail</string>
-
-    <!-- Proverbs -->
-	<string name="proverbs0">Wer zuletzt lacht, hat den höheren Ping!</string>
-    <string name="proverbs1">Computer können uns bei Entscheidungen helfen, bei welchen müssen wir entscheiden.</string>
-	<string name="proverbs2">Computer sind dazu da, uns die Arbeit zu erleichtern, die wir ohne sie nicht hätten.</string>
-	<string name="proverbs3">Du bist internetsüchtig,wenn … Du dich abends an den Computer setzt und dich wunderst,dass kurz darauf deine Kinder zur Schule müssen.</string>
-	<string name="proverbs4">Das Leben ist ein schlechtes Adventure-Game. Aber die Grafik ist verdammt gut.</string>
-	<string name="proverbs5">Was ist eine Demoversion? Der Versuch der Softwarehersteller, die Anwender vor einem neuen Produkt zu warnen und abzuschrecken!</string>
-	<string name="proverbs6">Der Computer ist die Antwort - doch was war die Frage?</string>	
-	<string name="proverbs7">Der Hardware - Mythos: Lieber noch ein paar Jahre warten, bis die Computer wirklich ausgereift sind.</string>
-	<string name="proverbs8">Der Mensch ist immer noch der beste Computer.</string>
-	<string name="proverbs9">Der Viren - Mythos: Auf meinem PC können keine Viren kommen.</string>
-	<string name="proverbs10">Dieses Programm verdient die 3 großen GGG: Gesehen - Gelacht - Gelöscht.</string>
-	<string name="proverbs11">Du bist internetsüchtig,wenn … Dir jemand einen Witz erzählt und Du "LOL" sagst.</string>
-	<string name="proverbs12">Du bist internetsüchtig,wenn … Du bei "www.wetter.de" nachchaust, anstatt aus dem Fenster.</string>
-	<string name="proverbs13">Du bist internetsüchtig,wenn … Dein Partner verlangt, dass dein Computer nicht mehr ins Bett kommt.</string>
-	<string name="proverbs14">Du bist internetsüchtig,wenn … Du dich an kalten Kaffe gewöhnt hast.</string>
-	<string name="proverbs15">Du bist internetsüchtig,wenn … Du dich im WWW so gut auskennst, dass du Suchmaschinen überflüssig findest.</string>
-	<string name="proverbs16">Du bist internetsüchtig,wenn … Du dich rühmst, dass keiner schneller doppelklickt als du.</string>
-	<string name="proverbs17">Du bist internetsüchtig,wenn … Du dich wunderst, dass man auch im Wasser surfen kann.</string>
-	<string name="proverbs18">Du bist internetsüchtig,wenn … Du die Homepage deiner Freundin küsst.</string>
-	<string name="proverbs19">Du bist internetsüchtig,wenn … Du im richtigen Leben immer nach dem Zurück-Knopf sucht.</string>
-	<string name="proverbs20">Du bist internetsüchtig,wenn … Du nur noch eine Viertelstunde online bleiben wolltest und das jede Stunde wieder verprichst.</string>
-	<string name="proverbs21">EDV = Ende der Vernuft.</string>
-	<string name="proverbs22">Ein Computer kann alles - aber sont nichts.</string>
-	<string name="proverbs23">Was bedeutet "www"? Warten, Warten, Warten</string>
-	<string name="proverbs24">Wenn am Anfang alles schief geht, nenne es Version 1.0!</string>
-    <string name="time">Zeit</string>
-    <string name="not_title_set">Kein Titel gesetzt</string>
+    <!-- Others -->
+    <string name="time">Time</string>
+    <string name="not_title_set">No title set</string>
     <string name="navigation_drawer_open">Navigation Drawer Open</string>
     <string name="navigation_drawer_close">Navigation Drawer Close</string>
-    <string name="mensa">Mensa</string>
-    <string name="retry">Wiederholen</string>
-    <string name="offers">Angebote</string>
-    <string name="my_study">Mein Studium</string>
-    <string name="free_until">bis %1$s frei</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -57,16 +57,6 @@ public class LothstrFragment extends BaseFragment<PublicTransportLothstrPresente
     }
 
     @Override
-    public void showLoading() {
-        mSwipeRefreshLayout.setRefreshing(true);
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
     public void showContent(@NonNull List<PublicTransport> content) {
         mAdapter.setData(content);
     }

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.jakewharton.hugo'
 
 android {
     compileSdkVersion 22
@@ -22,9 +21,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    packagingOptions {
-        exclude 'LICENSE.txt'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
