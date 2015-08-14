@@ -3,7 +3,8 @@ package edu.hm.cs.fs.app.presenter;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.PublicTransportModel;
+import edu.hm.cs.fs.app.database.error.IError;
+import edu.hm.cs.fs.app.database.model.PublicTransportModel;
 import edu.hm.cs.fs.app.view.IPublicTransportView;
 import edu.hm.cs.fs.common.model.PublicTransport;
 
@@ -15,7 +16,17 @@ public class PublicTransportPasingPresenter extends BasePresenter<IPublicTranspo
      * @param view
      */
     public PublicTransportPasingPresenter(IPublicTransportView view) {
-        super(view, PublicTransportModel.getInstance());
+        this(view, PublicTransportModel.getInstance());
+    }
+
+    /**
+     * Needed for testing!
+     *
+     * @param view
+     * @param model
+     */
+    public PublicTransportPasingPresenter(IPublicTransportView view, PublicTransportModel model) {
+        super(view, model);
     }
 
     public void loadPublicTransports() {
@@ -28,7 +39,7 @@ public class PublicTransportPasingPresenter extends BasePresenter<IPublicTranspo
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

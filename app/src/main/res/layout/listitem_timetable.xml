@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cell"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height_large"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textSubject"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.55"
+        android:gravity="center"
+        android:paddingBottom="@dimen/text_margin_bottom"
+        android:paddingTop="@dimen/text_margin_bottom"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        tools:text="Subject" />
+
+    <TextView
+        android:id="@+id/textRoom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        android:gravity="center"
+        android:paddingBottom="@dimen/text_margin_bottom"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Room" />
+
+    <TextView
+        android:id="@+id/textInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:paddingBottom="@dimen/text_margin_bottom"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        tools:text="Info" />
+</LinearLayout>

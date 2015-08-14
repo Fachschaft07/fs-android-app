@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.JobPresenter;
 import edu.hm.cs.fs.app.util.BaseFragment;
 import edu.hm.cs.fs.app.view.IJobView;
@@ -93,15 +94,15 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
     }
 
     @Override
-    public void showError(@NonNull final String error) {
-        if(mSwipeRefreshLayout != null) {
-            Snackbar.make(mSwipeRefreshLayout, error, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            getPresenter().loadJobs();
-                        }
-                    }).show();
+    public void onErrorSnackbar(@NonNull Snackbar snackbar, @NonNull IError error) {
+        if (!error.isConnected()) {
+            snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(R.string.retry, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onRefresh();
+                }
+            });
         }
     }
 

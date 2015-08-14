@@ -12,4 +12,5 @@
     <color name="meal_meatless">#F0C814</color>
     <color name="meal_vegan">#1EC81E</color>
     <color name="meal_meat">#C80A4B</color>
+    <color name="timetable_grid">#dcdcdc</color>
 </resources>

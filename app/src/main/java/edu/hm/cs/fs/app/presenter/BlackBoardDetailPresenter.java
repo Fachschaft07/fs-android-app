@@ -2,8 +2,9 @@ package edu.hm.cs.fs.app.presenter;
 
 import android.support.annotation.NonNull;
 
-import edu.hm.cs.fs.app.database.BlackBoardModel;
+import edu.hm.cs.fs.app.database.model.BlackBoardModel;
 import edu.hm.cs.fs.app.database.ICallback;
+import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.util.MarkdownUtil;
 import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
@@ -16,7 +17,17 @@ public class BlackBoardDetailPresenter extends BasePresenter<IBlackBoardDetailVi
      * @param view
      */
     public BlackBoardDetailPresenter(IBlackBoardDetailView view) {
-        super(view, BlackBoardModel.getInstance());
+        this(view, BlackBoardModel.getInstance());
+    }
+
+    /**
+     * Needed for testing!
+     *
+     * @param view
+     * @param model
+     */
+    public BlackBoardDetailPresenter(IBlackBoardDetailView view, BlackBoardModel model) {
+        super(view, model);
     }
 
     public void loadBlackBoardEntry(@NonNull final String id) {
@@ -34,7 +45,7 @@ public class BlackBoardDetailPresenter extends BasePresenter<IBlackBoardDetailVi
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

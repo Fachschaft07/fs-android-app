@@ -2,8 +2,9 @@ package edu.hm.cs.fs.app.presenter;
 
 import java.util.List;
 
-import edu.hm.cs.fs.app.database.FsModel;
+import edu.hm.cs.fs.app.database.model.FsModel;
 import edu.hm.cs.fs.app.database.ICallback;
+import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.view.IPresenceView;
 import edu.hm.cs.fs.common.model.Presence;
 
@@ -15,7 +16,17 @@ public class PresencePresenter extends BasePresenter<IPresenceView, FsModel> {
      * @param view
      */
     public PresencePresenter(IPresenceView view) {
-        super(view, FsModel.getInstance());
+        this(view, FsModel.getInstance());
+    }
+
+    /**
+     * Needed for testing!
+     *
+     * @param view
+     * @param model
+     */
+    public PresencePresenter(IPresenceView view, FsModel model) {
+        super(view, model);
     }
 
     public void loadPresence() {
@@ -28,7 +39,7 @@ public class PresencePresenter extends BasePresenter<IPresenceView, FsModel> {
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

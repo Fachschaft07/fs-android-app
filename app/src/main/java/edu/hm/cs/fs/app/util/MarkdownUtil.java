@@ -7,9 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by FHellman on 12.08.2015.
+ * @author Fabio
  */
-public class MarkdownUtil {
+public final class MarkdownUtil {
     private static final Pattern PATTERN_BOLD = Pattern.compile("\\*([^\\*]+)\\*");
     private static final Pattern PATTERN_NEW_LINE = Pattern.compile("(?:#|\\n)");
 

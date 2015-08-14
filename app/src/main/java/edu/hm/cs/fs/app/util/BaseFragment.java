@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
@@ -16,15 +17,20 @@ import android.view.ViewGroup;
 import com.fk07.R;
 
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.IPresenter;
 import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.IView;
 
+/**
+ * @author Fabio
+ */
 public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IView<P> {
     Toolbar mToolbar;
     private P presenter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private boolean mRefresh;
+    private View mViewError;
 
     public MainActivity getMainActivity() {
         return ((MainActivity) super.getActivity());
@@ -118,16 +124,31 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     }
 
     @Override
-    public void showError(@NonNull final String error) {
+    public void showError(@NonNull final IError error) {
+        if(mViewError != null && getActivity() != null) {
+            final Snackbar snackbar = Snackbar.make(mViewError,
+                    error.getMessage(getActivity()), Snackbar.LENGTH_LONG);
+            onErrorSnackbar(snackbar, error);
+            snackbar.show();
+        }
     }
 
-    public void initSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout) {
+    public void initSwipeRefreshLayout(@NonNull final SwipeRefreshLayout swipeRefreshLayout) {
         mSwipeRefreshLayout = swipeRefreshLayout;
+        initErrorSnackbar(mSwipeRefreshLayout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,
                     android.R.color.holo_red_light);
         }
+    }
+
+    public void initErrorSnackbar(@NonNull final View view) {
+        mViewError = view;
+    }
+
+    public void onErrorSnackbar(@NonNull final Snackbar snackbar,
+                                @NonNull final IError error) {
     }
 }

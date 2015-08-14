@@ -2,10 +2,11 @@ package edu.hm.cs.fs.app.view;
 
 import android.support.annotation.NonNull;
 
+import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.IPresenter;
 
 /**
- * Created by Fabio on 12.07.2015.
+ * @author Fabio
  */
 public interface IView<P extends IPresenter> {
     void setPresenter(@NonNull final P presenter);
@@ -14,5 +15,5 @@ public interface IView<P extends IPresenter> {
 
     void hideLoading();
 
-    void showError(@NonNull final String error);
+    void showError(@NonNull final IError error);
 }

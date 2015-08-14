@@ -3,7 +3,8 @@ package edu.hm.cs.fs.app.presenter;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.MealModel;
+import edu.hm.cs.fs.app.database.error.IError;
+import edu.hm.cs.fs.app.database.model.MealModel;
 import edu.hm.cs.fs.app.view.IMealView;
 import edu.hm.cs.fs.common.model.Meal;
 
@@ -16,7 +17,17 @@ public class MealPresenter extends BasePresenter<IMealView, MealModel> {
      * @param view
      */
     public MealPresenter(IMealView view) {
-        super(view, MealModel.getInstance());
+        this(view, MealModel.getInstance());
+    }
+
+    /**
+     * Needed for testing!
+     *
+     * @param view
+     * @param model
+     */
+    public MealPresenter(IMealView view, MealModel model) {
+        super(view, model);
     }
 
     /**
@@ -32,7 +43,7 @@ public class MealPresenter extends BasePresenter<IMealView, MealModel> {
             }
 
             @Override
-            public void onError(final String error) {
+            public void onError(final IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

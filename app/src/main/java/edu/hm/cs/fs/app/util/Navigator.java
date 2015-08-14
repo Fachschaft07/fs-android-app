@@ -12,6 +12,9 @@ import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.ui.job.JobDetailFragment;
 
 
+/**
+ * @author Fabio
+ */
 public class Navigator {
     @NonNull
     private MainActivity mMainActivity;
@@ -71,7 +74,7 @@ public class Navigator {
      * @param fragment
      */
     public void goToDetail(@NonNull final BaseFragment fragment) {
-        if(hasDetailContainer()) {
+        if (hasDetailContainer()) {
             replaceFragment(fragment, mDetailContainer);
         } else {
             swapFragment(fragment, mDefaultContainer);
@@ -85,7 +88,7 @@ public class Navigator {
                         android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(container, fragment, getName(fragment))
-                .commit();
+                .commitAllowingStateLoss();
         mFragmentManager.executePendingTransactions();
     }
 
@@ -123,9 +126,9 @@ public class Navigator {
     private void replaceFragment(@NonNull final BaseFragment fragment,
                                  @IdRes final int container) {
         mFragmentManager.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(container, fragment, getName(fragment))
-                .commit();
+                .commitAllowingStateLoss();
         mFragmentManager.executePendingTransactions();
     }
 
@@ -167,5 +170,15 @@ public class Navigator {
     public void clearHistory() {
         //noinspection StatementWithEmptyBody - it works as wanted
         while (mFragmentManager.popBackStackImmediate()) ;
+    }
+
+    public void cleanUp() {
+        clearHistory();
+        final FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        for (Fragment fragment : mFragmentManager.getFragments()) {
+            transaction.remove(fragment);
+        }
+        transaction.commitAllowingStateLoss();
+        mFragmentManager.executePendingTransactions();
     }
 }

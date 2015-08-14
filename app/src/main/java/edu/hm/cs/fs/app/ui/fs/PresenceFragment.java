@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.PresencePresenter;
 import edu.hm.cs.fs.app.util.BaseFragment;
 import edu.hm.cs.fs.app.view.IPresenceView;
@@ -82,15 +83,15 @@ public class PresenceFragment extends BaseFragment<PresencePresenter> implements
     }
 
     @Override
-    public void showError(@NonNull String error) {
-        if(mSwipeRefreshLayout != null) {
-            Snackbar.make(mSwipeRefreshLayout, error, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            getPresenter().loadPresence();
-                        }
-                    }).show();
+    public void onErrorSnackbar(@NonNull Snackbar snackbar, @NonNull IError error) {
+        if (!error.isConnected()) {
+            snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(R.string.retry, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onRefresh();
+                }
+            });
         }
     }
 

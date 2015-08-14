@@ -6,7 +6,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.RoomModel;
+import edu.hm.cs.fs.app.database.error.IError;
+import edu.hm.cs.fs.app.database.model.RoomModel;
 import edu.hm.cs.fs.app.view.IRoomSearchView;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
@@ -20,7 +21,17 @@ public class RoomSearchPresenter extends BasePresenter<IRoomSearchView, RoomMode
      * @param view
      */
     public RoomSearchPresenter(IRoomSearchView view) {
-        super(view, RoomModel.getInstance());
+        this(view, RoomModel.getInstance());
+    }
+
+    /**
+     * Needed for testing!
+     *
+     * @param view
+     * @param model
+     */
+    public RoomSearchPresenter(IRoomSearchView view, RoomModel model) {
+        super(view, model);
     }
 
     public void loadCurrentFreeRooms() {
@@ -58,7 +69,7 @@ public class RoomSearchPresenter extends BasePresenter<IRoomSearchView, RoomMode
             }
 
             @Override
-            public void onError(String error) {
+            public void onError(IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

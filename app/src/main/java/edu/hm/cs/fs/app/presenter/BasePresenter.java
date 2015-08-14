@@ -1,6 +1,6 @@
 package edu.hm.cs.fs.app.presenter;
 
-import edu.hm.cs.fs.app.database.IModel;
+import edu.hm.cs.fs.app.database.model.IModel;
 import edu.hm.cs.fs.app.view.IView;
 
 /**
