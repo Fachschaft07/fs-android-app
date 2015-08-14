@@ -47,7 +47,9 @@ public class RoomSearchPresenter extends BasePresenter<IRoomSearchView, RoomMode
 
         Time currTime = Time.LESSON_1;
         for (Time time : Time.values()) {
-            if(time.getStart().before(cal) && time.getEnd().after(cal)) {
+            final Calendar start = time.getStart();
+            start.add(Calendar.MINUTE, -15); // Remove the break time
+            if(start.before(cal) && time.getEnd().after(cal)) {
                 currTime = time;
                 break;
             }

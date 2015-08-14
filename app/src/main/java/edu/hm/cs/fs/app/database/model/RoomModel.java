@@ -43,10 +43,14 @@ public class RoomModel implements IModel {
                             @Override
                             public int compare(Room lhs, Room rhs) {
                                 return lhs.getFreeUntilEnd().getStart()
-                                .compareTo(rhs.getFreeUntilEnd().getStart());
+                                        .compareTo(rhs.getFreeUntilEnd().getStart());
                             }
                         });
                         callback.onSuccess(rooms);
+                    }
+
+                    private int extractRoomNr(String room) {
+                        return Integer.parseInt(room.charAt(1) + room.substring(3, 5));
                     }
 
                     @Override

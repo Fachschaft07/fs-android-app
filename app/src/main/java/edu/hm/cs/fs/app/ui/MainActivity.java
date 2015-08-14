@@ -66,12 +66,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
             mCurrentMenuItem = savedInstanceState.getInt(NAV_ITEM_ID);
         }
 
-        if (findViewById(R.id.container_detail) != null) {
-            mNavigator.setDetailContainer(R.id.container_detail);
-        } else {
-            mNavigator.setDetailContainer(-1);
-        }
-
         onNavigationItemSelected(mNavigationView.getMenu().findItem(mCurrentMenuItem));
     }
 
@@ -99,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     }
 
     private void initNavigator() {
-        mNavigator = new Navigator(this, getSupportFragmentManager(), R.id.container);
+        mNavigator = new Navigator(this, getSupportFragmentManager(), R.id.container, R.id.container_detail);
     }
 
     private void setNewRootFragment(BaseFragment fragment) {

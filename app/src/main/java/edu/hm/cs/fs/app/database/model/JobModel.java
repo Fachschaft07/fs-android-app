@@ -52,7 +52,7 @@ public class JobModel implements IModel {
             @Override
             public void onSuccess(List<Job> data) {
                 for (Job job : data) {
-                    if (job.getId().equals(title)) {
+                    if (job.getTitle().equals(title)) {
                         callback.onSuccess(job);
                         return;
                     }
