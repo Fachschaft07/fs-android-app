@@ -51,7 +51,7 @@ public class BlackBoardDetailPresenterTest {
         when(entry.getText()).thenReturn("text");
         when(entry.getExpire()).thenReturn(mock(Date.class));
         when(entry.getUrl()).thenReturn("url");
-        when(entry.getAuthor()).thenReturn("author");
+        when(entry.getAuthor()).thenReturn(mock(Person.class));
         when(entry.getGroups()).thenReturn(new ArrayList<Group>());
         when(entry.getPublish()).thenReturn(mock(Date.class));
         when(entry.getTeachers()).thenReturn(new ArrayList<Person>());
@@ -97,7 +97,7 @@ public class BlackBoardDetailPresenterTest {
         when(entry.getText()).thenReturn("text");
         when(entry.getExpire()).thenReturn(mock(Date.class));
         when(entry.getUrl()).thenReturn("url");
-        when(entry.getAuthor()).thenReturn("author");
+        when(entry.getAuthor()).thenReturn(mock(Person.class));
         when(entry.getGroups()).thenReturn(new ArrayList<Group>());
         when(entry.getPublish()).thenReturn(mock(Date.class));
         when(entry.getTeachers()).thenReturn(new ArrayList<Person>());
