@@ -5,7 +5,7 @@
 The official Android App (https://play.google.com/store/apps/details?id=com.fk07) of the Faculty 07 of the University of applied Science Munich. The app is developed by students from the Student Council.
 
 
-![Preview](https://github.com/Fachschaft07/fs-app/blob/dev/screencaptures/Fachschaft_Preview_Banner.png)
+![Preview](https://github.com/Fachschaft07/fs-app/blob/master/screencaptures/Fachschaft_Preview_Banner.png)
 
 ## UI-Design
 The design of the app is modeled on the [Material Design](https://www.google.com/design/spec/material-design/introduction.html) of Google.
