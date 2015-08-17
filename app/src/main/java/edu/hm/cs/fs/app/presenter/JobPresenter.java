@@ -29,9 +29,9 @@ public class JobPresenter extends BasePresenter<IJobView, JobModel> {
         super(view, model);
     }
 
-    public void loadJobs() {
+    public void loadJobs(final boolean cache) {
         getView().showLoading();
-        getModel().getJobs(new ICallback<List<Job>>() {
+        getModel().getJobs(cache, new ICallback<List<Job>>() {
             @Override
             public void onSuccess(List<Job> data) {
                 getView().showContent(data);

@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.database.model;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
@@ -19,7 +20,7 @@ import retrofit.client.Response;
  */
 public class JobModel implements IModel {
     private static JobModel mInstance;
-    private List<Job> mJobCache;
+    private List<Job> mDataCache = new ArrayList<>();
 
     private JobModel() {
     }
@@ -31,20 +32,24 @@ public class JobModel implements IModel {
         return mInstance;
     }
 
-    public void getJobs(@NonNull final ICallback<List<Job>> callback) {
-        Controllers.create(JobController.class)
-                .getJobs(new Callback<List<Job>>() {
-                    @Override
-                    public void success(List<Job> jobs, Response response) {
-                        mJobCache = jobs;
-                        callback.onSuccess(jobs);
-                    }
+    public void getJobs(final boolean cache, @NonNull final ICallback<List<Job>> callback) {
+        if(cache && !mDataCache.isEmpty()) {
+            callback.onSuccess(mDataCache);
+        } else {
+            Controllers.create(JobController.class)
+                    .getJobs(new Callback<List<Job>>() {
+                        @Override
+                        public void success(List<Job> jobs, Response response) {
+                            mDataCache = jobs;
+                            callback.onSuccess(jobs);
+                        }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.network(error));
-                    }
-                });
+                        @Override
+                        public void failure(RetrofitError error) {
+                            callback.onError(ErrorFactory.network(error));
+                        }
+                    });
+        }
     }
 
     public void getJob(@NonNull final String title, @NonNull final ICallback<Job> callback) {
@@ -65,10 +70,10 @@ public class JobModel implements IModel {
             }
         };
 
-        if (mJobCache != null) {
-            listCallback.onSuccess(mJobCache);
+        if (mDataCache != null) {
+            listCallback.onSuccess(mDataCache);
         } else {
-            getJobs(listCallback);
+            getJobs(false, listCallback);
         }
     }
 }

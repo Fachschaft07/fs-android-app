@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="edu.hm.cs.fs.app.ui.job.JobDetailFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/job"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    tools:text="Subject" />
+
+                <TextView
+                    android:id="@+id/textProvider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    tools:text="Provider" />
+
+                <TextView
+                    android:id="@+id/textDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:singleLine="false"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Description" />
+
+                <TextView
+                    android:id="@+id/textUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:autoLink="web"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                    tools:text="URL" />
+
+                <TextView
+                    android:id="@+id/textAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    tools:text="Author" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

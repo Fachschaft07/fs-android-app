@@ -34,19 +34,43 @@ public class TimetableModel implements IModel {
         return mInstance;
     }
 
-    public void getTimetable(ICallback<List<Lesson>> callback) {
+    public void getTimetable(final ICallback<List<Lesson>> callback) {
         // TODO getTimetable
+        List<Lesson> list = new ArrayList<>();
+        list.add(create(Day.MONDAY, Time.LESSON_2, "R0.011", null, "Analysis"));
+        list.add(create(Day.MONDAY, Time.LESSON_3, "R0.011", null, "Analysis"));
+        list.add(create(Day.MONDAY, Time.LESSON_5, "R1.006", null, "Lineare Algebra"));
+        list.add(create(Day.MONDAY, Time.LESSON_6, "R3.023", "Praktikum", "Software Entwicklung I"));
 
+        list.add(create(Day.TUESDAY, Time.LESSON_3, "R1.009", null, "Technische Informatik I"));
+        list.add(create(Day.TUESDAY, Time.LESSON_4, "R0.005", null, "Software Entwicklung I"));
+
+        list.add(create(Day.WEDNESDAY, Time.LESSON_1, "R1.011", "Praktikum", "Technische Informatik I"));
+        list.add(create(Day.WEDNESDAY, Time.LESSON_3, "R0.007", null, "Software Entwicklung I"));
+
+        list.add(create(Day.THURSDAY, Time.LESSON_2, "R1.005", null, "IT-Systeme I"));
+        list.add(create(Day.THURSDAY, Time.LESSON_3, "R1.005", null, "IT-Systeme I"));
+        list.add(create(Day.THURSDAY, Time.LESSON_4, "R1.009", "Praktikum", "IT-Systeme I"));
+
+        callback.onSuccess(list);
+    }
+
+    public void getModule(final String moduleId, final String teacherName,
+                          final ICallback<Module> callback) {
+        // TODO getModule
+    }
+
+    private Lesson create(Day day, Time time, String room, String suffix, String moduleName) {
         Module module = new Module();
-        module.setName("Software Entwicklung I");
+        module.setName(moduleName);
 
         Lesson lesson = new Lesson();
-        lesson.setDay(Day.FRIDAY);
-        lesson.setTime(Time.LESSON_3);
-        lesson.setRoom("R3.023");
-        lesson.setSuffix("Praktikum");
+        lesson.setDay(day);
+        lesson.setTime(time);
+        lesson.setRoom(room);
+        lesson.setSuffix(suffix);
         lesson.setModule(module);
 
-        callback.onSuccess(Arrays.asList(lesson));
+        return lesson;
     }
 }

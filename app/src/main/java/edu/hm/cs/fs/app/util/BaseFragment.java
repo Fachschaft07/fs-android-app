@@ -98,6 +98,8 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @LayoutRes
     protected abstract int getLayout();
 
+    public boolean isDetailFragment() { return false; }
+
     public P getPresenter() {
         return presenter;
     }

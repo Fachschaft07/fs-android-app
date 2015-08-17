@@ -95,6 +95,17 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
 
     @Override
     public void onItemClicked(@NonNull Lesson lesson) {
+        // TODO
+        /*
+        Bundle arguments = new Bundle();
+        arguments.putString(TimetableLessonFragment.ARG_MODULE, lesson.getModule().getName());
+        arguments.putString(TimetableLessonFragment.ARG_TEACHER, lesson.getTeacher().getId());
+
+        final TimetableLessonFragment fragment = new TimetableLessonFragment();
+        fragment.setArguments(arguments);
+
+        getMainActivity().getNavigator().goTo(fragment);
+        */
     }
 
     @Override

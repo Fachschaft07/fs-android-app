@@ -60,12 +60,17 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
     }
 
     @Override
+    public boolean hasCustomToolbar() {
+        return true;
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.fragment_blackboard_detail;
     }
 
     @Override
-    public boolean hasCustomToolbar() {
+    public boolean isDetailFragment() {
         return true;
     }
 

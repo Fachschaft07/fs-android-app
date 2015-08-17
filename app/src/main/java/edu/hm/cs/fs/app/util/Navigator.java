@@ -42,8 +42,8 @@ public class Navigator {
         mDetailContainer = detailContainer;
     }
 
-    public boolean hasDetailContainer() {
-        return mMainActivity.findViewById(mDetailContainer).getVisibility() == View.VISIBLE;
+    private boolean isMultiPaneLayout() {
+        return mMainActivity.findViewById(mDetailContainer) != null;
     }
 
     /**
@@ -64,29 +64,18 @@ public class Navigator {
      * @param fragment the fragment which
      */
     public void goTo(@NonNull final BaseFragment fragment) {
-        swapFragment(fragment, mDefaultContainer);
-    }
-
-    /**
-     * @param fragment
-     */
-    public void goToDetail(@NonNull final BaseFragment fragment) {
-        if (hasDetailContainer()) {
+        if (isMultiPaneLayout() && fragment.isDetailFragment()) {
             replaceFragment(fragment, mDetailContainer);
         } else {
-            swapFragment(fragment, mDefaultContainer);
+            mFragmentManager.beginTransaction()
+                    .addToBackStack(getName(fragment))
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
+                            android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(mDefaultContainer, fragment, getName(fragment))
+                    .commitAllowingStateLoss();
+            mFragmentManager.executePendingTransactions();
         }
-    }
-
-    private void swapFragment(@NonNull final BaseFragment fragment, @IdRes final int container) {
-        mFragmentManager.beginTransaction()
-                .addToBackStack(getName(fragment))
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
-                        android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(container, fragment, getName(fragment))
-                .commitAllowingStateLoss();
-        mFragmentManager.executePendingTransactions();
     }
 
     /**
@@ -122,6 +111,14 @@ public class Navigator {
      */
     private void replaceFragment(@NonNull final BaseFragment fragment,
                                  @IdRes final int container) {
+        if(isMultiPaneLayout()) {
+            if (fragment.isDetailFragment()) {
+                mMainActivity.findViewById(mDetailContainer).setVisibility(View.VISIBLE);
+            } else {
+                mMainActivity.findViewById(mDetailContainer).setVisibility(View.GONE);
+            }
+        }
+
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(container, fragment, getName(fragment))

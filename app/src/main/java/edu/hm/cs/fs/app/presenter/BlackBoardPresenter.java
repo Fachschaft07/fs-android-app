@@ -29,9 +29,9 @@ public class BlackBoardPresenter extends BasePresenter<IBlackBoardView, BlackBoa
         super(view, model);
     }
 
-    public void loadBlackBoard() {
+    public void loadBlackBoard(final boolean cache) {
         getView().showLoading();
-        getModel().getBlackBoard(new ICallback<List<BlackboardEntry>>() {
+        getModel().getBlackBoard(cache, new ICallback<List<BlackboardEntry>>() {
             @Override
             public void onSuccess(List<BlackboardEntry> data) {
                 getView().showContent(data);
