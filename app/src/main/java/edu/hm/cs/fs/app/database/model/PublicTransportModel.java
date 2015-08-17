@@ -39,7 +39,7 @@ public class PublicTransportModel implements IModel {
     }
 
     private void getDepartureTimes(@NonNull final PublicTransportLocation location, @NonNull final ICallback<List<PublicTransport>> callback) {
-        Controllers.create(SERVER_IP, PublicTransportController.class)
+        Controllers.create(PublicTransportController.class)
                 .getPublicTransports(location, new Callback<List<PublicTransport>>() {
                     @Override
                     public void success(List<PublicTransport> publicTransports, Response response) {

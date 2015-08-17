@@ -32,7 +32,7 @@ public class JobModel implements IModel {
     }
 
     public void getJobs(@NonNull final ICallback<List<Job>> callback) {
-        Controllers.create(SERVER_IP, JobController.class)
+        Controllers.create(JobController.class)
                 .getJobs(new Callback<List<Job>>() {
                     @Override
                     public void success(List<Job> jobs, Response response) {

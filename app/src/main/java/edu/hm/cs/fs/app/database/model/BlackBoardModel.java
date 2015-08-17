@@ -32,7 +32,7 @@ public class BlackBoardModel implements IModel {
     }
 
     public void getBlackBoard(@NonNull final ICallback<List<BlackboardEntry>> callback) {
-        Controllers.create(SERVER_IP, BlackboardController.class)
+        Controllers.create(BlackboardController.class)
                 .getEntries(new Callback<List<BlackboardEntry>>() {
             @Override
             public void success(List<BlackboardEntry> blackboardEntries, Response response) {

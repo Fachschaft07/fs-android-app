@@ -35,7 +35,7 @@ public class RoomModel implements IModel {
 
     public void getFreeRooms(@NonNull final Day day, @NonNull final Time time,
                              @NonNull final ICallback<List<Room>> callback) {
-        Controllers.create(SERVER_IP, RoomController.class)
+        Controllers.create(RoomController.class)
                 .getHolidays(day, time, new Callback<List<Room>>() {
                     @Override
                     public void success(List<Room> rooms, Response response) {

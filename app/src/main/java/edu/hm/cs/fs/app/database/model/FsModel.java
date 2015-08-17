@@ -30,7 +30,7 @@ public class FsModel implements IModel {
     }
 
     public void getPresence(@NonNull final ICallback<List<Presence>> callback) {
-        Controllers.create(SERVER_IP, FsController.class)
+        Controllers.create(FsController.class)
                 .getPresence(new Callback<List<Presence>>() {
                     @Override
                     public void success(List<Presence> presences, Response response) {

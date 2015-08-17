@@ -34,7 +34,7 @@ public class MealModel implements IModel {
      * @param callback
      */
     public void getMeals(@NonNull final ICallback<List<Meal>> callback) {
-        Controllers.create(SERVER_IP, MealController.class)
+        Controllers.create(MealController.class)
                 .getMeals(StudentWorkMunich.MENSA_LOTHSTRASSE, new Callback<List<Meal>>() {
                     @Override
                     public void success(final List<Meal> meals, final Response response) {
