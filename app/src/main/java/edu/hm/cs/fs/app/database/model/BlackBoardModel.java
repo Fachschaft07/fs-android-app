@@ -48,7 +48,7 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
 
     @Override
     public void update(@NonNull final ICallback<List<BlackboardEntry>> callback) {
-        Controllers.create(BlackboardController.class)
+        Controllers.create(LOCALHOST, BlackboardController.class)
                 .getEntries(new Callback<List<BlackboardEntry>>() {
                     @Override
                     public void success(List<BlackboardEntry> blackboardEntries, Response response) {

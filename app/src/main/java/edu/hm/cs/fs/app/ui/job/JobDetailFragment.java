@@ -74,6 +74,11 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
     }
 
     @Override
+    public boolean isDetailFragment() {
+        return true;
+    }
+
+    @Override
     public void showSubject(@NonNull Spanned subject) {
         mSubject.setText(subject);
     }

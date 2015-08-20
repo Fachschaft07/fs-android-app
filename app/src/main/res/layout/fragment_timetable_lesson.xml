@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="edu.hm.cs.fs.app.ui.timetable.TimetableLessonFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/timetable" />
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textModuleName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+                    tools:text="Module Name"/>
+
+                <TextView
+                    android:id="@+id/textModuleEffort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Module Effort"/>
+
+                <TextView
+                    android:id="@+id/textModulePrerequisites"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Module Prerequisites"/>
+
+                <TextView
+                    android:id="@+id/textModuleAims"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Module Aims"/>
+
+                <TextView
+                    android:id="@+id/textModuleContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Module Content"/>
+
+                <TextView
+                    android:id="@+id/textModuleLiterature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    tools:text="Module Literature"/>
+
+                <TextView
+                    android:id="@+id/textTeacherName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    tools:text="Teacher Name"/>
+
+                <TextView
+                    android:id="@+id/textTeacherWebsite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:autoLink="web"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Teacher Website" />
+
+                <TextView
+                    android:id="@+id/textTeacherPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:autoLink="phone"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Teacher Phone" />
+
+                <TextView
+                    android:id="@+id/textTeacherFocus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Teacher Focus" />
+
+                <TextView
+                    android:id="@+id/textTeacherOfficeHourWeekday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Teacher Office Hour Weekday" />
+
+                <TextView
+                    android:id="@+id/textTeacherOfficeHourTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Teacher Office Hour Time" />
+
+                <TextView
+                    android:id="@+id/textTeacherOfficeHourRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Teacher Office Hour Room" />
+
+                <TextView
+                    android:id="@+id/textTeacherOfficeHourComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_margin_bottom"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:layout_marginTop="@dimen/text_margin_top"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Teacher Office Hour Comment" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

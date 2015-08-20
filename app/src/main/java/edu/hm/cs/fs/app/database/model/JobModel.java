@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.database.model;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
@@ -43,7 +44,7 @@ public class JobModel extends CachedModel<Job> {
 
     @Override
     protected void update(@NonNull final ICallback<List<Job>> callback) {
-        Controllers.create(JobController.class)
+        Controllers.create(LOCALHOST, JobController.class)
                 .getJobs(new Callback<List<Job>>() {
                     @Override
                     public void success(List<Job> jobs, Response response) {
