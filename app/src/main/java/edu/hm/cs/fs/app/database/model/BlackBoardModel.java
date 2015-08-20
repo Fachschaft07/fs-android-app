@@ -2,7 +2,6 @@ package edu.hm.cs.fs.app.database.model;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -48,7 +47,7 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
 
     @Override
     public void update(@NonNull final ICallback<List<BlackboardEntry>> callback) {
-        Controllers.create(LOCALHOST, BlackboardController.class)
+        Controllers.create(BlackboardController.class)
                 .getEntries(new Callback<List<BlackboardEntry>>() {
                     @Override
                     public void success(List<BlackboardEntry> blackboardEntries, Response response) {
