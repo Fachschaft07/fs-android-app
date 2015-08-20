@@ -95,6 +95,6 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/job_offers" />
+            app:title="@string/jobs" />
     </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

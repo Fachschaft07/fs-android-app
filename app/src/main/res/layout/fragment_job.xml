@@ -30,7 +30,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/job"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="@string/job_offers"
+            app:title="@string/jobs"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </android.support.design.widget.AppBarLayout>

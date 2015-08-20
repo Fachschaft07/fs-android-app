@@ -57,7 +57,7 @@
                 <item
                     android:id="@+id/menu_jobs"
                     android:icon="@drawable/ic_work_grey_600_24dp"
-                    android:title="@string/job_offers" />
+                    android:title="@string/jobs" />
 
                 <item
                     android:id="@+id/menu_mvv"

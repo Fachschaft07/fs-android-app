@@ -71,7 +71,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
 
     @Override
     protected int getTitle() {
-        return R.string.job_offers;
+        return R.string.jobs;
     }
 
     @Override
