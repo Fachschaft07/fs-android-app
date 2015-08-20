@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.BlackBoardDetailPresenter;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
 
 /**
@@ -60,12 +60,17 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
     }
 
     @Override
+    public boolean hasCustomToolbar() {
+        return true;
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.fragment_blackboard_detail;
     }
 
     @Override
-    public boolean hasCustomToolbar() {
+    public boolean isDetailFragment() {
         return true;
     }
 
@@ -76,7 +81,11 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
 
     @Override
     public void showGroups(@NonNull String groups) {
-        mGroups.setText(groups);
+        if(groups.length() > 0) {
+            mGroups.setText(groups);
+        } else {
+            mGroups.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -86,7 +95,11 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
 
     @Override
     public void showUrl(@NonNull String url) {
-        mUrl.setText(url);
+        if(url.length() > 0) {
+            mUrl.setText(url);
+        } else {
+            mUrl.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/list_item_height_small"
+    android:layout_height="@dimen/list_item_height_normal"
     android:paddingLeft="@dimen/list_item_margin_left"
     android:paddingRight="@dimen/list_item_margin_right"
     android:paddingTop="@dimen/list_item_margin_top"

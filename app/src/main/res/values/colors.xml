@@ -6,6 +6,7 @@
     <color name="presence_busy">#ffd7d500</color>
     <color name="presence_available">#ff079d01</color>
     <color name="mensa">#ff74b02d</color>
+    <color name="mensa_sticky_header">#afffffff</color>
     <color name="mvv">#dd2160c7</color>
     <color name="job">#ffe1941c</color>
     <color name="holiday">#ffe1e133</color>

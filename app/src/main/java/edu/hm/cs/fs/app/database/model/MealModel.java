@@ -15,27 +15,22 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by Fabio on 12.07.2015.
+ * @author Fabio
  */
-public class MealModel implements IModel {
-    private static MealModel mInstance;
-
-    private MealModel() {
-    }
-
-    public static MealModel getInstance() {
-        if(mInstance == null) {
-            mInstance = new MealModel();
-        }
-        return mInstance;
-    }
-
+public class MealModel extends CachedModel<Meal> {
     /**
+     *
+     * @param refresh
      * @param callback
      */
-    public void getMeals(@NonNull final ICallback<List<Meal>> callback) {
+    public void getAll(final boolean refresh, @NonNull final ICallback<List<Meal>> callback) {
+        getData(refresh, callback);
+    }
+
+    @Override
+    protected void update(@NonNull final ICallback<List<Meal>> callback) {
         Controllers.create(MealController.class)
-                .getMeals(StudentWorkMunich.MENSA_LOTHSTRASSE, new Callback<List<Meal>>() {
+                .getMeals(StudentWorkMunich.MENSA_LEOPOLDSTRASSE, new Callback<List<Meal>>() {
                     @Override
                     public void success(final List<Meal> meals, final Response response) {
                         callback.onSuccess(meals);
@@ -43,7 +38,7 @@ public class MealModel implements IModel {
 
                     @Override
                     public void failure(final RetrofitError error) {
-                        callback.onError(ErrorFactory.network(error));
+                        callback.onError(ErrorFactory.http(error));
                     }
                 });
     }

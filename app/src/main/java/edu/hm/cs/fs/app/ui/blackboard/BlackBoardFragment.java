@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.BlackBoardPresenter;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IBlackBoardView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 
@@ -56,7 +56,7 @@ public class BlackBoardFragment extends BaseFragment<BlackBoardPresenter> implem
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new BlackBoardPresenter(this));
-        getPresenter().loadBlackBoard();
+        getPresenter().loadBlackBoard(true);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class BlackBoardFragment extends BaseFragment<BlackBoardPresenter> implem
 
     @Override
     public void onRefresh() {
-        getPresenter().loadBlackBoard();
+        getPresenter().loadBlackBoard(false);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class BlackBoardFragment extends BaseFragment<BlackBoardPresenter> implem
         Bundle arguments = new Bundle();
         arguments.putString(BlackBoardDetailFragment.ARGUMENT_ID, entry.getId());
         fragment.setArguments(arguments);
-        getMainActivity().getNavigator().goToDetail(fragment);
+        getMainActivity().getNavigator().goTo(fragment);
     }
 
     @Override

@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.JobPresenter;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IJobView;
 import edu.hm.cs.fs.common.model.Job;
 
@@ -56,7 +56,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new JobPresenter(this));
-        getPresenter().loadJobs();
+        getPresenter().loadJobs(true);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
 
     @Override
     public void onRefresh() {
-        getPresenter().loadJobs();
+        getPresenter().loadJobs(false);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
         Bundle arguments = new Bundle();
         arguments.putString(JobDetailFragment.ARGUMENT_TITLE, job.getTitle());
         fragment.setArguments(arguments);
-        getMainActivity().getNavigator().goToDetail(fragment);
+        getMainActivity().getNavigator().goTo(fragment);
     }
 
     @Override

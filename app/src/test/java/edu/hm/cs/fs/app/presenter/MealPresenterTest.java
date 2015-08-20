@@ -19,6 +19,7 @@ import edu.hm.cs.fs.app.view.IMealView;
 import edu.hm.cs.fs.common.model.Meal;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doAnswer;
@@ -39,17 +40,17 @@ public class MealPresenterTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ICallback<List<Meal>> callback = (ICallback<List<Meal>>) invocation.getArguments()[0];
+                ICallback<List<Meal>> callback = (ICallback<List<Meal>>) invocation.getArguments()[1];
                 callback.onSuccess(new ArrayList<Meal>());
                 return null;
             }
-        }).when(model).getMeals(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
 
         final MealPresenter presenter = new MealPresenter(view, model);
-        presenter.loadMeals();
+        presenter.loadMeals(true);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getMeals(any(ICallback.class));
+        verify(model, atLeastOnce()).getAll(anyBoolean(), any(ICallback.class));
         verify(view, atLeastOnce()).showContent(anyList());
         verify(view, atLeastOnce()).hideLoading();
     }
@@ -62,17 +63,17 @@ public class MealPresenterTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ICallback callback = (ICallback) invocation.getArguments()[0];
+                ICallback callback = (ICallback) invocation.getArguments()[1];
                 callback.onError(any(IError.class));
                 return null;
             }
-        }).when(model).getMeals(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
 
         final MealPresenter presenter = new MealPresenter(view, model);
-        presenter.loadMeals();
+        presenter.loadMeals(true);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getMeals(any(ICallback.class));
+        verify(model, atLeastOnce()).getAll(anyBoolean(), any(ICallback.class));
         verify(view, atLeastOnce()).showError(any(IError.class));
         verify(view, atLeastOnce()).hideLoading();
     }

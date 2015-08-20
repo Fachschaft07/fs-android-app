@@ -17,7 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.PresencePresenter;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IPresenceView;
 import edu.hm.cs.fs.common.model.Presence;
 

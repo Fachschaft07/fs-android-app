@@ -1,10 +1,13 @@
 package edu.hm.cs.fs.app.presenter;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.model.BlackBoardModel;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.view.IBlackBoardView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 
@@ -16,7 +19,7 @@ public class BlackBoardPresenter extends BasePresenter<IBlackBoardView, BlackBoa
      * @param view
      */
     public BlackBoardPresenter(IBlackBoardView view) {
-        this(view, BlackBoardModel.getInstance());
+        this(view, ModelFactory.getBlackboard());
     }
 
     /**
@@ -29,17 +32,17 @@ public class BlackBoardPresenter extends BasePresenter<IBlackBoardView, BlackBoa
         super(view, model);
     }
 
-    public void loadBlackBoard() {
+    public void loadBlackBoard(final boolean cache) {
         getView().showLoading();
-        getModel().getBlackBoard(new ICallback<List<BlackboardEntry>>() {
+        getModel().getAll(cache, new ICallback<List<BlackboardEntry>>() {
             @Override
-            public void onSuccess(List<BlackboardEntry> data) {
+            public void onSuccess(@NonNull List<BlackboardEntry> data) {
                 getView().showContent(data);
                 getView().hideLoading();
             }
 
             @Override
-            public void onError(IError error) {
+            public void onError(@NonNull IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

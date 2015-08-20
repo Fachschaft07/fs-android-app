@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.JobDetailPresenter;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IJobDetailView;
 
 /**
@@ -64,13 +64,13 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
     }
 
     @Override
-    protected int getTitle() {
-        return R.string.job_offers;
+    protected int getLayout() {
+        return R.layout.fragment_job_detail;
     }
 
     @Override
-    protected int getLayout() {
-        return R.layout.fragment_job_detail;
+    public boolean isDetailFragment() {
+        return true;
     }
 
     @Override

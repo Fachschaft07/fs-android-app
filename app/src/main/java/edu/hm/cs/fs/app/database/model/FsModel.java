@@ -14,21 +14,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by FHellman on 11.08.2015.
+ * @author Fabio
  */
 public class FsModel implements IModel {
-    private static FsModel mInstance;
-
-    private FsModel() {
-    }
-
-    public static FsModel getInstance() {
-        if(mInstance == null) {
-            mInstance = new FsModel();
-        }
-        return mInstance;
-    }
-
     public void getPresence(@NonNull final ICallback<List<Presence>> callback) {
         Controllers.create(FsController.class)
                 .getPresence(new Callback<List<Presence>>() {
@@ -39,7 +27,7 @@ public class FsModel implements IModel {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.network(error));
+                        callback.onError(ErrorFactory.http(error));
                     }
                 });
     }

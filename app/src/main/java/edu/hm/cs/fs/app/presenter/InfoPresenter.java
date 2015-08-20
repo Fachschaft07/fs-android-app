@@ -1,10 +1,12 @@
 package edu.hm.cs.fs.app.presenter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.InfoModel;
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.view.IInfoView;
 
 /**
@@ -17,7 +19,7 @@ public class InfoPresenter extends BasePresenter<IInfoView, InfoModel> {
      * @param view
      */
     public InfoPresenter(Context context, final IInfoView view) {
-        this(view, InfoModel.getInstance(context));
+        this(view, ModelFactory.getInfo(context));
     }
 
     /**
@@ -34,13 +36,13 @@ public class InfoPresenter extends BasePresenter<IInfoView, InfoModel> {
         getView().showLoading();
         getModel().getVersion(new ICallback<String>() {
             @Override
-            public void onSuccess(String data) {
+            public void onSuccess(@NonNull String data) {
                 getView().showVersion(data);
                 getView().hideLoading();
             }
 
             @Override
-            public void onError(IError error) {
+            public void onError(@NonNull IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

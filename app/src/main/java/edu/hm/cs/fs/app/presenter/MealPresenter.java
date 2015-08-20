@@ -1,10 +1,13 @@
 package edu.hm.cs.fs.app.presenter;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.MealModel;
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.view.IMealView;
 import edu.hm.cs.fs.common.model.Meal;
 
@@ -17,7 +20,7 @@ public class MealPresenter extends BasePresenter<IMealView, MealModel> {
      * @param view
      */
     public MealPresenter(IMealView view) {
-        this(view, MealModel.getInstance());
+        this(view, ModelFactory.getMeal());
     }
 
     /**
@@ -32,18 +35,19 @@ public class MealPresenter extends BasePresenter<IMealView, MealModel> {
 
     /**
      *
+     * @param refresh
      */
-    public void loadMeals() {
+    public void loadMeals(final boolean refresh) {
         getView().showLoading();
-        getModel().getMeals(new ICallback<List<Meal>>() {
+        getModel().getAll(refresh, new ICallback<List<Meal>>() {
             @Override
-            public void onSuccess(final List<Meal> data) {
+            public void onSuccess(@NonNull final List<Meal> data) {
                 getView().showContent(data);
                 getView().hideLoading();
             }
 
             @Override
-            public void onError(final IError error) {
+            public void onError(@NonNull final IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

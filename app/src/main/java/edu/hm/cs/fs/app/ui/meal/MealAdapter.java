@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.app.ui.meal;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class MealAdapter extends ArrayAdapter<Meal> implements StickyListHeaders
                 .beginConfig()
                 .withBorder(2)
                 .fontSize(25)
+                .useFont(Typeface.DEFAULT_BOLD)
                 .endConfig()
                 .buildRound(meal.getType().toString(), color);
         holder.image.setImageDrawable(drawable);

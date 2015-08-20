@@ -33,17 +33,17 @@ public class JobPresenterTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ICallback<List<Job>> callback = (ICallback<List<Job>>) invocation.getArguments()[0];
+                ICallback<List<Job>> callback = (ICallback<List<Job>>) invocation.getArguments()[1];
                 callback.onSuccess(new ArrayList<Job>());
                 return null;
             }
-        }).when(model).getJobs(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
 
         final JobPresenter presenter = new JobPresenter(view, model);
-        presenter.loadJobs();
+        presenter.loadJobs(true);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getJobs(any(ICallback.class));
+        verify(model, atLeastOnce()).getAll(anyBoolean(), any(ICallback.class));
         verify(view, atLeastOnce()).showContent(anyList());
         verify(view, atLeastOnce()).hideLoading();
     }
@@ -56,17 +56,17 @@ public class JobPresenterTest {
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ICallback<List<Job>> callback = (ICallback<List<Job>>) invocation.getArguments()[0];
+                ICallback<List<Job>> callback = (ICallback<List<Job>>) invocation.getArguments()[1];
                 callback.onError(any(IError.class));
                 return null;
             }
-        }).when(model).getJobs(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
 
         final JobPresenter presenter = new JobPresenter(view, model);
-        presenter.loadJobs();
+        presenter.loadJobs(true);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getJobs(any(ICallback.class));
+        verify(model, atLeastOnce()).getAll(anyBoolean(), any(ICallback.class));
         verify(view, atLeastOnce()).showError(any(IError.class));
         verify(view, atLeastOnce()).hideLoading();
     }

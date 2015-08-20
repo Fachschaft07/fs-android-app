@@ -10,7 +10,7 @@
         android:id="@+id/textSubject"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.55"
+        android:layout_weight="0.50"
         android:gravity="center"
         android:paddingBottom="@dimen/text_margin_bottom"
         android:paddingTop="@dimen/text_margin_bottom"
@@ -24,7 +24,6 @@
         android:layout_weight="0.25"
         android:gravity="center"
         android:paddingBottom="@dimen/text_margin_bottom"
-        android:singleLine="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Room" />
 
@@ -32,10 +31,9 @@
         android:id="@+id/textInfo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.2"
+        android:layout_weight="0.25"
         android:gravity="center"
         android:paddingBottom="@dimen/text_margin_bottom"
-        android:singleLine="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         tools:text="Info" />
 </LinearLayout>

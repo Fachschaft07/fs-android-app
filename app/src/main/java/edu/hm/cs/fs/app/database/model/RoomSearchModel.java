@@ -2,8 +2,6 @@ package edu.hm.cs.fs.app.database.model;
 
 import android.support.annotation.NonNull;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
@@ -18,44 +16,23 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by FHellman on 11.08.2015.
+ * @author Fabio
  */
-public class RoomModel implements IModel {
-    private static RoomModel mInstance;
-
-    private RoomModel() {
-    }
-
-    public static RoomModel getInstance() {
-        if (mInstance == null) {
-            mInstance = new RoomModel();
-        }
-        return mInstance;
-    }
-
+public class RoomSearchModel implements IModel {
     public void getFreeRooms(@NonNull final Day day, @NonNull final Time time,
                              @NonNull final ICallback<List<Room>> callback) {
+        //final int hour = time.getStart().get(Calendar.HOUR_OF_DAY);
+        //final int minute = time.getStart().get(Calendar.MINUTE);
         Controllers.create(RoomController.class)
                 .getHolidays(day, time, new Callback<List<Room>>() {
                     @Override
                     public void success(List<Room> rooms, Response response) {
-                        Collections.sort(rooms, new Comparator<Room>() {
-                            @Override
-                            public int compare(Room lhs, Room rhs) {
-                                return lhs.getFreeUntilEnd().getStart()
-                                        .compareTo(rhs.getFreeUntilEnd().getStart());
-                            }
-                        });
                         callback.onSuccess(rooms);
-                    }
-
-                    private int extractRoomNr(String room) {
-                        return Integer.parseInt(room.charAt(1) + room.substring(3, 5));
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.network(error));
+                        callback.onError(ErrorFactory.http(error));
                     }
                 });
     }

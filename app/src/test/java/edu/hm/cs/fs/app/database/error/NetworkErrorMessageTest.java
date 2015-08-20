@@ -25,7 +25,7 @@ public class NetworkErrorMessageTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         when(retrofitError.getKind()).thenReturn(RetrofitError.Kind.NETWORK);
 
-        final IError networkError = ErrorFactory.network(retrofitError);
+        final IError networkError = ErrorFactory.http(retrofitError);
 
         Assert.assertThat(false, equalTo(networkError.isConnected()));
     }
@@ -40,7 +40,7 @@ public class NetworkErrorMessageTest {
         final RetrofitError retrofitError = mock(RetrofitError.class);
         when(retrofitError.getKind()).thenReturn(RetrofitError.Kind.NETWORK);
 
-        final IError networkError = ErrorFactory.network(retrofitError);
+        final IError networkError = ErrorFactory.http(retrofitError);
 
         Assert.assertThat(expectedOutput, is(equalTo(networkError.getMessage(context))));
     }
@@ -56,7 +56,7 @@ public class NetworkErrorMessageTest {
         when(retrofitError.getKind()).thenReturn(RetrofitError.Kind.CONVERSION);
         when(retrofitError.getLocalizedMessage()).thenReturn(expectedOutput);
 
-        final IError networkError = ErrorFactory.network(retrofitError);
+        final IError networkError = ErrorFactory.http(retrofitError);
 
         Assert.assertThat(expectedOutput, is(equalTo(networkError.getMessage(context))));
     }

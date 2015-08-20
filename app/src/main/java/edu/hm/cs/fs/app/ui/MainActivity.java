@@ -28,15 +28,13 @@ import edu.hm.cs.fs.app.ui.job.JobFragment;
 import edu.hm.cs.fs.app.ui.meal.MealFragment;
 import edu.hm.cs.fs.app.ui.publictransport.PublicTransportTabFragment;
 import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchFragment;
-import edu.hm.cs.fs.app.util.BaseFragment;
-import edu.hm.cs.fs.app.util.Navigator;
 
 /**
  * @author Fabio
  */
 public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener,
         NavigationView.OnNavigationItemSelectedListener {
-    private static final String NAV_ITEM_ID = "navItemId";
+    public static final String NAV_ITEM_ID = "navItemId";
 
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
@@ -60,23 +58,24 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         initNavigator();
 
         // load saved navigation state if present
+        final int currentMenuItem;
         if (null == savedInstanceState) {
-            mCurrentMenuItem = R.id.menu_home;
+            currentMenuItem = R.id.menu_home;
         } else {
-            mCurrentMenuItem = savedInstanceState.getInt(NAV_ITEM_ID);
+            currentMenuItem = savedInstanceState.getInt(NAV_ITEM_ID);
         }
 
-        onNavigationItemSelected(mNavigationView.getMenu().findItem(mCurrentMenuItem));
+        onNavigationItemSelected(mNavigationView.getMenu().findItem(currentMenuItem));
+        mCurrentMenuItem = currentMenuItem;
     }
 
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) {
-            return;
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
         }
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
     }
 
     private void setupNavigationDrawer() {
@@ -242,7 +241,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     @Override
     public void finish() {
-        mNavigator = null;
+        resetNavigator();
         super.finish();
+    }
+
+    private static void resetNavigator() {
+        mNavigator = null;
     }
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.JobModel;
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.util.MarkdownUtil;
 import edu.hm.cs.fs.app.view.IJobDetailView;
 import edu.hm.cs.fs.common.model.Job;
@@ -17,7 +18,7 @@ public class JobDetailPresenter extends BasePresenter<IJobDetailView, JobModel> 
      * @param view
      */
     public JobDetailPresenter(IJobDetailView view) {
-        this(view, JobModel.getInstance());
+        this(view, ModelFactory.getJob());
     }
 
     /**
@@ -32,9 +33,9 @@ public class JobDetailPresenter extends BasePresenter<IJobDetailView, JobModel> 
 
     public void loadJob(@NonNull final String title) {
         getView().showLoading();
-        getModel().getJob(title, new ICallback<Job>() {
+        getModel().getItem(title, new ICallback<Job>() {
             @Override
-            public void onSuccess(Job data) {
+            public void onSuccess(@NonNull Job data) {
                 getView().showSubject(MarkdownUtil.toHtml(data.getTitle()));
                 getView().showProvider(data.getProvider());
                 getView().showDescription(MarkdownUtil.toHtml(data.getDescription()));
@@ -46,7 +47,7 @@ public class JobDetailPresenter extends BasePresenter<IJobDetailView, JobModel> 
             }
 
             @Override
-            public void onError(IError error) {
+            public void onError(@NonNull IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

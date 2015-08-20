@@ -1,5 +1,6 @@
-package edu.hm.cs.fs.app.util;
+package edu.hm.cs.fs.app.ui;
 
+import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -98,6 +99,8 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @LayoutRes
     protected abstract int getLayout();
 
+    public boolean isDetailFragment() { return false; }
+
     public P getPresenter() {
         return presenter;
     }
@@ -133,10 +136,11 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void initSwipeRefreshLayout(@NonNull final SwipeRefreshLayout swipeRefreshLayout) {
         mSwipeRefreshLayout = swipeRefreshLayout;
         initErrorSnackbar(mSwipeRefreshLayout);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                     android.R.color.holo_green_light,
                     android.R.color.holo_orange_light,

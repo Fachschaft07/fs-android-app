@@ -1,7 +1,11 @@
 package edu.hm.cs.fs.app.presenter;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.database.model.TimetableModel;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
@@ -9,14 +13,18 @@ import edu.hm.cs.fs.app.view.ITimetableView;
 import edu.hm.cs.fs.common.model.Lesson;
 
 /**
- * Created by FHellman on 11.08.2015.
+ * @author Fabio
  */
 public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableModel> {
+
     /**
+     *
+     * @param context
      * @param view
      */
-    public TimetablePresenter(ITimetableView view) {
-        this(view, TimetableModel.getInstance());
+    public TimetablePresenter(@NonNull final Context context,
+                              @NonNull final ITimetableView view) {
+        this(view, ModelFactory.getTimetable(context));
     }
 
     /**
@@ -25,7 +33,8 @@ public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableM
      * @param view
      * @param model
      */
-    public TimetablePresenter(ITimetableView view, TimetableModel model) {
+    public TimetablePresenter(@NonNull final ITimetableView view,
+                              @NonNull final TimetableModel model) {
         super(view, model);
     }
 
@@ -33,13 +42,13 @@ public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableM
         getView().showLoading();
         getModel().getTimetable(new ICallback<List<Lesson>>() {
             @Override
-            public void onSuccess(List<Lesson> data) {
+            public void onSuccess(@NonNull List<Lesson> data) {
                 getView().showContent(data);
                 getView().hideLoading();
             }
 
             @Override
-            public void onError(IError error) {
+            public void onError(@NonNull IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

@@ -1,14 +1,16 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.internal.widget.ThemeUtils;
+import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.fk07.R;
@@ -18,7 +20,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.TimetablePresenter;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.ITimetableView;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
@@ -28,7 +30,7 @@ import edu.hm.cs.fs.common.model.Lesson;
  * @author Fabio
  */
 public class TimetableFragment extends BaseFragment<TimetablePresenter> implements ITimetableView,
-        TimetableAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+        TimetableAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener {
     private static final int PORTRAIT_DAY_COUNT = 3;
     private static final int LANDSCAPE_DAY_COUNT = 7;
 
@@ -52,6 +54,8 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
                 getMainActivity().openDrawer();
             }
         });
+        mToolbar.inflateMenu(R.menu.timetable);
+        mToolbar.setOnMenuItemClickListener(this);
 
         final int numberOfDays;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -69,7 +73,7 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        setPresenter(new TimetablePresenter(this));
+        setPresenter(new TimetablePresenter(getActivity(), this));
         getPresenter().loadTimetable();
     }
 
@@ -84,6 +88,16 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     }
 
     @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_edit:
+                getMainActivity().getNavigator().goTo(new TimetableEditorFragment());
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public void showContent(List<Lesson> content) {
         mAdapter.setData(content);
     }
@@ -95,6 +109,16 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
 
     @Override
     public void onItemClicked(@NonNull Lesson lesson) {
+        /*
+        Bundle arguments = new Bundle();
+        arguments.putString(TimetableLessonFragment.ARG_MODULE, lesson.getModule().getName());
+        arguments.putString(TimetableLessonFragment.ARG_TEACHER, lesson.getTeacher().getId());
+
+        final TimetableLessonFragment fragment = new TimetableLessonFragment();
+        fragment.setArguments(arguments);
+
+        getMainActivity().getNavigator().goTo(fragment);
+        */
     }
 
     @Override

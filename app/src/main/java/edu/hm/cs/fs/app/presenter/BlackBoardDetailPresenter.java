@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import edu.hm.cs.fs.app.database.model.BlackBoardModel;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.util.MarkdownUtil;
 import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
@@ -17,7 +18,7 @@ public class BlackBoardDetailPresenter extends BasePresenter<IBlackBoardDetailVi
      * @param view
      */
     public BlackBoardDetailPresenter(IBlackBoardDetailView view) {
-        this(view, BlackBoardModel.getInstance());
+        this(view, ModelFactory.getBlackboard());
     }
 
     /**
@@ -32,9 +33,9 @@ public class BlackBoardDetailPresenter extends BasePresenter<IBlackBoardDetailVi
 
     public void loadBlackBoardEntry(@NonNull final String id) {
         getView().showLoading();
-        getModel().getBlackBoardEntry(id, new ICallback<BlackboardEntry>() {
+        getModel().getItem(id, new ICallback<BlackboardEntry>() {
             @Override
-            public void onSuccess(BlackboardEntry data) {
+            public void onSuccess(@NonNull BlackboardEntry data) {
                 getView().showSubject(MarkdownUtil.toHtml(data.getSubject()));
                 final String groups = data.getGroups().toString();
                 getView().showGroups(groups.substring(1, groups.length() - 1));
@@ -46,7 +47,7 @@ public class BlackBoardDetailPresenter extends BasePresenter<IBlackBoardDetailVi
             }
 
             @Override
-            public void onError(IError error) {
+            public void onError(@NonNull IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

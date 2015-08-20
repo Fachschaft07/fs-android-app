@@ -1,10 +1,13 @@
 package edu.hm.cs.fs.app.presenter;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.JobModel;
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.view.IJobView;
 import edu.hm.cs.fs.common.model.Job;
 
@@ -16,7 +19,7 @@ public class JobPresenter extends BasePresenter<IJobView, JobModel> {
      * @param view
      */
     public JobPresenter(IJobView view) {
-        this(view, JobModel.getInstance());
+        this(view, ModelFactory.getJob());
     }
 
     /**
@@ -29,17 +32,17 @@ public class JobPresenter extends BasePresenter<IJobView, JobModel> {
         super(view, model);
     }
 
-    public void loadJobs() {
+    public void loadJobs(final boolean cache) {
         getView().showLoading();
-        getModel().getJobs(new ICallback<List<Job>>() {
+        getModel().getAll(cache, new ICallback<List<Job>>() {
             @Override
-            public void onSuccess(List<Job> data) {
+            public void onSuccess(@NonNull List<Job> data) {
                 getView().showContent(data);
                 getView().hideLoading();
             }
 
             @Override
-            public void onError(IError error) {
+            public void onError(@NonNull IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

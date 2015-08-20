@@ -25,6 +25,7 @@ import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Person;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.atLeastOnce;
@@ -64,7 +65,7 @@ public class BlackBoardDetailPresenterTest {
                 callback.onSuccess(Arrays.asList(entry));
                 return null;
             }
-        }).when(model).getBlackBoard(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -72,13 +73,13 @@ public class BlackBoardDetailPresenterTest {
                 callback.onSuccess(entry);
                 return null;
             }
-        }).when(model).getBlackBoardEntry(anyString(), any(ICallback.class));
+        }).when(model).getItem(anyString(), any(ICallback.class));
 
         final BlackBoardDetailPresenter presenter = new BlackBoardDetailPresenter(view, model);
         presenter.loadBlackBoardEntry(BLACK_BAORD_ENTRY_ID);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getBlackBoardEntry(anyString(), any(ICallback.class));
+        verify(model, atLeastOnce()).getItem(anyString(), any(ICallback.class));
         verify(view, atLeastOnce()).showSubject(any(Spanned.class));
         verify(view, atLeastOnce()).showAuthor(anyString());
         verify(view, atLeastOnce()).showDescription(any(Spanned.class));
@@ -110,7 +111,7 @@ public class BlackBoardDetailPresenterTest {
                 callback.onSuccess(Arrays.asList(entry));
                 return null;
             }
-        }).when(model).getBlackBoard(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -118,13 +119,13 @@ public class BlackBoardDetailPresenterTest {
                 callback.onSuccess(entry);
                 return null;
             }
-        }).when(model).getBlackBoardEntry(anyString(), any(ICallback.class));
+        }).when(model).getItem(anyString(), any(ICallback.class));
 
         final BlackBoardDetailPresenter presenter = new BlackBoardDetailPresenter(view, model);
         presenter.loadBlackBoardEntry(BLACK_BAORD_ENTRY_ID);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getBlackBoardEntry(anyString(), any(ICallback.class));
+        verify(model, atLeastOnce()).getItem(anyString(), any(ICallback.class));
         verify(view, atLeastOnce()).showSubject(any(Spanned.class));
         verify(view, atLeastOnce()).showAuthor(anyString());
         verify(view, atLeastOnce()).showDescription(any(Spanned.class));
@@ -133,7 +134,8 @@ public class BlackBoardDetailPresenterTest {
         verify(view, atLeastOnce()).hideLoading();
 
         presenter.loadBlackBoardEntry(BLACK_BAORD_ENTRY_ID);
-        verify(model, atLeastOnce()).getBlackBoardEntry(anyString(), any(ICallback.class));
+        verify(model, atLeastOnce()).getItem(anyString(), any(ICallback.class));
+        verify(model, atLeast(0)).getAll(anyBoolean(), any(ICallback.class));
     }
 
     @Test
@@ -148,7 +150,7 @@ public class BlackBoardDetailPresenterTest {
                 callback.onError(any(IError.class));
                 return null;
             }
-        }).when(model).getBlackBoard(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -156,14 +158,14 @@ public class BlackBoardDetailPresenterTest {
                 callback.onError(any(IError.class));
                 return null;
             }
-        }).when(model).getBlackBoardEntry(anyString(), any(ICallback.class));
+        }).when(model).getItem(anyString(), any(ICallback.class));
 
         final BlackBoardDetailPresenter presenter = new BlackBoardDetailPresenter(view, model);
         presenter.loadBlackBoardEntry(BLACK_BAORD_ENTRY_ID);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getBlackBoardEntry(anyString(), any(ICallback.class));
-        verify(model, atLeast(0)).getBlackBoard(any(ICallback.class));
+        verify(model, atLeastOnce()).getItem(anyString(), any(ICallback.class));
+        verify(model, atLeast(0)).getAll(anyBoolean(), any(ICallback.class));
         verify(view, atLeastOnce()).showError(any(IError.class));
         verify(view, atLeastOnce()).hideLoading();
     }

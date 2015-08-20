@@ -1,9 +1,12 @@
 package edu.hm.cs.fs.app.presenter;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.database.model.PublicTransportModel;
 import edu.hm.cs.fs.app.view.IPublicTransportView;
 import edu.hm.cs.fs.common.model.PublicTransport;
@@ -16,7 +19,7 @@ public class PublicTransportLothstrPresenter extends BasePresenter<IPublicTransp
      * @param view
      */
     public PublicTransportLothstrPresenter(IPublicTransportView view) {
-        this(view, PublicTransportModel.getInstance());
+        this(view, ModelFactory.getPublicTransport());
     }
 
     /**
@@ -31,15 +34,15 @@ public class PublicTransportLothstrPresenter extends BasePresenter<IPublicTransp
 
     public void loadPublicTransports() {
         getView().showLoading();
-        getModel().getDepartureTimesForLothstr(new ICallback<List<PublicTransport>>() {
+        getModel().getLothstrasse(new ICallback<List<PublicTransport>>() {
             @Override
-            public void onSuccess(List<PublicTransport> data) {
+            public void onSuccess(@NonNull List<PublicTransport> data) {
                 getView().showContent(data);
                 getView().hideLoading();
             }
 
             @Override
-            public void onError(IError error) {
+            public void onError(@NonNull IError error) {
                 getView().showError(error);
                 getView().hideLoading();
             }

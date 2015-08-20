@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.app.ui.publictransport;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 
 /**
  * Created by FHellman on 10.08.2015.
@@ -59,6 +60,18 @@ public class PublicTransportTabFragment extends BaseFragment {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        for (int index = 0; index < mAdapter.getCount(); index++) {
+            transaction.remove(mAdapter.getItem(index));
+        }
+        transaction.commit();
+        getFragmentManager().executePendingTransactions();
+
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.fragment_public_transport_tabs;
     }
@@ -79,19 +92,7 @@ public class PublicTransportTabFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        for (int index = 0; index < mAdapter.getCount(); index++) {
-            transaction.remove(mAdapter.getItem(index));
-        }
-        transaction.commit();
-        getFragmentManager().executePendingTransactions();
-    }
-
-    private final class ViewPagerAdapter extends FragmentPagerAdapter {
+    private static final class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

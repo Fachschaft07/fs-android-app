@@ -8,12 +8,19 @@ import com.fk07.R;
 import retrofit.RetrofitError;
 
 /**
+ * An error which was generated out of a http error.
+ *
  * @author Fabio
  */
-public class NetworkError implements IError {
+public class HttpError implements IError {
     private RetrofitError mRetrofitError;
 
-    protected NetworkError(RetrofitError error) {
+    /**
+     * Creates a http error.
+     *
+     * @param error which was received.
+     */
+    protected HttpError(@NonNull final RetrofitError error) {
         mRetrofitError = error;
     }
 

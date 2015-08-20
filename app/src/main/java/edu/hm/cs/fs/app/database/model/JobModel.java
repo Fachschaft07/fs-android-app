@@ -15,42 +15,17 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by FHellman on 10.08.2015.
+ * @author Fabio
  */
-public class JobModel implements IModel {
-    private static JobModel mInstance;
-    private List<Job> mJobCache;
-
-    private JobModel() {
+public class JobModel extends CachedModel<Job> {
+    public void getAll(final boolean refresh, @NonNull final ICallback<List<Job>> callback) {
+        getData(refresh, callback);
     }
 
-    public static JobModel getInstance() {
-        if (mInstance == null) {
-            mInstance = new JobModel();
-        }
-        return mInstance;
-    }
-
-    public void getJobs(@NonNull final ICallback<List<Job>> callback) {
-        Controllers.create(JobController.class)
-                .getJobs(new Callback<List<Job>>() {
-                    @Override
-                    public void success(List<Job> jobs, Response response) {
-                        mJobCache = jobs;
-                        callback.onSuccess(jobs);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.network(error));
-                    }
-                });
-    }
-
-    public void getJob(@NonNull final String title, @NonNull final ICallback<Job> callback) {
-        final ICallback<List<Job>> listCallback = new ICallback<List<Job>>() {
+    public void getItem(@NonNull final String title, @NonNull final ICallback<Job> callback) {
+        getData(false, new ICallback<List<Job>>() {
             @Override
-            public void onSuccess(List<Job> data) {
+            public void onSuccess(@NonNull List<Job> data) {
                 for (Job job : data) {
                     if (job.getTitle().equals(title)) {
                         callback.onSuccess(job);
@@ -60,15 +35,25 @@ public class JobModel implements IModel {
             }
 
             @Override
-            public void onError(IError error) {
+            public void onError(@NonNull IError error) {
                 callback.onError(error);
             }
-        };
+        });
+    }
 
-        if (mJobCache != null) {
-            listCallback.onSuccess(mJobCache);
-        } else {
-            getJobs(listCallback);
-        }
+    @Override
+    protected void update(@NonNull final ICallback<List<Job>> callback) {
+        Controllers.create(JobController.class)
+                .getJobs(new Callback<List<Job>>() {
+                    @Override
+                    public void success(List<Job> jobs, Response response) {
+                        callback.onSuccess(jobs);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        callback.onError(ErrorFactory.http(error));
+                    }
+                });
     }
 }

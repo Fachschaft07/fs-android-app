@@ -4,7 +4,7 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height_small"
-    android:background="@android:color/white"
+    android:background="@color/mensa_sticky_header"
     android:gravity="center_vertical"
     android:paddingLeft="@dimen/list_item_margin_left"
     android:paddingRight="@dimen/list_item_margin_right"

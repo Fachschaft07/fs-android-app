@@ -48,7 +48,7 @@ public class JobDetailPresenterTest {
         when(job.getExpire()).thenReturn(mock(Date.class));
         when(job.getProgram()).thenReturn(null);
 
-        final JobModel model = spy(JobModel.getInstance());
+        final JobModel model = spy(JobModel.class);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -56,7 +56,7 @@ public class JobDetailPresenterTest {
                 callback.onSuccess(Arrays.asList(job));
                 return null;
             }
-        }).when(model).getJobs(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -64,13 +64,13 @@ public class JobDetailPresenterTest {
                 callback.onSuccess(job);
                 return null;
             }
-        }).when(model).getJob(anyString(), any(ICallback.class));
+        }).when(model).getItem(anyString(), any(ICallback.class));
 
         final JobDetailPresenter presenter = new JobDetailPresenter(view, model);
         presenter.loadJob(JOB_TITLE);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getJob(anyString(), any(ICallback.class));
+        verify(model, atLeastOnce()).getItem(anyString(), any(ICallback.class));
         verify(view, atLeastOnce()).showSubject(any(Spanned.class));
         verify(view, atLeastOnce()).showProvider(anyString());
         verify(view, atLeastOnce()).showDescription(any(Spanned.class));
@@ -93,7 +93,7 @@ public class JobDetailPresenterTest {
         when(job.getExpire()).thenReturn(mock(Date.class));
         when(job.getProgram()).thenReturn(null);
 
-        final JobModel model = spy(JobModel.getInstance());
+        final JobModel model = spy(JobModel.class);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -101,7 +101,7 @@ public class JobDetailPresenterTest {
                 callback.onSuccess(Arrays.asList(job));
                 return null;
             }
-        }).when(model).getJobs(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -109,13 +109,13 @@ public class JobDetailPresenterTest {
                 callback.onSuccess(job);
                 return null;
             }
-        }).when(model).getJob(anyString(), any(ICallback.class));
+        }).when(model).getItem(anyString(), any(ICallback.class));
 
         final JobDetailPresenter presenter = new JobDetailPresenter(view, model);
         presenter.loadJob(JOB_TITLE);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getJob(anyString(), any(ICallback.class));
+        verify(model, atLeastOnce()).getItem(anyString(), any(ICallback.class));
         verify(view, atLeastOnce()).showSubject(any(Spanned.class));
         verify(view, atLeastOnce()).showProvider(anyString());
         verify(view, atLeastOnce()).showDescription(any(Spanned.class));
@@ -124,7 +124,8 @@ public class JobDetailPresenterTest {
         verify(view, atLeastOnce()).hideLoading();
 
         presenter.loadJob(JOB_TITLE);
-        verify(model, atLeastOnce()).getJob(anyString(), any(ICallback.class));
+        verify(model, atLeastOnce()).getItem(anyString(), any(ICallback.class));
+        verify(model, atLeast(0)).getAll(anyBoolean(), any(ICallback.class));
     }
 
     @Test
@@ -139,7 +140,7 @@ public class JobDetailPresenterTest {
                 callback.onSuccess(new ArrayList<Job>());
                 return null;
             }
-        }).when(model).getJobs(any(ICallback.class));
+        }).when(model).getAll(anyBoolean(), any(ICallback.class));
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -147,13 +148,13 @@ public class JobDetailPresenterTest {
                 callback.onError(any(IError.class));
                 return null;
             }
-        }).when(model).getJob(anyString(), any(ICallback.class));
+        }).when(model).getItem(anyString(), any(ICallback.class));
 
         final JobDetailPresenter presenter = new JobDetailPresenter(view, model);
         presenter.loadJob(JOB_TITLE);
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getJob(anyString(), any(ICallback.class));
+        verify(model, atLeastOnce()).getItem(anyString(), any(ICallback.class));
         verify(view, atLeastOnce()).showError(any(IError.class));
         verify(view, atLeastOnce()).hideLoading();
     }

@@ -14,7 +14,7 @@ import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.RoomModel;
+import edu.hm.cs.fs.app.database.model.RoomSearchModel;
 import edu.hm.cs.fs.app.view.IRoomSearchView;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
@@ -37,7 +37,7 @@ public class RoomSearchPresenterTest {
     public void testGetFreeRoomsSuccess() {
         final IRoomSearchView view = mock(IRoomSearchView.class);
 
-        final RoomModel model = mock(RoomModel.class);
+        final RoomSearchModel model = mock(RoomSearchModel.class);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -60,7 +60,7 @@ public class RoomSearchPresenterTest {
     public void testGetFreeRoomsError() {
         final IRoomSearchView view = mock(IRoomSearchView.class);
 
-        final RoomModel model = mock(RoomModel.class);
+        final RoomSearchModel model = mock(RoomSearchModel.class);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {

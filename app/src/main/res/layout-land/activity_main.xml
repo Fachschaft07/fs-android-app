@@ -34,13 +34,14 @@
             android:id="@+id/container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"/>
+            android:layout_weight="0.4"/>
 
         <FrameLayout
             android:id="@+id/container_detail"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"/>
+            android:layout_weight="0.6"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

@@ -83,9 +83,13 @@
 
     <!-- Others -->
     <string name="time">Time</string>
-    <string name="not_title_set">No title set</string>
+    <string name="not_title_set" translatable="false"/>
     <string name="navigation_drawer_open">Navigation Drawer Open</string>
     <string name="navigation_drawer_close">Navigation Drawer Close</string>
     <string name="retry">Retry</string>
     <string name="network_error">No internet connection</string>
+    <string name="edit">Edit</string>
+    <string name="group_format">This is not the correct format (e.g. IF, IF2B, IF5,…).</string>
+    <string name="mensa_today">Today\'s supply of meals.</string>
+    <string name="blackboard_current">The news of today and yesterday.</string>
 </resources>

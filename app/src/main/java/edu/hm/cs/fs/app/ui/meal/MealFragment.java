@@ -15,7 +15,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.MealPresenter;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IMealView;
 import edu.hm.cs.fs.common.model.Meal;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -52,7 +52,7 @@ public class MealFragment extends BaseFragment<MealPresenter> implements IMealVi
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new MealPresenter(this));
-        getPresenter().loadMeals();
+        getPresenter().loadMeals(false);
     }
 
     @Override
@@ -80,7 +80,7 @@ public class MealFragment extends BaseFragment<MealPresenter> implements IMealVi
 
     @Override
     public void onRefresh() {
-        getPresenter().loadMeals();
+        getPresenter().loadMeals(true);
     }
 
     @Override

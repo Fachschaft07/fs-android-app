@@ -45,14 +45,14 @@ public class PublicTransportPasingPresenterTest {
                 callback.onSuccess(new ArrayList<PublicTransport>());
                 return null;
             }
-        }).when(model).getDepartureTimesForPasing(any(ICallback.class));
+        }).when(model).getPasing(any(ICallback.class));
 
         final PublicTransportPasingPresenter presenter = new PublicTransportPasingPresenter(view, model);
         presenter.loadPublicTransports();
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getDepartureTimesForPasing(any(ICallback.class));
-        verify(model, atLeast(0)).getDepartureTimesForLothstr(any(ICallback.class));
+        verify(model, atLeastOnce()).getPasing(any(ICallback.class));
+        verify(model, atLeast(0)).getLothstrasse(any(ICallback.class));
         verify(view, atLeastOnce()).showContent(anyList());
         verify(view, atLeastOnce()).hideLoading();
     }
@@ -69,14 +69,14 @@ public class PublicTransportPasingPresenterTest {
                 callback.onError(any(IError.class));
                 return null;
             }
-        }).when(model).getDepartureTimesForPasing(any(ICallback.class));
+        }).when(model).getPasing(any(ICallback.class));
 
         final PublicTransportPasingPresenter presenter = new PublicTransportPasingPresenter(view, model);
         presenter.loadPublicTransports();
 
         verify(view, atLeastOnce()).showLoading();
-        verify(model, atLeastOnce()).getDepartureTimesForPasing(any(ICallback.class));
-        verify(model, atLeast(0)).getDepartureTimesForLothstr(any(ICallback.class));
+        verify(model, atLeastOnce()).getPasing(any(ICallback.class));
+        verify(model, atLeast(0)).getLothstrasse(any(ICallback.class));
         verify(view, atLeastOnce()).showError(any(IError.class));
         verify(view, atLeastOnce()).hideLoading();
     }

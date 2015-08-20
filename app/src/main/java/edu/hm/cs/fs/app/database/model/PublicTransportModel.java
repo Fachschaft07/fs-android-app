@@ -15,30 +15,35 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by FHellman on 10.08.2015.
+ * @author Fabio
  */
 public class PublicTransportModel implements IModel {
-    private static PublicTransportModel mInstance;
-
-    private PublicTransportModel() {
-    }
-
-    public static PublicTransportModel getInstance() {
-        if(mInstance == null) {
-            mInstance = new PublicTransportModel();
-        }
-        return mInstance;
-    }
-
-    public void getDepartureTimesForPasing(@NonNull final ICallback<List<PublicTransport>> callback) {
+    /**
+     * Get every Public Transport from Pasing.
+     *
+     * @param callback to retrieve the data.
+     */
+    public void getPasing(@NonNull final ICallback<List<PublicTransport>> callback) {
         getDepartureTimes(PublicTransportLocation.PASING, callback);
     }
 
-    public void getDepartureTimesForLothstr(@NonNull final ICallback<List<PublicTransport>> callback) {
+    /**
+     * Get every Public Transport from Lothstrasse.
+     *
+     * @param callback to retrieve the data.
+     */
+    public void getLothstrasse(@NonNull final ICallback<List<PublicTransport>> callback) {
         getDepartureTimes(PublicTransportLocation.LOTHSTR, callback);
     }
 
-    private void getDepartureTimes(@NonNull final PublicTransportLocation location, @NonNull final ICallback<List<PublicTransport>> callback) {
+    /**
+     * Get every Public Transport by the location.
+     *
+     * @param location to get the Public Transport from.
+     * @param callback to retrieve the data.
+     */
+    private void getDepartureTimes(@NonNull final PublicTransportLocation location,
+                                   @NonNull final ICallback<List<PublicTransport>> callback) {
         Controllers.create(PublicTransportController.class)
                 .getPublicTransports(location, new Callback<List<PublicTransport>>() {
                     @Override
@@ -48,7 +53,7 @@ public class PublicTransportModel implements IModel {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.network(error));
+                        callback.onError(ErrorFactory.http(error));
                     }
                 });
     }

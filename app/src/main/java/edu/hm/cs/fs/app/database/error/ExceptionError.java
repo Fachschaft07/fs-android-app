@@ -4,13 +4,20 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 /**
- * Created by FHellman on 14.08.2015.
+ * An error which was generated out of an exception.
+ *
+ * @author Fabio
  */
 public class ExceptionError implements IError {
     private Exception mException;
 
-    public ExceptionError(Exception e) {
-        mException = e;
+    /**
+     * Creates an exception error.
+     *
+     * @param exception which was thrown.
+     */
+    public ExceptionError(@NonNull final Exception exception) {
+        mException = exception;
     }
 
     @Override

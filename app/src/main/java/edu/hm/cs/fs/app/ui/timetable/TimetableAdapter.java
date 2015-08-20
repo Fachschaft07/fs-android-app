@@ -2,8 +2,11 @@ package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +32,9 @@ import edu.hm.cs.fs.common.model.Lesson;
  * @author Fabio
  */
 public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.ViewHolder> {
-    private static final String TIME_FORMAT = "%1$tH:%1$tM\n-\n%2$tH:%2$tM";
+    private static final String TIME_FORMAT = "%1$tH:%1$tM%n-%n%2$tH:%2$tM";
     private static final String DAY_LARGE_FORMAT = "%1$tA";
-    private static final String DAY_SMALL_FORMAT = "%1$ta";
+    private static final String DAY_SMALL_FORMAT = "%1$ta.";
     private static final int DAY_ROW = 1;
     private static final int TIME_COLUMN = 1;
     private static final int DAYS_OF_WEEK = 7;
@@ -62,12 +65,20 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         resetHolder(holder);
 
         if (position == 0) {
+            // top left corner -> empty
+            holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_day_border);
             onBindEmptyCell(holder);
         } else if (position < TIME_COLUMN + mNumberOfDays) {
+            // first row -> days
+            holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_day_border);
             onBindDayCell(holder, position - TIME_COLUMN);
         } else if (position % (TIME_COLUMN + mNumberOfDays) == 0) {
+            // first column -> times
+            holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_time_border);
             onBindTimeCell(holder, position / (TIME_COLUMN + mNumberOfDays) - DAY_ROW);
         } else {
+            // all other cells -> lessons / empty
+            holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_lesson_border);
             onBindLessonCell(holder,
                     position % (TIME_COLUMN + mNumberOfDays) - TIME_COLUMN,
                     position / (TIME_COLUMN + mNumberOfDays) - DAY_ROW);
@@ -75,7 +86,6 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     }
 
     private void resetHolder(ViewHolder holder) {
-        holder.mCell.setBackgroundColor(Color.TRANSPARENT);
         holder.mSubject.setVisibility(View.VISIBLE);
         holder.mRoom.setVisibility(View.VISIBLE);
         holder.mInfo.setVisibility(View.VISIBLE);
@@ -86,23 +96,23 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     }
 
     private void onBindEmptyCell(ViewHolder holder) {
-        holder.mSubject.setVisibility(View.GONE);
-        holder.mRoom.setVisibility(View.GONE);
-        holder.mInfo.setVisibility(View.GONE);
+        setText(holder.mSubject, null);
+        setText(holder.mRoom, null);
+        setText(holder.mInfo, null);
     }
 
     private void onBindTimeCell(ViewHolder holder, int row) {
         final Time time = Time.values()[row];
-        holder.mSubject.setText(String.format(Locale.getDefault(), TIME_FORMAT,
+        setText(holder.mSubject, null);
+        setText(holder.mRoom, String.format(Locale.getDefault(), TIME_FORMAT,
                 time.getStart(), time.getEnd()));
-
-        holder.mRoom.setVisibility(View.GONE);
-        holder.mInfo.setVisibility(View.GONE);
+        setText(holder.mInfo, null);
     }
 
     private void onBindDayCell(ViewHolder holder, int column) {
         final Day day = getDayByColumn(column);
-        Calendar calendar = Calendar.getInstance();
+        final Calendar current = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, day.getCalendarId());
 
         final String dayFormat;
@@ -111,10 +121,15 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         } else {
             dayFormat = DAY_SMALL_FORMAT;
         }
-        holder.mSubject.setText(String.format(Locale.getDefault(), dayFormat, calendar));
-        holder.mSubject.setGravity(Gravity.CENTER);
-        holder.mRoom.setVisibility(View.GONE);
-        holder.mInfo.setVisibility(View.GONE);
+        setText(holder.mSubject, String.format(Locale.getDefault(), dayFormat, calendar));
+        if(calendar.get(Calendar.DAY_OF_WEEK) == current.get(Calendar.DAY_OF_WEEK)) {
+            // Underline current day
+            SpannableString content = new SpannableString(holder.mSubject.getText());
+            content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+            holder.mSubject.setText(content);
+        }
+        setText(holder.mRoom, null);
+        setText(holder.mInfo, null);
     }
 
     private void onBindLessonCell(ViewHolder holder, int column, int row) {
@@ -129,13 +144,36 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         holder.mTime = time;
 
         if (lesson != null) {
-            holder.mCell.setBackgroundColor(Color.CYAN);
-            holder.mSubject.setText(lesson.getModule().getName());
-            holder.mRoom.setText(lesson.getRoom());
-            holder.mInfo.setText(lesson.getSuffix());
+            setText(holder.mSubject, getLessonTitle(lesson));
+            setText(holder.mRoom, lesson.getRoom());
+            setText(holder.mInfo, lesson.getSuffix());
         } else {
             onBindEmptyCell(holder);
         }
+    }
+
+    private void setText(final TextView view, final String text) {
+        if(text != null && text.length() > 0) {
+            view.setText(text);
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
+
+    private String getLessonTitle(final Lesson lesson) {
+        final String name = lesson.getModule().getName();
+        if(name.contains(" ") && name.split("\\s").length > 2) {
+            final String[] nameParts = name.split("\\s");
+            StringBuilder nameBuilder = new StringBuilder();
+            final int length = nameParts[nameParts.length - 1].length() > 2
+                    ? nameParts.length : nameParts.length - 1;
+            for (int index = 0; index < length; index++) {
+                nameBuilder.append(nameParts[index].substring(0, 1));
+            }
+            nameBuilder.append(" ").append(nameParts[nameParts.length - 1]);
+            return nameBuilder.toString();
+        }
+        return name;
     }
 
     private Day getDayByColumn(final int column) {

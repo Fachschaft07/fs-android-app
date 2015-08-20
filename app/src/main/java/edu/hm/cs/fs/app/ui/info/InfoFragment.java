@@ -11,7 +11,7 @@ import com.fk07.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.InfoPresenter;
-import edu.hm.cs.fs.app.util.BaseFragment;
+import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IInfoView;
 
 /**
