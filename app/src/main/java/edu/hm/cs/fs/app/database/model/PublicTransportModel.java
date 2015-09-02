@@ -15,9 +15,12 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
+ * Requests the data from the {@link PublicTransportController}.
+ *
  * @author Fabio
  */
 public class PublicTransportModel implements IModel {
+
     /**
      * Get every Public Transport from Pasing.
      *
@@ -42,19 +45,17 @@ public class PublicTransportModel implements IModel {
      * @param location to get the Public Transport from.
      * @param callback to retrieve the data.
      */
-    private void getDepartureTimes(@NonNull final PublicTransportLocation location,
-                                   @NonNull final ICallback<List<PublicTransport>> callback) {
-        Controllers.create(PublicTransportController.class)
-                .getPublicTransports(location, new Callback<List<PublicTransport>>() {
-                    @Override
-                    public void success(List<PublicTransport> publicTransports, Response response) {
-                        callback.onSuccess(publicTransports);
-                    }
+    private void getDepartureTimes(@NonNull final PublicTransportLocation location, @NonNull final ICallback<List<PublicTransport>> callback) {
+        Controllers.create(PublicTransportController.class).getPublicTransports(location, new Callback<List<PublicTransport>>() {
+            @Override
+            public void success(List<PublicTransport> publicTransports, Response response) {
+                callback.onSuccess(publicTransports);
+            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.http(error));
-                    }
-                });
+            @Override
+            public void failure(RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
     }
 }

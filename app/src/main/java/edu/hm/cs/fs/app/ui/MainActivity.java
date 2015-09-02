@@ -20,14 +20,15 @@ import com.fk07.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
-import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
 import edu.hm.cs.fs.app.ui.fs.PresenceFragment;
 import edu.hm.cs.fs.app.ui.home.HomeFragment;
 import edu.hm.cs.fs.app.ui.info.InfoFragment;
 import edu.hm.cs.fs.app.ui.job.JobFragment;
+import edu.hm.cs.fs.app.ui.lostfound.LostFoundFragment;
 import edu.hm.cs.fs.app.ui.meal.MealFragment;
 import edu.hm.cs.fs.app.ui.publictransport.PublicTransportTabFragment;
 import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchFragment;
+import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
 
 /**
  * @author Fabio
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         NavigationView.OnNavigationItemSelectedListener {
     public static final String NAV_ITEM_ID = "navItemId";
 
+    private static Navigator mNavigator;
+
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @Bind(R.id.navigation_view)
@@ -43,10 +46,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private static Navigator mNavigator;
     private ActionBarDrawerToggle mDrawerToggle;
+
     @IdRes
     private int mCurrentMenuItem;
+
+    private static void resetNavigator() {
+        mNavigator = null;
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -81,11 +88,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private void setupNavigationDrawer() {
         mDrawerLayout.setDrawerListener(this);
         //TODO look at documantation => homepage do I really need like that?
-        mDrawerToggle = new ActionBarDrawerToggle(this
-                , mDrawerLayout
-                , mToolbar
-                , R.string.navigation_drawer_open
-                , R.string.navigation_drawer_close);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         mDrawerToggle.syncState();
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -96,14 +99,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     }
 
     private void setNewRootFragment(BaseFragment fragment) {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            if (fragment.hasCustomToolbar()) {
-                actionBar.hide();
-            } else {
-                actionBar.show();
-            }
-        }
         mNavigator.setRootFragment(fragment);
         mDrawerLayout.closeDrawers();
     }
@@ -185,6 +180,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 setNewRootFragment(new RoomSearchFragment());
                 break;
 
+            case R.id.menu_lostfound:
+                setNewRootFragment(new LostFoundFragment());
+                break;
+
             // Student council
             case R.id.menu_news:
                 //setNewRootFragment(FlexibleSpaceFragment.newInstance());
@@ -243,9 +242,5 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     public void finish() {
         resetNavigator();
         super.finish();
-    }
-
-    private static void resetNavigator() {
-        mNavigator = null;
     }
 }

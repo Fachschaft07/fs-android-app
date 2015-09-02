@@ -19,6 +19,7 @@
     <string name="others">Sonstiges</string>
     <string name="presence">Anwesenheit</string>
     <string name="timetable">Stundenplan</string>
+    <string name="lostfound">Fundsachen</string>
 
     <!-- Public Transport -->
     <string name="departure">in %1$d min</string>
@@ -81,4 +82,27 @@
     <string name="mensa_today">Das heutige Angebot an Mahlzeiten.</string>
     <string name="blackboard_current">Die Meldungen von heute und gestern.</string>
     <string name="group_format">Das ist nicht das richtige format (z.B. IF, IF2B, IF5,…).</string>
+    <string name="save">Speichern</string>
+    <string name="next_lesson">Deine nächste Stunde beginnt um %2$tH:%2$tM bei %4$s in Raum %3$s am %1$tA.</string>
+    <string name="next_lesson_suffix">Deine nächste Stunde beginnt um %2$tH:%2$tM bei %4$s in Raum %3$s am %1$tA. Das ist ein %5$s.</string>
+    <string name="rate_title">App Bewertung</string>
+    <string name="rate_description">Bist du mit der App zufrieden? Lass es uns wissen und gib eine Bewertung ab.</string>
+    <string name="rate">Jetzt Bewerten!</string>
+    <string name="semester_start">Semester Start</string>
+    <string name="semester_start_description">Viel Erfolg im neuen Semester!</string>
+    <plurals name="lostfound_description">
+        <item quantity="one">Aktuell wartet %1$d Fundsache auf seinen BesitzerIn!</item>
+        <item quantity="many">Aktuell warten %1$d Fundsachen auf ihre BesitzerInnen!</item>
+    </plurals>
+    <string name="view">Ansehen</string>
+    <string name="additional_info">Zusatzinformationen</string>
+    <string name="show">Karten zum Anzeigen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="holiday">Ferien</string>
+    <string name="holiday_summary">Zeigt dir die nächsten Ferien an.</string>
+    <string name="lostfound_summary">Zeigt dir die Anzahl an Fundsachen.</string>
+    <string name="mensa_summary">Zeigt dir das Angebot an Gerichten des aktuellen Tages aus der Mensa.</string>
+    <string name="semester_start_summary">Eine kleine Motivation für das kommende Semester.</string>
+    <string name="timetable_summary">Zeigt dir deine nächste Vorlesung.</string>
+    <string name="blackboard_summary">Zeigt dir die Neuigkeiten der letzten zwei Tage vom Schwarzen Brett.</string>
 </resources>

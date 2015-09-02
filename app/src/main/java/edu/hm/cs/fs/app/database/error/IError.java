@@ -9,9 +9,10 @@ import android.support.annotation.NonNull;
  * @author Fabio
  */
 public interface IError {
+
     /**
-     * If the error comes from a not existing internet connection then this method will
-     * return <code>true</code>.
+     * If the error comes from a not existing internet connection then this method will return
+     * <code>true</code>.
      *
      * @return <code>true</code> if no internet connection is available.
      */

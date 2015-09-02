@@ -2,8 +2,6 @@ package edu.hm.cs.fs.app.ui;
 
 import com.fk07.BuildConfig;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +9,11 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by FHellman on 18.08.2015.

@@ -20,19 +20,25 @@ import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
 /**
  * Created by FHellman on 12.08.2015.
  */
-public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPresenter> implements
-        IBlackBoardDetailView, SwipeRefreshLayout.OnRefreshListener {
+public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPresenter> implements IBlackBoardDetailView, SwipeRefreshLayout.OnRefreshListener {
+
     public static final String ARGUMENT_ID = "id";
+
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Bind(R.id.textSubject)
     TextView mSubject;
+
     @Bind(R.id.textGroups)
     TextView mGroups;
+
     @Bind(R.id.textDescription)
     TextView mDescription;
+
     @Bind(R.id.textUrl)
     TextView mUrl;
+
     @Bind(R.id.textAuthor)
     TextView mAuthor;
 
@@ -81,7 +87,7 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
 
     @Override
     public void showGroups(@NonNull String groups) {
-        if(groups.length() > 0) {
+        if (groups.length() > 0) {
             mGroups.setText(groups);
         } else {
             mGroups.setVisibility(View.GONE);
@@ -95,7 +101,7 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
 
     @Override
     public void showUrl(@NonNull String url) {
-        if(url.length() > 0) {
+        if (url.length() > 0) {
             mUrl.setText(url);
         } else {
             mUrl.setVisibility(View.GONE);

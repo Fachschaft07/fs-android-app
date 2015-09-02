@@ -24,14 +24,17 @@ import edu.hm.cs.fs.common.model.Job;
 /**
  * Created by FHellman on 10.08.2015.
  */
-public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
-        SwipeRefreshLayout.OnRefreshListener, JobAdapter.OnItemClickListener {
+public class JobFragment extends BaseFragment<JobPresenter> implements IJobView, SwipeRefreshLayout.OnRefreshListener, JobAdapter.OnItemClickListener {
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Bind(R.id.listView)
     RecyclerView mListView;
+
     private JobAdapter mAdapter;
 
     @Override
@@ -56,7 +59,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new JobPresenter(this));
-        getPresenter().loadJobs(true);
+        getPresenter().loadJobs(false);
     }
 
     @Override
@@ -76,7 +79,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
 
     @Override
     public void onRefresh() {
-        getPresenter().loadJobs(false);
+        getPresenter().loadJobs(true);
     }
 
     @Override

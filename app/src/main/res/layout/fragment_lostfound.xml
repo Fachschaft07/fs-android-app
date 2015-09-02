@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.hm.cs.fs.app.ui.home.HomeFragment">
+    tools:context="edu.hm.cs.fs.app.ui.lostfound.LostFoundFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
@@ -12,18 +12,18 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.dexafree.materialList.view.MaterialListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:column_count_landscape="4"
-            app:column_count_portrait="2"
+            android:scrollbars="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -31,8 +31,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:title="@string/lostfound"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="@string/home" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
     </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

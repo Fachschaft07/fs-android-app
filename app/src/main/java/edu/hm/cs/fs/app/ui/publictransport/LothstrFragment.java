@@ -23,12 +23,14 @@ import edu.hm.cs.fs.common.model.PublicTransport;
 /**
  * Created by FHellman on 10.08.2015.
  */
-public class LothstrFragment extends BaseFragment<PublicTransportLothstrPresenter> implements
-        IPublicTransportView<PublicTransportLothstrPresenter>, SwipeRefreshLayout.OnRefreshListener {
+public class LothstrFragment extends BaseFragment<PublicTransportLothstrPresenter> implements IPublicTransportView, SwipeRefreshLayout.OnRefreshListener {
+
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Bind(R.id.listView)
     RecyclerView mListView;
+
     private PublicTransportAdapter mAdapter;
 
     @Override

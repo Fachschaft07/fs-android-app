@@ -15,13 +15,29 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
+ * Requests the data from the {@link JobController}.
+ *
  * @author Fabio
  */
 public class JobModel extends CachedModel<Job> {
+
+    /**
+     * Get all job entries.
+     *
+     * @param refresh  should set to <code>true</code> if the blackboard entries should be updated
+     *                 from the web.
+     * @param callback to retrieve the result.
+     */
     public void getAll(final boolean refresh, @NonNull final ICallback<List<Job>> callback) {
         getData(refresh, callback);
     }
 
+    /**
+     * Get a specific job entry by title.
+     *
+     * @param title    of the job entry.
+     * @param callback to retrieve the result.
+     */
     public void getItem(@NonNull final String title, @NonNull final ICallback<Job> callback) {
         getData(false, new ICallback<List<Job>>() {
             @Override
@@ -42,18 +58,17 @@ public class JobModel extends CachedModel<Job> {
     }
 
     @Override
-    protected void update(@NonNull final ICallback<List<Job>> callback) {
-        Controllers.create(JobController.class)
-                .getJobs(new Callback<List<Job>>() {
-                    @Override
-                    public void success(List<Job> jobs, Response response) {
-                        callback.onSuccess(jobs);
-                    }
+    protected void updateOnline(@NonNull final ICallback<List<Job>> callback) {
+        Controllers.create(JobController.class).getJobs(new Callback<List<Job>>() {
+            @Override
+            public void success(List<Job> jobs, Response response) {
+                callback.onSuccess(jobs);
+            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.http(error));
-                    }
-                });
+            @Override
+            public void failure(RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
     }
 }

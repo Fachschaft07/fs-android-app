@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="home_column_count_portrait">1</integer>
+    <integer name="home_column_count_landscape">2</integer>
+    <integer name="widget_next_lesson_update">900000</integer>
+    <!-- 15 Minutes -->
+</resources>

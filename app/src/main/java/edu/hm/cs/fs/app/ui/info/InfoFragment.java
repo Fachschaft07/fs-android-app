@@ -18,8 +18,10 @@ import edu.hm.cs.fs.app.view.IInfoView;
  * @author Fabio
  */
 public class InfoFragment extends BaseFragment<InfoPresenter> implements IInfoView {
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
     @Bind(R.id.textViewVersion)
     TextView mVersion;
 

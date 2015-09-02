@@ -23,8 +23,11 @@ import edu.hm.cs.fs.common.model.Job;
  * Created by FHellman on 10.08.2015.
  */
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
+
     private final List<Job> mData = new ArrayList<>();
+
     private Context mContext;
+
     private OnItemClickListener mListener;
 
     public JobAdapter(Context context) {
@@ -39,8 +42,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-        return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.listitem_job, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.listitem_job, viewGroup, false));
     }
 
     @Override
@@ -58,16 +60,25 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         return mData.size();
     }
 
-    public void setListener(OnItemClickListener mListener) {
-        this.mListener = mListener;
+    public void setListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClicked(@NonNull final Job job);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.headline)
         TextView mHeadline;
+
         @Bind(R.id.subhead)
         TextView mSubHead;
+
         Job mJob;
+
         OnItemClickListener mListener;
 
         public ViewHolder(View itemView) {
@@ -77,13 +88,9 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
         @OnClick({R.id.headline, R.id.subhead})
         public void onItemClick() {
-            if(mListener != null) {
+            if (mListener != null) {
                 mListener.onItemClicked(mJob);
             }
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClicked(@NonNull final Job job);
     }
 }

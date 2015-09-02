@@ -8,6 +8,7 @@ import retrofit.RetrofitError;
  * @author Fabio
  */
 public final class ErrorFactory {
+
     private ErrorFactory() {
     }
 

@@ -1,9 +1,8 @@
 package edu.hm.cs.fs.app.view;
 
-import edu.hm.cs.fs.app.presenter.TimetableEditorPresenter;
-
 /**
- * Created by FHellman on 18.08.2015.
+ * @author Fabio
  */
-public interface ITimetableEditorView extends IView<TimetableEditorPresenter> {
+public interface ITimetableEditorView extends IView {
+
 }

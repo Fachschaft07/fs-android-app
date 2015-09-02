@@ -20,6 +20,7 @@ import edu.hm.cs.fs.common.model.Room;
  * Created by FHellman on 11.08.2015.
  */
 public class RoomSearchPresenter extends BasePresenter<IRoomSearchView, RoomSearchModel> {
+
     /**
      * @param view
      */
@@ -29,9 +30,6 @@ public class RoomSearchPresenter extends BasePresenter<IRoomSearchView, RoomSear
 
     /**
      * Needed for testing!
-     *
-     * @param view
-     * @param model
      */
     public RoomSearchPresenter(IRoomSearchView view, RoomSearchModel model) {
         super(view, model);
@@ -72,8 +70,7 @@ public class RoomSearchPresenter extends BasePresenter<IRoomSearchView, RoomSear
                 Collections.sort(data, new Comparator<Room>() {
                     @Override
                     public int compare(Room lhs, Room rhs) {
-                        return lhs.getFreeUntilEnd().getStart()
-                                .compareTo(rhs.getFreeUntilEnd().getStart());
+                        return lhs.getFreeUntilEnd().getStart().compareTo(rhs.getFreeUntilEnd().getStart());
                     }
                 });
                 getView().showContent(data);

@@ -4,14 +4,15 @@ import edu.hm.cs.fs.app.database.model.IModel;
 import edu.hm.cs.fs.app.view.IView;
 
 /**
- * Created by Fabio on 12.07.2015.
+ * @author Fabio
  */
 public abstract class BasePresenter<V extends IView, M extends IModel> implements IPresenter {
+
     private final V view;
+
     private final M model;
 
     /**
-     *
      * @param view
      * @param model
      */
@@ -21,7 +22,6 @@ public abstract class BasePresenter<V extends IView, M extends IModel> implement
     }
 
     /**
-     *
      * @return
      */
     protected M getModel() {
@@ -29,7 +29,6 @@ public abstract class BasePresenter<V extends IView, M extends IModel> implement
     }
 
     /**
-     *
      * @return
      */
     protected V getView() {

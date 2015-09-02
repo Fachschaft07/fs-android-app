@@ -17,16 +17,30 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
+ * Requests the data from the {@link BlackboardController}.
+ *
  * @author Fabio
  */
 public class BlackBoardModel extends CachedModel<BlackboardEntry> {
-    public void getAll(final boolean refresh,
-                       @NonNull final ICallback<List<BlackboardEntry>> callback) {
+
+    /**
+     * Get all blackboard entries.
+     *
+     * @param refresh  should set to <code>true</code> if the blackboard entries should be updated
+     *                 from the web.
+     * @param callback to retrieve the result.
+     */
+    public void getAll(final boolean refresh, @NonNull final ICallback<List<BlackboardEntry>> callback) {
         getData(refresh, callback);
     }
 
-    public void getItem(@NonNull final String id,
-                        @NonNull final ICallback<BlackboardEntry> callback) {
+    /**
+     * Get a specific blackboard entry by id.
+     *
+     * @param id       of the blackboard entry.
+     * @param callback to retrieve the result.
+     */
+    public void getItem(@NonNull final String id, @NonNull final ICallback<BlackboardEntry> callback) {
         getData(false, new ICallback<List<BlackboardEntry>>() {
             @Override
             public void onSuccess(@NonNull List<BlackboardEntry> data) {
@@ -46,24 +60,23 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
     }
 
     @Override
-    public void update(@NonNull final ICallback<List<BlackboardEntry>> callback) {
-        Controllers.create(BlackboardController.class)
-                .getEntries(new Callback<List<BlackboardEntry>>() {
+    public void updateOnline(@NonNull final ICallback<List<BlackboardEntry>> callback) {
+        Controllers.create(BlackboardController.class).getEntries(new Callback<List<BlackboardEntry>>() {
+            @Override
+            public void success(List<BlackboardEntry> blackboardEntries, Response response) {
+                Collections.sort(blackboardEntries, new Comparator<BlackboardEntry>() {
                     @Override
-                    public void success(List<BlackboardEntry> blackboardEntries, Response response) {
-                        Collections.sort(blackboardEntries, new Comparator<BlackboardEntry>() {
-                            @Override
-                            public int compare(BlackboardEntry lhs, BlackboardEntry rhs) {
-                                return -1 * lhs.getPublish().compareTo(rhs.getPublish()); // DESC
-                            }
-                        });
-                        callback.onSuccess(blackboardEntries);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.http(error));
+                    public int compare(BlackboardEntry lhs, BlackboardEntry rhs) {
+                        return -1 * lhs.getPublish().compareTo(rhs.getPublish()); // DESC
                     }
                 });
+                callback.onSuccess(blackboardEntries);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
     }
 }

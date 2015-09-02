@@ -14,6 +14,7 @@ import edu.hm.cs.fs.common.model.Job;
  * Created by FHellman on 10.08.2015.
  */
 public class JobDetailPresenter extends BasePresenter<IJobDetailView, JobModel> {
+
     /**
      * @param view
      */
@@ -23,9 +24,6 @@ public class JobDetailPresenter extends BasePresenter<IJobDetailView, JobModel> 
 
     /**
      * Needed for testing!
-     *
-     * @param view
-     * @param model
      */
     public JobDetailPresenter(IJobDetailView view, JobModel model) {
         super(view, model);

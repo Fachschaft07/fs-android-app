@@ -21,17 +21,24 @@ import edu.hm.cs.fs.app.view.IJobDetailView;
  * Created by FHellman on 10.08.2015.
  */
 public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implements IJobDetailView, SwipeRefreshLayout.OnRefreshListener {
+
     public static final String ARGUMENT_TITLE = "id";
+
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Bind(R.id.textSubject)
     TextView mSubject;
+
     @Bind(R.id.textProvider)
     TextView mProvider;
+
     @Bind(R.id.textDescription)
     TextView mDescription;
+
     @Bind(R.id.textUrl)
     TextView mUrl;
+
     @Bind(R.id.textAuthor)
     TextView mAuthor;
 

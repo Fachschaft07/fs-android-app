@@ -16,24 +16,32 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
+ * Requests the data from the {@link RoomController}.
+ *
  * @author Fabio
  */
 public class RoomSearchModel implements IModel {
-    public void getFreeRooms(@NonNull final Day day, @NonNull final Time time,
-                             @NonNull final ICallback<List<Room>> callback) {
+
+    /**
+     * Get all free rooms at the specified day and time (time also later ones).
+     *
+     * @param day      to search.
+     * @param time     to search.
+     * @param callback to retrieve the result.
+     */
+    public void getFreeRooms(@NonNull final Day day, @NonNull final Time time, @NonNull final ICallback<List<Room>> callback) {
         //final int hour = time.getStart().get(Calendar.HOUR_OF_DAY);
         //final int minute = time.getStart().get(Calendar.MINUTE);
-        Controllers.create(RoomController.class)
-                .getHolidays(day, time, new Callback<List<Room>>() {
-                    @Override
-                    public void success(List<Room> rooms, Response response) {
-                        callback.onSuccess(rooms);
-                    }
+        Controllers.create(RoomController.class).getHolidays(day, time, new Callback<List<Room>>() {
+            @Override
+            public void success(List<Room> rooms, Response response) {
+                callback.onSuccess(rooms);
+            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.http(error));
-                    }
-                });
+            @Override
+            public void failure(RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
     }
 }

@@ -13,8 +13,8 @@ import edu.hm.cs.fs.app.view.IInfoView;
  * @author Fabio
  */
 public class InfoPresenter extends BasePresenter<IInfoView, InfoModel> {
+
     /**
-     *
      * @param context
      * @param view
      */
@@ -24,9 +24,6 @@ public class InfoPresenter extends BasePresenter<IInfoView, InfoModel> {
 
     /**
      * Needed for testing!
-     *
-     * @param view
-     * @param model
      */
     public InfoPresenter(IInfoView view, InfoModel model) {
         super(view, model);

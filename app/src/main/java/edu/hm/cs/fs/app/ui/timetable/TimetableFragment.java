@@ -4,12 +4,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -29,17 +26,21 @@ import edu.hm.cs.fs.common.model.Lesson;
 /**
  * @author Fabio
  */
-public class TimetableFragment extends BaseFragment<TimetablePresenter> implements ITimetableView,
-        TimetableAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener {
+public class TimetableFragment extends BaseFragment<TimetablePresenter> implements ITimetableView, TimetableAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener {
+
     private static final int PORTRAIT_DAY_COUNT = 3;
+
     private static final int LANDSCAPE_DAY_COUNT = 7;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Bind(R.id.listView)
     RecyclerView mListView;
+
     private TimetableAdapter mAdapter;
 
     @Override
@@ -93,8 +94,9 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
             case R.id.menu_edit:
                 getMainActivity().getNavigator().goTo(new TimetableEditorFragment());
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     @Override

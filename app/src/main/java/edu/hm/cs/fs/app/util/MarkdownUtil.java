@@ -11,9 +11,8 @@ import java.util.regex.Pattern;
  * @author Fabio
  */
 public final class MarkdownUtil {
-    private static final Pattern PATTERN_BOLD = Pattern.compile("\\*([^\\*]+)\\*");
-    private static final Pattern PATTERN_LIST = Pattern.compile("\\s(?:(\\.(?!\\.)[^\\n]+)+|\\.\\s)");
-
+    private static final Pattern REGEX_BOLD = Pattern.compile("\\*([^\\*]+)\\*");
+    private static final Pattern REGEX_LIST = Pattern.compile("\\s(?:(\\.(?!\\.)[^\\n]+)+|\\.\\s)");
     private static final String NEW_LINE_TAG = "<br/>";
     private static final String BOLD_OPENING_TAG = "<b>";
     private static final String BOLD_CLOSING_TAG = "</b>";
@@ -32,7 +31,7 @@ public final class MarkdownUtil {
         StringBuilder result = new StringBuilder();
         int lastSubStringEnd = 0;
 
-        final Matcher matcher = PATTERN_BOLD.matcher(raw);
+        final Matcher matcher = REGEX_BOLD.matcher(raw);
         while (matcher.find()) {
             int indexBegin = matcher.start();
 
@@ -57,7 +56,7 @@ public final class MarkdownUtil {
         int lastSubStringEnd = 0;
         boolean listDetected = false;
 
-        final Matcher matcher = PATTERN_LIST.matcher(raw);
+        final Matcher matcher = REGEX_LIST.matcher(raw);
         while (matcher.find()) {
             if (!listDetected) {
                 result.append(NEW_LINE_TAG);

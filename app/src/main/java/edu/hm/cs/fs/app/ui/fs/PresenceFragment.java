@@ -25,12 +25,16 @@ import edu.hm.cs.fs.common.model.Presence;
  * Created by FHellman on 11.08.2015.
  */
 public class PresenceFragment extends BaseFragment<PresencePresenter> implements IPresenceView, SwipeRefreshLayout.OnRefreshListener {
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Bind(R.id.listView)
     RecyclerView mListView;
+
     private PresenceAdapter mAdapter;
 
     @Override

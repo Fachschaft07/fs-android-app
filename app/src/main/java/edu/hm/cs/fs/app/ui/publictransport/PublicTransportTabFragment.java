@@ -24,12 +24,16 @@ import edu.hm.cs.fs.app.ui.BaseFragment;
  * Created by FHellman on 10.08.2015.
  */
 public class PublicTransportTabFragment extends BaseFragment {
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
     @Bind(R.id.tabLayout)
     TabLayout mTabLayout;
+
     @Bind(R.id.viewPager)
     ViewPager mViewPager;
+
     private ViewPagerAdapter mAdapter;
 
     @Override
@@ -93,7 +97,9 @@ public class PublicTransportTabFragment extends BaseFragment {
     }
 
     private static final class ViewPagerAdapter extends FragmentPagerAdapter {
+
         private final List<Fragment> mFragmentList = new ArrayList<>();
+
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
         public ViewPagerAdapter(FragmentManager manager) {

@@ -1,16 +1,10 @@
 package edu.hm.cs.fs.app.ui;
 
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.fk07.BuildConfig;
 import com.fk07.R;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +14,9 @@ import org.robolectric.annotation.Config;
 
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
 import edu.hm.cs.fs.app.ui.home.HomeFragment;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by FHellman on 18.08.2015.

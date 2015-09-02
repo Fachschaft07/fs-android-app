@@ -1,13 +1,10 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,15 +29,25 @@ import edu.hm.cs.fs.common.model.Lesson;
  * @author Fabio
  */
 public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.ViewHolder> {
+
     private static final String TIME_FORMAT = "%1$tH:%1$tM%n-%n%2$tH:%2$tM";
+
     private static final String DAY_LARGE_FORMAT = "%1$tA";
+
     private static final String DAY_SMALL_FORMAT = "%1$ta.";
+
     private static final int DAY_ROW = 1;
+
     private static final int TIME_COLUMN = 1;
+
     private static final int DAYS_OF_WEEK = 7;
+
     private final List<Lesson> mData = new ArrayList<>();
+
     private final Context mContext;
+
     private final int mNumberOfDays;
+
     private OnItemClickListener mListener;
 
     public TimetableAdapter(@NonNull final Context context, final int numberOfDays) {
@@ -56,8 +63,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.listitem_timetable, parent, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.listitem_timetable, parent, false));
     }
 
     @Override
@@ -79,9 +85,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         } else {
             // all other cells -> lessons / empty
             holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_lesson_border);
-            onBindLessonCell(holder,
-                    position % (TIME_COLUMN + mNumberOfDays) - TIME_COLUMN,
-                    position / (TIME_COLUMN + mNumberOfDays) - DAY_ROW);
+            onBindLessonCell(holder, position % (TIME_COLUMN + mNumberOfDays) - TIME_COLUMN, position / (TIME_COLUMN + mNumberOfDays) - DAY_ROW);
         }
     }
 
@@ -104,8 +108,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     private void onBindTimeCell(ViewHolder holder, int row) {
         final Time time = Time.values()[row];
         setText(holder.mSubject, null);
-        setText(holder.mRoom, String.format(Locale.getDefault(), TIME_FORMAT,
-                time.getStart(), time.getEnd()));
+        setText(holder.mRoom, String.format(Locale.getDefault(), TIME_FORMAT, time.getStart(), time.getEnd()));
         setText(holder.mInfo, null);
     }
 
@@ -116,13 +119,13 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         calendar.set(Calendar.DAY_OF_WEEK, day.getCalendarId());
 
         final String dayFormat;
-        if(mNumberOfDays != DAYS_OF_WEEK) {
+        if (mNumberOfDays != DAYS_OF_WEEK) {
             dayFormat = DAY_LARGE_FORMAT;
         } else {
             dayFormat = DAY_SMALL_FORMAT;
         }
         setText(holder.mSubject, String.format(Locale.getDefault(), dayFormat, calendar));
-        if(calendar.get(Calendar.DAY_OF_WEEK) == current.get(Calendar.DAY_OF_WEEK)) {
+        if (calendar.get(Calendar.DAY_OF_WEEK) == current.get(Calendar.DAY_OF_WEEK)) {
             // Underline current day
             SpannableString content = new SpannableString(holder.mSubject.getText());
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -153,7 +156,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     }
 
     private void setText(final TextView view, final String text) {
-        if(text != null && text.length() > 0) {
+        if (text != null && text.length() > 0) {
             view.setText(text);
         } else {
             view.setVisibility(View.GONE);
@@ -162,11 +165,10 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     private String getLessonTitle(final Lesson lesson) {
         final String name = lesson.getModule().getName();
-        if(name.contains(" ") && name.split("\\s").length > 2) {
+        if (name.contains(" ") && name.split("\\s").length > 2) {
             final String[] nameParts = name.split("\\s");
             StringBuilder nameBuilder = new StringBuilder();
-            final int length = nameParts[nameParts.length - 1].length() > 2
-                    ? nameParts.length : nameParts.length - 1;
+            final int length = nameParts[nameParts.length - 1].length() > 2 ? nameParts.length : nameParts.length - 1;
             for (int index = 0; index < length; index++) {
                 nameBuilder.append(nameParts[index].substring(0, 1));
             }
@@ -179,7 +181,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     private Day getDayByColumn(final int column) {
         if (mNumberOfDays != DAYS_OF_WEEK) {
             int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + column;
-            if(dayOfWeek > Calendar.SATURDAY) {
+            if (dayOfWeek > Calendar.SATURDAY) {
                 dayOfWeek = dayOfWeek - Calendar.SATURDAY;
             }
             for (Day day : Day.values()) {
@@ -205,22 +207,37 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         return (TIME_COLUMN + mNumberOfDays) * (DAY_ROW + Time.values().length);
     }
 
-    public void setOnItemClickListener(OnItemClickListener mListener) {
-        this.mListener = mListener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClicked(@NonNull final Lesson lesson);
+
+        void onEmptyClicked(@NonNull final Day day, @NonNull final Time time);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.cell)
         LinearLayout mCell;
+
         @Bind(R.id.textSubject)
         TextView mSubject;
+
         @Bind(R.id.textRoom)
         TextView mRoom;
+
         @Bind(R.id.textInfo)
         TextView mInfo;
+
         private Day mDay;
+
         private Time mTime;
+
         private Lesson mLesson;
+
         private OnItemClickListener mListener;
 
         public ViewHolder(View itemView) {
@@ -238,11 +255,5 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
                 }
             }
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClicked(@NonNull final Lesson lesson);
-
-        void onEmptyClicked(@NonNull final Day day, @NonNull final Time time);
     }
 }

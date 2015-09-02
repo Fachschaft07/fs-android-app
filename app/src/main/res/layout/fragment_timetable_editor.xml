@@ -30,6 +30,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIcon="@drawable/ic_close_white_24dp"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -47,10 +48,13 @@
                 android:layout_weight="1"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/Base.TextAppearance.AppCompat.Caption">
+
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/study_if"/>
+                    android:hint="@string/study_if"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textColor="@android:color/white" />
             </android.support.design.widget.TextInputLayout>
 
             <ImageButton

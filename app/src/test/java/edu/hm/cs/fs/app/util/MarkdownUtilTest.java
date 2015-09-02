@@ -22,9 +22,9 @@ public class MarkdownUtilTest {
     private static final Spanned BOLD_OUTPUT = Html.fromHtml("this is a <b>test</b>.");
     private static final String NEW_LINE_INPUT = "this #is #a #test.";
     private static final Spanned NEW_LINE_OUTPUT = Html.fromHtml("this <br/>is <br/>a <br/>test.");
-    private static final String LIST_INPUT = " .Test\n.Hello\n.World\n. ";
-    private static final Spanned LIST_OUTPUT = Html.fromHtml("<br/>&#8226; Test<br/>&#8226; " +
-            "Hello<br/>&#8226; World");
+    private static final String LIST_INPUT = " .Test\n.Hello\n.World\n";
+    private static final Spanned LIST_OUTPUT = Html.fromHtml("<br/><br/><br/>&#8226; " +
+            "Test<br/>&#8226; Hello<br/>&#8226; World<br/><br/><br/>");
 
     @Test
     public void testMarkdownBold() {

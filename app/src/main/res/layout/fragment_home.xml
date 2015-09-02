@@ -16,8 +16,8 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:column_count_landscape="2"
-            app:column_count_portrait="1"
+            app:column_count_landscape="@integer/home_column_count_landscape"
+            app:column_count_portrait="@integer/home_column_count_portrait"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -31,7 +31,6 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/home" />
     </android.support.design.widget.AppBarLayout>

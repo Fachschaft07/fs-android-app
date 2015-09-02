@@ -23,8 +23,11 @@ import edu.hm.cs.fs.common.model.BlackboardEntry;
  * Created by FHellman on 12.08.2015.
  */
 public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.ViewHolder> {
+
     private final List<BlackboardEntry> mData = new ArrayList<>();
+
     private Context mContext;
+
     private OnItemClickListener mListener;
 
     public BlackBoardAdapter(@NonNull final Context context) {
@@ -39,8 +42,7 @@ public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.listitem_blackboard, parent, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.listitem_blackboard, parent, false));
     }
 
     @Override
@@ -52,14 +54,13 @@ public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.Vi
         holder.mTitle.setText(MarkdownUtil.toHtml(entry.getSubject()));
         StringBuilder author = new StringBuilder();
         final String title = entry.getAuthor().getTitle();
-        if(title != null && title.length() > 0) {
+        if (title != null && title.length() > 0) {
             author.append(title).append(" ");
         }
         author.append(entry.getAuthor().getLastName());
         holder.mAuthor.setText(author.toString());
-        if(!entry.getGroups().isEmpty()) {
-            holder.mGroups.setText(entry.getGroups().toString()
-                    .substring(1, entry.getGroups().toString().length() - 1));
+        if (!entry.getGroups().isEmpty()) {
+            holder.mGroups.setText(entry.getGroups().toString().substring(1, entry.getGroups().toString().length() - 1));
             holder.mGroups.setVisibility(View.VISIBLE);
         } else {
             holder.mGroups.setVisibility(View.GONE);
@@ -71,18 +72,28 @@ public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.Vi
         return mData.size();
     }
 
-    public void setListener(OnItemClickListener mListener) {
-        this.mListener = mListener;
+    public void setListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClicked(@NonNull final BlackboardEntry entry);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.textTitle)
         TextView mTitle;
+
         @Bind(R.id.textAuthor)
         TextView mAuthor;
+
         @Bind(R.id.textGroups)
         TextView mGroups;
+
         BlackboardEntry mBlackboardEntry;
+
         OnItemClickListener mListener;
 
         public ViewHolder(View itemView) {
@@ -92,13 +103,9 @@ public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.Vi
 
         @OnClick({R.id.textTitle, R.id.textAuthor, R.id.textGroups})
         public void onItemClick() {
-            if(mListener != null) {
+            if (mListener != null) {
                 mListener.onItemClicked(mBlackboardEntry);
             }
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClicked(@NonNull final BlackboardEntry entry);
     }
 }

@@ -4,15 +4,19 @@ import android.content.Context;
 
 import com.fk07.BuildConfig;
 
-import static org.hamcrest.CoreMatchers.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.Mockito.*;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import retrofit.RetrofitError;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by FHellman on 14.08.2015.

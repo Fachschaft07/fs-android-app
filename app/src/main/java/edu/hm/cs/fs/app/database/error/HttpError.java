@@ -13,6 +13,7 @@ import retrofit.RetrofitError;
  * @author Fabio
  */
 public class HttpError implements IError {
+
     private RetrofitError mRetrofitError;
 
     /**
@@ -31,7 +32,7 @@ public class HttpError implements IError {
     @Override
     public String getMessage(@NonNull Context context) {
         final String message;
-        if(mRetrofitError.getKind() == RetrofitError.Kind.NETWORK) {
+        if (mRetrofitError.getKind() == RetrofitError.Kind.NETWORK) {
             message = context.getString(R.string.network_error);
         } else {
             message = mRetrofitError.getLocalizedMessage();

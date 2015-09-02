@@ -1,10 +1,12 @@
 package edu.hm.cs.fs.app.view;
 
-import edu.hm.cs.fs.app.presenter.IPresenter;
-
 /**
  * @author Fabio
  */
-public interface IDetailsView<P extends IPresenter> extends IView<P> {
+public interface IDetailsView extends IView {
+
+    /**
+     * If the detail view is displayed on a single pane, then this method closes the detail view.
+     */
     void close();
 }

@@ -25,7 +25,9 @@ import edu.hm.cs.fs.common.model.PublicTransport;
  * Created by FHellman on 10.08.2015.
  */
 public class PublicTransportAdapter extends RecyclerView.Adapter<PublicTransportAdapter.ViewHolder> {
+
     private final List<PublicTransport> mData = new ArrayList<>();
+
     private final Context mContext;
 
     public PublicTransportAdapter(@NonNull final Context context) {
@@ -40,27 +42,18 @@ public class PublicTransportAdapter extends RecyclerView.Adapter<PublicTransport
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-        return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.listitem_public_transport, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.listitem_public_transport, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         final PublicTransport entry = mData.get(position);
 
-        TextDrawable drawable = TextDrawable.builder()
-                .beginConfig()
-                .withBorder(2)
-                .fontSize(29)
-                .textColor(Color.DKGRAY)
-                .endConfig()
-                .buildRound(entry.getLine(), Color.TRANSPARENT);
+        TextDrawable drawable = TextDrawable.builder().beginConfig().withBorder(2).fontSize(mContext.getResources().getDimensionPixelSize(R.dimen.text_size_mvv_line)).textColor(Color.DKGRAY).endConfig().buildRound(entry.getLine(), Color.TRANSPARENT);
 
         viewHolder.mLine.setImageDrawable(drawable);
         viewHolder.mDestination.setText(entry.getDestination());
-        viewHolder.mTime.setText(
-                mContext.getString(R.string.departure, entry.getDepartureIn(TimeUnit.MINUTES))
-        );
+        viewHolder.mTime.setText(mContext.getString(R.string.departure, entry.getDepartureIn(TimeUnit.MINUTES)));
     }
 
     @Override
@@ -69,10 +62,13 @@ public class PublicTransportAdapter extends RecyclerView.Adapter<PublicTransport
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.imageLine)
         ImageView mLine;
+
         @Bind(R.id.textDestination)
         TextView mDestination;
+
         @Bind(R.id.textTime)
         TextView mTime;
 

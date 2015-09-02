@@ -12,10 +12,14 @@ import java.util.Map;
  * @author Fabio
  */
 public final class ModelFactory {
+
     /**
      * Contains every model instance.
      */
     private static final Map<Class<? extends IModel>, IModel> INSTANCES = new HashMap<>();
+
+    private ModelFactory() {
+    }
 
     /**
      * Get the Blackboard model.
@@ -106,6 +110,26 @@ public final class ModelFactory {
     @NonNull
     public static TimetableModel getTimetable(@NonNull final Context context) {
         return getInstance(new TimetableModel(context));
+    }
+
+    /**
+     * Get the Lost & Found model.
+     *
+     * @return the model.
+     */
+    @NonNull
+    public static LostFoundModel getLostFound() {
+        return getInstance(new LostFoundModel());
+    }
+
+    /**
+     * Get the Calendar model.
+     *
+     * @return the model.
+     */
+    @NonNull
+    public static CalendarModel getCalendar() {
+        return getInstance(new CalendarModel());
     }
 
     /**

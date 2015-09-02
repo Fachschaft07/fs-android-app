@@ -2,10 +2,12 @@
 
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+
     <style name="Theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 
         <item name="android:windowBackground">@android:color/white</item>
     </style>

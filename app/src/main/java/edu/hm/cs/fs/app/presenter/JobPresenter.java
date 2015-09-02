@@ -15,6 +15,7 @@ import edu.hm.cs.fs.common.model.Job;
  * Created by FHellman on 10.08.2015.
  */
 public class JobPresenter extends BasePresenter<IJobView, JobModel> {
+
     /**
      * @param view
      */
@@ -24,17 +25,14 @@ public class JobPresenter extends BasePresenter<IJobView, JobModel> {
 
     /**
      * Needed for testing!
-     *
-     * @param view
-     * @param model
      */
     public JobPresenter(IJobView view, JobModel model) {
         super(view, model);
     }
 
-    public void loadJobs(final boolean cache) {
+    public void loadJobs(final boolean refresh) {
         getView().showLoading();
-        getModel().getAll(cache, new ICallback<List<Job>>() {
+        getModel().getAll(refresh, new ICallback<List<Job>>() {
             @Override
             public void onSuccess(@NonNull List<Job> data) {
                 getView().showContent(data);

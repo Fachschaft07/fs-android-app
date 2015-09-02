@@ -9,9 +9,13 @@ import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
 
 /**
+ * Caches and updates the data.
+ *
+ * @param <T> of the data.
  * @author Fabio
  */
 public abstract class CachedModel<T> implements IModel {
+
     /**
      * A list with the cached items.
      */
@@ -25,12 +29,26 @@ public abstract class CachedModel<T> implements IModel {
      */
     protected void getData(final boolean refresh, @NonNull final ICallback<List<T>> callback) {
         if (refresh || mDataCache.isEmpty()) {
-            update(new ICallback<List<T>>() {
+            updateOffline(new ICallback<List<T>>() {
                 @Override
-                public void onSuccess(@NonNull List<T> data) {
-                    mDataCache.clear();
-                    mDataCache.addAll(data);
-                    callback.onSuccess(mDataCache);
+                public void onSuccess(List<T> data) {
+                    if (data.isEmpty()) {
+                        updateOnline(new ICallback<List<T>>() {
+                            @Override
+                            public void onSuccess(@NonNull List<T> data) {
+                                mDataCache.clear();
+                                mDataCache.addAll(data);
+                                callback.onSuccess(mDataCache);
+                            }
+
+                            @Override
+                            public void onError(@NonNull IError error) {
+                                callback.onError(error);
+                            }
+                        });
+                    } else {
+                        callback.onSuccess(data);
+                    }
                 }
 
                 @Override
@@ -44,9 +62,18 @@ public abstract class CachedModel<T> implements IModel {
     }
 
     /**
-     * Updates the content.
+     * Updates the content with the web.
      *
      * @param callback to retrieve the results.
      */
-    protected abstract void update(@NonNull final ICallback<List<T>> callback);
+    protected abstract void updateOnline(@NonNull final ICallback<List<T>> callback);
+
+    /**
+     * Updates the content with the offline data.
+     *
+     * @param callback to retrieve the results.
+     */
+    protected void updateOffline(@NonNull final ICallback<List<T>> callback) {
+        callback.onSuccess(new ArrayList<T>());
+    }
 }

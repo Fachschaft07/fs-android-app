@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/next_lesson_widget"
+    android:minHeight="@dimen/widget_next_lesson_height"
+    android:minWidth="@dimen/widget_next_lesson_width"
+    android:previewImage="@drawable/appwidget_preview"
+    android:updatePeriodMillis="@integer/widget_next_lesson_update" />

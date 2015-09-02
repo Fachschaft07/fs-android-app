@@ -23,12 +23,14 @@ import edu.hm.cs.fs.common.model.PublicTransport;
 /**
  * Created by FHellman on 10.08.2015.
  */
-public class PasingFragment extends BaseFragment<PublicTransportPasingPresenter> implements
-        IPublicTransportView<PublicTransportPasingPresenter>, SwipeRefreshLayout.OnRefreshListener {
+public class PasingFragment extends BaseFragment<PublicTransportPasingPresenter> implements IPublicTransportView, SwipeRefreshLayout.OnRefreshListener {
+
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Bind(R.id.listView)
     RecyclerView mListView;
+
     private PublicTransportAdapter mAdapter;
 
     @Override

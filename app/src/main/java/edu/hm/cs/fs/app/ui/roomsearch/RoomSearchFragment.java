@@ -34,16 +34,22 @@ import edu.hm.cs.fs.common.model.Room;
  * Created by FHellman on 11.08.2015.
  */
 public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implements IRoomSearchView, SwipeRefreshLayout.OnRefreshListener {
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Bind(R.id.listView)
     RecyclerView mListView;
+
     @Bind(R.id.spinnerDay)
     Spinner mSpinnerDay;
+
     @Bind(R.id.spinnerTime)
     Spinner mSpinnerTime;
+
     private RoomSearchAdapter mAdapter;
 
     @Override
@@ -63,8 +69,7 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mSpinnerDay.setAdapter(new ArrayAdapter<Day>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item, Day.values()) {
+        mSpinnerDay.setAdapter(new ArrayAdapter<Day>(getActivity(), android.R.layout.simple_spinner_dropdown_item, Day.values()) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 return setText(super.getView(position, convertView, parent), position, Color.WHITE);
@@ -90,8 +95,7 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
         });
         mSpinnerDay.setSelection(0);
 
-        mSpinnerTime.setAdapter(new ArrayAdapter<Time>(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item, Time.values()) {
+        mSpinnerTime.setAdapter(new ArrayAdapter<Time>(getActivity(), android.R.layout.simple_spinner_dropdown_item, Time.values()) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 return setText(super.getView(position, convertView, parent), position, Color.WHITE);
@@ -150,15 +154,15 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
     @SuppressWarnings("unchecked")
     @Override
     public void showCurrentDay(@NonNull final Day day) {
-        mSpinnerDay.setSelection(((ArrayAdapter<Day>)mSpinnerDay.getAdapter())
-                .getPosition(day));
+        final ArrayAdapter<Day> adapter = (ArrayAdapter<Day>) mSpinnerDay.getAdapter();
+        mSpinnerDay.setSelection(adapter.getPosition(day));
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void showCurrentTime(@NonNull final Time time) {
-        mSpinnerTime.setSelection(((ArrayAdapter<Time>)mSpinnerTime.getAdapter())
-                .getPosition(time));
+        final ArrayAdapter<Time> adapter = (ArrayAdapter<Time>) mSpinnerTime.getAdapter();
+        mSpinnerTime.setSelection(adapter.getPosition(time));
     }
 
     @Override

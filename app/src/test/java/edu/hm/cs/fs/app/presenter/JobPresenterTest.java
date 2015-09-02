@@ -4,7 +4,6 @@ import com.fk07.BuildConfig;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.Mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricGradleTestRunner;
@@ -18,6 +17,14 @@ import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.JobModel;
 import edu.hm.cs.fs.app.view.IJobView;
 import edu.hm.cs.fs.common.model.Job;
+
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyBoolean;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by FHellman on 13.08.2015.

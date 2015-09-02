@@ -23,7 +23,9 @@ import edu.hm.cs.fs.common.model.Presence;
  * Created by FHellman on 11.08.2015.
  */
 public class PresenceAdapter extends RecyclerView.Adapter<PresenceAdapter.ViewHolder> {
+
     private final List<Presence> mData = new ArrayList<>();
+
     private final Context mContext;
 
     public PresenceAdapter(Context context) {
@@ -38,8 +40,7 @@ public class PresenceAdapter extends RecyclerView.Adapter<PresenceAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.listitem_presence, parent, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.listitem_presence, parent, false));
     }
 
     @Override
@@ -62,8 +63,10 @@ public class PresenceAdapter extends RecyclerView.Adapter<PresenceAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.presenceStatus)
         ImageView mStatus;
+
         @Bind(R.id.presenceName)
         TextView mName;
 

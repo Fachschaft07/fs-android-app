@@ -12,9 +12,9 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.BlackBoardModel;
-import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.view.IBlackBoardView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 

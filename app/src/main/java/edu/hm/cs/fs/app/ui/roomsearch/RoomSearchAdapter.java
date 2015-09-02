@@ -20,7 +20,9 @@ import edu.hm.cs.fs.common.model.Room;
  * Created by FHellman on 10.08.2015.
  */
 public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.ViewHolder> {
+
     private final List<Room> mData = new ArrayList<>();
+
     private Context mContext;
 
     public RoomSearchAdapter(Context context) {
@@ -35,8 +37,7 @@ public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-        return new ViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.listitem_room_search, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.listitem_room_search, viewGroup, false));
     }
 
     @Override
@@ -44,8 +45,7 @@ public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.Vi
         final Room room = mData.get(position);
 
         viewHolder.mRoom.setText(room.getName());
-        viewHolder.mFreeUntil.setText(mContext.getString(R.string.free_until,
-                String.format("%1$tH:%1$tM", room.getFreeUntilEnd().getEnd())));
+        viewHolder.mFreeUntil.setText(mContext.getString(R.string.free_until, String.format("%1$tH:%1$tM", room.getFreeUntilEnd().getEnd())));
     }
 
     @Override
@@ -54,8 +54,10 @@ public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         @Bind(R.id.textRoom)
         TextView mRoom;
+
         @Bind(R.id.textFreeUntil)
         TextView mFreeUntil;
 

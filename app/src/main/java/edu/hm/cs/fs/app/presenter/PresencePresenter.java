@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import edu.hm.cs.fs.app.database.model.FsModel;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
+import edu.hm.cs.fs.app.database.model.FsModel;
 import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.view.IPresenceView;
 import edu.hm.cs.fs.common.model.Presence;
@@ -15,6 +15,7 @@ import edu.hm.cs.fs.common.model.Presence;
  * Created by FHellman on 11.08.2015.
  */
 public class PresencePresenter extends BasePresenter<IPresenceView, FsModel> {
+
     /**
      * @param view
      */
@@ -24,9 +25,6 @@ public class PresencePresenter extends BasePresenter<IPresenceView, FsModel> {
 
     /**
      * Needed for testing!
-     *
-     * @param view
-     * @param model
      */
     public PresencePresenter(IPresenceView view, FsModel model) {
         super(view, model);

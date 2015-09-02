@@ -11,12 +11,13 @@ import edu.hm.cs.fs.app.database.error.IError;
  * @author Fabio
  */
 public interface ICallback<T> {
+
     /**
      * Is called from the model if a result is available.
      *
      * @param data from the model.
      */
-    void onSuccess(@NonNull final T data);
+    void onSuccess(final T data);
 
     /**
      * Is called from the model if an error occurred.

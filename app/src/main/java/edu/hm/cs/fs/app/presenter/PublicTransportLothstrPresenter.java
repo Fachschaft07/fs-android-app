@@ -15,6 +15,7 @@ import edu.hm.cs.fs.common.model.PublicTransport;
  * Created by FHellman on 10.08.2015.
  */
 public class PublicTransportLothstrPresenter extends BasePresenter<IPublicTransportView, PublicTransportModel> {
+
     /**
      * @param view
      */
@@ -24,9 +25,6 @@ public class PublicTransportLothstrPresenter extends BasePresenter<IPublicTransp
 
     /**
      * Needed for testing!
-     *
-     * @param view
-     * @param model
      */
     public PublicTransportLothstrPresenter(IPublicTransportView view, PublicTransportModel model) {
         super(view, model);

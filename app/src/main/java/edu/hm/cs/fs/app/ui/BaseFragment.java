@@ -20,17 +20,21 @@ import com.fk07.R;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.IPresenter;
-import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.IView;
 
 /**
  * @author Fabio
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IView<P> {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IView {
+
     Toolbar mToolbar;
+
     private P presenter;
+
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
     private boolean mRefresh;
+
     private View mViewError;
 
     public MainActivity getMainActivity() {
@@ -38,8 +42,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(getLayout(), container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -57,9 +60,8 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void setPresenter(@NonNull final P presenter) {
-        this.presenter = presenter;
+    protected Toolbar getToolbar() {
+        return mToolbar;
     }
 
     protected void setToolbar(@NonNull final View view) {
@@ -76,10 +78,6 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
                 }
             });
         }
-    }
-
-    protected Toolbar getToolbar() {
-        return mToolbar;
     }
 
     @IdRes
@@ -99,10 +97,21 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @LayoutRes
     protected abstract int getLayout();
 
-    public boolean isDetailFragment() { return false; }
+    public boolean isDetailFragment() {
+        return false;
+    }
 
     public P getPresenter() {
         return presenter;
+    }
+
+    /**
+     * Sets the presenter to communicate with.
+     *
+     * @param presenter to communicate with.
+     */
+    public void setPresenter(@NonNull final P presenter) {
+        this.presenter = presenter;
     }
 
     @Override
@@ -128,9 +137,8 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
 
     @Override
     public void showError(@NonNull final IError error) {
-        if(mViewError != null && getActivity() != null) {
-            final Snackbar snackbar = Snackbar.make(mViewError,
-                    error.getMessage(getActivity()), Snackbar.LENGTH_LONG);
+        if (mViewError != null && getActivity() != null) {
+            final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(getActivity()), Snackbar.LENGTH_LONG);
             onErrorSnackbar(snackbar, error);
             snackbar.show();
         }
@@ -141,10 +149,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         mSwipeRefreshLayout = swipeRefreshLayout;
         initErrorSnackbar(mSwipeRefreshLayout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light);
+            swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
         }
     }
 
@@ -152,7 +157,6 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         mViewError = view;
     }
 
-    public void onErrorSnackbar(@NonNull final Snackbar snackbar,
-                                @NonNull final IError error) {
+    public void onErrorSnackbar(@NonNull final Snackbar snackbar, @NonNull final IError error) {
     }
 }

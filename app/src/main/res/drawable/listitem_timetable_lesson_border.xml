@@ -5,7 +5,9 @@
             <solid android:color="@color/timetable_grid" />
         </shape>
     </item>
-    <item android:right="1dp" android:bottom="1dp">
+    <item
+        android:right="1dp"
+        android:bottom="1dp">
         <shape android:shape="rectangle">
             <solid android:color="@android:color/white" />
         </shape>

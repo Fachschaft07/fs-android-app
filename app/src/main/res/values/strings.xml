@@ -19,6 +19,7 @@
     <string name="others">Others</string>
     <string name="presence">Presence</string>
     <string name="timetable">Timetable</string>
+    <string name="lostfound"><![CDATA[Lost & Found]]></string>
 
     <!-- Public Transport -->
     <string name="departure">in %1$d min</string>
@@ -83,7 +84,7 @@
 
     <!-- Others -->
     <string name="time">Time</string>
-    <string name="not_title_set" translatable="false"/>
+    <string name="not_title_set" translatable="false" />
     <string name="navigation_drawer_open">Navigation Drawer Open</string>
     <string name="navigation_drawer_close">Navigation Drawer Close</string>
     <string name="retry">Retry</string>
@@ -92,4 +93,28 @@
     <string name="group_format">This is not the correct format (e.g. IF, IF2B, IF5,…).</string>
     <string name="mensa_today">Today\'s supply of meals.</string>
     <string name="blackboard_current">The news of today and yesterday.</string>
+    <string name="save">Save</string>
+    <string name="next_lesson_suffix">Your next lesson starts at %2$tH:%2$tM with %4$s in Room %3$s on %1$tA. This is a %5$s.</string>
+    <string name="next_lesson">Your next lesson starts at %2$tH:%2$tM with %4$s in Room %3$s on %1$tA.</string>
+    <string name="rate_title">App Rating</string>
+    <string name="rate_subtitle" translatable="false">&#9733; &#9733; &#9733; &#9734; &#9734;</string>
+    <string name="rate_description">Are you happy with the App? Let us know and rate the App.</string>
+    <string name="rate">Rate Now!</string>
+    <string name="semester_start">Semester Start</string>
+    <string name="semester_start_description">Good luck in the new semester!</string>
+    <plurals name="lostfound_description">
+        <item quantity="one">Currently there is %1$d thing waiting for his owner!</item>
+        <item quantity="many">Currently there are %1$d things waiting for their owners!</item>
+    </plurals>
+    <string name="view">View</string>
+    <string name="additional_info">Additional Information</string>
+    <string name="settings">Settings</string>
+    <string name="show">Cards to show</string>
+    <string name="semester_start_summary">A little motivation for the next semester.</string>
+    <string name="holiday">Holiday</string>
+    <string name="blackboard_summary">Shows you the latest news from the last two days of the blackboard.</string>
+    <string name="timetable_summary">Shows you the next lesson.</string>
+    <string name="mensa_summary">Shows you the offered meals of the current day from the mensa.</string>
+    <string name="lostfound_summary">Shows you the amount of things which were lost and found.</string>
+    <string name="holiday_summary">Show you the next holiday.</string>
 </resources>

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
  * @author Fabio
  */
 public class ExceptionError implements IError {
+
     private Exception mException;
 
     /**

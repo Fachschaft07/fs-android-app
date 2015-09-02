@@ -15,31 +15,35 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
+ * Requests the data from the {@link MealController}.
+ *
  * @author Fabio
  */
 public class MealModel extends CachedModel<Meal> {
+
     /**
+     * Get all meal entries.
      *
-     * @param refresh
-     * @param callback
+     * @param refresh  should set to <code>true</code> if the blackboard entries should be updated
+     *                 from the web.
+     * @param callback to retrieve the result.
      */
     public void getAll(final boolean refresh, @NonNull final ICallback<List<Meal>> callback) {
         getData(refresh, callback);
     }
 
     @Override
-    protected void update(@NonNull final ICallback<List<Meal>> callback) {
-        Controllers.create(MealController.class)
-                .getMeals(StudentWorkMunich.MENSA_LEOPOLDSTRASSE, new Callback<List<Meal>>() {
-                    @Override
-                    public void success(final List<Meal> meals, final Response response) {
-                        callback.onSuccess(meals);
-                    }
+    protected void updateOnline(@NonNull final ICallback<List<Meal>> callback) {
+        Controllers.create(MealController.class).getMeals(StudentWorkMunich.MENSA_LEOPOLDSTRASSE, new Callback<List<Meal>>() {
+            @Override
+            public void success(final List<Meal> meals, final Response response) {
+                callback.onSuccess(meals);
+            }
 
-                    @Override
-                    public void failure(final RetrofitError error) {
-                        callback.onError(ErrorFactory.http(error));
-                    }
-                });
+            @Override
+            public void failure(final RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
     }
 }

@@ -24,6 +24,10 @@
                     android:id="@+id/menu_roomsearch"
                     android:icon="@drawable/ic_search_grey_600_24dp"
                     android:title="@string/roomsearch" />
+                <item
+                    android:id="@+id/menu_lostfound"
+                    android:icon="@drawable/ic_loyalty_grey_600_24dp"
+                    android:title="@string/lostfound" />
             </menu>
         </item>
 
