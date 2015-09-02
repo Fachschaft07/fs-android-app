@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/Fachschaft07/fs-app.svg)](https://travis-ci.org/Fachschaft07/fs-app)
 [![Coverage Status](https://coveralls.io/repos/Fachschaft07/fs-app/badge.svg?branch=master&service=github)](https://coveralls.io/github/Fachschaft07/fs-app?branch=master)
 
-The official Android App (https://play.google.com/store/apps/details?id=com.fk07) of the Faculty 07 of the University of applied Science Munich. The app is developed by students from the Student Council.
+This is the official Android app of the faculty 07 of the University of Applied Sciences Munich. It is developed by students from the Student Council: [Playstore](https://play.google.com/store/apps/details?id=com.fk07)
 
 **Version 2.0 Alpha**
 ![Preview](https://github.com/Fachschaft07/fs-app/blob/master/screencaptures/de/banner/v2.0-ALPHA/Banner.png)
