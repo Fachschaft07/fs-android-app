@@ -131,7 +131,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void showSemesterStart() {
-        if (isActive(SEMESTER_START, false) && isSemesterStart()) {
+        if (isActive(SEMESTER_START)) {
             Card card = new Card.Builder(getActivity())
                     .setTag(SEMESTER_START)
                     .withProvider(BigImageCardProvider.class)
@@ -145,7 +145,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void showNextLesson(@Nullable Lesson lesson) {
-        if (isActive(NEXT_LESSON, false) && lesson != null) {
+        if (isActive(NEXT_LESSON) && lesson != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.DAY_OF_WEEK, lesson.getDay().getCalendarId());
 
@@ -178,7 +178,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void showBlackboardNews(@NonNull List<BlackboardEntry> news) {
-        if (isActive(BLACKBOARD, false) && !news.isEmpty()) {
+        if (isActive(BLACKBOARD) && !news.isEmpty()) {
             Card card = new Card.Builder(getActivity())
                     .setTag(BLACKBOARD)
                     .setDismissible()
@@ -214,7 +214,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void showMealsOfToday(@NonNull List<Meal> meals) {
-        if (isActive(MENSA, false) && !meals.isEmpty()) {
+        if (isActive(MENSA) && !meals.isEmpty()) {
             Card card = new Card.Builder(getActivity())
                     .setTag(MENSA)
                     .setDismissible()
@@ -264,7 +264,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void showLostAndFound(@NonNull Integer amountOfLostFound) {
-        if (isActive(LOSTFOUND, false) && amountOfLostFound > 0) {
+        if (isActive(LOSTFOUND) && amountOfLostFound > 0) {
             Card card = new Card.Builder(getActivity())
                     .setTag(LOSTFOUND)
                     .setDismissible()
@@ -290,7 +290,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void showNextHoliday(@Nullable Holiday holiday) {
-        if (isActive(HOLIDAY, false) && holiday != null) {
+        if (isActive(HOLIDAY) && holiday != null) {
             Card card = new Card.Builder(getActivity())
                     .setTag(HOLIDAY)
                     .setDismissible()
@@ -307,7 +307,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void showAppRate() {
-        if (isActive(APP_RATING, true)) {
+        if (isActive(APP_RATING)) {
             Card card = new Card.Builder(getActivity())
                     .setTag(APP_RATING)
                     .withProvider(WelcomeCardProvider.class)
@@ -337,18 +337,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
         }
     }
 
-    private boolean isActive(String pref, boolean defaultValue) {
-        return mPrefs.getBoolean(pref, false) && getActivity() != null;
-    }
-
-    private boolean isSemesterStart() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.MONTH) == Calendar.MARCH
-                && calendar.get(Calendar.DAY_OF_MONTH) >= 9
-                && calendar.get(Calendar.DAY_OF_MONTH) < 20
-                || calendar.get(Calendar.MONTH) == Calendar.OCTOBER
-                && calendar.get(Calendar.DAY_OF_MONTH) >= 1
-                && calendar.get(Calendar.DAY_OF_MONTH) < 7;
+    private boolean isActive(String pref) {
+        return mPrefs.getBoolean(pref, true) && getActivity() != null;
     }
 
     private void add(@NonNull final Card card, final boolean atStart) {
