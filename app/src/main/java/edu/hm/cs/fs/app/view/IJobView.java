@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import edu.hm.cs.fs.common.model.Job;
+import edu.hm.cs.fs.common.model.simple.SimpleJob;
 
 /**
  * @author Fabio
@@ -16,5 +17,5 @@ public interface IJobView extends IView {
      *
      * @param content to display.
      */
-    void showContent(@NonNull final List<Job> content);
+    void showContent(@NonNull final List<SimpleJob> content);
 }

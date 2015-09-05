@@ -9,7 +9,7 @@ import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.JobModel;
 import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.view.IJobView;
-import edu.hm.cs.fs.common.model.Job;
+import edu.hm.cs.fs.common.model.simple.SimpleJob;
 
 /**
  * Created by FHellman on 10.08.2015.
@@ -32,9 +32,9 @@ public class JobPresenter extends BasePresenter<IJobView, JobModel> {
 
     public void loadJobs(final boolean refresh) {
         getView().showLoading();
-        getModel().getAll(refresh, new ICallback<List<Job>>() {
+        getModel().getAll(refresh, new ICallback<List<SimpleJob>>() {
             @Override
-            public void onSuccess(@NonNull List<Job> data) {
+            public void onSuccess(@NonNull List<SimpleJob> data) {
                 getView().showContent(data);
                 getView().hideLoading();
             }

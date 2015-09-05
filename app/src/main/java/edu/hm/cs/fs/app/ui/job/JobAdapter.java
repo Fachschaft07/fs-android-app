@@ -17,14 +17,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.hm.cs.fs.app.util.MarkdownUtil;
-import edu.hm.cs.fs.common.model.Job;
+import edu.hm.cs.fs.common.model.simple.SimpleJob;
 
 /**
  * Created by FHellman on 10.08.2015.
  */
 public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
-    private final List<Job> mData = new ArrayList<>();
+    private final List<SimpleJob> mData = new ArrayList<>();
 
     private Context mContext;
 
@@ -34,7 +34,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         mContext = context;
     }
 
-    public void setData(List<Job> data) {
+    public void setData(List<SimpleJob> data) {
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();
@@ -47,7 +47,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final Job job = mData.get(position);
+        final SimpleJob job = mData.get(position);
 
         viewHolder.mJob = job;
         viewHolder.mListener = mListener;
@@ -66,7 +66,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
 
     public interface OnItemClickListener {
 
-        void onItemClicked(@NonNull final Job job);
+        void onItemClicked(@NonNull final SimpleJob job);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -77,7 +77,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.ViewHolder> {
         @Bind(R.id.subhead)
         TextView mSubHead;
 
-        Job mJob;
+        SimpleJob mJob;
 
         OnItemClickListener mListener;
 

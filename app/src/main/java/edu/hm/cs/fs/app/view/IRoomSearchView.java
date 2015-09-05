@@ -6,7 +6,7 @@ import java.util.List;
 
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
-import edu.hm.cs.fs.common.model.Room;
+import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 
 /**
  * @author Fabio
@@ -18,7 +18,7 @@ public interface IRoomSearchView extends IView {
      *
      * @param content to display.
      */
-    void showContent(@NonNull final List<Room> content);
+    void showContent(@NonNull final List<SimpleRoom> content);
 
     /**
      * Displays the current day on the view.

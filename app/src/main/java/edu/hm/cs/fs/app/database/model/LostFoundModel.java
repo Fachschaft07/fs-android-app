@@ -10,6 +10,8 @@ import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.common.model.LostFound;
 
 /**
+ * Requests the data only for lost & found.
+ *
  * @author Fabio
  */
 public class LostFoundModel implements IModel {

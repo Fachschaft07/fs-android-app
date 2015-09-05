@@ -20,6 +20,7 @@ import edu.hm.cs.fs.app.presenter.JobPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IJobView;
 import edu.hm.cs.fs.common.model.Job;
+import edu.hm.cs.fs.common.model.simple.SimpleJob;
 
 /**
  * Created by FHellman on 10.08.2015.
@@ -83,7 +84,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
     }
 
     @Override
-    public void showContent(@NonNull final List<Job> content) {
+    public void showContent(@NonNull final List<SimpleJob> content) {
         mAdapter.setData(content);
     }
 

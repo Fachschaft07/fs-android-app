@@ -2,21 +2,21 @@ package edu.hm.cs.fs.app.database.model;
 
 import android.support.annotation.NonNull;
 
+import java.util.Calendar;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
-import edu.hm.cs.fs.common.model.Room;
-import edu.hm.cs.fs.restclient.Controllers;
-import edu.hm.cs.fs.restclient.RoomController;
+import edu.hm.cs.fs.common.model.simple.SimpleRoom;
+import edu.hm.cs.fs.restclient.FsRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Requests the data from the {@link RoomController}.
+ * Requests the data only for rooms.
  *
  * @author Fabio
  */
@@ -29,12 +29,12 @@ public class RoomSearchModel implements IModel {
      * @param time     to search.
      * @param callback to retrieve the result.
      */
-    public void getFreeRooms(@NonNull final Day day, @NonNull final Time time, @NonNull final ICallback<List<Room>> callback) {
-        //final int hour = time.getStart().get(Calendar.HOUR_OF_DAY);
-        //final int minute = time.getStart().get(Calendar.MINUTE);
-        Controllers.create(RoomController.class).getHolidays(day, time, new Callback<List<Room>>() {
+    public void getFreeRooms(@NonNull final Day day, @NonNull final Time time,
+                             @NonNull final ICallback<List<SimpleRoom>> callback) {
+        FsRestClient.getV1().getRoomByDateTime(day, time.getStart().get(Calendar.HOUR_OF_DAY),
+                time.getStart().get(Calendar.MINUTE), new Callback<List<SimpleRoom>>() {
             @Override
-            public void success(List<Room> rooms, Response response) {
+            public void success(List<SimpleRoom> rooms, Response response) {
                 callback.onSuccess(rooms);
             }
 

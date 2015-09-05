@@ -14,14 +14,14 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.hm.cs.fs.common.model.Room;
+import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 
 /**
- * Created by FHellman on 10.08.2015.
+ * @author Fabio
  */
 public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.ViewHolder> {
 
-    private final List<Room> mData = new ArrayList<>();
+    private final List<SimpleRoom> mData = new ArrayList<>();
 
     private Context mContext;
 
@@ -29,7 +29,7 @@ public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.Vi
         mContext = context;
     }
 
-    public void setData(List<Room> data) {
+    public void setData(List<SimpleRoom> data) {
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();
@@ -37,15 +37,17 @@ public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.listitem_room_search, viewGroup, false));
+        return new ViewHolder(LayoutInflater.from(mContext)
+                .inflate(R.layout.listitem_room_search, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final Room room = mData.get(position);
+        final SimpleRoom room = mData.get(position);
 
         viewHolder.mRoom.setText(room.getName());
-        viewHolder.mFreeUntil.setText(mContext.getString(R.string.free_until, String.format("%1$tH:%1$tM", room.getFreeUntilEnd().getEnd())));
+        viewHolder.mFreeUntil.setText(mContext.getString(R.string.free_until,
+                String.format("%1$d:%2$d", room.getHour(), room.getMinute())));
     }
 
     @Override

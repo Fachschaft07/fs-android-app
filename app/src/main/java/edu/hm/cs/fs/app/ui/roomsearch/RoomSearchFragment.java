@@ -28,10 +28,10 @@ import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IRoomSearchView;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
-import edu.hm.cs.fs.common.model.Room;
+import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 
 /**
- * Created by FHellman on 11.08.2015.
+ * @author Fabio
  */
 public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implements IRoomSearchView, SwipeRefreshLayout.OnRefreshListener {
 
@@ -147,7 +147,7 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
     }
 
     @Override
-    public void showContent(@NonNull List<Room> content) {
+    public void showContent(@NonNull List<SimpleRoom> content) {
         mAdapter.setData(content);
     }
 

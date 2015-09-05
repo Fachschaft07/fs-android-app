@@ -1,13 +1,13 @@
 package edu.hm.cs.fs.app.database.model;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,8 +26,8 @@ import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
-import edu.hm.cs.fs.common.model.Module;
-import edu.hm.cs.fs.common.model.Person;
+import edu.hm.cs.fs.common.model.simple.SimpleModule;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
 import edu.hm.cs.fs.restclient.typeadapter.GroupTypeAdapter;
 
@@ -67,10 +67,10 @@ public class TimetableModel extends CachedModel<Lesson> implements IModel {
     }
 
     private static Lesson create(Day day, Time time, String room, String suffix, String moduleName) {
-        Module module = new Module();
+        SimpleModule module = new SimpleModule();
         module.setName(moduleName);
 
-        Person person = new Person();
+        SimplePerson person = new SimplePerson();
         person.setTitle("Prof. Dr.");
         person.setFirstName("Max");
         person.setLastName("Mustermann");

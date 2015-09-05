@@ -10,14 +10,13 @@ import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
-import edu.hm.cs.fs.restclient.BlackboardController;
-import edu.hm.cs.fs.restclient.Controllers;
+import edu.hm.cs.fs.restclient.FsRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Requests the data from the {@link BlackboardController}.
+ * Requests the data only for blackboard.
  *
  * @author Fabio
  */
@@ -61,7 +60,7 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
 
     @Override
     public void updateOnline(@NonNull final ICallback<List<BlackboardEntry>> callback) {
-        Controllers.create(BlackboardController.class).getEntries(new Callback<List<BlackboardEntry>>() {
+        FsRestClient.getV1().getEntries(new Callback<List<BlackboardEntry>>() {
             @Override
             public void success(List<BlackboardEntry> blackboardEntries, Response response) {
                 Collections.sort(blackboardEntries, new Comparator<BlackboardEntry>() {

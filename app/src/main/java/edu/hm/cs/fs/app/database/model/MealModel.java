@@ -8,14 +8,13 @@ import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.common.constant.StudentWorkMunich;
 import edu.hm.cs.fs.common.model.Meal;
-import edu.hm.cs.fs.restclient.Controllers;
-import edu.hm.cs.fs.restclient.MealController;
+import edu.hm.cs.fs.restclient.FsRestClient;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Requests the data from the {@link MealController}.
+ * Requests the data only for mensa.
  *
  * @author Fabio
  */
@@ -34,7 +33,7 @@ public class MealModel extends CachedModel<Meal> {
 
     @Override
     protected void updateOnline(@NonNull final ICallback<List<Meal>> callback) {
-        Controllers.create(MealController.class).getMeals(StudentWorkMunich.MENSA_LEOPOLDSTRASSE, new Callback<List<Meal>>() {
+        FsRestClient.getV1().getMeals(StudentWorkMunich.MENSA_LEOPOLDSTRASSE, new Callback<List<Meal>>() {
             @Override
             public void success(final List<Meal> meals, final Response response) {
                 callback.onSuccess(meals);
