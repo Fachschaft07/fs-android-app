@@ -13,7 +13,7 @@ import edu.hm.cs.fs.app.view.IMealView;
 import edu.hm.cs.fs.common.model.Meal;
 
 /**
- * Created by Fabio on 12.07.2015.
+ * @author Fabio
  */
 public class MealPresenter extends BasePresenter<IMealView, MealModel> {
 
@@ -39,13 +39,6 @@ public class MealPresenter extends BasePresenter<IMealView, MealModel> {
         getModel().getAll(refresh, new ICallback<List<Meal>>() {
             @Override
             public void onSuccess(@NonNull final List<Meal> data) {
-                for (int index = 0; index < data.size(); ) {
-                    if (isTodayOrFuture(data.get(index))) {
-                        index++;
-                    } else {
-                        data.remove(index);
-                    }
-                }
                 getView().showContent(data);
                 getView().hideLoading();
             }
@@ -54,16 +47,6 @@ public class MealPresenter extends BasePresenter<IMealView, MealModel> {
             public void onError(@NonNull final IError error) {
                 getView().showError(error);
                 getView().hideLoading();
-            }
-
-            private boolean isTodayOrFuture(@NonNull final Meal meal) {
-                Calendar calendar = Calendar.getInstance();
-                Calendar calendarMeal = Calendar.getInstance();
-                calendarMeal.setTime(meal.getDate());
-                return calendar.get(Calendar.YEAR) <= calendarMeal.get(Calendar.YEAR)
-                        && calendar.get(Calendar.MONTH) <= calendarMeal.get(Calendar.MONTH)
-                        && calendar.get(Calendar.DAY_OF_MONTH)
-                        <= calendarMeal.get(Calendar.DAY_OF_MONTH);
             }
         });
     }

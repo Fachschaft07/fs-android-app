@@ -33,7 +33,7 @@ public class MealModel extends CachedModel<Meal> {
 
     @Override
     protected void updateOnline(@NonNull final ICallback<List<Meal>> callback) {
-        FsRestClient.getV1().getMeals(StudentWorkMunich.MENSA_LEOPOLDSTRASSE, new Callback<List<Meal>>() {
+        FsRestClient.getV1().getMeals(StudentWorkMunich.MENSA_LOTHSTRASSE, new Callback<List<Meal>>() {
             @Override
             public void success(final List<Meal> meals, final Response response) {
                 callback.onSuccess(meals);

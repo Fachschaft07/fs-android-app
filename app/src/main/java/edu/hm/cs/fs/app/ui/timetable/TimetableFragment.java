@@ -113,10 +113,10 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     public void onItemClicked(@NonNull Lesson lesson) {
         /*
         Bundle arguments = new Bundle();
-        arguments.putString(TimetableLessonFragment.ARG_MODULE, lesson.getModule().getName());
-        arguments.putString(TimetableLessonFragment.ARG_TEACHER, lesson.getTeacher().getId());
+        arguments.putString(LessonDetailFragment.ARG_MODULE, lesson.getModule().getId());
+        arguments.putString(LessonDetailFragment.ARG_TEACHER, lesson.getTeacher().getId());
 
-        final TimetableLessonFragment fragment = new TimetableLessonFragment();
+        final LessonDetailFragment fragment = new LessonDetailFragment();
         fragment.setArguments(arguments);
 
         getMainActivity().getNavigator().goTo(fragment);
@@ -125,8 +125,6 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
 
     @Override
     public void onEmptyClicked(@NonNull Day day, @NonNull Time time) {
-        // TODO Fenster öffnen mit allen Modulen, die zu dieser Stunde Vorlesung haben und
-        // sich nicht mit anderen Vorlesungen an anderen Tagen überschneiden.
     }
 
     @Override

@@ -2,6 +2,8 @@ package edu.hm.cs.fs.app.presenter;
 
 import android.support.annotation.NonNull;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
@@ -35,6 +37,12 @@ public class LostFoundPresenter extends BasePresenter<ILostFoundView, LostFoundM
         getModel().getLostFound(new ICallback<List<LostFound>>() {
             @Override
             public void onSuccess(@NonNull List<LostFound> data) {
+                Collections.sort(data, new Comparator<LostFound>() {
+                    @Override
+                    public int compare(LostFound lhs, LostFound rhs) {
+                        return -1 * lhs.getDate().compareTo(rhs.getDate());
+                    }
+                });
                 getView().showContent(data);
                 getView().hideLoading();
             }

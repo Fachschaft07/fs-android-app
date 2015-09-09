@@ -46,7 +46,7 @@ public class LostFoundAdapter extends RecyclerView.Adapter<LostFoundAdapter.View
         final LostFound lostFound = mData.get(position);
 
         viewHolder.mSubject.setText(MarkdownUtil.toHtml(lostFound.getSubject()));
-        viewHolder.mDate.setText(String.format("%1$tD.%1$tM.%1$tY", lostFound.getDate()));
+        viewHolder.mDate.setText(String.format("%1$td.%1$tm.%1$tY", lostFound.getDate()));
     }
 
     @Override

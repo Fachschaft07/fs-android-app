@@ -7,7 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
+import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.common.model.LostFound;
+import edu.hm.cs.fs.restclient.FsRestClient;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Requests the data only for lost & found.
@@ -15,13 +20,21 @@ import edu.hm.cs.fs.common.model.LostFound;
  * @author Fabio
  */
 public class LostFoundModel implements IModel {
-
+    /**
+     *
+     * @param callback
+     */
     public void getLostFound(@NonNull final ICallback<List<LostFound>> callback) {
-        // TODO Connection to the Rest-Controller
-        LostFound item = new LostFound();
-        item.setDate(new Date());
-        item.setSubject("USB-Stick");
+        FsRestClient.getV1().getLostAndFound(new Callback<List<LostFound>>() {
+            @Override
+            public void success(List<LostFound> lostFounds, Response response) {
+                callback.onSuccess(lostFounds);
+            }
 
-        callback.onSuccess(Arrays.asList(item));
+            @Override
+            public void failure(RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
     }
 }

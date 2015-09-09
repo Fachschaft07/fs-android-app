@@ -89,7 +89,7 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
     }
 
     @Override
-    public void onItemClicked(@NonNull Job job) {
+    public void onItemClicked(@NonNull SimpleJob job) {
         JobDetailFragment fragment = new JobDetailFragment();
         Bundle arguments = new Bundle();
         arguments.putString(JobDetailFragment.ARGUMENT_TITLE, job.getTitle());

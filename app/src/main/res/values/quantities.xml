@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="lostfound_description">
+        <item quantity="one">@string/lostfound_description_one</item>
+        <item quantity="other">@string/lostfound_description_other</item>
+    </plurals>
+</resources>

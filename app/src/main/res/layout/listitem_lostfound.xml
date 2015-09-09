@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textSubject"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
         android:singleLine="true"
         android:layout_marginLeft="@dimen/text_margin_left"
         android:layout_marginRight="@dimen/text_margin_right"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/textDate"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
         android:singleLine="true"
         android:layout_marginLeft="@dimen/text_margin_left"
         android:layout_marginRight="@dimen/text_margin_right" />
