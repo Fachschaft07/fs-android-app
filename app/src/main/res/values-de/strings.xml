@@ -106,4 +106,9 @@
     <string name="timetable_summary">Zeigt dir deine nächste Vorlesung.</string>
     <string name="blackboard_summary">Zeigt dir die Neuigkeiten der letzten zwei Tage vom Schwarzen Brett.</string>
     <string name="view">Anzeigen</string>
+    <string name="placement_group">%1$d. Praktikumsgruppe</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="reset_timetable_message">Es werden all deine ausgewählten und manuell hinzugefügten Stunden gelöscht.</string>
+    <string name="reset_timetable_title">Stundenplan zurücksetzen?</string>
 </resources>

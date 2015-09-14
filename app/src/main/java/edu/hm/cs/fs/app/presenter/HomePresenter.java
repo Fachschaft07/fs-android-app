@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import java.util.Calendar;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
@@ -114,19 +113,6 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
             }
         });
 
-        if(isSemesterStart()) {
-            getView().showSemesterStart();
-        }
         getView().showAppRate();
-    }
-
-    private boolean isSemesterStart() {
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.MONTH) == Calendar.MARCH
-                && calendar.get(Calendar.DAY_OF_MONTH) >= 9
-                && calendar.get(Calendar.DAY_OF_MONTH) < 20
-                || calendar.get(Calendar.MONTH) == Calendar.OCTOBER
-                && calendar.get(Calendar.DAY_OF_MONTH) >= 1
-                && calendar.get(Calendar.DAY_OF_MONTH) < 7;
     }
 }

@@ -3,9 +3,14 @@ package edu.hm.cs.fs.app.presenter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
+import edu.hm.cs.fs.app.database.ICallback;
+import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.database.model.TimetableModel;
 import edu.hm.cs.fs.app.view.ITimetableView;
+import edu.hm.cs.fs.common.model.Lesson;
 
 /**
  * @author Fabio
@@ -27,10 +32,9 @@ public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableM
         super(view, model);
     }
 
-    public void loadTimetable() {
+    public void loadTimetable(final boolean refresh) {
         getView().showLoading();
-        /*
-        getModel().get(new ICallback<List<Lesson>>() {
+        getModel().getTimetable(refresh, new ICallback<List<Lesson>>() {
             @Override
             public void onSuccess(@NonNull List<Lesson> data) {
                 getView().showContent(data);
@@ -43,6 +47,9 @@ public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableM
                 getView().hideLoading();
             }
         });
-        */
+    }
+
+    public void reset() {
+        getModel().revert();
     }
 }

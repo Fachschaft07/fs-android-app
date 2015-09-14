@@ -147,8 +147,9 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         holder.mTime = time;
 
         if (lesson != null) {
-            setText(holder.mSubject, getLessonTitle(lesson));
-            setText(holder.mRoom, lesson.getRoom());
+            setText(holder.mSubject, lesson.getModule().getName());
+            final String room = lesson.getRoom().toUpperCase(Locale.getDefault());
+            setText(holder.mRoom, new StringBuilder(room).insert(2, '.').toString());
             setText(holder.mInfo, lesson.getSuffix());
         } else {
             onBindEmptyCell(holder);
@@ -163,26 +164,11 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         }
     }
 
-    private String getLessonTitle(final Lesson lesson) {
-        final String name = lesson.getModule().getName();
-        if (name.contains(" ") && name.split("\\s").length > 2) {
-            final String[] nameParts = name.split("\\s");
-            StringBuilder nameBuilder = new StringBuilder();
-            final int length = nameParts[nameParts.length - 1].length() > 2 ? nameParts.length : nameParts.length - 1;
-            for (int index = 0; index < length; index++) {
-                nameBuilder.append(nameParts[index].substring(0, 1));
-            }
-            nameBuilder.append(" ").append(nameParts[nameParts.length - 1]);
-            return nameBuilder.toString();
-        }
-        return name;
-    }
-
     private Day getDayByColumn(final int column) {
         if (mNumberOfDays != DAYS_OF_WEEK) {
             int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + column;
-            if (dayOfWeek > Calendar.SATURDAY) {
-                dayOfWeek = dayOfWeek - Calendar.SATURDAY;
+            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+                dayOfWeek = Calendar.MONDAY;
             }
             for (Day day : Day.values()) {
                 if (day.getCalendarId() == dayOfWeek) {

@@ -132,4 +132,9 @@
     <string name="lostfound_summary">Shows you the amount of things which were lost and found.
     </string>
     <string name="holiday_summary">Show you the next holiday.</string>
+    <string name="reset">Reset</string>
+    <string name="placement_group">%1$d. Placement group</string>
+    <string name="reset_timetable_title">Reset Timetable?</string>
+    <string name="reset_timetable_message">It will delete all your chosen and manually added lessons.</string>
+    <string name="cancel">Cancel</string>
 </resources>

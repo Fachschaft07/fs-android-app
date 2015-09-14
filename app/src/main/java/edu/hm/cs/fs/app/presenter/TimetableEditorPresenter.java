@@ -3,13 +3,18 @@ package edu.hm.cs.fs.app.presenter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
+import edu.hm.cs.fs.app.database.ICallback;
+import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.database.model.TimetableModel;
 import edu.hm.cs.fs.app.view.ITimetableEditorView;
 import edu.hm.cs.fs.common.model.Group;
+import edu.hm.cs.fs.common.model.LessonGroup;
 
 /**
- * Created by FHellman on 18.08.2015.
+ * @author Fabio
  */
 public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView, TimetableModel> {
 
@@ -28,12 +33,11 @@ public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView
     }
 
     public void loadModules(@NonNull final Group group) {
-        //getView().showLoading();
-        /*
-        getModel().getAllModules(group, new ICallback<List<Object>>() {
+        getView().showLoading();
+        getModel().getLessonsByGroup(group, new ICallback<List<LessonGroup>>() {
             @Override
-            public void onSuccess(@NonNull List<Object> data) {
-                // TODO Add modules
+            public void onSuccess(@NonNull List<LessonGroup> data) {
+                getView().showContent(data);
                 getView().hideLoading();
             }
 
@@ -43,22 +47,27 @@ public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView
                 getView().hideLoading();
             }
         });
-        */
     }
 
-    public void deselectModule(@NonNull final String moduleId, @NonNull final String teacherId, final int pk) {
-        //getModel().removeModule(moduleId, teacherId, pk);
+    public boolean isPkSelected(@NonNull final LessonGroup lessonGroup, final int pk) {
+        return getModel().isPkSelected(lessonGroup, pk);
     }
 
-    public void selectModule(@NonNull final String moduleId, @NonNull final String teacherId, final int pk) {
-        //getModel().addModule(moduleId, teacherId, pk);
+    public void setPkSelected(@NonNull final LessonGroup lessonGroup, final int pk,
+                              final boolean selected) {
+        getModel().setPkSelected(lessonGroup, pk, selected);
     }
 
-    public void reset() {
-        //getModel().revert();
+    public void setLessonGroupSelected(@NonNull final LessonGroup lessonGroup,
+                                       final boolean selected) {
+        getModel().setSelected(lessonGroup, selected);
+    }
+
+    public void cancel() {
+        getModel().revert();
     }
 
     public void save() {
-        //getModel().updateOnline();
+        getModel().save();
     }
 }

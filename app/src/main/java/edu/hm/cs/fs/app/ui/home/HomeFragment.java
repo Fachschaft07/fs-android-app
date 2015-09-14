@@ -24,7 +24,6 @@ import com.dexafree.materialList.card.Card;
 import com.dexafree.materialList.card.OnButtonClickListener;
 import com.dexafree.materialList.card.provider.BasicButtonsCardProvider;
 import com.dexafree.materialList.card.provider.BasicListCardProvider;
-import com.dexafree.materialList.card.provider.BigImageCardProvider;
 import com.dexafree.materialList.card.provider.SmallImageCardProvider;
 import com.dexafree.materialList.card.provider.WelcomeCardProvider;
 import com.dexafree.materialList.listeners.OnDismissCallback;
@@ -127,20 +126,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
     @Override
     public void onRefresh() {
         getPresenter().loadHappenings(true);
-    }
-
-    @Override
-    public void showSemesterStart() {
-        if (isActive(SEMESTER_START)) {
-            Card card = new Card.Builder(getActivity())
-                    .setTag(SEMESTER_START)
-                    .withProvider(BigImageCardProvider.class)
-                    .setTitle(R.string.semester_start)
-                    .setDescription(R.string.semester_start_description)
-                            // TODO Use an image where the rights belong to the student council
-                    .setDrawable("http://cdn.meme.am/instances/55179646.jpg").endConfig().build();
-            add(card, true);
-        }
     }
 
     @Override

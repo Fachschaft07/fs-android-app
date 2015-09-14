@@ -1,9 +1,11 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,9 +30,9 @@ import edu.hm.cs.fs.common.model.Lesson;
  */
 public class TimetableFragment extends BaseFragment<TimetablePresenter> implements ITimetableView, TimetableAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener {
 
-    private static final int PORTRAIT_DAY_COUNT = 3;
+    private static final int PORTRAIT_DAY_COUNT = 2;
 
-    private static final int LANDSCAPE_DAY_COUNT = 7;
+    private static final int LANDSCAPE_DAY_COUNT = 5;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -71,11 +73,10 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
         mListView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfDays + 1));
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new TimetablePresenter(getActivity(), this));
-        getPresenter().loadTimetable();
+        getPresenter().loadTimetable(false);
     }
 
     @Override
@@ -94,6 +95,28 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
             case R.id.menu_edit:
                 getMainActivity().getNavigator().goTo(new TimetableEditorFragment());
                 return true;
+            case R.id.menu_reset:
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext(),
+                        R.style.Base_Theme_AppCompat_Dialog_Alert)
+                        .setTitle(R.string.reset_timetable_title)
+                        .setMessage(R.string.reset_timetable_message)
+                        .setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                getPresenter().reset();
+                                onRefresh();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                alertDialog.show();
+                return true;
             default:
                 return false;
         }
@@ -106,11 +129,12 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
 
     @Override
     public void onRefresh() {
-        getPresenter().loadTimetable();
+        getPresenter().loadTimetable(true);
     }
 
     @Override
     public void onItemClicked(@NonNull Lesson lesson) {
+        // TODO Edit lesson with on click
         /*
         Bundle arguments = new Bundle();
         arguments.putString(LessonDetailFragment.ARG_MODULE, lesson.getModule().getId());
@@ -125,6 +149,7 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
 
     @Override
     public void onEmptyClicked(@NonNull Day day, @NonNull Time time) {
+        // TODO Add lessons manually
     }
 
     @Override

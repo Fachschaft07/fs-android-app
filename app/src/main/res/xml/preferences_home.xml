@@ -3,11 +3,6 @@
     <PreferenceCategory android:title="@string/show">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="semester_start"
-            android:summary="@string/semester_start_summary"
-            android:title="@string/semester_start" />
-        <CheckBoxPreference
-            android:defaultValue="true"
             android:key="blackboard"
             android:summary="@string/blackboard_summary"
             android:title="@string/blackboard" />

@@ -53,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/study_if"
+                    android:singleLine="true"
                     android:textColorHint="@android:color/darker_gray"
                     android:textColor="@android:color/white" />
             </android.support.design.widget.TextInputLayout>
@@ -61,8 +62,8 @@
                 android:id="@+id/search"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/text_margin_left"
-                android:layout_marginRight="@dimen/text_margin_right"
+                android:paddingLeft="@dimen/text_margin_left"
+                android:paddingRight="@dimen/text_margin_right"
                 android:background="@android:color/transparent"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_send_white_24dp" />

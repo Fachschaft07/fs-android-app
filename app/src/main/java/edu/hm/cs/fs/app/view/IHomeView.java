@@ -15,8 +15,6 @@ import edu.hm.cs.fs.common.model.Meal;
  */
 public interface IHomeView extends IView {
 
-    void showSemesterStart();
-
     void showNextLesson(@Nullable final Lesson lesson);
 
     void showBlackboardNews(@NonNull final List<BlackboardEntry> news);

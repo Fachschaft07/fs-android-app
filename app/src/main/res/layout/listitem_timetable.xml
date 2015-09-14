@@ -10,21 +10,24 @@
         android:id="@+id/textSubject"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.45"
+        android:layout_weight="0.50"
         android:gravity="center"
         android:paddingBottom="@dimen/text_margin_bottom"
         android:paddingTop="@dimen/text_margin_bottom"
+        android:lines="2"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="14sp"
         tools:text="Subject" />
 
     <TextView
         android:id="@+id/textRoom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3"
+        android:layout_weight="0.25"
         android:gravity="center"
         android:paddingBottom="@dimen/text_margin_bottom"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="13sp"
         tools:text="Room" />
 
     <TextView
@@ -35,5 +38,6 @@
         android:gravity="center"
         android:paddingBottom="@dimen/text_margin_bottom"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textSize="12sp"
         tools:text="Info" />
 </LinearLayout>
