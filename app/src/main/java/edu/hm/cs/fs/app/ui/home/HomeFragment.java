@@ -276,12 +276,18 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
     @Override
     public void showNextHoliday(@Nullable Holiday holiday) {
         if (isActive(HOLIDAY) && holiday != null) {
+            Calendar calendarToday = Calendar.getInstance();
+
+            long timeDiff = holiday.getStart().getTime() - calendarToday.getTimeInMillis();
+            int daysLeft = (int) (timeDiff / (1000 * 60 * 60 * 24));
+
             Card card = new Card.Builder(getActivity())
                     .setTag(HOLIDAY)
                     .setDismissible()
                     .withProvider(SmallImageCardProvider.class)
                     .setTitle(holiday.getName())
-                    .setDescription(String.format(HOLIDAY_TIME_RANGE,
+                    .setDescription(getResources().getQuantityString(R.plurals.next_holidays,
+                            daysLeft, daysLeft, holiday.getName(),
                             holiday.getStart(), holiday.getEnd()))
                     .setDrawable(R.drawable.ic_flight_orange_800_36dp)
                     .endConfig()

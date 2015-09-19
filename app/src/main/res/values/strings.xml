@@ -126,6 +126,8 @@
     <string name="blackboard_summary">Shows you the latest news from the last two days of the
         blackboard.
     </string>
+    <string name="next_holidays_one">Only %1$d day left till the %2$s starts! Then you have free time from %3$ta %3$td.%3$tm.%3$tY to %4$ta %4$td.%4$tm.%4$tY.</string>
+    <string name="next_holidays_other">Only %1$d days left till the %2$s starts! Then you have free time from %3$ta %3$td.%3$tm.%3$tY to %4$ta %4$td.%4$tm.%4$tY.</string>
     <string name="timetable_summary">Shows you the next lesson.</string>
     <string name="mensa_summary">Shows you the offered meals of the current day from the mensa.
     </string>

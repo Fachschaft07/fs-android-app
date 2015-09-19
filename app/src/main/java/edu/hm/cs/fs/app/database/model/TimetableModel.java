@@ -58,7 +58,7 @@ public class TimetableModel implements IModel {
     public void getTimetable(final boolean refresh,
                              @NonNull final ICallback<List<Lesson>> callback) {
         try {
-            if(isTimetableUpToDate() && !refresh) {
+            if (isTimetableUpToDate() && !refresh) {
                 callback.onSuccess(readTimetable());
             } else {
                 updateTimetable(callback);
@@ -82,14 +82,14 @@ public class TimetableModel implements IModel {
                     final List<Lesson> timetable = new ArrayList<>();
                     for (LessonGroupSaver lessonGroupSaver : config) {
                         final LessonGroup lessonGroup = lessonGroupSaver.mLessonGroup;
-                        final List<Lesson> lessons = FsRestClient.getV1()
-                                .getLessons(lessonGroup.getGroup(), lessonGroup.getModule().getId(),
-                                        lessonGroup.getTeacher().getId(), lessonGroupSaver.mSelectedPk);
-                        timetable.addAll(lessons);
+
+                        timetable.addAll(FsRestClient.getV1().getLessons(lessonGroup.getGroup(),
+                                lessonGroup.getModule().getId(), lessonGroup.getTeacher().getId(),
+                                lessonGroupSaver.mSelectedPk));
                     }
                     writeTimetable(timetable);
                     return timetable;
-                } catch (IOException e) {
+                } catch (Exception e) {
                     callback.onError(ErrorFactory.exception(e));
                     return null;
                 }
@@ -97,7 +97,7 @@ public class TimetableModel implements IModel {
 
             @Override
             protected void onPostExecute(List<Lesson> lessons) {
-                if(lessons != null) {
+                if (lessons != null) {
                     callback.onSuccess(lessons);
                 }
             }
@@ -202,17 +202,17 @@ public class TimetableModel implements IModel {
     public void save(@NonNull final LessonGroup lessonGroup, final int pk, final boolean selected) {
         try {
             final List<LessonGroupSaver> lessonGroupSavers = readTimetableConfig();
-            if(selected) {
+            if (selected) {
                 lessonGroupSavers.add(new LessonGroupSaver(lessonGroup, pk));
             } else {
                 LessonGroupSaver saverToDelete = null;
-                for(LessonGroupSaver saver : lessonGroupSavers) {
-                    if(getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))) {
+                for (LessonGroupSaver saver : lessonGroupSavers) {
+                    if (getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))) {
                         saverToDelete = saver;
                         break;
                     }
                 }
-                if(saverToDelete != null) {
+                if (saverToDelete != null) {
                     lessonGroupSavers.remove(saverToDelete);
                 }
             }
@@ -239,7 +239,7 @@ public class TimetableModel implements IModel {
         try {
             final List<LessonGroupSaver> lessonGroupSavers = readTimetableConfig();
             for (LessonGroupSaver saver : lessonGroupSavers) {
-                if(getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))
+                if (getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))
                         && saver.mSelectedPk == pk) {
                     return true;
                 }

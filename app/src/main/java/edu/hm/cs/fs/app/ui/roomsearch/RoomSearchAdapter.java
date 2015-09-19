@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.fk07.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -44,10 +45,13 @@ public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         final SimpleRoom room = mData.get(position);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, room.getHour());
+        calendar.set(Calendar.MINUTE, room.getMinute());
 
         viewHolder.mRoom.setText(room.getName());
         viewHolder.mFreeUntil.setText(mContext.getString(R.string.free_until,
-                String.format("%1$d:%2$d", room.getHour(), room.getMinute())));
+                String.format("%1$tH:%1$tM", calendar)));
     }
 
     @Override

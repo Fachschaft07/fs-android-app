@@ -4,4 +4,8 @@
         <item quantity="one">@string/lostfound_description_one</item>
         <item quantity="other">@string/lostfound_description_other</item>
     </plurals>
+    <plurals name="next_holidays">
+        <item quantity="one">@string/next_holidays_one</item>
+        <item quantity="other">@string/next_holidays_other</item>
+    </plurals>
 </resources>

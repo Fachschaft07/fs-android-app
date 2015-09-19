@@ -112,4 +112,6 @@
     <string name="reset_timetable_message">Es werden all deine ausgewählten und manuell hinzugefügten Stunden gelöscht.</string>
     <string name="reset_timetable_title">Stundenplan zurücksetzen?</string>
     <string name="study_group">Studiengruppe (z.B. IF2C, IB1A, IC6)</string>
+    <string name="next_holidays_one">Nur noch %1$d Tag bis die %2$s starten! Dann hast du vom %3$ta %3$td.%3$tm.%3$tY bis %4$ta %4$td.%4$tm.%4$tY frei.</string>
+    <string name="next_holidays_other">Nur noch %1$d Tage bis die %2$s starten! Dann hast du vom %3$ta %3$td.%3$tm.%3$tY bis %4$ta %4$td.%4$tm.%4$tY frei.</string>
 </resources>
