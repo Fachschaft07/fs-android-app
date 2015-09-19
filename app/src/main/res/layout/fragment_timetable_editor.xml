@@ -30,7 +30,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:navigationIcon="@drawable/ic_close_white_24dp"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -52,7 +52,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/study_if"
+                    android:hint="@string/study_group"
                     android:singleLine="true"
                     android:textColorHint="@android:color/darker_gray"
                     android:textColor="@android:color/white" />

@@ -65,6 +65,7 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
         holder.mPresenter = mPresenter;
 
         // TODO Select already added modules/lessons
+        holder.init();
 
         holder.mModule.setText(lessonGroup.getModule().getName());
         holder.mTeacher.setText(teacher.getTitle() + " " + teacher.getLastName()
@@ -94,6 +95,12 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
             super(itemView);
             mContext = itemView.getContext();
             ButterKnife.bind(this, itemView);
+        }
+
+        public void init() {
+            if(mPresenter.isLessonGroupSelected(mLessonGroup)) {
+                mCheckBox.setChecked(true);
+            }
         }
 
         @OnCheckedChanged(R.id.checkBox)

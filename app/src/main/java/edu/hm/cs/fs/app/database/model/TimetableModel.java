@@ -16,9 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
@@ -37,7 +35,7 @@ import retrofit.client.Response;
 /**
  * @author Fabio
  */
-public class TimetableModel extends CachedModel<Lesson> implements IModel {
+public class TimetableModel implements IModel {
 
     private static final String TIMETABLE_FILE = "timetable.json";
     private static final String TIMETABLE_CONFIG_FILE = "timetable-config.json";
@@ -49,8 +47,6 @@ public class TimetableModel extends CachedModel<Lesson> implements IModel {
     private final Context mContext;
     private final Gson mGson;
 
-    private final Map<String, LessonGroupSaver> mLessonGroupMapping = new HashMap<>();
-
     public TimetableModel(@NonNull final Context context) {
         mContext = context;
         mGson = new GsonBuilder()
@@ -61,12 +57,56 @@ public class TimetableModel extends CachedModel<Lesson> implements IModel {
 
     public void getTimetable(final boolean refresh,
                              @NonNull final ICallback<List<Lesson>> callback) {
-        getData(refresh, callback);
+        try {
+            if(isTimetableUpToDate() && !refresh) {
+                callback.onSuccess(readTimetable());
+            } else {
+                updateTimetable(callback);
+            }
+        } catch (IOException e) {
+            callback.onError(ErrorFactory.exception(e));
+        }
+    }
+
+    private boolean isTimetableUpToDate() {
+        return mContext.getFileStreamPath(TIMETABLE_FILE).lastModified()
+                > mContext.getFileStreamPath(TIMETABLE_CONFIG_FILE).lastModified();
+    }
+
+    private void updateTimetable(@NonNull final ICallback<List<Lesson>> callback) {
+        new AsyncTask<Void, Void, List<Lesson>>() {
+            @Override
+            protected List<Lesson> doInBackground(Void... params) {
+                try {
+                    final List<LessonGroupSaver> config = readTimetableConfig();
+                    final List<Lesson> timetable = new ArrayList<>();
+                    for (LessonGroupSaver lessonGroupSaver : config) {
+                        final LessonGroup lessonGroup = lessonGroupSaver.mLessonGroup;
+                        final List<Lesson> lessons = FsRestClient.getV1()
+                                .getLessons(lessonGroup.getGroup(), lessonGroup.getModule().getId(),
+                                        lessonGroup.getTeacher().getId(), lessonGroupSaver.mSelectedPk);
+                        timetable.addAll(lessons);
+                    }
+                    writeTimetable(timetable);
+                    return timetable;
+                } catch (IOException e) {
+                    callback.onError(ErrorFactory.exception(e));
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(List<Lesson> lessons) {
+                if(lessons != null) {
+                    callback.onSuccess(lessons);
+                }
+            }
+        }.execute();
     }
 
     public void getLessonsByGroup(@NonNull final Group group,
                                   @NonNull final ICallback<List<LessonGroup>> callback) {
-        FsRestClient.getV1("http://192.168.178.92:8080")
+        FsRestClient.getV1()
                 .getLessonGroups(group, new Callback<List<LessonGroup>>() {
                     @Override
                     public void success(List<LessonGroup> lessonGroups, Response response) {
@@ -80,32 +120,8 @@ public class TimetableModel extends CachedModel<Lesson> implements IModel {
                 });
     }
 
-    public void setSelected(@NonNull final LessonGroup lessonGroup, boolean selected) {
-        final String id = lessonGroup.getModule().getId() + lessonGroup.getTeacher().getId();
-        if (!mLessonGroupMapping.containsKey(id)) {
-            mLessonGroupMapping.put(id, new LessonGroupSaver(lessonGroup));
-        }
-        if (!selected) {
-            mLessonGroupMapping.remove(id);
-        }
-    }
-
-    public void setPkSelected(@NonNull final LessonGroup lessonGroup, final int pk, final boolean selected) {
-        final String id = lessonGroup.getModule().getId() + lessonGroup.getTeacher().getId();
-        if (selected) {
-            mLessonGroupMapping.get(id).mSelectedPk = pk;
-        } else {
-            mLessonGroupMapping.get(id).mSelectedPk = -1;
-        }
-    }
-
-    public boolean isPkSelected(@NonNull final LessonGroup lessonGroup, final int pk) {
-        final String id = lessonGroup.getModule().getId() + lessonGroup.getTeacher().getId();
-        return mLessonGroupMapping.get(id).mSelectedPk == pk;
-    }
-
     public void getNextLesson(@NonNull final ICallback<Lesson> callback) {
-        getData(false, new ICallback<List<Lesson>>() {
+        getTimetable(false, new ICallback<List<Lesson>>() {
             @Override
             public void onSuccess(@NonNull List<Lesson> data) {
                 final Calendar calendar = Calendar.getInstance();
@@ -179,74 +195,59 @@ public class TimetableModel extends CachedModel<Lesson> implements IModel {
         });
     }
 
-    @Override
-    protected boolean hasOfflineData() {
-        return true;
+    public void save(@NonNull final LessonGroup lessonGroup, final boolean selected) {
+        save(lessonGroup, 0, selected);
     }
 
-    @Override
-    protected void updateOffline(@NonNull final ICallback<List<Lesson>> callback) {
+    public void save(@NonNull final LessonGroup lessonGroup, final int pk, final boolean selected) {
         try {
-            callback.onSuccess(readTimetable());
+            final List<LessonGroupSaver> lessonGroupSavers = readTimetableConfig();
+            if(selected) {
+                lessonGroupSavers.add(new LessonGroupSaver(lessonGroup, pk));
+            } else {
+                LessonGroupSaver saverToDelete = null;
+                for(LessonGroupSaver saver : lessonGroupSavers) {
+                    if(getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))) {
+                        saverToDelete = saver;
+                        break;
+                    }
+                }
+                if(saverToDelete != null) {
+                    lessonGroupSavers.remove(saverToDelete);
+                }
+            }
+            writeTimetableConfig(lessonGroupSavers);
         } catch (IOException e) {
-            callback.onError(ErrorFactory.exception(e));
+            e.printStackTrace();
         }
     }
 
-    @Override
-    protected void updateOnline(@NonNull final ICallback<List<Lesson>> callback) {
-        new AsyncTask<Void, Void, List<Lesson>>() {
-            @Override
-            protected List<Lesson> doInBackground(Void... params) {
-                try {
-                    final List<LessonGroupSaver> lessonGroupSavers = readTimetableConfig();
-                    final List<Lesson> timetable = new ArrayList<>();
-                    for (LessonGroupSaver lessonGroupSaver : lessonGroupSavers) {
-                        final LessonGroup lessonGroup = lessonGroupSaver.mLessonGroup;
-                        final List<Lesson> lessons = FsRestClient.getV1("http://192.168.178.92:8080")
-                                .getLessons(lessonGroup.getGroup(), lessonGroup.getModule().getId(),
-                                        lessonGroup.getTeacher().getId(), lessonGroupSaver.mSelectedPk);
-                        timetable.addAll(lessons);
-                    }
-                    writeTimetable(timetable);
-                    return timetable;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    return readTimetable(); // Save the old timetable...
-                } catch (IOException e) {
-                    return new ArrayList<>(); // The last possible case if everything else failed
-                }
-            }
-
-            @Override
-            protected void onPostExecute(List<Lesson> lessons) {
-                callback.onSuccess(lessons);
-            }
-        }.execute();
+    private String getLessonGroupId(@NonNull final LessonGroup lessonGroup) {
+        return lessonGroup.getModule().getId() + lessonGroup.getTeacher().getId();
     }
 
-    public void revert() {
-        mLessonGroupMapping.clear();
-        cleanUp();
+    public void resetConfiguration() {
         mContext.deleteFile(TIMETABLE_CONFIG_FILE);
         mContext.deleteFile(TIMETABLE_FILE);
     }
 
-    public void save() {
-        writeTimetableConfig(new ArrayList<>(mLessonGroupMapping.values()));
-        updateOnline(new ICallback<List<Lesson>>() {
-            @Override
-            public void onSuccess(final List<Lesson> data) {
-                mLessonGroupMapping.clear();
-            }
+    public boolean isSelected(@NonNull final LessonGroup lessonGroup) {
+        return isPkSelected(lessonGroup, 0);
+    }
 
-            @Override
-            public void onError(@NonNull final IError error) {
-
+    public boolean isPkSelected(@NonNull final LessonGroup lessonGroup, final int pk) {
+        try {
+            final List<LessonGroupSaver> lessonGroupSavers = readTimetableConfig();
+            for (LessonGroupSaver saver : lessonGroupSavers) {
+                if(getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))
+                        && saver.mSelectedPk == pk) {
+                    return true;
+                }
             }
-        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @NonNull
@@ -314,12 +315,13 @@ public class TimetableModel extends CachedModel<Lesson> implements IModel {
         }
     }
 
-    private static class LessonGroupSaver {
+    public static class LessonGroupSaver {
         private LessonGroup mLessonGroup;
         private int mSelectedPk;
 
-        public LessonGroupSaver(LessonGroup lessonGroup) {
+        public LessonGroupSaver(LessonGroup lessonGroup, int pk) {
             mLessonGroup = lessonGroup;
+            mSelectedPk = pk;
         }
     }
 }

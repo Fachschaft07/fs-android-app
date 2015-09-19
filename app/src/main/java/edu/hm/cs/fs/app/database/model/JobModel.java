@@ -57,7 +57,7 @@ public class JobModel extends CachedModel<SimpleJob> {
     }
 
     @Override
-    protected void updateOnline(@NonNull final ICallback<List<SimpleJob>> callback) {
+    protected void update(@NonNull final ICallback<List<SimpleJob>> callback) {
         FsRestClient.getV1().getJobs(new Callback<List<SimpleJob>>() {
             @Override
             public void success(List<SimpleJob> jobs, Response response) {

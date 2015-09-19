@@ -59,7 +59,7 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
     }
 
     @Override
-    public void updateOnline(@NonNull final ICallback<List<BlackboardEntry>> callback) {
+    public void update(@NonNull final ICallback<List<BlackboardEntry>> callback) {
         FsRestClient.getV1().getEntries(new Callback<List<BlackboardEntry>>() {
             @Override
             public void success(List<BlackboardEntry> blackboardEntries, Response response) {

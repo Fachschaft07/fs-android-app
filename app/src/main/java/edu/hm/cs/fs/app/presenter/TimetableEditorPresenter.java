@@ -55,19 +55,19 @@ public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView
 
     public void setPkSelected(@NonNull final LessonGroup lessonGroup, final int pk,
                               final boolean selected) {
-        getModel().setPkSelected(lessonGroup, pk, selected);
+        getModel().save(lessonGroup, pk, selected);
+    }
+
+    public boolean isLessonGroupSelected(@NonNull final LessonGroup lessonGroup) {
+        return getModel().isSelected(lessonGroup);
     }
 
     public void setLessonGroupSelected(@NonNull final LessonGroup lessonGroup,
                                        final boolean selected) {
-        getModel().setSelected(lessonGroup, selected);
+        getModel().save(lessonGroup, selected);
     }
 
-    public void cancel() {
-        getModel().revert();
-    }
-
-    public void save() {
-        getModel().save();
+    public void reset() {
+        getModel().resetConfiguration();
     }
 }

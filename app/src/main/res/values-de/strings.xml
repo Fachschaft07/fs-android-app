@@ -111,4 +111,5 @@
     <string name="cancel">Abbrechen</string>
     <string name="reset_timetable_message">Es werden all deine ausgewählten und manuell hinzugefügten Stunden gelöscht.</string>
     <string name="reset_timetable_title">Stundenplan zurücksetzen?</string>
+    <string name="study_group">Studiengruppe (z.B. IF2C, IB1A, IC6)</string>
 </resources>

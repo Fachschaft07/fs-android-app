@@ -31,8 +31,8 @@ public abstract class CachedModel<T> implements IModel {
      *         to retrieve the results.
      */
     protected void getData(final boolean refresh, @NonNull final ICallback<List<T>> callback) {
-        if (mDataCache.isEmpty()) {
-            final ICallback<List<T>> cacheCallback = new ICallback<List<T>>() {
+        if (mDataCache.isEmpty() || refresh) {
+            update(new ICallback<List<T>>() {
                 @Override
                 public void onSuccess(@NonNull List<T> data) {
                     mDataCache.clear();
@@ -44,13 +44,7 @@ public abstract class CachedModel<T> implements IModel {
                 public void onError(@NonNull IError error) {
                     callback.onError(error);
                 }
-            };
-
-            if(refresh) {
-                updateOnline(cacheCallback);
-            } else if(hasOfflineData()) {
-                updateOffline(cacheCallback);
-            }
+            });
         } else {
             callback.onSuccess(mDataCache);
         }
@@ -66,13 +60,5 @@ public abstract class CachedModel<T> implements IModel {
      * @param callback
      *         to retrieve the results.
      */
-    protected abstract void updateOnline(@NonNull final ICallback<List<T>> callback);
-
-    protected boolean hasOfflineData() {
-        return false;
-    }
-
-    protected void updateOffline(@NonNull final ICallback<List<T>> callback) {
-        callback.onSuccess(new ArrayList<T>());
-    }
+    protected abstract void update(@NonNull final ICallback<List<T>> callback);
 }

@@ -48,8 +48,4 @@ public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableM
             }
         });
     }
-
-    public void reset() {
-        getModel().revert();
-    }
 }

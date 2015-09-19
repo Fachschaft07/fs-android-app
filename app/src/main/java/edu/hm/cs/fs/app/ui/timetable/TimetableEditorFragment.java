@@ -1,9 +1,11 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -51,7 +53,6 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPresenter().cancel();
                 getMainActivity().getNavigator().goOneBack();
             }
         });
@@ -77,12 +78,31 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_save:
-                getPresenter().save();
-                getMainActivity().getNavigator().goOneBack();
+            case R.id.menu_reset:
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext(),
+                        R.style.Base_Theme_AppCompat_Dialog_Alert)
+                        .setTitle(R.string.reset_timetable_title)
+                        .setMessage(R.string.reset_timetable_message)
+                        .setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                getPresenter().reset();
+                                onRefresh();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                alertDialog.show();
                 return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     @OnClick(R.id.search)

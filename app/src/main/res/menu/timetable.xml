@@ -5,8 +5,4 @@
         android:id="@+id/menu_edit"
         android:title="@string/edit"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_reset"
-        android:title="@string/reset"
-        app:showAsAction="never" />
 </menu>
