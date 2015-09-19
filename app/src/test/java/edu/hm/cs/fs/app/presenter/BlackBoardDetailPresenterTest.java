@@ -22,7 +22,7 @@ import edu.hm.cs.fs.app.database.model.BlackBoardModel;
 import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 import edu.hm.cs.fs.common.model.Group;
-import edu.hm.cs.fs.common.model.Person;
+import edu.hm.cs.fs.common.model.simple.SimplePerson;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
@@ -50,12 +50,11 @@ public class BlackBoardDetailPresenterTest {
         when(entry.getId()).thenReturn(BLACK_BAORD_ENTRY_ID);
         when(entry.getSubject()).thenReturn("subject");
         when(entry.getText()).thenReturn("text");
-        when(entry.getExpire()).thenReturn(mock(Date.class));
         when(entry.getUrl()).thenReturn("url");
-        when(entry.getAuthor()).thenReturn(mock(Person.class));
+        when(entry.getAuthor()).thenReturn(mock(SimplePerson.class));
         when(entry.getGroups()).thenReturn(new ArrayList<Group>());
         when(entry.getPublish()).thenReturn(mock(Date.class));
-        when(entry.getTeachers()).thenReturn(new ArrayList<Person>());
+        when(entry.getTeachers()).thenReturn(new ArrayList<SimplePerson>());
 
         final BlackBoardModel model = mock(BlackBoardModel.class);
         doAnswer(new Answer<Void>() {
@@ -96,12 +95,11 @@ public class BlackBoardDetailPresenterTest {
         when(entry.getId()).thenReturn(BLACK_BAORD_ENTRY_ID);
         when(entry.getSubject()).thenReturn("subject");
         when(entry.getText()).thenReturn("text");
-        when(entry.getExpire()).thenReturn(mock(Date.class));
         when(entry.getUrl()).thenReturn("url");
-        when(entry.getAuthor()).thenReturn(mock(Person.class));
+        when(entry.getAuthor()).thenReturn(mock(SimplePerson.class));
         when(entry.getGroups()).thenReturn(new ArrayList<Group>());
         when(entry.getPublish()).thenReturn(mock(Date.class));
-        when(entry.getTeachers()).thenReturn(new ArrayList<Person>());
+        when(entry.getTeachers()).thenReturn(new ArrayList<SimplePerson>());
 
         final BlackBoardModel model = mock(BlackBoardModel.class);
         doAnswer(new Answer<Void>() {

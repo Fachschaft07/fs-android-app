@@ -36,5 +36,5 @@ before_script:
 script:
     - ./gradlew assembleDebug
 
-after_success:
-- ./gradlew cobertura coveralls
+#after_success:
+#- ./gradlew cobertura coveralls
