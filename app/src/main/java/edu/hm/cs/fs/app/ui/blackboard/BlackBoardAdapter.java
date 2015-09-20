@@ -52,13 +52,7 @@ public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.Vi
         holder.mBlackboardEntry = entry;
         holder.mListener = mListener;
         holder.mTitle.setText(MarkdownUtil.toHtml(entry.getSubject()));
-        StringBuilder author = new StringBuilder();
-        final String title = entry.getAuthor().getTitle();
-        if (title != null && title.length() > 0) {
-            author.append(title).append(" ");
-        }
-        author.append(entry.getAuthor().getLastName());
-        holder.mAuthor.setText(author.toString());
+        holder.mAuthor.setText(entry.getAuthor().getName());
         if (!entry.getGroups().isEmpty()) {
             holder.mGroups.setText(entry.getGroups().toString().substring(1, entry.getGroups().toString().length() - 1));
             holder.mGroups.setVisibility(View.VISIBLE);

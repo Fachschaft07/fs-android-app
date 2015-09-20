@@ -38,7 +38,7 @@ public class BlackBoardDetailPresenter extends BasePresenter<IBlackBoardDetailVi
                 final String groups = data.getGroups().toString();
                 getView().showGroups(groups.substring(1, groups.length() - 1));
                 getView().showDescription(MarkdownUtil.toHtml(data.getText()));
-                getView().showAuthor(data.getAuthor().getTitle() + " " + data.getAuthor().getLastName());
+                getView().showAuthor(data.getAuthor().getName());
                 getView().showUrl(data.getUrl());
                 getView().hideLoading();
             }

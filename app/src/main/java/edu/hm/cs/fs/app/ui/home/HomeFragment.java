@@ -140,21 +140,23 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                     .withProvider(SmallImageCardProvider.class)
                     .setTitle(lesson.getModule().getName())
                     .setDrawable(R.drawable.ic_view_week_grey_600_24dp);
+
+            Calendar lessonStart = Calendar.getInstance();
+            lessonStart.set(Calendar.HOUR_OF_DAY, lesson.getHour());
+            lessonStart.set(Calendar.MINUTE, lesson.getMinute());
             if (lesson.getSuffix() != null && lesson.getSuffix().length() > 0) {
                 provider.setDescription(
                         getString(R.string.next_lesson_suffix, calendar, // Monday
-                                lesson.getTime().getStart(), // 08:15
+                                lessonStart, // 08:15
                                 lesson.getRoom(), // R2.007
-                                lesson.getTeacher().getTitle() + " " +
-                                        lesson.getTeacher().getLastName(), // Prof. Dr. Müller
+                                lesson.getTeacher().getName(), // Prof. Dr. Müller
                                 lesson.getSuffix())); // Praktikum
             } else {
                 provider.setDescription(
                         getString(R.string.next_lesson, calendar, // Monday
-                                lesson.getTime().getStart(), // 08:15
+                                lessonStart, // 08:15
                                 lesson.getRoom(), // R2.007
-                                lesson.getTeacher().getTitle() + " " +
-                                        lesson.getTeacher().getLastName())); // Prof. Dr. Müller
+                                lesson.getTeacher().getName())); // Prof. Dr. Müller
             }
             Card card = provider.endConfig().build();
             add(card, true);
@@ -179,8 +181,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                             final BlackboardEntry item = getItem(position);
                             textTitle.setText(item.getSubject());
                             final TextView author = (TextView) view.findViewById(R.id.textAuthor);
-                            author.setText(item.getAuthor().getTitle() + " "
-                                    + item.getAuthor().getLastName());
+                            author.setText(item.getAuthor().getName());
                             final TextView groups = (TextView) view.findViewById(R.id.textGroups);
                             final List<Group> groupList = item.getGroups();
                             if (!groupList.isEmpty()) {

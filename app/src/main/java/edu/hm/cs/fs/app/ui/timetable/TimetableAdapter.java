@@ -166,9 +166,10 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     private Day getDayByColumn(final int column) {
         if (mNumberOfDays != DAYS_OF_WEEK) {
-            int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) + column;
-            if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                dayOfWeek = Calendar.MONDAY;
+            final int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+            int dayOfWeek = currentDay + column;
+            if (currentDay == Calendar.SATURDAY || currentDay == Calendar.SUNDAY) {
+                dayOfWeek = Calendar.MONDAY + column;
             }
             for (Day day : Day.values()) {
                 if (day.getCalendarId() == dayOfWeek) {
@@ -181,7 +182,9 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     private Lesson findLesson(final Day day, final Time time) {
         for (Lesson lesson : mData) {
-            if (day == lesson.getDay() && time == lesson.getTime()) {
+            if (day == lesson.getDay()
+                    && time.getStart().get(Calendar.HOUR_OF_DAY) == lesson.getHour()
+                    && time.getStart().get(Calendar.MINUTE) == lesson.getMinute()) {
                 return lesson;
             }
         }

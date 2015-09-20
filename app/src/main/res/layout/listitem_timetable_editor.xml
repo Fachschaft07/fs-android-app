@@ -1,57 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/text_margin_bottom"
+              android:layout_marginLeft="@dimen/text_margin_left"
+              android:layout_marginRight="@dimen/text_margin_right"
+              android:layout_marginTop="@dimen/text_margin_top"
+              android:orientation="horizontal">
 
     <LinearLayout
-            android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textModule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/text_margin_left"
-            android:layout_marginRight="@dimen/text_margin_right"
-            android:layout_marginTop="@dimen/text_margin_top"
-            android:layout_marginBottom="@dimen/text_margin_bottom">
+            android:layout_marginBottom="@dimen/text_margin_bottom"
+            android:singleLine="true"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            tools:text="Module Name"/>
 
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+        <TextView
+            android:id="@+id/textTeacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            tools:text="Professor Name"/>
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Module Name"
-                    android:id="@+id/textModule"
-                    android:singleLine="true"
-                    android:layout_marginBottom="@dimen/text_margin_bottom"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+        <RadioGroup
+            android:id="@+id/pkGroups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="Professor Name"
-                    android:singleLine="true"
-                    android:id="@+id/textTeacher"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"/>
-        </LinearLayout>
-
-        <CheckBox
+            <RadioButton
+                android:id="@+id/pkGroup1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/checkBox"
-                android:layout_gravity="right"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_margin_bottom"
+                android:layout_marginLeft="@dimen/text_margin_left"
+                android:layout_marginRight="@dimen/text_margin_right"
+                android:layout_marginTop="@dimen/text_margin_top"
+                android:text="1"/>
+
+            <RadioButton
+                android:id="@+id/pkGroup2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_margin_bottom"
+                android:layout_marginLeft="@dimen/text_margin_left"
+                android:layout_marginRight="@dimen/text_margin_right"
+                android:layout_marginTop="@dimen/text_margin_top"
+                android:text="2"/>
+
+            <RadioButton
+                android:id="@+id/pkGroup3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_margin_bottom"
+                android:layout_marginLeft="@dimen/text_margin_left"
+                android:layout_marginRight="@dimen/text_margin_right"
+                android:layout_marginTop="@dimen/text_margin_top"
+                android:text="3"/>
+        </RadioGroup>
+
     </LinearLayout>
 
-    <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:choiceMode="singleChoice"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:visibility="gone"
-            android:scrollbars="none"
-            android:id="@+id/listPks"/>
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"/>
 </LinearLayout>

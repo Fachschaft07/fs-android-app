@@ -38,9 +38,7 @@ public class JobDetailPresenter extends BasePresenter<IJobDetailView, JobModel> 
                 getView().showProvider(data.getProvider());
                 getView().showDescription(MarkdownUtil.toHtml(data.getDescription()));
                 getView().showUrl(data.getUrl());
-                getView().showAuthor(data.getContact().getTitle() + " " +
-                        data.getContact().getLastName() + " " +
-                        data.getContact().getFirstName());
+                getView().showAuthor(data.getContact().getName());
                 getView().hideLoading();
             }
 

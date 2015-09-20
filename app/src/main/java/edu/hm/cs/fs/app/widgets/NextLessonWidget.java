@@ -21,7 +21,7 @@ import edu.hm.cs.fs.common.model.Lesson;
  * Implementation of App Widget functionality.
  */
 public class NextLessonWidget extends AppWidgetProvider {
-    private static final String DAY_TIME_FORMAT = "%1$ta. %2$tH:%2$tM - %3$tH:%3$tM";
+    private static final String DAY_TIME_FORMAT = "%1$ta. %1$tH:%1$tM - %2$tH:%2$tM";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -55,10 +55,17 @@ public class NextLessonWidget extends AppWidgetProvider {
                     subject = data.getModule().getName();
                     room = data.getRoom();
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.DAY_OF_WEEK, data.getDay().getCalendarId());
-                    dateTime = String.format(DAY_TIME_FORMAT, calendar,
-                            data.getTime().getStart(), data.getTime().getEnd());
+                    Calendar calendarLessonStart = Calendar.getInstance();
+                    calendarLessonStart.set(Calendar.DAY_OF_WEEK, data.getDay().getCalendarId());
+                    calendarLessonStart.set(Calendar.HOUR_OF_DAY, data.getHour());
+                    calendarLessonStart.set(Calendar.MINUTE, data.getMinute());
+
+                    Calendar calendarLessonEnd = Calendar.getInstance();
+                    calendarLessonEnd.setTime(calendarLessonStart.getTime());
+                    calendarLessonEnd.add(Calendar.MINUTE, 90);
+
+                    dateTime = String.format(DAY_TIME_FORMAT, calendarLessonStart,
+                            calendarLessonEnd);
                 } else {
                     subject = "";
                     dateTime = "";
