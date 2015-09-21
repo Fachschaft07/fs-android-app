@@ -310,7 +310,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                     .setOnButtonPressedListener(new OnButtonClickListener() {
                         @Override
                         public void onButtonClicked(View view, Card card) {
-                            mPrefs.edit().putBoolean(APP_RATING, false); // Disable rate
+                            mPrefs.edit().putBoolean(APP_RATING, false).apply(); // Disable rate
                             final String appPackageName = getActivity().getPackageName();
                             try {
                                 startActivity(new Intent(Intent.ACTION_VIEW,
