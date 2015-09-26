@@ -27,6 +27,7 @@ import com.dexafree.materialList.card.provider.BasicListCardProvider;
 import com.dexafree.materialList.card.provider.SmallImageCardProvider;
 import com.dexafree.materialList.card.provider.WelcomeCardProvider;
 import com.dexafree.materialList.listeners.OnDismissCallback;
+import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListAdapter;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fk07.R;
@@ -50,7 +51,8 @@ import edu.hm.cs.fs.common.model.Meal;
  * @author Fabio
  */
 public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeView,
-        SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, OnDismissCallback {
+        SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, OnDismissCallback,
+        RecyclerItemClickListener.OnItemClickListener {
 
     private static final String APP_RATING = "app_rating";
     private static final String SEMESTER_START = "semester_start";
@@ -89,6 +91,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
         mToolbar.setOnMenuItemClickListener(this);
 
         mListView.setOnDismissCallback(this);
+        mListView.addOnItemTouchListener(this);
 
         mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
@@ -351,6 +354,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                 mListView.add(card);
             }
         }
+    }
+
+    @Override
+    public void onItemClick(@NonNull final Card card, final int i) {
+
+    }
+
+    @Override
+    public void onItemLongClick(@NonNull final Card card, final int i) {
+
     }
 
     @Override

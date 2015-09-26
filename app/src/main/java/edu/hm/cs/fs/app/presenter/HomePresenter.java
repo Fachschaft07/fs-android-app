@@ -22,6 +22,7 @@ import edu.hm.cs.fs.common.model.Meal;
 public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
 
     private final Context mContext;
+    private volatile int mBackgroundProcesses;
 
     /**
      * @param context
@@ -43,76 +44,86 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
         getView().showLoading();
         getView().clear();
 
+        mBackgroundProcesses++;
         getModel().getNewBlackboardEntries(refresh, new ICallback<List<BlackboardEntry>>() {
             @Override
             public void onSuccess(@NonNull List<BlackboardEntry> data) {
                 getView().showBlackboardNews(data);
-                getView().hideLoading();
+                hideLoading();
             }
 
             @Override
             public void onError(@NonNull IError error) {
                 getView().showError(error);
-                getView().hideLoading();
+                hideLoading();
             }
         });
 
+        mBackgroundProcesses++;
         getModel().getMealsOfToday(refresh, new ICallback<List<Meal>>() {
             @Override
             public void onSuccess(@NonNull List<Meal> data) {
                 getView().showMealsOfToday(data);
-                getView().hideLoading();
+                hideLoading();
             }
 
             @Override
             public void onError(@NonNull IError error) {
                 getView().showError(error);
-                getView().hideLoading();
+                hideLoading();
             }
         });
 
+        mBackgroundProcesses++;
         getModel().getNextLesson(mContext, new ICallback<Lesson>() {
             @Override
             public void onSuccess(@Nullable Lesson data) {
                 getView().showNextLesson(data);
-                getView().hideLoading();
+                hideLoading();
             }
 
             @Override
             public void onError(@NonNull IError error) {
                 getView().showError(error);
-                getView().hideLoading();
+                hideLoading();
             }
         });
 
+        mBackgroundProcesses++;
         getModel().getLostFound(new ICallback<Integer>() {
             @Override
             public void onSuccess(@NonNull Integer data) {
                 getView().showLostAndFound(data);
-                getView().hideLoading();
+                hideLoading();
             }
 
             @Override
             public void onError(@NonNull IError error) {
                 getView().showError(error);
-                getView().hideLoading();
+                hideLoading();
             }
         });
 
+        mBackgroundProcesses++;
         getModel().getNextHolidays(new ICallback<Holiday>() {
             @Override
             public void onSuccess(@Nullable Holiday data) {
                 getView().showNextHoliday(data);
-                getView().hideLoading();
+                hideLoading();
             }
 
             @Override
             public void onError(@NonNull IError error) {
                 getView().showError(error);
-                getView().hideLoading();
+                hideLoading();
             }
         });
+    }
 
-        getView().showAppRate();
+    private void hideLoading() {
+        if(--mBackgroundProcesses == 0) {
+            getView().hideLoading();
+            getView().showAppRate();
+        }
     }
 }
