@@ -1,11 +1,7 @@
 package edu.hm.cs.fs.app.ui.home;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,7 +21,6 @@ import com.dexafree.materialList.card.OnButtonClickListener;
 import com.dexafree.materialList.card.provider.BasicButtonsCardProvider;
 import com.dexafree.materialList.card.provider.BasicListCardProvider;
 import com.dexafree.materialList.card.provider.SmallImageCardProvider;
-import com.dexafree.materialList.card.provider.WelcomeCardProvider;
 import com.dexafree.materialList.listeners.OnDismissCallback;
 import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListAdapter;
@@ -54,15 +49,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
         SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, OnDismissCallback,
         RecyclerItemClickListener.OnItemClickListener {
 
-    private static final String APP_RATING = "app_rating";
-    private static final String SEMESTER_START = "semester_start";
     private static final String HOLIDAY = "holiday";
     private static final String NEXT_LESSON = "next_lesson";
     private static final String BLACKBOARD = "blackboard";
     private static final String MENSA = "meals";
     private static final String LOSTFOUND = "lostfound";
-    private static final String HOLIDAY_TIME_RANGE = "%1$ta %1$td.%1$tm.%1$tY - " +
-            "%2$ta %2$td.%2$tm.%2$tY";
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -294,39 +285,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                             daysLeft, daysLeft, holiday.getName(),
                             holiday.getStart(), holiday.getEnd()))
                     .setDrawable(R.drawable.ic_flight_orange_800_36dp)
-                    .endConfig()
-                    .build();
-            add(card, false);
-        }
-    }
-
-    @Override
-    public void showAppRate() {
-        if (isActive(APP_RATING)) {
-            Card card = new Card.Builder(getActivity())
-                    .setTag(APP_RATING)
-                    .withProvider(WelcomeCardProvider.class)
-                    .setTitle(R.string.rate_title)
-                    .setSubtitle(R.string.rate_subtitle)
-                    .setDescription(R.string.rate_description)
-                    .setButtonText(R.string.rate)
-                    .setOnButtonPressedListener(new OnButtonClickListener() {
-                        @Override
-                        public void onButtonClicked(View view, Card card) {
-                            mPrefs.edit().putBoolean(APP_RATING, false).apply(); // Disable rate
-                            final String appPackageName = getActivity().getPackageName();
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("market://details?id=" + appPackageName)));
-                            } catch (ActivityNotFoundException ignored) {
-                                startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("https://play.google.com/store/apps/details?id="
-                                                + appPackageName)));
-                            }
-                        }
-                    })
-                    .setBackgroundResourceColor(R.color.colorAccent)
-                    .setDividerColor(Color.GRAY)
                     .endConfig()
                     .build();
             add(card, false);

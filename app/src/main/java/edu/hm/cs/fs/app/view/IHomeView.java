@@ -25,8 +25,6 @@ public interface IHomeView extends IView {
 
     void showNextHoliday(@Nullable final Holiday holiday);
 
-    void showAppRate();
-
     /**
      * Removes all cards from the home screen.
      */
