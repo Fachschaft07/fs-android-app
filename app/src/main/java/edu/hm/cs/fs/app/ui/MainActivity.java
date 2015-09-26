@@ -20,7 +20,6 @@ import com.fk07.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
-import edu.hm.cs.fs.app.ui.fs.PresenceFragment;
 import edu.hm.cs.fs.app.ui.home.HomeFragment;
 import edu.hm.cs.fs.app.ui.info.InfoFragment;
 import edu.hm.cs.fs.app.ui.job.JobFragment;
@@ -189,9 +188,11 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 //setNewRootFragment(FlexibleSpaceFragment.newInstance());
                 break;
 
+            /*
             case R.id.menu_presence:
                 setNewRootFragment(new PresenceFragment());
                 break;
+                */
 
             // Offers
             case R.id.menu_food:

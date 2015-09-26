@@ -41,10 +41,12 @@
                     android:icon="@drawable/ic_announcement_grey_600_24dp"
                     android:title="@string/news" />
 
+                <!--
                 <item
                     android:id="@+id/menu_presence"
                     android:icon="@drawable/ic_people_grey_600_24dp"
                     android:title="@string/presence" />
+                    -->
             </menu>
         </item>
 
