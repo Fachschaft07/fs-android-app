@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.fk07.R;
@@ -109,7 +111,10 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     @Override
     public void onRefresh() {
         final EditText editText = mTextGroup.getEditText();
-        if(editText != null) {
+        if (editText != null) {
+            InputMethodManager imm = (InputMethodManager) getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             final Group group = Group.of(editText.getText().toString());
             if (group.getStudy() != null) {
                 mTextGroup.setError("");
