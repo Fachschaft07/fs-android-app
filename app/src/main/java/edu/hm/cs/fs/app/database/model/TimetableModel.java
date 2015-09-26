@@ -6,7 +6,10 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,7 +30,6 @@ import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.LessonGroup;
 import edu.hm.cs.fs.restclient.FsRestClient;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
-import edu.hm.cs.fs.restclient.typeadapter.GroupTypeAdapter;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -53,6 +55,18 @@ public class TimetableModel implements IModel {
                 .registerTypeAdapter(Group.class, new GroupTypeAdapter())
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .create();
+    }
+
+    private static class GroupTypeAdapter extends TypeAdapter<Group> {
+        @Override
+        public void write(final JsonWriter out, final Group value) throws IOException {
+            out.value(value.toString());
+        }
+
+        @Override
+        public Group read(final JsonReader in) throws IOException {
+            return Group.of(in.nextString());
+        }
     }
 
     public void getTimetable(final boolean refresh,
@@ -302,12 +316,13 @@ public class TimetableModel implements IModel {
             inputStream = mContext.openFileInput(fileName);
             final byte[] buffer = new byte[inputStream.available()];
             final int read = inputStream.read(buffer);
-            return mGson.fromJson(new String(
+            final String json = new String(
                     buffer,
                     0,
                     read,
                     Charset.forName(CHARSET)
-            ), typeToken.getType());
+            );
+            return mGson.fromJson(json, typeToken.getType());
         } catch (IOException e) {
             return new ArrayList<>();
         } finally {
