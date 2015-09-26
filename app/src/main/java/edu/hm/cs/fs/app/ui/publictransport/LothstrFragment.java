@@ -23,7 +23,8 @@ import edu.hm.cs.fs.common.model.PublicTransport;
 /**
  * Created by FHellman on 10.08.2015.
  */
-public class LothstrFragment extends BaseFragment<PublicTransportLothstrPresenter> implements IPublicTransportView, SwipeRefreshLayout.OnRefreshListener {
+public class LothstrFragment extends BaseFragment<PublicTransportLothstrPresenter>
+        implements IPublicTransportView {
 
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -42,7 +43,6 @@ public class LothstrFragment extends BaseFragment<PublicTransportLothstrPresente
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new PublicTransportLothstrPresenter(this));

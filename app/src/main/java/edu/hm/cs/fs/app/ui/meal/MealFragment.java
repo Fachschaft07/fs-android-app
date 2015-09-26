@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fk07.R;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
-
 import java.util.List;
 
 import butterknife.Bind;
@@ -25,11 +23,13 @@ import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IMealView;
 import edu.hm.cs.fs.common.constant.Additive;
 import edu.hm.cs.fs.common.model.Meal;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by Fabio on 12.07.2015.
  */
-public class MealFragment extends BaseFragment<MealPresenter> implements IMealView, SwipeRefreshLayout.OnRefreshListener, MealAdapter.OnMealClickListener {
+public class MealFragment extends BaseFragment<MealPresenter> implements IMealView,
+        MealAdapter.OnMealClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -59,7 +59,6 @@ public class MealFragment extends BaseFragment<MealPresenter> implements IMealVi
         mAdapter.setOnMealClickListener(this);
         mListView.setAdapter(mAdapter);
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new MealPresenter(this));

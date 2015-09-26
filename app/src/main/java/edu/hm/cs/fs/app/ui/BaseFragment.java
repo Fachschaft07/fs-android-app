@@ -25,7 +25,8 @@ import edu.hm.cs.fs.app.view.IView;
 /**
  * @author Fabio
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IView {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IView,
+        SwipeRefreshLayout.OnRefreshListener {
 
     Toolbar mToolbar;
 
@@ -115,6 +116,11 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     }
 
     @Override
+    public void onRefresh() {
+        // Default -> do nothing
+    }
+
+    @Override
     public void showLoading() {
         mRefresh = true;
         if (mSwipeRefreshLayout != null) {
@@ -147,6 +153,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     public void initSwipeRefreshLayout(@NonNull final SwipeRefreshLayout swipeRefreshLayout) {
         mSwipeRefreshLayout = swipeRefreshLayout;
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         initErrorSnackbar(mSwipeRefreshLayout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);

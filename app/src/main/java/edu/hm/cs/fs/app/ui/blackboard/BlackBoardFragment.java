@@ -24,7 +24,8 @@ import edu.hm.cs.fs.common.model.BlackboardEntry;
 /**
  * Created by FHellman on 12.08.2015.
  */
-public class BlackBoardFragment extends BaseFragment<BlackBoardPresenter> implements IBlackBoardView, SwipeRefreshLayout.OnRefreshListener, BlackBoardAdapter.OnItemClickListener {
+public class BlackBoardFragment extends BaseFragment<BlackBoardPresenter> implements
+        IBlackBoardView, BlackBoardAdapter.OnItemClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -55,7 +56,6 @@ public class BlackBoardFragment extends BaseFragment<BlackBoardPresenter> implem
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new BlackBoardPresenter(this));

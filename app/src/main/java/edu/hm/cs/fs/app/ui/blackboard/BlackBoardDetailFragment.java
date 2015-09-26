@@ -20,7 +20,7 @@ import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
 /**
  * Created by FHellman on 12.08.2015.
  */
-public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPresenter> implements IBlackBoardDetailView, SwipeRefreshLayout.OnRefreshListener {
+public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPresenter> implements IBlackBoardDetailView {
 
     public static final String ARGUMENT_ID = "id";
 
@@ -49,7 +49,6 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 

@@ -24,7 +24,7 @@ import edu.hm.cs.fs.common.model.Presence;
 /**
  * Created by FHellman on 11.08.2015.
  */
-public class PresenceFragment extends BaseFragment<PresencePresenter> implements IPresenceView, SwipeRefreshLayout.OnRefreshListener {
+public class PresenceFragment extends BaseFragment<PresencePresenter> implements IPresenceView {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -54,7 +54,6 @@ public class PresenceFragment extends BaseFragment<PresencePresenter> implements
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new PresencePresenter(this));

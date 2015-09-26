@@ -19,13 +19,13 @@ import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.JobPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IJobView;
-import edu.hm.cs.fs.common.model.Job;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
 
 /**
  * Created by FHellman on 10.08.2015.
  */
-public class JobFragment extends BaseFragment<JobPresenter> implements IJobView, SwipeRefreshLayout.OnRefreshListener, JobAdapter.OnItemClickListener {
+public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
+        JobAdapter.OnItemClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -56,7 +56,6 @@ public class JobFragment extends BaseFragment<JobPresenter> implements IJobView,
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new JobPresenter(this));

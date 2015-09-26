@@ -46,7 +46,7 @@ import edu.hm.cs.fs.common.model.Meal;
  * @author Fabio
  */
 public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeView,
-        SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener, OnDismissCallback,
+        Toolbar.OnMenuItemClickListener, OnDismissCallback,
         RecyclerItemClickListener.OnItemClickListener {
 
     private static final String HOLIDAY = "holiday";
@@ -84,7 +84,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
         mListView.setOnDismissCallback(this);
         mListView.addOnItemTouchListener(this);
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new HomePresenter(getActivity(), this));

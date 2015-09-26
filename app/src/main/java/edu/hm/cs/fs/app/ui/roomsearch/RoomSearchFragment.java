@@ -33,7 +33,8 @@ import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 /**
  * @author Fabio
  */
-public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implements IRoomSearchView, SwipeRefreshLayout.OnRefreshListener {
+public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter>
+        implements IRoomSearchView {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -117,7 +118,6 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter> implem
         });
         mSpinnerTime.setSelection(0);
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 

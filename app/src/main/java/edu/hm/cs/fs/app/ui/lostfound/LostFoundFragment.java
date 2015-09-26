@@ -22,7 +22,7 @@ import edu.hm.cs.fs.common.model.LostFound;
 /**
  * @author Fabio
  */
-public class LostFoundFragment extends BaseFragment<LostFoundPresenter> implements ILostFoundView, SwipeRefreshLayout.OnRefreshListener {
+public class LostFoundFragment extends BaseFragment<LostFoundPresenter> implements ILostFoundView {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -52,7 +52,6 @@ public class LostFoundFragment extends BaseFragment<LostFoundPresenter> implemen
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new LostFoundPresenter(this));

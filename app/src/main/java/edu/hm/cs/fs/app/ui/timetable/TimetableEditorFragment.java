@@ -31,7 +31,8 @@ import edu.hm.cs.fs.common.model.LessonGroup;
 /**
  * @author Fabio
  */
-public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresenter> implements ITimetableEditorView, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener {
+public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresenter>
+        implements ITimetableEditorView, Toolbar.OnMenuItemClickListener {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -67,7 +68,6 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
     }

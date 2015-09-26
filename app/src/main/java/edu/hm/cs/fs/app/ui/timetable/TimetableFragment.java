@@ -26,7 +26,8 @@ import edu.hm.cs.fs.common.model.Lesson;
 /**
  * @author Fabio
  */
-public class TimetableFragment extends BaseFragment<TimetablePresenter> implements ITimetableView, TimetableAdapter.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener, Toolbar.OnMenuItemClickListener {
+public class TimetableFragment extends BaseFragment<TimetablePresenter> implements ITimetableView,
+        TimetableAdapter.OnItemClickListener, Toolbar.OnMenuItemClickListener {
 
     private static final int PORTRAIT_DAY_COUNT = 2;
 
@@ -70,7 +71,6 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfDays + 1));
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         setPresenter(new TimetablePresenter(getActivity(), this));

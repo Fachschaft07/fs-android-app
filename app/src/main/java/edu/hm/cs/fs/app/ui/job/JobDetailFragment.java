@@ -20,7 +20,7 @@ import edu.hm.cs.fs.app.view.IJobDetailView;
 /**
  * Created by FHellman on 10.08.2015.
  */
-public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implements IJobDetailView, SwipeRefreshLayout.OnRefreshListener {
+public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implements IJobDetailView {
 
     public static final String ARGUMENT_TITLE = "id";
 
@@ -49,7 +49,6 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
