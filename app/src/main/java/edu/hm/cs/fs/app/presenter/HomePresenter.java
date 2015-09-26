@@ -123,7 +123,6 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
     private void hideLoading() {
         if(--mBackgroundProcesses == 0) {
             getView().hideLoading();
-            getView().showAppRate();
         }
     }
 }
