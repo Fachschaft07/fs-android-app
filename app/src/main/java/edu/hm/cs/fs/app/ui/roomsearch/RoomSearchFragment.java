@@ -3,7 +3,6 @@ package edu.hm.cs.fs.app.ui.roomsearch;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +21,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.RoomSearchPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IRoomSearchView;
@@ -163,19 +161,6 @@ public class RoomSearchFragment extends BaseFragment<RoomSearchPresenter>
     public void showCurrentTime(@NonNull final Time time) {
         final ArrayAdapter<Time> adapter = (ArrayAdapter<Time>) mSpinnerTime.getAdapter();
         mSpinnerTime.setSelection(adapter.getPosition(time));
-    }
-
-    @Override
-    public void onErrorSnackbar(@NonNull Snackbar snackbar, @NonNull IError error) {
-        if (!error.isConnected()) {
-            snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(R.string.retry, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onRefresh();
-                }
-            });
-        }
     }
 
     @NonNull

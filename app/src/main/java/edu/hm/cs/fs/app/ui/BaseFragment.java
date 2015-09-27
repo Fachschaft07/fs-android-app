@@ -1,6 +1,8 @@
 package edu.hm.cs.fs.app.ui;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -109,7 +111,8 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     /**
      * Sets the presenter to communicate with.
      *
-     * @param presenter to communicate with.
+     * @param presenter
+     *         to communicate with.
      */
     public void setPresenter(@NonNull final P presenter) {
         this.presenter = presenter;
@@ -145,7 +148,29 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     public void showError(@NonNull final IError error) {
         if (mViewError != null && getActivity() != null) {
             final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(getActivity()), Snackbar.LENGTH_LONG);
-            onErrorSnackbar(snackbar, error);
+            if (error.getErrorCode() != null) {
+                snackbar.setText(getString(R.string.unknown_error));
+                snackbar.setAction(R.string.contact, new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        final Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:"));
+                        intent.setType("message/rfc822");
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});
+                        startActivity(intent);
+                    }
+                });
+            } else if (!error.isConnected()) {
+                snackbar.setText(R.string.internet_connection_error);
+                snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.retry, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onRefresh();
+                    }
+                });
+            } else {
+                onErrorSnackbar(snackbar, error);
+            }
             snackbar.show();
         }
     }

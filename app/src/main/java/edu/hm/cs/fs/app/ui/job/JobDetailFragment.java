@@ -2,7 +2,6 @@ package edu.hm.cs.fs.app.ui.job;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Spanned;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.JobDetailPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IJobDetailView;
@@ -107,19 +105,6 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
     @Override
     public void onRefresh() {
         getPresenter().loadJob(mJobTitle);
-    }
-
-    @Override
-    public void onErrorSnackbar(@NonNull Snackbar snackbar, @NonNull IError error) {
-        if (!error.isConnected()) {
-            snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(R.string.retry, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onRefresh();
-                }
-            });
-        }
     }
 
     @Override

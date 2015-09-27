@@ -3,6 +3,8 @@ package edu.hm.cs.fs.app.database.error;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import edu.hm.cs.fs.common.constant.ErrorCode;
+
 /**
  * An error which was generated out of an exception.
  *
@@ -29,5 +31,10 @@ public class ExceptionError implements IError {
     @Override
     public String getMessage(@NonNull Context context) {
         return mException.getLocalizedMessage();
+    }
+
+    @Override
+    public ErrorCode getErrorCode() {
+        return null;
     }
 }

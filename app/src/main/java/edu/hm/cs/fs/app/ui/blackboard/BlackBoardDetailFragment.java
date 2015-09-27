@@ -2,7 +2,6 @@ package edu.hm.cs.fs.app.ui.blackboard;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Spanned;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.BlackBoardDetailPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
@@ -115,19 +113,6 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
     @Override
     public void onRefresh() {
         getPresenter().loadBlackBoardEntry(mBlackBoardEntryId);
-    }
-
-    @Override
-    public void onErrorSnackbar(@NonNull Snackbar snackbar, @NonNull IError error) {
-        if (!error.isConnected()) {
-            snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(R.string.retry, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onRefresh();
-                }
-            });
-        }
     }
 
     @Override

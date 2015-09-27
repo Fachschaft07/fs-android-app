@@ -3,6 +3,8 @@ package edu.hm.cs.fs.app.database.error;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import edu.hm.cs.fs.common.constant.ErrorCode;
+
 /**
  * An error which can be thrown by a model and will be put throw to the view to handle the message.
  *
@@ -25,4 +27,11 @@ public interface IError {
      * @return the message.
      */
     String getMessage(@NonNull final Context context);
+
+    /**
+     * Get the error code from the rest api - if this is a http error.
+     *
+     * @return the error code or null.
+     */
+    ErrorCode getErrorCode();
 }

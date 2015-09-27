@@ -4,7 +4,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.fk07.R;
+import com.google.gson.reflect.TypeToken;
 
+import edu.hm.cs.fs.common.constant.ErrorCode;
+import edu.hm.cs.fs.common.model.ExceptionResponse;
 import retrofit.RetrofitError;
 
 /**
@@ -14,7 +17,8 @@ import retrofit.RetrofitError;
  */
 public class HttpError implements IError {
 
-    private RetrofitError mRetrofitError;
+    private final RetrofitError mRetrofitError;
+    private final ExceptionResponse mExceptionResponse;
 
     /**
      * Creates a http error.
@@ -23,6 +27,9 @@ public class HttpError implements IError {
      */
     protected HttpError(@NonNull final RetrofitError error) {
         mRetrofitError = error;
+        mExceptionResponse = (ExceptionResponse) mRetrofitError
+                .getBodyAs(new TypeToken<ExceptionResponse>() {
+                }.getType());
     }
 
     public boolean isConnected() {
@@ -38,5 +45,10 @@ public class HttpError implements IError {
             message = mRetrofitError.getLocalizedMessage();
         }
         return message;
+    }
+
+    @Override
+    public ErrorCode getErrorCode() {
+        return ErrorCode.getErrorCodeByCode(mExceptionResponse.getErrorCode());
     }
 }
