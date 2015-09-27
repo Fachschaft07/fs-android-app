@@ -145,4 +145,7 @@
     <string name="read_more">Read more</string>
     <string name="help">Help</string>
     <string name="feedback">Feedback</string>
+    <string name="auditorium">Auditorium</string>
+    <string name="laboratory">Laboratory</string>
+    <string name="lounge">Lounge</string>
 </resources>

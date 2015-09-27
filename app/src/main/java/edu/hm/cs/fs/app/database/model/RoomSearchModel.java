@@ -8,6 +8,7 @@ import java.util.List;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.common.constant.Day;
+import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 import edu.hm.cs.fs.restclient.FsRestClient;
@@ -31,8 +32,12 @@ public class RoomSearchModel implements IModel {
      */
     public void getFreeRooms(@NonNull final Day day, @NonNull final Time time,
                              @NonNull final ICallback<List<SimpleRoom>> callback) {
-        FsRestClient.getV1().getRoomByDateTime(day, time.getStart().get(Calendar.HOUR_OF_DAY),
-                time.getStart().get(Calendar.MINUTE), new Callback<List<SimpleRoom>>() {
+        FsRestClient.getV1().getRoomByDateTime(
+                RoomType.ALL,
+                day,
+                time.getStart().get(Calendar.HOUR_OF_DAY),
+                time.getStart().get(Calendar.MINUTE),
+                new Callback<List<SimpleRoom>>() {
             @Override
             public void success(List<SimpleRoom> rooms, Response response) {
                 callback.onSuccess(rooms);

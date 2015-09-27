@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 
 /**
@@ -50,8 +51,18 @@ public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.Vi
         calendar.set(Calendar.MINUTE, room.getMinute());
 
         viewHolder.mRoom.setText(room.getName());
-        viewHolder.mFreeUntil.setText(mContext.getString(R.string.free_until,
+        StringBuilder freeUntilText = new StringBuilder();
+        if(RoomType.AUDITORIUM == room.getRoomType()) {
+            freeUntilText.append(mContext.getString(R.string.auditorium));
+        } else if(RoomType.LABORATORY == room.getRoomType()) {
+            freeUntilText.append(mContext.getString(R.string.laboratory));
+        } else if(RoomType.LOUNGE == room.getRoomType()) {
+            freeUntilText.append(mContext.getString(R.string.lounge));
+        }
+        freeUntilText.append(" ");
+        freeUntilText.append(mContext.getString(R.string.free_until,
                 String.format("%1$tH:%1$tM", calendar)));
+        viewHolder.mFreeUntil.setText(freeUntilText.toString());
     }
 
     @Override
