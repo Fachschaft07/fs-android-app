@@ -122,4 +122,7 @@
     <string name="lounge">Lounge</string>
     <string name="feedback">Feedback</string>
     <string name="auditorium">Hörsaal</string>
+    <string name="contact">Kontaktieren</string>
+    <string name="internet_connection_error">Keine Verbindung mit dem Rest Service möglich. Bitte überprüfe deine Internetverbindung.</string>
+    <string name="unknown_error">Ein unbekannter Fehler ist aufgetreten. Bitte kontaktiere die Fachschaft 07.</string>
 </resources>

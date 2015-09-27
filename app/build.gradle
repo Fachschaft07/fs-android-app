@@ -9,7 +9,7 @@ android {
         applicationId "com.fk07"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 20
+        versionCode 21
         versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -19,7 +19,6 @@ android {
             versionNameSuffix ' ALPHA'
         }
         release {
-            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
