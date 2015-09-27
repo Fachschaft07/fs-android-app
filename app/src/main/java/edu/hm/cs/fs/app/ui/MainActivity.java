@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.app.ui;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -214,6 +215,18 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 break;
 
             case R.id.menu_feedback:
+                final String appPackageName = getPackageName();
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=" + appPackageName)));
+                } catch (ActivityNotFoundException ignored) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id="
+                                    + appPackageName)));
+                }
+                return false;
+
+            case R.id.menu_help:
                 final Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:"));
                 intent.setType("message/rfc822");
                 intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});

@@ -84,8 +84,13 @@
 
                 <item
                     android:id="@+id/menu_feedback"
+                    android:icon="@drawable/ic_stars_grey_600_24dp"
+                    android:title="@string/feedback" />
+
+                <item
+                    android:id="@+id/menu_help"
                     android:icon="@drawable/ic_local_post_office_grey_600_24dp"
-                    android:title="@string/help_feedback" />
+                    android:title="@string/help" />
             </menu>
         </item>
     </group>
