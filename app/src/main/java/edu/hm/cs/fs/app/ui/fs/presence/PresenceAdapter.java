@@ -1,4 +1,4 @@
-package edu.hm.cs.fs.app.ui.fs;
+package edu.hm.cs.fs.app.ui.fs.presence;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

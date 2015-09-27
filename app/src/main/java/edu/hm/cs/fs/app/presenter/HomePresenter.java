@@ -15,6 +15,7 @@ import edu.hm.cs.fs.common.model.BlackboardEntry;
 import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.Meal;
+import edu.hm.cs.fs.common.model.News;
 
 /**
  * @author Fabio
@@ -114,6 +115,21 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
 
             @Override
             public void onError(@NonNull IError error) {
+                getView().showError(error);
+                hideLoading();
+            }
+        });
+
+        mBackgroundProcesses++;
+        getModel().getFsNews(refresh, new ICallback<List<News>>() {
+            @Override
+            public void onSuccess(@NonNull final List<News> data) {
+                getView().showFsNews(data);
+                hideLoading();
+            }
+
+            @Override
+            public void onError(@NonNull final IError error) {
                 getView().showError(error);
                 hideLoading();
             }

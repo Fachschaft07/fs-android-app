@@ -90,7 +90,7 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_edit:
+            case R.id.menu_lesson_selection:
                 getMainActivity().getNavigator().goTo(new TimetableEditorFragment());
                 return true;
             default:

@@ -358,6 +358,7 @@ public class TimetableModel implements IModel {
     public static class LessonGroupSaver {
         private LessonGroup mLessonGroup;
         private int mSelectedPk;
+        private boolean manuelAdded;
 
         public LessonGroupSaver(LessonGroup lessonGroup, int pk) {
             mLessonGroup = lessonGroup;

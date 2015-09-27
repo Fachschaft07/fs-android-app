@@ -20,7 +20,7 @@ import edu.hm.cs.fs.app.util.MarkdownUtil;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 
 /**
- * Created by FHellman on 12.08.2015.
+ * @author Fabio
  */
 public class BlackBoardAdapter extends RecyclerView.Adapter<BlackBoardAdapter.ViewHolder> {
 

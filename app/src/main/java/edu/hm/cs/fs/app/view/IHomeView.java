@@ -9,6 +9,7 @@ import edu.hm.cs.fs.common.model.BlackboardEntry;
 import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.Meal;
+import edu.hm.cs.fs.common.model.News;
 
 /**
  * @author Fabio
@@ -24,6 +25,8 @@ public interface IHomeView extends IView {
     void showLostAndFound(@NonNull final Integer amountOfLostFound);
 
     void showNextHoliday(@Nullable final Holiday holiday);
+
+    void showFsNews(@NonNull final List<News> news);
 
     /**
      * Removes all cards from the home screen.

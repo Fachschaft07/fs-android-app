@@ -115,4 +115,6 @@
     <string name="next_holidays_one">Nur noch %1$d Tag bis die %2$s starten! Dann hast du vom %3$ta %3$td.%3$tm.%3$tY bis %4$ta %4$td.%4$tm.%4$tY frei.</string>
     <string name="next_holidays_other">Nur noch %1$d Tage bis die %2$s starten! Dann hast du vom %3$ta %3$td.%3$tm.%3$tY bis %4$ta %4$td.%4$tm.%4$tY frei.</string>
     <string name="lesson_selection">Fächerauswahl</string>
+    <string name="student_council_summary">Erhalte die aktuellen Neuigkeiten aus der Fachschaft.</string>
+    <string name="read_more">Mehr lesen</string>
 </resources>

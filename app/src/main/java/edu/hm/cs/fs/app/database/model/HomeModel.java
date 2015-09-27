@@ -17,6 +17,7 @@ import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.LostFound;
 import edu.hm.cs.fs.common.model.Meal;
+import edu.hm.cs.fs.common.model.News;
 
 /**
  * Requests the data from the the other models.
@@ -34,7 +35,8 @@ public class HomeModel implements IModel {
     /**
      * Get the blackboard entries which where not older then 2 days.
      *
-     * @param callback to retrieve the result.
+     * @param callback
+     *         to retrieve the result.
      */
     public void getNewBlackboardEntries(boolean refresh, @NonNull final ICallback<List<BlackboardEntry>> callback) {
         final BlackBoardModel blackboardModel = ModelFactory.getBlackboard();
@@ -64,7 +66,8 @@ public class HomeModel implements IModel {
     /**
      * Get the meals of today.
      *
-     * @param callback to retrieve the result.
+     * @param callback
+     *         to retrieve the result.
      */
     public void getMealsOfToday(boolean refresh, @NonNull final ICallback<List<Meal>> callback) {
         final MealModel mealModel = ModelFactory.getMeal();
@@ -99,8 +102,10 @@ public class HomeModel implements IModel {
     /**
      * Get the next lesson.
      *
-     * @param context  to access the timetable file.
-     * @param callback to retrieve the result.
+     * @param context
+     *         to access the timetable file.
+     * @param callback
+     *         to retrieve the result.
      */
     public void getNextLesson(@NonNull final Context context, @NonNull final ICallback<Lesson> callback) {
         ModelFactory.getTimetable(context).getNextLesson(callback);
@@ -109,7 +114,8 @@ public class HomeModel implements IModel {
     /**
      * Get the amount of lost and founds.
      *
-     * @param callback to retrieve the data.
+     * @param callback
+     *         to retrieve the data.
      */
     public void getLostFound(@NonNull final ICallback<Integer> callback) {
         ModelFactory.getLostFound().getLostFound(new ICallback<List<LostFound>>() {
@@ -147,6 +153,27 @@ public class HomeModel implements IModel {
 
             @Override
             public void onError(@NonNull IError error) {
+                callback.onError(error);
+            }
+        });
+    }
+
+    /**
+     * @param callback
+     */
+    public void getFsNews(final boolean refresh, @NonNull final ICallback<List<News>> callback) {
+        ModelFactory.getFs().getNews(refresh, new ICallback<List<News>>() {
+            @Override
+            public void onSuccess(final List<News> data) {
+                List<News> result = new ArrayList<>();
+                for (int index = 0; index < data.size() && index < 3; index++) {
+                    result.add(data.get(index));
+                }
+                callback.onSuccess(result);
+            }
+
+            @Override
+            public void onError(@NonNull final IError error) {
                 callback.onError(error);
             }
         });

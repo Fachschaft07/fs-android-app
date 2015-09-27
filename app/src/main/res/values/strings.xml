@@ -141,4 +141,6 @@
     <string name="cancel">Cancel</string>
     <string name="study_group">Study Group (e.g. IF2C, IB1A, IC6)</string>
     <string name="lesson_selection">Lesson selection</string>
+    <string name="student_council_summary">Get the latest news from the student council.</string>
+    <string name="read_more">Read more</string>
 </resources>

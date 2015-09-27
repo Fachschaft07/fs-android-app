@@ -13,6 +13,11 @@
             android:title="@string/timetable" />
         <CheckBoxPreference
             android:defaultValue="true"
+            android:key="student_council"
+            android:summary="@string/student_council_summary"
+            android:title="@string/student_council" />
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:key="meals"
             android:summary="@string/mensa_summary"
             android:title="@string/mensa" />
