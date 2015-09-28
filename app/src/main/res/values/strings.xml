@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Fachschaft 07</string>
+    <string name="app_name" translatable="false">Fachschaft07</string>
     <string name="version">Version</string>
     <!-- Navigation -->
     <string name="blackboard">Black Board</string>
@@ -148,7 +148,7 @@
     <string name="auditorium">Auditorium</string>
     <string name="laboratory">Laboratory</string>
     <string name="lounge">Lounge</string>
-    <string name="unknown_error">A unknown error occured. Please contact the student council.</string>
+    <string name="unknown_error">A unknown error occurred. Please contact the student council.</string>
     <string name="contact">Contact</string>
     <string name="internet_connection_error">Failed to connect to the rest service. Check your internet connection.</string>
 </resources>
