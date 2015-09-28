@@ -8,6 +8,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * An utility class to convert a string, which contains a specific markdown language, into a html
+ * based string.
+ *
  * @author Fabio
  */
 public final class MarkdownUtil {
@@ -17,13 +20,20 @@ public final class MarkdownUtil {
     private static final String BOLD_OPENING_TAG = "<b>";
     private static final String BOLD_CLOSING_TAG = "</b>";
 
+    /**
+     * Converts a string, which contains a specific markdown language, into a html based string.
+     *
+     * @param text to convert.
+     * @return the html content.
+     */
     @NonNull
     public static Spanned toHtml(@NonNull final String text) {
-        String result = replaceBoldStrings(text);
-        result = result.replaceAll("#", "\n");
-        result = replaceList(result);
-        result = result.replaceAll("\n", NEW_LINE_TAG);
-        return Html.fromHtml(result);
+        // The order of these statements is important!!!
+        String result = replaceBoldStrings(text); // replace all bold parts
+        result = result.replaceAll("#", "\n"); // replace all # with new lines
+        result = replaceList(result); // replace the list syntax with a unicode sign
+        result = result.replaceAll("\n", NEW_LINE_TAG); // replace all new lines with html tags
+        return Html.fromHtml(result); // create the html code
     }
 
     @NonNull
@@ -33,18 +43,18 @@ public final class MarkdownUtil {
 
         final Matcher matcher = REGEX_BOLD.matcher(raw);
         while (matcher.find()) {
-            int indexBegin = matcher.start();
+            int indexBegin = matcher.start(); // start position of the match
 
-            result.append(raw.substring(lastSubStringEnd, indexBegin));
-            result.append(BOLD_OPENING_TAG);
-            result.append(matcher.group(1));
-            result.append(BOLD_CLOSING_TAG);
+            result.append(raw.substring(lastSubStringEnd, indexBegin)); // get everything before the match
+            result.append(BOLD_OPENING_TAG); // insert the opening bold html tag
+            result.append(matcher.group(1)); // insert the matching part
+            result.append(BOLD_CLOSING_TAG); // insert the closing bold html tag
 
-            lastSubStringEnd = indexBegin + matcher.group().length();
+            lastSubStringEnd = indexBegin + matcher.group().length(); // save the last position
         }
 
-        if (lastSubStringEnd != raw.length()) {
-            result.append(raw.substring(lastSubStringEnd, raw.length()));
+        if (lastSubStringEnd != raw.length()) { // if the last position is not the end of string
+            result.append(raw.substring(lastSubStringEnd, raw.length())); // append the rest of the string
         }
 
         return result.toString();

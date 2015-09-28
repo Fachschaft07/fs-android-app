@@ -50,10 +50,6 @@ public abstract class CachedModel<T> implements IModel {
         }
     }
 
-    protected void cleanUp() {
-        mDataCache.clear();
-    }
-
     /**
      * Updates the content with the web.
      *

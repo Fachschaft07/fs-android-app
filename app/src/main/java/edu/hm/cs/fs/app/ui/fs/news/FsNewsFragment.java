@@ -76,8 +76,8 @@ public class FsNewsFragment extends BaseFragment<FsNewsPresenter> implements IFs
     }
 
     @Override
-    public void showContent(@NonNull final List<News> data) {
-        mAdapter.setData(data);
+    public void showContent(@NonNull final List<News> content) {
+        mAdapter.setData(content);
     }
 
     @Override

@@ -89,8 +89,8 @@ public class FsNewsDetailFragment extends BaseFragment<FsNewsDetailPresenter>
     }
 
     @Override
-    public void showDate(@NonNull final String format) {
-        mDate.setText(format);
+    public void showDate(@NonNull final String date) {
+        mDate.setText(date);
     }
 
     @Override

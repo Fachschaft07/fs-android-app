@@ -10,5 +10,10 @@ import edu.hm.cs.fs.common.model.News;
  * @author Fabio
  */
 public interface IFsNewsView extends IView {
-    void showContent(@NonNull final List<News> data);
+    /**
+     * Displays the fs news items on the view.
+     *
+     * @param content to display.
+     */
+    void showContent(@NonNull final List<News> content);
 }
