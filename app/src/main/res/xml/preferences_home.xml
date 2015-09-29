@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/show">
+        <!--
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="blackboard"
             android:summary="@string/blackboard_summary"
             android:title="@string/blackboard" />
+            -->
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="next_lesson"
