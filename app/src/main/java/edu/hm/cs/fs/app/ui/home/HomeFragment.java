@@ -148,16 +148,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                 provider.setDescription(
                         getString(R.string.next_lesson_suffix, calendar, // Monday
                                 lessonStart, // 08:15
-                                new StringBuilder(lesson.getRoom()).insert(2, '.').toString()
-                                        .toUpperCase(Locale.getDefault()), // R2.007
+                                lesson.getRoom(), // R2.007
                                 lesson.getTeacher().getName(), // Prof. Dr. Müller
                                 lesson.getSuffix())); // Praktikum
             } else {
                 provider.setDescription(
                         getString(R.string.next_lesson, calendar, // Monday
                                 lessonStart, // 08:15
-                                new StringBuilder(lesson.getRoom()).insert(2, '.').toString()
-                                        .toUpperCase(Locale.getDefault()), // R2.007
+                                lesson.getRoom(), // R2.007
                                 lesson.getTeacher().getName())); // Prof. Dr. Müller
             }
             Card card = provider.endConfig().build();
