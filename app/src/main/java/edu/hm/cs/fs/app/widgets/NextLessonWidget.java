@@ -10,6 +10,7 @@ import android.widget.RemoteViews;
 import com.fk07.R;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.IError;
@@ -53,7 +54,8 @@ public class NextLessonWidget extends AppWidgetProvider {
 
                 if (data != null) {
                     subject = data.getModule().getName();
-                    room = data.getRoom();
+                    room = new StringBuilder(data.getRoom()).insert(2, '.').toString()
+                            .toUpperCase(Locale.getDefault());
 
                     Calendar calendarLessonStart = Calendar.getInstance();
                     calendarLessonStart.set(Calendar.DAY_OF_WEEK, data.getDay().getCalendarId());
