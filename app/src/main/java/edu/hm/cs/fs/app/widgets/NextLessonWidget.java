@@ -54,8 +54,7 @@ public class NextLessonWidget extends AppWidgetProvider {
 
                 if (data != null) {
                     subject = data.getModule().getName();
-                    room = new StringBuilder(data.getRoom()).insert(2, '.').toString()
-                            .toUpperCase(Locale.getDefault());
+                    room = data.getRoom();
 
                     Calendar calendarLessonStart = Calendar.getInstance();
                     calendarLessonStart.set(Calendar.DAY_OF_WEEK, data.getDay().getCalendarId());

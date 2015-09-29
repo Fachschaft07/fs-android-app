@@ -148,8 +148,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
         if (lesson != null) {
             setText(holder.mSubject, lesson.getModule().getName());
-            final String room = lesson.getRoom().toUpperCase(Locale.getDefault());
-            setText(holder.mRoom, new StringBuilder(room).insert(2, '.').toString());
+            setText(holder.mRoom, lesson.getRoom());
             setText(holder.mInfo, lesson.getSuffix());
         } else {
             onBindEmptyCell(holder);
