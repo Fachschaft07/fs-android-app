@@ -87,7 +87,7 @@ public class NavigatorTest {
         assertThat(fragment2, is(navigator.getActiveFragment()));
         assertThat(1, is(navigator.getSize()));
 
-        // TODO popBackStackEntries does not work like this with Robolectric
+        // popBackStackEntries does not work like this with Robolectric
         final TimetableFragment fragment3 = new TimetableFragment();
         navigator.setRootFragment(fragment3);
 
@@ -110,7 +110,7 @@ public class NavigatorTest {
         assertThat(fragment2, is(navigator.getActiveFragment()));
         assertThat(1, is(navigator.getSize()));
 
-        // TODO popBackStackEntries does not work like this with Robolectric
+        // popBackStackEntries does not work like this with Robolectric
         navigator.goOneBack();
         assertThat(fragment1, is(navigator.getActiveFragment()));
         assertThat(true, is(navigator.isEmpty()));
@@ -138,7 +138,7 @@ public class NavigatorTest {
         assertThat(fragment3, is(navigator.getActiveFragment()));
         assertThat(2, is(navigator.getSize()));
 
-        // TODO popBackStackEntries does not work like this with Robolectric
+        // popBackStackEntries does not work like this with Robolectric
         navigator.gotToTheRootFragmentBack();
 
         assertThat(fragment1, is(navigator.getActiveFragment()));
