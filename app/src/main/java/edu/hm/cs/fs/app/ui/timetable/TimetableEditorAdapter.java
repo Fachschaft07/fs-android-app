@@ -101,14 +101,22 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
                 final int amountOfGroups = mLessonGroup.getGroups().size();
                 for (int index = 0; index < mPkGroupList.size(); index++) {
                     final RadioButton radioButton = mPkGroupList.get(index);
-                    if(index < amountOfGroups) {
-                        if(mPresenter.isPkSelected(mLessonGroup, mLessonGroup.getGroups().get(index))) {
-                            radioButton.setChecked(true);
-                        }
+                    if (index < amountOfGroups) {
+                        radioButton.setChecked(mPresenter
+                                .isPkSelected(mLessonGroup, mLessonGroup.getGroups().get(index)));
                         radioButton.setVisibility(View.VISIBLE);
                     } else {
                         radioButton.setVisibility(View.GONE);
                     }
+                }
+
+                boolean selected = false;
+                for (RadioButton radioButton : mPkGroupList) {
+                    selected |= radioButton.isChecked();
+                }
+                if(!selected) {
+                    mPkGroupList.get(0).setChecked(true);
+                    mPresenter.setPkSelected(mLessonGroup, 1, true);
                 }
             } else {
                 mPkGroups.setVisibility(View.GONE);
@@ -117,9 +125,10 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
 
         @OnCheckedChanged({R.id.pkGroup1, R.id.pkGroup2, R.id.pkGroup3})
         public void onCheckPk() {
-            mPresenter.setPkSelected(mLessonGroup, 1, mPkGroupList.get(0).isChecked());
-            mPresenter.setPkSelected(mLessonGroup, 2, mPkGroupList.get(1).isChecked());
-            mPresenter.setPkSelected(mLessonGroup, 3, mPkGroupList.get(2).isChecked());
+            int pk = 1;
+            for (RadioButton radioButton : mPkGroupList) {
+                mPresenter.setPkSelected(mLessonGroup, pk++, radioButton.isChecked());
+            }
         }
 
         @OnCheckedChanged(R.id.checkBox)

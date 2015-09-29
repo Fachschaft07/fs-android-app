@@ -97,11 +97,20 @@ public class TimetableModel implements IModel {
                     for (LessonGroupSaver lessonGroupSaver : config) {
                         final LessonGroup lessonGroup = lessonGroupSaver.mLessonGroup;
 
-                        timetable.addAll(FsRestClient.getV1()
-                                .getLessons(lessonGroup.getGroup(),
-                                        lessonGroup.getModule().getId(),
-                                        lessonGroup.getTeacher().getId(),
-                                        lessonGroupSaver.mSelectedPk));
+                        if(lessonGroupSaver.mLessonGroup.getGroups().isEmpty()) {
+                            final List<Lesson> lessons = FsRestClient.getV1()
+                                    .getLessons(lessonGroup.getGroup(),
+                                            lessonGroup.getModule().getId(),
+                                            lessonGroup.getTeacher().getId());
+                            timetable.addAll(lessons);
+                        } else {
+                            final List<Lesson> lessons = FsRestClient.getV1()
+                                    .getLessons(lessonGroup.getGroup(),
+                                            lessonGroup.getModule().getId(),
+                                            lessonGroup.getTeacher().getId(),
+                                            lessonGroupSaver.mSelectedPk);
+                            timetable.addAll(lessons);
+                        }
                     }
                     writeTimetable(timetable);
                     return timetable;
@@ -220,7 +229,7 @@ public class TimetableModel implements IModel {
             final List<LessonGroupSaver> lessonGroupSavers = readTimetableConfig();
             boolean changed = false;
             if (selected) {
-                final LessonGroupSaver saver = getToUpdate(lessonGroupSavers, lessonGroup, pk);
+                final LessonGroupSaver saver = getToUpdate(lessonGroupSavers, lessonGroup);
                 if (saver == null) {
                     lessonGroupSavers.add(new LessonGroupSaver(lessonGroup, pk));
                     changed = true;
@@ -251,10 +260,9 @@ public class TimetableModel implements IModel {
     }
 
     private LessonGroupSaver getToUpdate(final List<LessonGroupSaver> lessonGroupSavers,
-                                         final LessonGroup lessonGroup, final int pk) {
+                                         final LessonGroup lessonGroup) {
         for (LessonGroupSaver saver : lessonGroupSavers) {
-            if (saver.mLessonGroup.getModule().getId().equals(lessonGroup.getModule().getId())
-                    && saver.mLessonGroup.getTeacher().getId().equals(lessonGroup.getTeacher().getId())) {
+            if (getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))) {
                 return saver;
             }
         }
@@ -262,7 +270,8 @@ public class TimetableModel implements IModel {
     }
 
     private String getLessonGroupId(@NonNull final LessonGroup lessonGroup) {
-        return lessonGroup.getModule().getId() + lessonGroup.getTeacher().getId();
+        return lessonGroup.getGroup().toString() + lessonGroup.getModule().getId()
+                + lessonGroup.getTeacher().getId();
     }
 
     public void resetConfiguration() {
