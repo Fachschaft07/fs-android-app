@@ -123,7 +123,7 @@
     <string name="auditorium">Hörsaal</string>
     <string name="contact">Kontaktieren</string>
     <string name="internet_connection_error">Keine Verbindung mit dem Rest Service möglich. Bitte überprüfe deine Internetverbindung.</string>
-    <string name="unknown_error">Ein unbekannter Fehler ist aufgetreten. Bitte kontaktiere die Fachschaft 07.</string>
+    <string name="unknown_error">Ist eine Internetverbindung vorhanden?</string>
     <string name="two_day_view">Zwei Tagesansicht</string>
     <string name="week_view">Wochenansicht</string>
 </resources>

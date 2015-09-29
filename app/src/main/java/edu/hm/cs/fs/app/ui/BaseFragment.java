@@ -150,7 +150,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
             final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(getActivity()), Snackbar.LENGTH_LONG);
             if (error.getErrorCode() != null) {
                 snackbar.setText(getString(R.string.unknown_error));
-                snackbar.setAction(R.string.contact, new View.OnClickListener() {
+                snackbar.setAction(R.string.retry, new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         final Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:"));

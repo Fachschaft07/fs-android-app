@@ -148,7 +148,7 @@
     <string name="auditorium">Auditorium</string>
     <string name="laboratory">Laboratory</string>
     <string name="lounge">Lounge</string>
-    <string name="unknown_error">A unknown error occurred. Please contact the student council.</string>
+    <string name="unknown_error">Internet connection available?</string>
     <string name="contact">Contact</string>
     <string name="internet_connection_error">Failed to connect to the rest service. Check your internet connection.</string>
     <string name="week_view">Week view</string>

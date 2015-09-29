@@ -49,6 +49,9 @@ public class HttpError implements IError {
 
     @Override
     public ErrorCode getErrorCode() {
-        return ErrorCode.getErrorCodeByCode(mExceptionResponse.getErrorCode());
+        if(mExceptionResponse != null) {
+            return ErrorCode.getErrorCodeByCode(mExceptionResponse.getErrorCode());
+        }
+        return ErrorCode.ERROR_101;
     }
 }
