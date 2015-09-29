@@ -43,13 +43,4 @@ public class MarkdownUtilTest {
         final Spanned result = MarkdownUtil.toHtml(LIST_INPUT);
         Assert.assertThat(LIST_OUTPUT, CoreMatchers.equalTo(result));
     }
-
-    // TODO List conversion is not yet implemented
-    /*
-    @Test
-    public void testMarkdownAll() {
-        final Spanned result = MarkdownUtil.toHtml(ALL_INPUT);
-        Assert.assertThat(ALL_OUTPUT, CoreMatchers.equalTo(result));
-    }
-    */
 }

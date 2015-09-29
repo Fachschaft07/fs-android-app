@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_week_view"
-        android:title="@string/week_view"
-        android:icon="@drawable/ic_view_week_white_24dp"
+        android:id="@+id/menu_two_day_view"
+        android:title="@string/two_day_view"
+        android:icon="@drawable/ic_view_day_white_24dp"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_lesson_selection"

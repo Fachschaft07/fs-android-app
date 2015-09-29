@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
     private void setupNavigationDrawer() {
         mDrawerLayout.setDrawerListener(this);
-        //TODO look at documantation => homepage do I really need like that?
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         mDrawerToggle.syncState();

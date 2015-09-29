@@ -1,5 +1,6 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -90,6 +91,12 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_week_view:
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                return true;
+            case R.id.menu_two_day_view:
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                return true;
             case R.id.menu_lesson_selection:
                 getMainActivity().getNavigator().goTo(new TimetableEditorFragment());
                 return true;
