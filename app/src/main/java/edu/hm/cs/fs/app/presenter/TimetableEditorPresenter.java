@@ -59,7 +59,7 @@ public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView
     }
 
     public boolean isLessonGroupSelected(@NonNull final LessonGroup lessonGroup) {
-        return getModel().isSelected(lessonGroup);
+        return getModel().isModuleSelected(lessonGroup);
     }
 
     public void setLessonGroupSelected(@NonNull final LessonGroup lessonGroup,

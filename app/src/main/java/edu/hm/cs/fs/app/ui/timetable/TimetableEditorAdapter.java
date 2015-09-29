@@ -95,7 +95,7 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
 
         public void init() {
             mCheckBox.setChecked(mPresenter.isLessonGroupSelected(mLessonGroup));
-            if (!mLessonGroup.getGroups().isEmpty() && mCheckBox.isChecked()) {
+            if (mCheckBox.isChecked() && !mLessonGroup.getGroups().isEmpty()) {
                 mPkGroups.setVisibility(View.VISIBLE);
 
                 final int amountOfGroups = mLessonGroup.getGroups().size();

@@ -279,8 +279,18 @@ public class TimetableModel implements IModel {
         mContext.deleteFile(TIMETABLE_FILE);
     }
 
-    public boolean isSelected(@NonNull final LessonGroup lessonGroup) {
-        return isPkSelected(lessonGroup, 0);
+    public boolean isModuleSelected(@NonNull final LessonGroup lessonGroup) {
+        try {
+            final List<LessonGroupSaver> lessonGroupSavers = readTimetableConfig();
+            for (LessonGroupSaver saver : lessonGroupSavers) {
+                if (getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public boolean isPkSelected(@NonNull final LessonGroup lessonGroup, final int pk) {
