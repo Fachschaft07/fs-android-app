@@ -45,6 +45,7 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
         getView().showLoading();
         getView().clear();
 
+        /*
         mBackgroundProcesses++;
         getModel().getNewBlackboardEntries(refresh, new ICallback<List<BlackboardEntry>>() {
             @Override
@@ -59,6 +60,7 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
                 hideLoading();
             }
         });
+        */
 
         mBackgroundProcesses++;
         getModel().getMealsOfToday(refresh, new ICallback<List<Meal>>() {
