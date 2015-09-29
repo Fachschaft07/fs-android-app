@@ -60,8 +60,6 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
 
         holder.mLessonGroup = lessonGroup;
         holder.mPresenter = mPresenter;
-
-        // TODO Select already added modules/lessons
         holder.init();
 
         holder.mModule.setText(lessonGroup.getModule().getName());
@@ -98,6 +96,7 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
             if (mCheckBox.isChecked() && !mLessonGroup.getGroups().isEmpty()) {
                 mPkGroups.setVisibility(View.VISIBLE);
 
+                // Select the pk which was selected previously
                 final int amountOfGroups = mLessonGroup.getGroups().size();
                 for (int index = 0; index < mPkGroupList.size(); index++) {
                     final RadioButton radioButton = mPkGroupList.get(index);
@@ -110,6 +109,7 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
                     }
                 }
 
+                // If no pk was selected, select the first one
                 boolean selected = false;
                 for (RadioButton radioButton : mPkGroupList) {
                     selected |= radioButton.isChecked();
