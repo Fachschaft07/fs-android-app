@@ -40,7 +40,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     private static final int TIME_COLUMN = 1;
 
-    private static final int DAYS_OF_WEEK = 7;
+    private static final int DAYS_OF_WEEK = 5;
 
     private final List<Lesson> mData = new ArrayList<>();
 
@@ -164,20 +164,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     }
 
     private Day getDayByColumn(final int column) {
-        if(mNumberOfDays == 5) {
-            switch (column) {
-                case 0:
-                    return Day.MONDAY;
-                case 1:
-                    return Day.TUESDAY;
-                case 2:
-                    return Day.WEDNESDAY;
-                case 3:
-                    return Day.THURSDAY;
-                case 4:
-                    return Day.FRIDAY;
-            }
-        } else if (mNumberOfDays != DAYS_OF_WEEK) {
+        if (mNumberOfDays != DAYS_OF_WEEK) {
             final Calendar calendar = Calendar.getInstance();
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             while(dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
