@@ -166,16 +166,18 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     private Day getDayByColumn(final int column) {
         if (mNumberOfDays != DAYS_OF_WEEK) {
             final Calendar calendar = Calendar.getInstance();
-            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            while(dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
-                calendar.add(Calendar.DATE, 1);
-                dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-            }
-            for (Day day : Day.values()) {
-                if (day.getCalendarId() == dayOfWeek) {
-                    return day;
-                }
-            }
+            // The zero, monday based day of week.
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 2;
+            // It may be negative now, so make it positive.
+            if (dayOfWeek < 0) dayOfWeek += 7;
+            // Start on monday, if it's bigger or equal than DAYS_OF_WEEK
+            if (dayOfWeek >= DAYS_OF_WEEK) dayOfWeek = 0;
+            // Now add the column to get the day of the column.
+            dayOfWeek += column;
+            // If we are now bigger, use module to start at monday again.
+            dayOfWeek %= DAYS_OF_WEEK;
+            if (dayOfWeek < 0) dayOfWeek += DAYS_OF_WEEK;
+            return Day.values()[dayOfWeek];
         }
         return Day.values()[column];
     }
