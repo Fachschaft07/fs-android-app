@@ -78,6 +78,7 @@ public class TimetableModel implements IModel {
                 updateTimetable(callback);
             }
         } catch (IOException e) {
+            //e.printStackTrace();
             callback.onError(ErrorFactory.exception(e));
         }
     }
@@ -97,17 +98,18 @@ public class TimetableModel implements IModel {
                     for (LessonGroupSaver lessonGroupSaver : config) {
                         final LessonGroup lessonGroup = lessonGroupSaver.mLessonGroup;
 
+                        final Group group = lessonGroup.getGroup();
+                        final String moduleId = lessonGroup.getModule().getId();
+                        final String teacherId = lessonGroup.getTeacher() != null
+                                ? lessonGroup.getTeacher().getId() : "";
+
                         if(lessonGroupSaver.mLessonGroup.getGroups().isEmpty()) {
                             final List<Lesson> lessons = FsRestClient.getV1()
-                                    .getLessons(lessonGroup.getGroup(),
-                                            lessonGroup.getModule().getId(),
-                                            lessonGroup.getTeacher().getId());
+                                    .getLessons(group, moduleId, teacherId);
                             timetable.addAll(lessons);
                         } else {
                             final List<Lesson> lessons = FsRestClient.getV1()
-                                    .getLessons(lessonGroup.getGroup(),
-                                            lessonGroup.getModule().getId(),
-                                            lessonGroup.getTeacher().getId(),
+                                    .getLessons(group, moduleId, teacherId,
                                             lessonGroupSaver.mSelectedPk);
                             timetable.addAll(lessons);
                         }
@@ -125,7 +127,9 @@ public class TimetableModel implements IModel {
                 if (data instanceof List) {
                     callback.onSuccess((List<Lesson>) data);
                 } else {
-                    callback.onError(ErrorFactory.exception((Exception) data));
+                    final Exception exception = (Exception) data;
+                    //exception.printStackTrace();
+                    callback.onError(ErrorFactory.exception(exception));
                 }
             }
         }.execute();
@@ -270,8 +274,17 @@ public class TimetableModel implements IModel {
     }
 
     private String getLessonGroupId(@NonNull final LessonGroup lessonGroup) {
-        return lessonGroup.getGroup().toString() + lessonGroup.getModule().getId()
-                + lessonGroup.getTeacher().getId();
+        StringBuilder lessonGroupId = new StringBuilder();
+        if(lessonGroup.getGroup() != null) {
+            lessonGroupId.append(lessonGroup.getGroup().toString());
+        }
+        if(lessonGroup.getModule() != null) {
+            lessonGroupId.append(lessonGroup.getModule().getId());
+        }
+        if(lessonGroup.getTeacher() != null) {
+            lessonGroupId.append(lessonGroup.getTeacher().getId());
+        }
+        return lessonGroupId.toString();
     }
 
     public void resetConfiguration() {

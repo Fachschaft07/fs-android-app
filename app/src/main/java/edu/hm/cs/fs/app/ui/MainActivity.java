@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         mDrawerLayout.closeDrawers();
     }
 
-    public Navigator getNavigator() {
+    public static Navigator getNavigator() {
         return mNavigator;
     }
 

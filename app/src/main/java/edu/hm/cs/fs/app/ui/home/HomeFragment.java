@@ -32,12 +32,12 @@ import com.fk07.R;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.HomePresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
+import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.ui.lostfound.LostFoundFragment;
 import edu.hm.cs.fs.app.view.IHomeView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
@@ -111,7 +111,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                getMainActivity().getNavigator().goTo(new HomePreferenceFragment());
+                MainActivity.getNavigator().goTo(new HomePreferenceFragment());
                 return true;
             default:
                 return false;
@@ -265,7 +265,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                     .setOnRightButtonClickListener(new OnButtonClickListener() {
                         @Override
                         public void onButtonClicked(View view, Card card) {
-                            getMainActivity().getNavigator().goTo(new LostFoundFragment());
+                            MainActivity.getNavigator().goTo(new LostFoundFragment());
                         }
                     })
                     .endConfig()

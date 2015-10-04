@@ -19,6 +19,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.TimetablePresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
+import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.ITimetableView;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
@@ -98,7 +99,7 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 return true;
             case R.id.menu_lesson_selection:
-                getMainActivity().getNavigator().goTo(new TimetableEditorFragment());
+                MainActivity.getNavigator().goTo(new TimetableEditorFragment());
                 return true;
             default:
                 return false;

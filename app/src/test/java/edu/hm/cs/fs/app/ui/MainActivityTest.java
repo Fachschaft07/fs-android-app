@@ -39,7 +39,7 @@ public class MainActivityTest {
                 .setup()
                 .get();
 
-        assertThat(true, is(activity.getNavigator().getActiveFragment() instanceof HomeFragment));
+        assertThat(true, is(MainActivity.getNavigator().getActiveFragment() instanceof HomeFragment));
     }
 
     @Test
@@ -51,6 +51,6 @@ public class MainActivityTest {
                 .setup(bundle)
                 .get();
 
-        assertThat(true, is(activity.getNavigator().getActiveFragment() instanceof BlackBoardFragment));
+        assertThat(true, is(MainActivity.getNavigator().getActiveFragment() instanceof BlackBoardFragment));
     }
 }

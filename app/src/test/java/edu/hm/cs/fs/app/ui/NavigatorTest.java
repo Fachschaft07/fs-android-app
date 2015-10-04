@@ -28,7 +28,7 @@ public class NavigatorTest {
         final MainActivity activity = Robolectric.buildActivity(MainActivity.class)
                 .setup()
                 .get();
-        navigator = activity.getNavigator();
+        navigator = MainActivity.getNavigator();
     }
 
     @Test

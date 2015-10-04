@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.FsNewsPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
+import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.IFsNewsView;
 import edu.hm.cs.fs.common.model.News;
 
@@ -86,7 +87,7 @@ public class FsNewsFragment extends BaseFragment<FsNewsPresenter> implements IFs
         Bundle args = new Bundle();
         args.putString(FsNewsDetailFragment.ARGUMENT_TITLE, news.getTitle());
         fragment.setArguments(args);
-        getMainActivity().getNavigator().goTo(fragment);
+        MainActivity.getNavigator().goTo(fragment);
     }
 
     @Override

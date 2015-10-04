@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.BlackBoardPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
+import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.IBlackBoardView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 
@@ -86,7 +87,7 @@ public class BlackBoardFragment extends BaseFragment<BlackBoardPresenter> implem
         Bundle arguments = new Bundle();
         arguments.putString(BlackBoardDetailFragment.ARGUMENT_ID, entry.getId());
         fragment.setArguments(arguments);
-        getMainActivity().getNavigator().goTo(fragment);
+        MainActivity.getNavigator().goTo(fragment);
     }
 
     @Override

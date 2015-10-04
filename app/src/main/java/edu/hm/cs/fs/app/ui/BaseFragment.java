@@ -1,8 +1,6 @@
 package edu.hm.cs.fs.app.ui;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -153,10 +151,13 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
                 snackbar.setAction(R.string.retry, new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
+                        /*
                         final Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:"));
                         intent.setType("message/rfc822");
                         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});
                         startActivity(intent);
+                        */
+                        onRefresh();
                     }
                 });
             } else if (!error.isConnected()) {

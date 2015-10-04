@@ -13,6 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.JobDetailPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
+import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.IJobDetailView;
 
 /**
@@ -109,7 +110,7 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
 
     @Override
     public void close() {
-        getMainActivity().getNavigator().goOneBack();
+        MainActivity.getNavigator().goOneBack();
     }
 
     @Override

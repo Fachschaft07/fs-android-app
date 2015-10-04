@@ -24,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.hm.cs.fs.app.presenter.TimetableEditorPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
+import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.ITimetableEditorView;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.LessonGroup;
@@ -56,7 +57,7 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getMainActivity().getNavigator().goOneBack();
+                MainActivity.getNavigator().goOneBack();
             }
         });
         mToolbar.inflateMenu(R.menu.timetable_editor);

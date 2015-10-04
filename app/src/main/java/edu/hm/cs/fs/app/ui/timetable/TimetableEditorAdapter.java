@@ -63,7 +63,12 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
         holder.init();
 
         holder.mModule.setText(lessonGroup.getModule().getName());
-        holder.mTeacher.setText(teacher.getName());
+        if(teacher != null) {
+            holder.mTeacher.setText(teacher.getName());
+            holder.mTeacher.setVisibility(View.VISIBLE);
+        } else {
+            holder.mTeacher.setVisibility(View.GONE);
+        }
     }
 
     @Override

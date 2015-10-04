@@ -34,8 +34,6 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     private static final String DAY_LARGE_FORMAT = "%1$tA";
 
-    private static final String DAY_SMALL_FORMAT = "%1$ta.";
-
     private static final int DAY_ROW = 1;
 
     private static final int TIME_COLUMN = 1;
@@ -118,13 +116,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         final Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_WEEK, day.getCalendarId());
 
-        final String dayFormat;
-        if (mNumberOfDays != DAYS_OF_WEEK) {
-            dayFormat = DAY_LARGE_FORMAT;
-        } else {
-            dayFormat = DAY_SMALL_FORMAT;
-        }
-        setText(holder.mSubject, String.format(Locale.getDefault(), dayFormat, calendar));
+        setText(holder.mSubject, String.format(Locale.getDefault(), DAY_LARGE_FORMAT, calendar));
         if (calendar.get(Calendar.DAY_OF_WEEK) == current.get(Calendar.DAY_OF_WEEK)) {
             // Underline current day
             SpannableString content = new SpannableString(holder.mSubject.getText());
@@ -164,22 +156,29 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     }
 
     private Day getDayByColumn(final int column) {
+        int index = column;
         if (mNumberOfDays != DAYS_OF_WEEK) {
             final Calendar calendar = Calendar.getInstance();
             // The zero, monday based day of week.
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 2;
             // It may be negative now, so make it positive.
-            if (dayOfWeek < 0) dayOfWeek += 7;
+            if (dayOfWeek < 0) {
+                dayOfWeek += 7;
+            }
             // Start on monday, if it's bigger or equal than DAYS_OF_WEEK
-            if (dayOfWeek >= DAYS_OF_WEEK) dayOfWeek = 0;
+            if (dayOfWeek >= DAYS_OF_WEEK) {
+                dayOfWeek = 0;
+            }
             // Now add the column to get the day of the column.
             dayOfWeek += column;
             // If we are now bigger, use module to start at monday again.
             dayOfWeek %= DAYS_OF_WEEK;
-            if (dayOfWeek < 0) dayOfWeek += DAYS_OF_WEEK;
-            return Day.values()[dayOfWeek];
+            if (dayOfWeek < 0) {
+                dayOfWeek += DAYS_OF_WEEK;
+            }
+            index = dayOfWeek;
         }
-        return Day.values()[column];
+        return Day.values()[index];
     }
 
     private Lesson findLesson(final Day day, final Time time) {

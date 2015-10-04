@@ -13,6 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.BlackBoardDetailPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
+import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
 
 /**
@@ -117,7 +118,7 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
 
     @Override
     public void close() {
-        getMainActivity().getNavigator().goOneBack();
+        MainActivity.getNavigator().goOneBack();
     }
 
     @Override
