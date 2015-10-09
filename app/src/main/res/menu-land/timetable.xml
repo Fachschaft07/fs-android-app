@@ -4,8 +4,7 @@
     <item
         android:id="@+id/menu_two_day_view"
         android:title="@string/two_day_view"
-        android:icon="@drawable/ic_view_day_white_24dp"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/menu_lesson_selection"
         android:title="@string/lesson_selection"

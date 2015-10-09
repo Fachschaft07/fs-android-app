@@ -16,8 +16,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -155,66 +156,84 @@ public class TimetableModel implements IModel {
         getTimetable(false, new ICallback<List<Lesson>>() {
             @Override
             public void onSuccess(@NonNull List<Lesson> data) {
-                final Calendar calendar = Calendar.getInstance();
-                int index = 0;
-                Lesson nextLesson = null;
-                while (nextLesson == null && index < DAYS_OF_WEEK) {
-                    nextLesson = getNextLesson(calendar, data);
-                    index++;
-                    calendar.set(Calendar.HOUR_OF_DAY, Time.LESSON_1.getStart().get(Calendar.HOUR_OF_DAY));
-                    calendar.set(Calendar.MINUTE, Time.LESSON_1.getStart().get(Calendar.MINUTE));
-                    calendar.add(Calendar.DATE, 1);
-                }
-                callback.onSuccess(nextLesson);
+                callback.onSuccess(getLesson(data));
             }
 
-            private Lesson getNextLesson(Calendar calendar, List<Lesson> data) {
+            private Lesson getLesson(@NonNull final List<Lesson> data) {
+                final Calendar calendar = Calendar.getInstance();
+                int index = 0;
+                while (index++ < DAYS_OF_WEEK) {
+                    // Filter the lessons for the day which the calendar specifies
+                    final List<Lesson> lessons = getLessonsByDayOfWeek(
+                            calendar.get(Calendar.DAY_OF_WEEK), data);
+                    if(!lessons.isEmpty()) {
+                        // Get the times from now on
+                        final List<Time> timesAfter = getTimesAfter(calendar);
+                        if(!timesAfter.isEmpty()) {
+                            for (Time time : timesAfter) {
+                                final Calendar start = time.getStart();
+                                // Search for the lesson at the next times
+                                for (Lesson lesson : lessons) {
+                                    if (lesson.getHour() >= start.get(Calendar.HOUR_OF_DAY)
+                                            && lesson.getMinute() >= start.get(Calendar.MINUTE)) {
+                                        return lesson;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    final Calendar lesson1Start = Time.LESSON_1.getStart();
+                    calendar.set(Calendar.HOUR_OF_DAY, lesson1Start.get(Calendar.HOUR_OF_DAY));
+                    calendar.set(Calendar.MINUTE, lesson1Start.get(Calendar.MINUTE));
+                    calendar.add(Calendar.DATE, 1);
+                }
+                return null;
+            }
+
+            private List<Lesson> getLessonsByDayOfWeek(final int dayOfWeek, List<Lesson> data) {
                 List<Lesson> lessonsToday = new ArrayList<>();
                 // Filter the lessons for the day which the calendar specifies
                 for (Lesson lesson : data) {
-                    if (lesson.getDay().getCalendarId() == calendar.get(Calendar.DAY_OF_WEEK)) {
+                    if (lesson.getDay().getCalendarId() == dayOfWeek) {
                         lessonsToday.add(lesson);
                     }
                 }
+                // Order found lessons by start time
+                Collections.sort(lessonsToday, new Comparator<Lesson>() {
+                    @Override
+                    public int compare(Lesson lhs, Lesson rhs) {
+                        return toCalendar(lhs).compareTo(toCalendar(rhs));
+                    }
 
-                // If nothing was found for this day, return null
-                if (lessonsToday.isEmpty()) {
-                    return null;
-                }
+                    private Calendar toCalendar(Lesson lesson) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+                        calendar.set(Calendar.HOUR_OF_DAY, lesson.getHour());
+                        calendar.set(Calendar.MINUTE, lesson.getMinute());
+                        return calendar;
+                    }
+                });
+                return lessonsToday;
+            }
 
-                // Get the current time
-                Time foundTime = null;
+            private List<Time> getTimesAfter(Calendar calendar) {
+                final List<Time> result = new ArrayList<>();
+                int index = 0;
                 for (Time time : Time.values()) {
                     final Calendar start = time.getStart();
                     // Remove the break time
                     start.add(Calendar.MINUTE, -BREAK_TIME_LENGTH_MINUTES);
                     if (start.before(calendar) && time.getEnd().after(calendar)) {
-                        foundTime = time;
-                        break;
+                        // Current time found...
+                        for (int pos = index + 1; pos < Time.values().length; pos++) {
+                            // Get the next lessons (we already know what we have at the moment)
+                            result.add(Time.values()[pos]);
+                        }
                     }
+                    index++;
                 }
-
-                if (foundTime == null) {
-                    return null;
-                } else {
-                    // Current time found --> Next lesson
-                    List<Time> times = Arrays.asList(Time.values());
-                    final int currentTimeIndex = times.indexOf(foundTime) + 1;
-                    if (currentTimeIndex < times.size()) {
-                        foundTime = times.get(currentTimeIndex);
-                    }
-                }
-
-                // Search for the lesson at the current time
-                for (Lesson lesson : lessonsToday) {
-                    if (lesson.getHour() >= foundTime.getStart().get(Calendar.HOUR_OF_DAY)
-                            && lesson.getMinute() >= foundTime.getStart().get(Calendar.MINUTE)) {
-                        return lesson;
-                    }
-                }
-
-                // If everything failed... return null
-                return null;
+                return result;
             }
 
             @Override

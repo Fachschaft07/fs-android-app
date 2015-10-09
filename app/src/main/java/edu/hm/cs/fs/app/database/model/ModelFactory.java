@@ -133,6 +133,16 @@ public final class ModelFactory {
     }
 
     /**
+     * Get the Module model.
+     *
+     * @return the model.
+     */
+    @NonNull
+    public static ModuleModel getModule() {
+        return getInstance(new ModuleModel());
+    }
+
+    /**
      * Get or save an instance of the model.
      *
      * @param model to get an instance of.

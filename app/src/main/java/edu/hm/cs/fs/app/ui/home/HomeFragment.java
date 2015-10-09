@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.presenter.HomePresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
+import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment;
 import edu.hm.cs.fs.app.ui.lostfound.LostFoundFragment;
 import edu.hm.cs.fs.app.view.IHomeView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
@@ -189,6 +191,20 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                                         groupList.toString().length() - 1));
                             }
                             return view;
+                        }
+                    })
+                    .setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @SuppressWarnings("unchecked")
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            final ArrayAdapter<BlackboardEntry> adapter = (ArrayAdapter<BlackboardEntry>) parent.getAdapter();
+                            final BlackboardEntry item = adapter.getItem(position);
+
+                            BlackBoardDetailFragment fragment = new BlackBoardDetailFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString(BlackBoardDetailFragment.ARGUMENT_ID, item.getId());
+                            fragment.setArguments(bundle);
+                            MainActivity.getNavigator().goTo(fragment);
                         }
                     })
                     .setDividerVisible(true)

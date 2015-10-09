@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cell"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/list_item_height_large"
+    android:layout_height="80dp"
     android:orientation="vertical">
 
     <TextView

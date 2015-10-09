@@ -131,6 +131,21 @@ public class Navigator {
      * Goes one entry back in the history
      */
     public void goOneBack() {
+        if (isMultiPaneLayout()) {
+            final int index = mFragmentManager.getBackStackEntryCount();
+            if (index - 2 > 0) {
+                BaseFragment fragment = (BaseFragment) mFragmentManager
+                        .getBackStackEntryAt(index - 2);
+                if (fragment != null && fragment.isDetailFragment()) {
+                    mMainActivity.findViewById(mDetailContainer).setVisibility(View.VISIBLE);
+                } else {
+                    mMainActivity.findViewById(mDetailContainer).setVisibility(View.GONE);
+                }
+            } else {
+                mMainActivity.findViewById(mDetailContainer).setVisibility(View.GONE);
+            }
+        }
+
         mFragmentManager.popBackStackImmediate();
     }
 

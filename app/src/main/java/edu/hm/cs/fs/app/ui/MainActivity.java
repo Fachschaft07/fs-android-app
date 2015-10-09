@@ -2,8 +2,11 @@ package edu.hm.cs.fs.app.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
@@ -20,6 +23,7 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
 import edu.hm.cs.fs.app.ui.fs.news.FsNewsFragment;
 import edu.hm.cs.fs.app.ui.home.HomeFragment;
@@ -61,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        versionUpdate();
         setupToolbar();
         setupNavigationDrawer();
         initNavigator();
@@ -75,6 +81,20 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         onNavigationItemSelected(mNavigationView.getMenu().findItem(currentMenuItem));
         mCurrentMenuItem = currentMenuItem;
+    }
+
+    private void versionUpdate() {
+        final SharedPreferences preferences = getSharedPreferences("VersionUpdates", MODE_PRIVATE);
+
+        String version = null;
+        try {
+            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException ignore) {
+        }
+
+        if(version == null || preferences.contains(version)) {
+            ModelFactory.getTimetable(this).resetConfiguration();
+        }
     }
 
     private void setupToolbar() {

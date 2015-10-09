@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,7 +10,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.TouchDelegate;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.fk07.R;
 
@@ -73,8 +77,6 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfDays + 1));
 
-        initSwipeRefreshLayout(mSwipeRefreshLayout);
-
         setPresenter(new TimetablePresenter(getActivity(), this));
         getPresenter().loadTimetable(false);
     }
@@ -92,6 +94,15 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_prev_day:
+                mAdapter.prevDay();
+                return true;
+            case R.id.menu_today:
+                mAdapter.today();
+                return true;
+            case R.id.menu_next_day:
+                mAdapter.nextDay();
+                return true;
             case R.id.menu_week_view:
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 return true;
@@ -118,17 +129,16 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
 
     @Override
     public void onItemClicked(@NonNull Lesson lesson) {
-        // TODO Edit lesson with on click
-        /*
         Bundle arguments = new Bundle();
-        arguments.putString(LessonDetailFragment.ARG_MODULE, lesson.getModule().getId());
-        arguments.putString(LessonDetailFragment.ARG_TEACHER, lesson.getTeacher().getId());
+        arguments.putString(TimetableLessonFragment.ARG_MODULE_ID, lesson.getModule().getId());
+        if(lesson.getTeacher() != null) {
+            arguments.putString(TimetableLessonFragment.ARG_TEACHER_ID, lesson.getTeacher().getId());
+        }
 
-        final LessonDetailFragment fragment = new LessonDetailFragment();
+        final TimetableLessonFragment fragment = new TimetableLessonFragment();
         fragment.setArguments(arguments);
 
-        getMainActivity().getNavigator().goTo(fragment);
-        */
+        MainActivity.getNavigator().goTo(fragment);
     }
 
     @Override

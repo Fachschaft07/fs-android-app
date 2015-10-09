@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_week_view"
-        android:title="@string/week_view"
-        android:icon="@drawable/ic_view_week_white_24dp"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/menu_prev_day"
+            android:title="@string/prev_day"
+            app:showAsAction="never"/>
     <item
-        android:id="@+id/menu_lesson_selection"
-        android:title="@string/lesson_selection"
-        app:showAsAction="never" />
+            android:id="@+id/menu_today"
+            android:title="@string/today"
+            android:icon="@drawable/ic_launcher"
+            app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/menu_next_day"
+            android:title="@string/next_day"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/menu_week_view"
+            android:title="@string/week_view"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/menu_lesson_selection"
+            android:title="@string/lesson_selection"
+            app:showAsAction="never"/>
 </menu>

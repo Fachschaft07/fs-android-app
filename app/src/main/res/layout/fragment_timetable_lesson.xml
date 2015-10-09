@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 tools:context="edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_margin_left"
+                    android:layout_marginRight="@dimen/text_margin_right"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/textTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                        tools:text="3D-Rekonstruktion"/>
+
+                <TextView
+                        android:id="@+id/textCredits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        tools:text="5 ECTS"/>
+
+                <TextView
+                        android:id="@+id/textLanguage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        tools:text="Deutsch" />
+
+                <TextView
+                        android:id="@+id/labelEffort"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:visibility="gone"
+                        android:text="@string/effort" />
+
+                <TextView
+                        android:id="@+id/textEffort"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        tools:text="30 Präsenzstunden Vorlesung, 30 Präsenzstunden Praktikum, 45 Stunden Vor-/Nachbereitung des Praktikums, 45 Stunden Nachbereitung der Vorlesung und Prüfungsvorbereitung" />
+
+                <TextView
+                        android:id="@+id/labelPrerequirements"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:visibility="gone"
+                        android:text="@string/prerequirements" />
+
+                <TextView
+                        android:id="@+id/textPrerequirements"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        tools:text="Lineare Algebra (IF-I-B-103), Computergrafik und Bildverarbeitung (IF-I-B-601), Integraltransformationen (IF-I-B-303), Numerische Mathematik (IF-I-B-M02)
+Nützlich: Photogrammetrische Bildverarbeitung (IF-I-M505)" />
+
+                <TextView
+                        android:id="@+id/labelAims"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:visibility="gone"
+                        android:text="@string/aims" />
+
+                <TextView
+                        android:id="@+id/textAims"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        tools:text="Kenntnis notwendiger Grundlagen, wesentlicher Ansätze als auch praktischer Verfahren, die für den Aspekt '3D- bzw. Tiefeninformation' in Bildern spezifisch sind
+die Fähigkeit, darauf aufsetzend Aufgaben einzuordnen und eigenständig Lösungen zu erarbeiten, vom Konzept bis hin zu algorithmischen Umsetzungen
+das Erreichen einer kritischen Urteilsfähigkeit über Konzepte sowie die Kompetenz, selbst wissenschaftlich neue Konzepte zu erarbeiten" />
+
+                <TextView
+                        android:id="@+id/labelContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:visibility="gone"
+                        android:text="@string/content" />
+
+                <TextView
+                        android:id="@+id/textContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        tools:text="Über die Extraktion von 3D-Informationen aus mehreren unterschiedlichen Ansichten derselben Szene läßt sich die Struktur einer Realweltszene computergestützt erst verstehen. Über diese Verfahren erschließen sich zahlreiche Anwendungsgebiete, z.B. die 3D-Qualitäskontrolle in der Fertigung.
+Auszug aus der Gliederung:
+
+Einordnung, Anwendungsgebiete und Beispiele
+Euklidische Bewegungen (Objekt- u. Kamerabewegung, Koordinatentransformationen)
+projektive Geometrie (u.a. perspektivische Projektion, Repräsentation und Schätzung geometrischer Bildprimitive)
+projektive Transformationen und Invarianz (u.a. Transformationsgruppen, Rekonstruktion affiner und metrischer Bildeigenschaften)
+Projektion und Kameras (u.a. spezielle Kameras, Selbstkalibrierung)
+Epipolargeometrie und Geometrie mehrfacher Ansichten
+Schätzen von Transformationen und Korrespondenzen (u.a. Kameramatrix, Kalibrierung, Entzerrung)
+Stereoanalyse
+3D-Rekonstruktion" />
+
+                <TextView
+                        android:id="@+id/labelMediaForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:visibility="gone"
+                        android:text="@string/mediaform" />
+
+                <TextView
+                        android:id="@+id/textMediaForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        tools:text="Tafel, Beamer, selbstgesteuertes Lernen in Kleingruppen, Praktikum in Matlab oder Mathematica" />
+
+                <TextView
+                        android:id="@+id/labelLiterature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
+                        android:visibility="gone"
+                        android:text="@string/literature" />
+
+                <TextView
+                        android:id="@+id/textLiterature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/text_margin_bottom"
+                        android:layout_marginTop="@dimen/text_margin_top"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                        tools:text="Multiple View Geometry in Computer Vision, R. Hartley, A. Zisserman, Cambridge Univ. Press, 2000
+Stereoanalyse und Bildsynthese, O.Schreer, Springer, 2005" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:title="@string/timetable"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
+</android.support.design.widget.CoordinatorLayout>

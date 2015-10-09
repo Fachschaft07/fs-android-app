@@ -153,4 +153,14 @@
     <string name="internet_connection_error">Failed to connect to the rest service. Check your internet connection.</string>
     <string name="week_view">Week view</string>
     <string name="two_day_view">Two days view</string>
+    <string name="ects">%1$d ECTS</string>
+    <string name="effort">Effort</string>
+    <string name="prerequirements">Prerequirements</string>
+    <string name="aims">Aims</string>
+    <string name="content">Content</string>
+    <string name="mediaform">Media Form</string>
+    <string name="literature">Literature</string>
+    <string name="next_day">Next day</string>
+    <string name="today">Today</string>
+    <string name="prev_day">Previous Day</string>
 </resources>

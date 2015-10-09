@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.fk07.R;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.IPresenter;
@@ -32,7 +34,9 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
 
     private P presenter;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    @Nullable
+    @Bind(R.id.swipeContainer)
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     private boolean mRefresh;
 
@@ -53,6 +57,10 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setToolbar(view);
+
+        if(mSwipeRefreshLayout != null) {
+            initSwipeRefreshLayout(mSwipeRefreshLayout);
+        }
     }
 
     @Override

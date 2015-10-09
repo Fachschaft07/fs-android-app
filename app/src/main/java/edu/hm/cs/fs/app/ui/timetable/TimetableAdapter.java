@@ -48,9 +48,12 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     private OnItemClickListener mListener;
 
+    private int mCurrentDayOfWeek;
+
     public TimetableAdapter(@NonNull final Context context, final int numberOfDays) {
         mContext = context;
         mNumberOfDays = numberOfDays;
+        mCurrentDayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
     }
 
     public void setData(@NonNull final List<Lesson> data) {
@@ -158,9 +161,8 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     private Day getDayByColumn(final int column) {
         int index = column;
         if (mNumberOfDays != DAYS_OF_WEEK) {
-            final Calendar calendar = Calendar.getInstance();
             // The zero, monday based day of week.
-            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 2;
+            int dayOfWeek = mCurrentDayOfWeek - 2;
             // It may be negative now, so make it positive.
             if (dayOfWeek < 0) {
                 dayOfWeek += 7;
@@ -199,6 +201,28 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener;
+    }
+
+    public void nextDay() {
+        if(mCurrentDayOfWeek++ > Calendar.FRIDAY) {
+            mCurrentDayOfWeek = Calendar.MONDAY;
+        }
+        notifyDataSetChanged();
+    }
+
+    public void prevDay() {
+        if(mCurrentDayOfWeek-- < Calendar.MONDAY) {
+            mCurrentDayOfWeek = Calendar.FRIDAY;
+        }
+        notifyDataSetChanged();
+    }
+
+    public void today() {
+        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        if(dayOfWeek != mCurrentDayOfWeek) {
+            mCurrentDayOfWeek = dayOfWeek;
+            notifyDataSetChanged();
+        }
     }
 
     public interface OnItemClickListener {
