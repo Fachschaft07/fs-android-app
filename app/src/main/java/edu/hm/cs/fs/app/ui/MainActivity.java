@@ -2,11 +2,8 @@ package edu.hm.cs.fs.app.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.NavigationView;
@@ -34,13 +31,15 @@ import edu.hm.cs.fs.app.ui.meal.MealFragment;
 import edu.hm.cs.fs.app.ui.publictransport.PublicTransportTabFragment;
 import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
+import edu.hm.cs.fs.app.util.VersionManager;
 
 /**
  * @author Fabio
  */
 public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener,
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener, VersionManager.OnVersionUpgradeListener {
     public static final String NAV_ITEM_ID = "navItemId";
+    public static final int VERSION_CODE_201 = 201;
 
     private static Navigator mNavigator;
 
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        versionUpdate();
+        setupVersionManager();
         setupToolbar();
         setupNavigationDrawer();
         initNavigator();
@@ -83,18 +82,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         mCurrentMenuItem = currentMenuItem;
     }
 
-    private void versionUpdate() {
-        final SharedPreferences preferences = getSharedPreferences("VersionUpdates", MODE_PRIVATE);
-
-        String version = null;
-        try {
-            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException ignore) {
-        }
-
-        if(version == null || preferences.contains(version)) {
-            ModelFactory.getTimetable(this).resetConfiguration();
-        }
+    private void setupVersionManager() {
+        VersionManager versionManager = new VersionManager(this, this);
+        versionManager.checkVersions();
     }
 
     private void setupToolbar() {
@@ -255,6 +245,14 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         mCurrentMenuItem = id;
         menuItem.setChecked(true);
         return false;
+    }
+
+    @Override
+    public void onUpdate(final int oldVersion, final int newVersion) {
+        if (newVersion == VERSION_CODE_201) {
+            // Version 2.0.1
+            ModelFactory.getTimetable(this).resetConfiguration();
+        }
     }
 
     @Override

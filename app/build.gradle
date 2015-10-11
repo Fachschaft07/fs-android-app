@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'android-cq'
 
 android {
@@ -9,13 +8,12 @@ android {
         applicationId "com.fk07"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 23
-        versionName "2.0"
+        versionCode 201
+        versionName "2.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
-            //applicationIdSuffix '.debug'
             versionNameSuffix ' TEST'
         }
         release {
