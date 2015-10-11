@@ -126,4 +126,13 @@
     <string name="unknown_error">Ist eine Internetverbindung vorhanden?</string>
     <string name="two_day_view">Zwei Tagesansicht</string>
     <string name="week_view">Wochenansicht</string>
+    <string name="content">Inhalt</string>
+    <string name="effort">Aufwand</string>
+    <string name="literature">Literatur</string>
+    <string name="mediaform">Medienform</string>
+    <string name="next_day">Nächster Tag</string>
+    <string name="prerequirements">Vorasussetzungen</string>
+    <string name="prev_day">Vorheriger Tag</string>
+    <string name="today">Heute</string>
+    <string name="aims">Ziele</string>
 </resources>
