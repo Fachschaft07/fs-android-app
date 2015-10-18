@@ -24,9 +24,11 @@ public class VersionManager {
     }
 
     public void checkVersions() {
-        mPreferences.edit().putInt(LAST_VERSION, getNewVersion()).apply();
-        mPreferences.edit().putInt(NEW_VERSION, getCurrVersion()).apply();
-        mListener.onUpdate(getLastVersion(), getNewVersion());
+        if(getLastVersion() != getCurrVersion()) {
+            mPreferences.edit().putInt(LAST_VERSION, getNewVersion()).apply();
+            mPreferences.edit().putInt(NEW_VERSION, getCurrVersion()).apply();
+            mListener.onUpdate(getLastVersion(), getNewVersion());
+        }
     }
 
     private int getLastVersion() {
