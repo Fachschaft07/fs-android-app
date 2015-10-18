@@ -136,7 +136,11 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
             mSwipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
-                    mSwipeRefreshLayout.setRefreshing(mRefresh);
+                    // BugFix: need to ask if the swipelayout is null -> if the fragment was
+                    // changed during this calling time
+                    if(mSwipeRefreshLayout != null) {
+                        mSwipeRefreshLayout.setRefreshing(mRefresh);
+                    }
                 }
             });
         }
