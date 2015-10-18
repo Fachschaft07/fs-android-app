@@ -226,19 +226,14 @@ public class TimetableModel implements IModel {
                 if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
                     result.addAll(Arrays.asList(Time.values()));
                 } else {
-                    int index = 0;
                     for (Time time : Time.values()) {
                         final Calendar start = time.getStart();
                         // Remove the break time
                         start.add(Calendar.MINUTE, -BREAK_TIME_LENGTH_MINUTES);
                         if (start.before(calendar) && time.getEnd().after(calendar)) {
                             // Current time found...
-                            for (int pos = index + 1; pos < Time.values().length; pos++) {
-                                // Get the next lessons (we already know what we have at the moment)
-                                result.add(Time.values()[pos]);
-                            }
+                            result.add(time);
                         }
-                        index++;
                     }
                 }
                 return result;
