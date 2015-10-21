@@ -147,6 +147,11 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     }
 
     @Override
+    public void onLessonSelection(@NonNull Lesson lesson) {
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);

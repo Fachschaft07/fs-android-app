@@ -14,4 +14,5 @@
     <color name="meal_vegan">#1EC81E</color>
     <color name="meal_meat">#C80A4B</color>
     <color name="timetable_grid">#dcdcdc</color>
+    <color name="lesson_count_background">#aaaaaaaa</color>
 </resources>

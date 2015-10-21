@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Fachschaft07</string>
     <string name="version">Version</string>
     <!-- Navigation -->
     <string name="blackboard">Schwarzes Brett</string>
@@ -135,4 +136,7 @@
     <string name="prev_day">Vorheriger Tag</string>
     <string name="today">Heute</string>
     <string name="aims">Ziele</string>
+    <string name="choose_subject">Fach auswählen</string>
+    <string name="not_title_set">Unbekannt</string>
+    <string name="ects">%1$d ECTS</string>
 </resources>

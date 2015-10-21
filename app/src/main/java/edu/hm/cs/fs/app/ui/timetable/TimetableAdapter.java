@@ -1,26 +1,34 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fk07.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.hm.cs.fs.app.ui.timetable.structure.Cell;
+import edu.hm.cs.fs.app.ui.timetable.structure.DayCell;
+import edu.hm.cs.fs.app.ui.timetable.structure.LessonCell;
+import edu.hm.cs.fs.app.ui.timetable.structure.TimeCell;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Lesson;
@@ -30,17 +38,11 @@ import edu.hm.cs.fs.common.model.Lesson;
  */
 public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.ViewHolder> {
 
-    private static final String TIME_FORMAT = "%1$tH:%1$tM%n-%n%2$tH:%2$tM";
-
-    private static final String DAY_LARGE_FORMAT = "%1$tA";
-
     private static final int DAY_ROW = 1;
 
     private static final int TIME_COLUMN = 1;
 
-    private static final int DAYS_OF_WEEK = 5;
-
-    private final List<Lesson> mData = new ArrayList<>();
+    private final GridManager mGridManager = new GridManager();
 
     private final Context mContext;
 
@@ -48,150 +50,36 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     private OnItemClickListener mListener;
 
-    private int mCurrentDayOfWeek;
+    private Calendar mToday;
 
     public TimetableAdapter(@NonNull final Context context, final int numberOfDays) {
         mContext = context;
         mNumberOfDays = numberOfDays;
-        mCurrentDayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        mToday = Calendar.getInstance();
     }
 
     public void setData(@NonNull final List<Lesson> data) {
-        mData.clear();
-        mData.addAll(data);
+        mGridManager.update(data);
         notifyDataSetChanged();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.listitem_timetable, parent, false));
+        return new ViewHolder(LayoutInflater.from(mContext)
+                .inflate(R.layout.listitem_timetable, parent, false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        resetHolder(holder);
-
-        if (position == 0) {
-            // top left corner -> empty
-            holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_day_border);
-            onBindEmptyCell(holder);
-        } else if (position < TIME_COLUMN + mNumberOfDays) {
-            // first row -> days
-            holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_day_border);
-            onBindDayCell(holder, position - TIME_COLUMN);
-        } else if (position % (TIME_COLUMN + mNumberOfDays) == 0) {
-            // first column -> times
-            holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_time_border);
-            onBindTimeCell(holder, position / (TIME_COLUMN + mNumberOfDays) - DAY_ROW);
-        } else {
-            // all other cells -> lessons / empty
-            holder.mCell.setBackgroundResource(R.drawable.listitem_timetable_lesson_border);
-            onBindLessonCell(holder, position % (TIME_COLUMN + mNumberOfDays) - TIME_COLUMN, position / (TIME_COLUMN + mNumberOfDays) - DAY_ROW);
-        }
-    }
-
-    private void resetHolder(ViewHolder holder) {
-        holder.mSubject.setVisibility(View.VISIBLE);
-        holder.mRoom.setVisibility(View.VISIBLE);
-        holder.mInfo.setVisibility(View.VISIBLE);
+        // reset
+        holder.mCellInfo = null;
         holder.mListener = null;
-        holder.mLesson = null;
-        holder.mDay = null;
-        holder.mTime = null;
-    }
 
-    private void onBindEmptyCell(ViewHolder holder) {
-        setText(holder.mSubject, null);
-        setText(holder.mRoom, null);
-        setText(holder.mInfo, null);
-    }
-
-    private void onBindTimeCell(ViewHolder holder, int row) {
-        final Time time = Time.values()[row];
-        setText(holder.mSubject, null);
-        setText(holder.mRoom, String.format(Locale.getDefault(), TIME_FORMAT, time.getStart(), time.getEnd()));
-        setText(holder.mInfo, null);
-    }
-
-    private void onBindDayCell(ViewHolder holder, int column) {
-        final Day day = getDayByColumn(column);
-        final Calendar current = Calendar.getInstance();
-        final Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_WEEK, day.getCalendarId());
-
-        setText(holder.mSubject, String.format(Locale.getDefault(), DAY_LARGE_FORMAT, calendar));
-        if (calendar.get(Calendar.DAY_OF_WEEK) == current.get(Calendar.DAY_OF_WEEK)) {
-            // Underline current day
-            SpannableString content = new SpannableString(holder.mSubject.getText());
-            content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-            holder.mSubject.setText(content);
-        }
-        setText(holder.mRoom, null);
-        setText(holder.mInfo, null);
-    }
-
-    private void onBindLessonCell(ViewHolder holder, int column, int row) {
-        final Day day = getDayByColumn(column);
-        final Time time = Time.values()[row];
-
-        final Lesson lesson = findLesson(day, time);
-
+        // render
+        final Cell cell = mGridManager.getCell(position, mToday);
+        cell.render(holder);
+        holder.mCellInfo = cell;
         holder.mListener = mListener;
-        holder.mLesson = lesson;
-        holder.mDay = day;
-        holder.mTime = time;
-
-        if (lesson != null) {
-            setText(holder.mSubject, lesson.getModule().getName());
-            setText(holder.mRoom, lesson.getRoom());
-            setText(holder.mInfo, lesson.getSuffix());
-        } else {
-            onBindEmptyCell(holder);
-        }
-    }
-
-    private void setText(final TextView view, final String text) {
-        if (text != null && text.length() > 0) {
-            view.setText(text);
-        } else {
-            view.setVisibility(View.GONE);
-        }
-    }
-
-    private Day getDayByColumn(final int column) {
-        int index = column;
-        if (mNumberOfDays != DAYS_OF_WEEK) {
-            // The zero, monday based day of week.
-            int dayOfWeek = mCurrentDayOfWeek - 2;
-            // It may be negative now, so make it positive.
-            if (dayOfWeek < 0) {
-                dayOfWeek += 7;
-            }
-            // Start on monday, if it's bigger or equal than DAYS_OF_WEEK
-            if (dayOfWeek >= DAYS_OF_WEEK) {
-                dayOfWeek = 0;
-            }
-            // Now add the column to get the day of the column.
-            dayOfWeek += column;
-            // If we are now bigger, use module to start at monday again.
-            dayOfWeek %= DAYS_OF_WEEK;
-            if (dayOfWeek < 0) {
-                dayOfWeek += DAYS_OF_WEEK;
-            }
-            index = dayOfWeek;
-        }
-        return Day.values()[index];
-    }
-
-    private Lesson findLesson(final Day day, final Time time) {
-        for (Lesson lesson : mData) {
-            if (day == lesson.getDay()
-                    && time.getStart().get(Calendar.HOUR_OF_DAY) == lesson.getHour()
-                    && time.getStart().get(Calendar.MINUTE) == lesson.getMinute()) {
-                return lesson;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -204,70 +92,200 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     }
 
     public void nextDay() {
-        if(mCurrentDayOfWeek++ > Calendar.FRIDAY) {
-            mCurrentDayOfWeek = Calendar.MONDAY;
+        mToday.add(Calendar.DATE, 1);
+        if (mToday.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+            mToday.add(Calendar.DATE, 2);
         }
         notifyDataSetChanged();
     }
 
     public void prevDay() {
-        if(mCurrentDayOfWeek-- < Calendar.MONDAY) {
-            mCurrentDayOfWeek = Calendar.FRIDAY;
+        mToday.add(Calendar.DATE, -1);
+        if (mToday.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+            mToday.add(Calendar.DATE, -2);
         }
         notifyDataSetChanged();
     }
 
     public void today() {
-        int dayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-        if(dayOfWeek != mCurrentDayOfWeek) {
-            mCurrentDayOfWeek = dayOfWeek;
-            notifyDataSetChanged();
-        }
+        mToday.setTimeInMillis(System.currentTimeMillis());
+        notifyDataSetChanged();
     }
 
     public interface OnItemClickListener {
-
         void onItemClicked(@NonNull final Lesson lesson);
 
         void onEmptyClicked(@NonNull final Day day, @NonNull final Time time);
+
+        void onLessonSelection(@NonNull final Lesson lesson);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.cell)
-        LinearLayout mCell;
+        public LinearLayout mCell;
+
+        @Bind(R.id.layoutSubject)
+        public RelativeLayout mLayoutSubject;
+
+        @Bind(R.id.multipleLessons)
+        public ImageView mCount;
 
         @Bind(R.id.textSubject)
-        TextView mSubject;
+        public TextView mSubject;
 
         @Bind(R.id.textRoom)
-        TextView mRoom;
+        public TextView mRoom;
 
         @Bind(R.id.textInfo)
-        TextView mInfo;
+        public TextView mInfo;
 
-        private Day mDay;
+        public final Context mContext;
 
-        private Time mTime;
+        public OnItemClickListener mListener;
 
-        private Lesson mLesson;
-
-        private OnItemClickListener mListener;
+        private Cell mCellInfo;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mContext = itemView.getContext();
+        }
+
+        @OnClick(R.id.multipleLessons)
+        public void onCountClick() {
+            if (mCellInfo instanceof LessonCell && ((LessonCell) mCellInfo).getLessons().size() > 1) {
+                final LessonCell lessonCell = (LessonCell) mCellInfo;
+
+                final ArrayAdapter<Lesson> adapter = new ArrayAdapter<Lesson>(mContext,
+                        android.R.layout.simple_list_item_1, lessonCell.getLessons()) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        final View view = super.getView(position, convertView, parent);
+                        final TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                        textView.setText(getItem(position).getModule().getName());
+                        return view;
+                    }
+                };
+
+                new AlertDialog.Builder(mContext)
+                        .setTitle(R.string.choose_subject)
+                        .setAdapter(adapter, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                lessonCell.setSelection(which);
+                                if (mListener != null) {
+                                    mListener.onLessonSelection(adapter.getItem(which));
+                                }
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                onClick();
+            }
         }
 
         @OnClick({R.id.cell, R.id.textSubject, R.id.textRoom, R.id.textInfo})
         public void onClick() {
-            if (mListener != null) {
-                if (mLesson != null) {
-                    mListener.onItemClicked(mLesson);
+            if (mListener != null && mCellInfo instanceof LessonCell) {
+                final LessonCell lessonCell = (LessonCell) mCellInfo;
+                if (!lessonCell.getLessons().isEmpty()) {
+                    mListener.onItemClicked(lessonCell.getSelectedLesson());
                 } else {
-                    mListener.onEmptyClicked(mDay, mTime);
+                    mListener.onEmptyClicked(lessonCell.getDay(), lessonCell.getTime());
                 }
             }
+        }
+    }
+
+    private final class GridManager {
+        private final List<Cell> mCells = new ArrayList<>();
+
+        public void update(@NonNull final List<Lesson> lessons) {
+            // Reset everything
+            mCells.clear();
+
+            // Add empty left upper corner
+            mCells.add(new Cell(0, 0, R.drawable.listitem_timetable_day_border));
+
+            // Add days
+            int dayIndex = 1; // skip first column
+            for (Day day : Day.values()) {
+                mCells.add(new DayCell(0, dayIndex++, day));
+            }
+
+            // Add times
+            int timeIndex = 1; // skip first row
+            for (Time time : Time.values()) {
+                mCells.add(new TimeCell(timeIndex++, 0, time));
+            }
+
+            // Add lessons
+            for (Lesson lesson : lessons) {
+                final LessonCell lessonCell = findBy(lesson.getDay(), lesson.getHour(), lesson.getMinute());
+                if (lessonCell == null) {
+                    final int column = Arrays.asList(Day.values())
+                            .indexOf(lesson.getDay()) + TIME_COLUMN;
+                    final int row = Arrays.asList(Time.values())
+                            .indexOf(getTimeByInt(lesson.getHour(), lesson.getMinute())) + DAY_ROW;
+                    mCells.add(new LessonCell(row, column, lesson));
+                } else {
+                    lessonCell.getLessons().add(lesson);
+                }
+            }
+        }
+
+        @Nullable
+        private Time getTimeByInt(final int hour, final int minute) {
+            for (Time time : Time.values()) {
+                if (time.getStart().get(Calendar.HOUR_OF_DAY) == hour
+                        && time.getStart().get(Calendar.MINUTE) == minute) {
+                    return time;
+                }
+            }
+            return null;
+        }
+
+        @NonNull
+        public Cell getCell(final int position, final Calendar selectedDay) {
+            int row = position / (mNumberOfDays + DAY_ROW);
+            int column = position % (mNumberOfDays + TIME_COLUMN);
+            if(column > 0) { // skip the time column
+                column += selectedDay.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
+                if(column > Calendar.FRIDAY - 1) {
+                    column = 1;
+                }
+            }
+
+            final Cell cell = findBy(row, column);
+            return cell != null ? cell : new LessonCell(row, column);
+        }
+
+        @Nullable
+        private LessonCell findBy(@NonNull final Day day, final int hour, final int minute) {
+            for (Cell cell : mCells) {
+                if (cell instanceof LessonCell) {
+                    final LessonCell lessonCell = (LessonCell) cell;
+                    final Time time = lessonCell.getTime();
+                    if (lessonCell.getDay() == day
+                            && time.getStart().get(Calendar.HOUR_OF_DAY) == hour
+                            && time.getStart().get(Calendar.MINUTE) == minute) {
+                        return lessonCell;
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Nullable
+        private Cell findBy(final int row, final int col) {
+            for (Cell cell : mCells) {
+                if (cell.getRow() == row && cell.getColumn() == col) {
+                    return cell;
+                }
+            }
+            return null;
         }
     }
 }
