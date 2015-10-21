@@ -113,16 +113,6 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
                         radioButton.setVisibility(View.GONE);
                     }
                 }
-
-                // If no pk was selected, select the first one
-                boolean selected = false;
-                for (RadioButton radioButton : mPkGroupList) {
-                    selected |= radioButton.isChecked();
-                }
-                if(!selected) {
-                    mPkGroupList.get(0).setChecked(true);
-                    mPresenter.setPkSelected(mLessonGroup, 1, true);
-                }
             } else {
                 mPkGroups.setVisibility(View.GONE);
             }
