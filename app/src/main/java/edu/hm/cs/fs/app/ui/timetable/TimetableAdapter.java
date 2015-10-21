@@ -251,6 +251,12 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         public Cell getCell(final int position, final Calendar selectedDay) {
             int row = position / (mNumberOfDays + DAY_ROW);
             int column = position % (mNumberOfDays + TIME_COLUMN);
+
+            // BugFix: If the timetable configurator was opened, the cells haven't been updated yet
+            if(mCells.isEmpty()) {
+                return new Cell(row, column, R.drawable.listitem_timetable_lesson_border);
+            }
+
             if(column > 0) { // skip the time column
                 column += selectedDay.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
                 if(column > Calendar.FRIDAY - 1) {
