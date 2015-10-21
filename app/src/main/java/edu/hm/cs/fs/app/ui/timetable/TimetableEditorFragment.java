@@ -4,19 +4,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.fk07.R;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -26,6 +32,9 @@ import edu.hm.cs.fs.app.presenter.TimetableEditorPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.ITimetableEditorView;
+import edu.hm.cs.fs.common.constant.Letter;
+import edu.hm.cs.fs.common.constant.Semester;
+import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.LessonGroup;
 
@@ -44,8 +53,14 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     @Bind(R.id.listView)
     RecyclerView mListView;
 
-    @Bind(R.id.textGroupLayout)
-    TextInputLayout mTextGroup;
+    @Bind(R.id.spinnerStudy)
+    AppCompatSpinner mStudySpinner;
+
+    @Bind(R.id.spinnerSemester)
+    AppCompatSpinner mSemesterSpinner;
+
+    @Bind(R.id.spinnerLetter)
+    AppCompatSpinner mLetterSpinner;
 
     private TimetableEditorAdapter mAdapter;
 
@@ -65,6 +80,35 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
 
         setPresenter(new TimetableEditorPresenter(getActivity(), this));
 
+        mStudySpinner.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, Study.values()));
+
+        mSemesterSpinner.setAdapter(new ArrayAdapter<Semester>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, Semester.values()) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                final View view = super.getView(position, convertView, parent);
+                setText(view, position);
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                final View view = super.getDropDownView(position, convertView, parent);
+                setText(view, position);
+                return view;
+            }
+
+            private void setText(View view, int position) {
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                textView.setText(getItem(position).toString().substring(1));
+                textView.setGravity(Gravity.CENTER);
+            }
+        });
+
+        mLetterSpinner.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, Letter.values()));
+
         mAdapter = new TimetableEditorAdapter(getActivity(), getPresenter());
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -82,8 +126,7 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_reset:
-                AlertDialog alertDialog = new AlertDialog.Builder(getContext(),
-                        R.style.Base_Theme_AppCompat_Dialog_Alert)
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                         .setTitle(R.string.reset_timetable_title)
                         .setMessage(R.string.reset_timetable_message)
                         .setPositiveButton(R.string.reset, new DialogInterface.OnClickListener() {
@@ -111,6 +154,7 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     @OnClick(R.id.search)
     @Override
     public void onRefresh() {
+        /*
         final EditText editText = mTextGroup.getEditText();
         if (editText != null) {
             InputMethodManager imm = (InputMethodManager) getContext()
@@ -124,6 +168,7 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
                 mTextGroup.setError(getString(R.string.group_format));
             }
         }
+        */
     }
 
     @Override
