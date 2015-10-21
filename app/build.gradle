@@ -8,8 +8,8 @@ android {
         applicationId "com.fk07"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 201
-        versionName "2.0.1"
+        versionCode 2021
+        versionName "2.0.2 BETA"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
