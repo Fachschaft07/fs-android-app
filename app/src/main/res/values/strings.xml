@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Fachschaft07</string>
     <string name="version">Version</string>
     <!-- Navigation -->
-    <string name="blackboard">Black Board</string>
-    <string name="roomsearch">Room Search</string>
-    <string name="news">News</string>
+    <string name="blackboard">Schwarzes Brett</string>
+    <string name="roomsearch">Raumsuche</string>
+    <string name="news">Neuigkeiten</string>
     <string name="mvv">MVV</string>
     <string name="info">Info</string>
     <string name="jobs">Jobs</string>
-    <string name="student_council">Student Council</string>
+    <string name="student_council">Fachschaft</string>
     <string name="mensa">Mensa</string>
-    <string name="offers">Offers</string>
-    <string name="my_study">My study</string>
+    <string name="offers">Angebote</string>
+    <string name="my_study">Mein Studium</string>
     <string name="home">Home</string>
     <string name="hm">Hochschule München</string>
-    <string name="help_feedback">Help &amp; Feedback</string>
-    <string name="others">Others</string>
-    <string name="presence">Presence</string>
-    <string name="timetable">Timetable</string>
-    <string name="lostfound"><![CDATA[Lost & Found]]></string>
+    <string name="help_feedback">Hilfe &amp; Feedback</string>
+    <string name="others">Sonstiges</string>
+    <string name="presence">Anwesenheit</string>
+    <string name="timetable">Stundenplan</string>
+    <string name="lostfound">Fundsachen</string>
 
     <!-- Public Transport -->
     <string name="departure">in %1$d min</string>
@@ -27,140 +26,113 @@
     <string name="pasing">Pasing</string>
 
     <!-- Info -->
-    <string name="teamMembers">Developed by students from the faculty 07\n\nAnyone willing to help,
-        just come in the student council
-    </string>
-    <string name="fs_contact">Contact: Lothstraße 64 R0.013 80355 Munich</string>
+    <string name="teamMembers">Entwickelt von Studenten der Fakultät 07\n\nWer mitmachen möchte, kommt einfach in der Fachschaft vorbei</string>
+    <string name="fs_contact">Kontakt: Lothstraße 64 R0.013 80355 München</string>
 
     <!-- Timetable -->
-    <string name="faculty_01">1 - Architecture</string>
-    <string name="faculty_02">2 - Civil Engineering</string>
-    <string name="faculty_03">3 - Engineering, Automotive Engineering, Aviation Technology</string>
-    <string name="faculty_04">4 - Electrical and Computer Engineering</string>
-    <string name="faculty_05">5 - Supply and Building Technology, Process Engineering and Packaging
-        Paper, Printing and Media Technology
-    </string>
-    <string name="faculty_06">6 - Applied Sciences and Mechatronics</string>
-    <string name="faculty_07">7 - Computer Science and Mathematics</string>
-    <string name="faculty_08">8 - Geoinformatics</string>
-    <string name="faculty_09">9 - Industrial Engineering</string>
-    <string name="faculty_10">10 - Business Management</string>
-    <string name="faculty_11">11 - Applied Social Sciences</string>
+    <string name="faculty_01">1 - Architektur</string>
+    <string name="faculty_02">2 - Bauingenieurwesen</string>
+    <string name="faculty_03">3 - Maschinenbau, Fahrzeugtechnik, Flugzeugtechnik</string>
+    <string name="faculty_04">4 - Elektrotechnik und Informationstechnik</string>
+    <string name="faculty_05">5 - Versorgungs- und Gebäudetechnik, Verfahrenstechnik Papier und Verpackung, Druck- und Medientechnik</string>
+    <string name="faculty_06">6 - Angewandte Naturwissenschaften und Mechatronik</string>
+    <string name="faculty_07">7 - Informatik und Mathematik</string>
+    <string name="faculty_08">8 - Geoinformatik</string>
+    <string name="faculty_09">9 - Wirtschaftsingenieurwesen</string>
+    <string name="faculty_10">10 - Betriebswirtschaft</string>
+    <string name="faculty_11">11 - Angewandte Sozialwissenschaften</string>
     <string name="faculty_12">12 - Design</string>
-    <string name="faculty_13">13 - General Studies and Interdisciplinary Studies</string>
-    <string name="faculty_14">14 - Tourism</string>
+    <string name="faculty_13">13 - Studium Generale und Interdisziplinäre Studien</string>
+    <string name="faculty_14">14 - Tourismus</string>
     <string name="study_go">GO - Geotelematik Bachelor</string>
-    <string name="study_ib">IB - Economic Computer Science Bachelor</string>
-    <string name="study_if">IF - Computer Science Bachelor</string>
+    <string name="study_ib">IB - Wirtschaftsinformatik Bachelor</string>
+    <string name="study_if">IF - Informatik Bachelor</string>
     <string name="study_ic">IC - Scientific Computing Bachelor</string>
-    <string name="study_ig">IG - Computer Science Master</string>
-    <string name="study_in">IN - Economic Computer Master</string>
+    <string name="study_ig">IG - Informatik Master</string>
+    <string name="study_in">IN - Wirtschaftsinformatik Master</string>
     <string name="study_is">IS - Stochastic Engineering in Business and Finance Master</string>
-    <string name="semester_1" translatable="false">1</string>
-    <string name="semester_2" translatable="false">2</string>
-    <string name="semester_3" translatable="false">3</string>
-    <string name="semester_4" translatable="false">4</string>
-    <string name="semester_5" translatable="false">5</string>
-    <string name="semester_6" translatable="false">6</string>
-    <string name="semester_7" translatable="false">7</string>
-    <string name="group_a" translatable="false">A</string>
-    <string name="group_b" translatable="false">B</string>
-    <string name="group_c" translatable="false">C</string>
 
     <!-- Mensa -->
-    <string name="additives">additives</string>
-    <string name="dye">with dye</string>
-    <string name="preservative">with preservative</string>
-    <string name="antioxidant">with antioxidant</string>
-    <string name="flavor_enhancers">with flavor enhancers</string>
-    <string name="sulphured">sulphured</string>
-    <string name="blackened">blackened (Olives)</string>
-    <string name="phosphate">with phosphate</string>
-    <string name="sweeteners">with sweeteners</string>
-    <string name="phenylalaninquelle">contains a phenylalaninquelle</string>
-    <string name="sugar_and_sweeteners">with sugar and sweeteners</string>
-    <string name="alcohol">with alcohol</string>
-    <string name="pig">with pig</string>
-    <string name="beef">with beef</string>
+    <string name="additives">Zusatzstoffe</string>
+    <string name="dye">mit Farbstoff</string>
+    <string name="preservative">mit Konservierungsstoff</string>
+    <string name="antioxidant">mit Antioxidationsmittel</string>
+    <string name="flavor_enhancers">mit Geschmacksverstärker</string>
+    <string name="sulphured">geschwefelt</string>
+    <string name="blackened">geschwärzt (Oliven)</string>
+    <string name="phosphate">mit Phosphat</string>
+    <string name="sweeteners">mit Süßungsmitteln</string>
+    <string name="phenylalaninquelle">enthält eine Phenylalaninquelle</string>
+    <string name="sugar_and_sweeteners">mit einer Zuckerart und Süßungsmittel</string>
+    <string name="alcohol">mit Alkohol</string>
+    <string name="pig">mit Schweinefleisch</string>
+    <string name="beef">mit Rindfleisch</string>
 
     <!-- Room Search -->
-    <string name="free_until">until %1$s free</string>
+    <string name="free_until">bis %1$s frei</string>
 
     <!-- Others -->
-    <string name="time">Time</string>
-    <string name="not_title_set" translatable="false"/>
+    <string name="time">Zeit</string>
     <string name="navigation_drawer_open">Navigation Drawer Open</string>
     <string name="navigation_drawer_close">Navigation Drawer Close</string>
-    <string name="retry">Retry</string>
-    <string name="network_error">No internet connection</string>
-    <string name="edit">Edit</string>
-    <string name="group_format">This is not the correct format (e.g. IF, IF2B, IF5,…).</string>
-    <string name="mensa_today">Today\'s supply of meals.</string>
-    <string name="blackboard_current">The news of today and yesterday.</string>
-    <string name="save">Save</string>
-    <string name="next_lesson_suffix">Your next lesson starts at %2$tH:%2$tM with %4$s in Room %3$s
-        on %1$tA. This is a %5$s.
-    </string>
-    <string name="next_lesson">Your next lesson starts at %2$tH:%2$tM with %4$s in Room %3$s on
-        %1$tA.
-    </string>
-    <string name="rate_title">App Rating</string>
-    <string name="rate_subtitle" translatable="false">&#9733; &#9733; &#9733; &#9734;
-        &#9734;</string>
-    <string name="rate_description">Are you happy with the App? Let us know and rate the App.
-    </string>
-    <string name="rate">Rate Now!</string>
+    <string name="retry">Wiederholen</string>
+    <string name="network_error">Keine Internetverbindung</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="mensa_today">Das heutige Angebot an Mahlzeiten.</string>
+    <string name="blackboard_current">Die Meldungen von heute und gestern.</string>
+    <string name="group_format">Das ist nicht das richtige format (z.B. IF, IF2B, IF5,…).</string>
+    <string name="save">Speichern</string>
+    <string name="next_lesson">Deine nächste Stunde beginnt um %2$tH:%2$tM bei %4$s in Raum %3$s am %1$tA.</string>
+    <string name="next_lesson_suffix">Deine nächste Stunde beginnt um %2$tH:%2$tM bei %4$s in Raum %3$s am %1$tA. Das ist ein %5$s.</string>
+    <string name="rate_title">App Bewertung</string>
+    <string name="rate_description">Bist du mit der App zufrieden? Lass es uns wissen und gib eine Bewertung ab.</string>
+    <string name="rate">Jetzt Bewerten!</string>
     <string name="semester_start">Semester Start</string>
-    <string name="semester_start_description">Good luck in the new semester!</string>
-    <string name="lostfound_description_one">Currently there is %1$d thing waiting for his owner!
+    <string name="semester_start_description">Viel Erfolg im neuen Semester!</string>
+    <string name="lostfound_description_one">Aktuell wartet %1$d Fundsache auf seinen BesitzerIn!
     </string>
-    <string name="lostfound_description_other">Currently there are %1$d things waiting for their
-        owners!
+    <string name="lostfound_description_other">Aktuell warten %1$d Fundsachen auf ihre
+        BesitzerInnen!
     </string>
-    <string name="view">View</string>
-    <string name="additional_info">Additional Information</string>
-    <string name="settings">Settings</string>
-    <string name="show">Cards to show</string>
-    <string name="semester_start_summary">A little motivation for the next semester.</string>
-    <string name="holiday">Holiday</string>
-    <string name="blackboard_summary">Shows you the latest news from the last two days of the
-        blackboard.
-    </string>
-    <string name="next_holidays_one">Only %1$d day left till the %2$s starts! Then you have free time from %3$ta %3$td.%3$tm.%3$tY to %4$ta %4$td.%4$tm.%4$tY.</string>
-    <string name="next_holidays_other">Only %1$d days left till the %2$s starts! Then you have free time from %3$ta %3$td.%3$tm.%3$tY to %4$ta %4$td.%4$tm.%4$tY.</string>
-    <string name="timetable_summary">Shows you the next lesson.</string>
-    <string name="mensa_summary">Shows you the offered meals of the current day from the mensa.
-    </string>
-    <string name="lostfound_summary">Shows you the amount of things which were lost and found.
-    </string>
-    <string name="holiday_summary">Show you the next holiday.</string>
-    <string name="reset">Reset</string>
-    <string name="placement_group">%1$d. Placement group</string>
-    <string name="reset_timetable_title">Reset Timetable?</string>
-    <string name="reset_timetable_message">It will delete all your chosen and manually added lessons.</string>
-    <string name="cancel">Cancel</string>
-    <string name="study_group">Study Group (e.g. IF2C, IB1A, IC6)</string>
-    <string name="lesson_selection">Lesson selection</string>
-    <string name="student_council_summary">Get the latest news from the student council.</string>
-    <string name="read_more">Read more</string>
-    <string name="help">Help</string>
-    <string name="feedback">Feedback</string>
-    <string name="auditorium">Auditorium</string>
-    <string name="laboratory">Laboratory</string>
+    <string name="additional_info">Zusatzinformationen</string>
+    <string name="show">Karten zum Anzeigen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="holiday">Ferien</string>
+    <string name="holiday_summary">Zeigt dir die nächsten Ferien an.</string>
+    <string name="lostfound_summary">Zeigt dir die Anzahl an Fundsachen.</string>
+    <string name="mensa_summary">Zeigt dir das Angebot an Gerichten des aktuellen Tages aus der Mensa.</string>
+    <string name="semester_start_summary">Eine kleine Motivation für das kommende Semester.</string>
+    <string name="timetable_summary">Zeigt dir deine nächste Vorlesung.</string>
+    <string name="blackboard_summary">Zeigt dir die Neuigkeiten der letzten zwei Tage vom Schwarzen Brett.</string>
+    <string name="view">Anzeigen</string>
+    <string name="placement_group">%1$d. Praktikumsgruppe</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="reset_timetable_message">Es werden all deine ausgewählten und manuell hinzugefügten Stunden gelöscht.</string>
+    <string name="reset_timetable_title">Stundenplan zurücksetzen?</string>
+    <string name="study_group">Studiengruppe (z.B. IF2C, IB1A, IC6)</string>
+    <string name="next_holidays_one">Nur noch %1$d Tag bis die %2$s starten! Dann hast du vom %3$ta %3$td.%3$tm.%3$tY bis %4$ta %4$td.%4$tm.%4$tY frei.</string>
+    <string name="next_holidays_other">Nur noch %1$d Tage bis die %2$s starten! Dann hast du vom %3$ta %3$td.%3$tm.%3$tY bis %4$ta %4$td.%4$tm.%4$tY frei.</string>
+    <string name="lesson_selection">Fächerauswahl</string>
+    <string name="student_council_summary">Erhalte die aktuellen Neuigkeiten aus der Fachschaft.</string>
+    <string name="read_more">Mehr lesen</string>
+    <string name="help">Hilfe</string>
+    <string name="laboratory">Labor</string>
     <string name="lounge">Lounge</string>
-    <string name="unknown_error">Internet connection available?</string>
-    <string name="contact">Contact</string>
-    <string name="internet_connection_error">Failed to connect to the rest service. Check your internet connection.</string>
-    <string name="week_view">Week view</string>
-    <string name="two_day_view">Two days view</string>
-    <string name="ects" translatable="false">%1$d ECTS</string>
-    <string name="effort">Effort</string>
-    <string name="prerequirements">Prerequirements</string>
-    <string name="aims">Aims</string>
-    <string name="content">Content</string>
-    <string name="mediaform">Media Form</string>
-    <string name="literature">Literature</string>
-    <string name="next_day">Next day</string>
-    <string name="today">Today</string>
-    <string name="prev_day">Previous Day</string>
+    <string name="feedback">Feedback</string>
+    <string name="auditorium">Hörsaal</string>
+    <string name="contact">Kontaktieren</string>
+    <string name="internet_connection_error">Keine Verbindung mit dem Rest Service möglich. Bitte überprüfe deine Internetverbindung.</string>
+    <string name="unknown_error">Ist eine Internetverbindung vorhanden?</string>
+    <string name="two_day_view">Zwei Tagesansicht</string>
+    <string name="week_view">Wochenansicht</string>
+    <string name="content">Inhalt</string>
+    <string name="effort">Aufwand</string>
+    <string name="literature">Literatur</string>
+    <string name="mediaform">Medienform</string>
+    <string name="next_day">Nächster Tag</string>
+    <string name="prerequirements">Vorasussetzungen</string>
+    <string name="prev_day">Vorheriger Tag</string>
+    <string name="today">Heute</string>
+    <string name="aims">Ziele</string>
 </resources>
