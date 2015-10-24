@@ -21,10 +21,10 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.dexafree.materialList.card.Card;
-import com.dexafree.materialList.card.OnButtonClickListener;
-import com.dexafree.materialList.card.provider.BasicButtonsCardProvider;
-import com.dexafree.materialList.card.provider.BasicListCardProvider;
-import com.dexafree.materialList.card.provider.SmallImageCardProvider;
+import com.dexafree.materialList.card.CardProvider;
+import com.dexafree.materialList.card.OnActionClickListener;
+import com.dexafree.materialList.card.action.TextViewAction;
+import com.dexafree.materialList.card.provider.ListCardProvider;
 import com.dexafree.materialList.listeners.OnDismissCallback;
 import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListAdapter;
@@ -93,8 +93,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
         mListView.setOnDismissCallback(this);
         mListView.addOnItemTouchListener(this);
 
-        initSwipeRefreshLayout(mSwipeRefreshLayout);
-
         setPresenter(new HomePresenter(getActivity(), this));
         getPresenter().loadHappenings(false);
     }
@@ -136,10 +134,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.DAY_OF_WEEK, lesson.getDay().getCalendarId());
 
-            final SmallImageCardProvider provider = new Card.Builder(getActivity())
+            final CardProvider provider = new Card.Builder(getActivity())
                     .setTag(NEXT_LESSON)
                     .setDismissible()
-                    .withProvider(SmallImageCardProvider.class)
+                    .withProvider(new CardProvider())
+                    .setLayout(R.layout.material_small_image_card)
                     .setTitle(lesson.getModule().getName())
                     .setDrawable(R.drawable.ic_view_week_grey_600_24dp);
 
@@ -171,7 +170,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
             Card card = new Card.Builder(getActivity())
                     .setTag(BLACKBOARD)
                     .setDismissible()
-                    .withProvider(BasicListCardProvider.class)
+                    .withProvider(new ListCardProvider())
+                    .setLayout(R.layout.material_list_card_layout)
                     .setTitle(R.string.blackboard)
                     .setDescription(R.string.blackboard_current)
                     .setAdapter(new ArrayAdapter<BlackboardEntry>(
@@ -220,7 +220,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
             Card card = new Card.Builder(getActivity())
                     .setTag(MENSA)
                     .setDismissible()
-                    .withProvider(BasicListCardProvider.class)
+                    .withProvider(new ListCardProvider())
+                    .setLayout(R.layout.material_list_card_layout)
                     .setTitle(R.string.mensa)
                     .setDescription(R.string.mensa_today)
                     .setAdapter(new ArrayAdapter<Meal>(
@@ -270,20 +271,22 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
             Card card = new Card.Builder(getActivity())
                     .setTag(LOSTFOUND)
                     .setDismissible()
-                    .withProvider(BasicButtonsCardProvider.class)
+                    .withProvider(new CardProvider())
+                    .setLayout(R.layout.material_basic_buttons_card)
                     .setTitle(R.string.lostfound)
                     .setDescription(getResources()
                             .getQuantityString(R.plurals.lostfound_description,
                                     amountOfLostFound, amountOfLostFound))
                     .setDrawable(R.drawable.ic_loyalty_grey_600_24dp)
-                    .setRightButtonText(R.string.view)
-                    .setRightButtonTextResourceColor(R.color.colorAccent)
-                    .setOnRightButtonClickListener(new OnButtonClickListener() {
-                        @Override
-                        public void onButtonClicked(View view, Card card) {
-                            MainActivity.getNavigator().goTo(new LostFoundFragment());
-                        }
-                    })
+                    .addAction(R.id.right_text_button, new TextViewAction(getContext())
+                            .setText(getString(R.string.view))
+                            .setTextResourceColor(R.color.colorAccent)
+                            .setListener(new OnActionClickListener() {
+                                @Override
+                                public void onActionClicked(final View view, final Card card) {
+                                    MainActivity.getNavigator().goTo(new LostFoundFragment());
+                                }
+                            }))
                     .endConfig()
                     .build();
             add(card, false);
@@ -301,7 +304,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
             Card card = new Card.Builder(getActivity())
                     .setTag(HOLIDAY)
                     .setDismissible()
-                    .withProvider(SmallImageCardProvider.class)
+                    .withProvider(new CardProvider())
+                    .setLayout(R.layout.material_small_image_card)
                     .setTitle(holiday.getName())
                     .setDescription(getResources().getQuantityString(R.plurals.next_holidays,
                             daysLeft, daysLeft, holiday.getName(),
@@ -318,23 +322,24 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
         if (isActive(FS_NEWS)) {
             int index = 0;
             for (final News newsItem : news) {
-                final BasicButtonsCardProvider cardConfig = new Card.Builder(getContext())
+                final CardProvider cardConfig = new Card.Builder(getContext())
                         .setTag(FS_NEWS_ITEM + index++)
                         .setDismissible()
-                        .withProvider(BasicButtonsCardProvider.class)
+                        .withProvider(new CardProvider())
+                        .setLayout(R.layout.material_basic_buttons_card)
                         .setTitle(newsItem.getTitle())
                         .setDescription(newsItem.getDescription());
                 if (!TextUtils.isEmpty(newsItem.getLink())) {
-                    cardConfig.setRightButtonTextResourceColor(R.color.colorAccent)
-                            .setRightButtonText(R.string.read_more)
-                            .setOnRightButtonClickListener(new OnButtonClickListener() {
+                    cardConfig.addAction(R.id.right_text_button, new TextViewAction(getContext())
+                            .setText(getString(R.string.read_more))
+                            .setListener(new OnActionClickListener() {
                                 @Override
-                                public void onButtonClicked(final View view, final Card card) {
+                                public void onActionClicked(final View view, final Card card) {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.setData(Uri.parse(newsItem.getLink()));
                                     startActivity(intent);
                                 }
-                            });
+                            }));
                 }
                 Card card = cardConfig.endConfig().build();
                 add(card, false);
@@ -348,7 +353,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     private void add(@NonNull final Card card, final boolean atStart) {
         if (mListView != null) {
-            MaterialListAdapter adapter = (MaterialListAdapter) mListView.getAdapter();
+            MaterialListAdapter adapter = mListView.getAdapter();
             for (int index = 0; index < adapter.getItemCount(); index++) {
                 final Card foundCard = adapter.getCard(index);
                 //noinspection ConstantConditions
@@ -358,9 +363,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                 }
             }
             if (atStart) {
-                mListView.addAtStart(card);
+                adapter.addAtStart(card);
             } else {
-                mListView.add(card);
+                adapter.add(card);
             }
         }
     }
@@ -377,7 +382,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void clear() {
-        mListView.clearAll();
+        mListView.getAdapter().clearAll();
     }
 
     @Override

@@ -83,8 +83,8 @@
     <string name="blackboard_current">Die Meldungen von heute und gestern.</string>
     <string name="group_format">Das ist nicht das richtige format (z.B. IF, IF2B, IF5,…).</string>
     <string name="save">Speichern</string>
-    <string name="next_lesson">Deine nächste Stunde beginnt um %2$tH:%2$tM bei %4$s in Raum %3$s am %1$tA.</string>
-    <string name="next_lesson_suffix">Deine nächste Stunde beginnt um %2$tH:%2$tM bei %4$s in Raum %3$s am %1$tA. Das ist ein %5$s.</string>
+    <string name="next_lesson">Deine nächste Stunde beginnt am %1$tA um %2$tH:%2$tM bei %4$s in Raum %3$s.</string>
+    <string name="next_lesson_suffix">Deine nächste Stunde beginnt am %1$tA um %2$tH:%2$tM bei %4$s in Raum %3$s. Das ist ein %5$s.</string>
     <string name="rate_title">App Bewertung</string>
     <string name="rate_description">Bist du mit der App zufrieden? Lass es uns wissen und gib eine Bewertung ab.</string>
     <string name="rate">Jetzt Bewerten!</string>
