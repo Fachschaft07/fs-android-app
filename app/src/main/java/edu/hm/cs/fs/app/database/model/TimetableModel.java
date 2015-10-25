@@ -247,7 +247,7 @@ public class TimetableModel implements IModel {
     }
 
     public void save(@NonNull final LessonGroup lessonGroup, final boolean selected) {
-        save(lessonGroup, 0, selected);
+        save(lessonGroup, -1, selected);
     }
 
     public void save(@NonNull final LessonGroup lessonGroup, final int pk, final boolean selected) {

@@ -56,6 +56,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         mContext = context;
         mNumberOfDays = numberOfDays;
         mToday = Calendar.getInstance();
+        skipWeekend();
     }
 
     public void setData(@NonNull final List<Lesson> data) {
@@ -109,7 +110,19 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     public void today() {
         mToday.setTimeInMillis(System.currentTimeMillis());
+        skipWeekend();
         notifyDataSetChanged();
+    }
+
+    private void skipWeekend() {
+        switch (mToday.get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.SATURDAY:
+                mToday.add(Calendar.DATE, 2);
+                break;
+            case Calendar.SUNDAY:
+                mToday.add(Calendar.DATE, 1);
+                break;
+        }
     }
 
     public interface OnItemClickListener {
@@ -257,9 +270,9 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
                 return new Cell(row, column, R.drawable.listitem_timetable_lesson_border);
             }
 
-            if(column > 0) { // skip the time column
+            if(column != 0) { // skip the time column
                 column += selectedDay.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
-                if(column > Calendar.FRIDAY - 1) {
+                if(column >= Calendar.SATURDAY - 1) {
                     column = 1;
                 }
             }

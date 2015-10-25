@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.database.model;
 
 import android.support.annotation.NonNull;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,6 +32,22 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
      */
     public void getAll(final boolean refresh, @NonNull final ICallback<List<BlackboardEntry>> callback) {
         getData(refresh, callback);
+    }
+
+    public void getAllSinceYesterday(@NonNull final ICallback<List<BlackboardEntry>> callback) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -2);
+        FsRestClient.getV1().getEntriesSince(calendar.getTimeInMillis(), new Callback<List<BlackboardEntry>>() {
+            @Override
+            public void success(final List<BlackboardEntry> blackboardEntries, final Response response) {
+                callback.onSuccess(blackboardEntries);
+            }
+
+            @Override
+            public void failure(final RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
     }
 
     /**

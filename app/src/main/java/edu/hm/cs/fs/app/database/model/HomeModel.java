@@ -40,7 +40,7 @@ public class HomeModel implements IModel {
      */
     public void getNewBlackboardEntries(boolean refresh, @NonNull final ICallback<List<BlackboardEntry>> callback) {
         final BlackBoardModel blackboardModel = ModelFactory.getBlackboard();
-        blackboardModel.getAll(refresh, new ICallback<List<BlackboardEntry>>() {
+        blackboardModel.getAllSinceYesterday(new ICallback<List<BlackboardEntry>>() {
             @Override
             public void onSuccess(@NonNull List<BlackboardEntry> data) {
                 final List<BlackboardEntry> entries = new ArrayList<>();

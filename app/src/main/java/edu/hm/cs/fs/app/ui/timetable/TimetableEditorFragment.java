@@ -2,9 +2,9 @@ package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
@@ -15,14 +15,11 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fk07.R;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -80,41 +77,15 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
 
         setPresenter(new TimetableEditorPresenter(getActivity(), this));
 
-        mStudySpinner.setAdapter(new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_dropdown_item, Study.values()));
-
-        mSemesterSpinner.setAdapter(new ArrayAdapter<Semester>(getContext(),
-                android.R.layout.simple_spinner_dropdown_item, Semester.values()) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                final View view = super.getView(position, convertView, parent);
-                setText(view, position);
-                return view;
-            }
-
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                final View view = super.getDropDownView(position, convertView, parent);
-                setText(view, position);
-                return view;
-            }
-
-            private void setText(View view, int position) {
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setText(getItem(position).toString().substring(1));
-                textView.setGravity(Gravity.CENTER);
-            }
-        });
-
-        mLetterSpinner.setAdapter(new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_dropdown_item, Letter.values()));
+        mStudySpinner.setAdapter(SimpleSpinnerAdapter.create(getContext(), Study.values(), false));
+        mSemesterSpinner.setAdapter(SimpleSpinnerAdapter.create(getContext(), Semester.values(), true));
+        mLetterSpinner.setAdapter(SimpleSpinnerAdapter.create(getContext(), Letter.values(), true));
 
         mAdapter = new TimetableEditorAdapter(getActivity(), getPresenter());
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mSwipeRefreshLayout.setEnabled(false);
-        initSwipeRefreshLayout(mSwipeRefreshLayout);
     }
 
     @Override
@@ -154,6 +125,12 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     @OnClick(R.id.search)
     @Override
     public void onRefresh() {
+        final String study = mStudySpinner.getSelectedItem().toString();
+        final String semester = mSemesterSpinner.getSelectedItem().toString().replaceAll("-", "");
+        final String letter = mLetterSpinner.getSelectedItem().toString().replaceAll("-", "");
+
+        getPresenter().loadModules(Group.of(study + semester + letter));
+
         /*
         final EditText editText = mTextGroup.getEditText();
         if (editText != null) {
@@ -180,5 +157,53 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    private static class SimpleSpinnerAdapter extends ArrayAdapter<String> {
+        public SimpleSpinnerAdapter(final Context context, final String[] objects) {
+            super(context, android.R.layout.simple_spinner_dropdown_item, objects);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final View view = super.getView(position, convertView, parent);
+            setText(view).setTextColor(Color.WHITE);
+            return view;
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            final View view = super.getDropDownView(position, convertView, parent);
+            setText(view);
+            return view;
+        }
+
+        private TextView setText(View view) {
+            TextView textView = (TextView) view.findViewById(android.R.id.text1);
+            textView.setGravity(Gravity.CENTER);
+            return textView;
+        }
+
+        public static ArrayAdapter<String> create(@NonNull final Context context,
+                                                  @NonNull final Enum[] type,
+                                                  final boolean emptyItem) {
+            int length = type.length;
+            if(emptyItem) {
+                length += 1;
+            }
+            final String[] items = new String[length];
+            int index = 0;
+            if(emptyItem) {
+                items[index++] = "-";
+            }
+            for (Enum item : type) {
+                String name = item.toString();
+                if(item instanceof Semester) {
+                    name = name.substring(1);
+                }
+                items[index++] = name;
+            }
+            return new SimpleSpinnerAdapter(context, items);
+        }
     }
 }

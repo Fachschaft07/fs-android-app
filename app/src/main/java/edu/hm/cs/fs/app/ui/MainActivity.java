@@ -242,6 +242,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 startActivity(intent);
                 return false;
         }
+        final MenuItem item = mNavigationView.getMenu().findItem(mCurrentMenuItem);
+        if(item != null) {
+            item.setChecked(false);
+        }
         mCurrentMenuItem = id;
         menuItem.setChecked(true);
         return false;
