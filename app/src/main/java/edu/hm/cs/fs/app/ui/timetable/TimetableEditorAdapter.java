@@ -97,8 +97,8 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
         }
 
         public void init() {
-            mCheckBox.setChecked(mPresenter.isLessonGroupSelected(mLessonGroup));
-            if (mCheckBox.isChecked() && !mLessonGroup.getGroups().isEmpty()) {
+            final boolean lessonGroupSelected = mPresenter.isLessonGroupSelected(mLessonGroup);
+            if (lessonGroupSelected && !mLessonGroup.getGroups().isEmpty()) {
                 mPkGroups.setVisibility(View.VISIBLE);
 
                 // Select the pk which was selected previously
@@ -106,8 +106,9 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
                 for (int index = 0; index < mPkGroupList.size(); index++) {
                     final RadioButton radioButton = mPkGroupList.get(index);
                     if (index < amountOfGroups) {
-                        radioButton.setChecked(mPresenter
-                                .isPkSelected(mLessonGroup, mLessonGroup.getGroups().get(index)));
+                        if(mPresenter.isPkSelected(mLessonGroup, index + 1)) {
+                            mPkGroups.check(radioButton.getId());
+                        }
                         radioButton.setVisibility(View.VISIBLE);
                     } else {
                         radioButton.setVisibility(View.GONE);
@@ -116,20 +117,22 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
             } else {
                 mPkGroups.setVisibility(View.GONE);
             }
+            mCheckBox.setChecked(lessonGroupSelected);
         }
 
         @OnCheckedChanged({R.id.pkGroup1, R.id.pkGroup2, R.id.pkGroup3})
         public void onCheckPk() {
-            int pk = 1;
-            for (RadioButton radioButton : mPkGroupList) {
-                mPresenter.setPkSelected(mLessonGroup, pk++, radioButton.isChecked());
+            for (int index = 0; index < mPkGroupList.size(); index++) {
+                final boolean checked = mPkGroupList.get(index).isChecked();
+                if(checked) {
+                    mPresenter.setPkSelected(mLessonGroup, index + 1);
+                }
             }
         }
 
         @OnCheckedChanged(R.id.checkBox)
         public void onChecked() {
-            final boolean selected = mCheckBox.isChecked();
-            mPresenter.setLessonGroupSelected(mLessonGroup, selected);
+            mPresenter.setLessonGroupSelected(mLessonGroup, mCheckBox.isChecked());
             init();
         }
     }

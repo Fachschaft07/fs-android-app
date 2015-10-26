@@ -263,6 +263,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else if(!mNavigator.isEmpty()) {
+            mNavigator.goOneBack();
         } else {
             super.onBackPressed();
         }

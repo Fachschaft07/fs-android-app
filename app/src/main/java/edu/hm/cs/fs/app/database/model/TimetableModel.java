@@ -259,11 +259,11 @@ public class TimetableModel implements IModel {
                 if (saver == null) {
                     lessonGroupSavers.add(new LessonGroupSaver(lessonGroup, pk));
                     changed = true;
-                } else {
+                } else if(pk != -1) {
                     saver.mSelectedPk = pk;
                     changed = true;
                 }
-            } else if (pk == 0) { // Only delete, if there is no pk selected
+            } else {
                 LessonGroupSaver saverToDelete = null;
                 for (LessonGroupSaver saver : lessonGroupSavers) {
                     if (getLessonGroupId(saver.mLessonGroup).equals(getLessonGroupId(lessonGroup))) {

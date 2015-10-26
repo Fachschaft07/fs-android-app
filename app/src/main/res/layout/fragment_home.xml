@@ -13,7 +13,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.dexafree.materialList.view.MaterialListView
-            android:id="@+id/listView"
+            android:id="@+id/materialCardListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:column_count_landscape="@integer/home_column_count_landscape"

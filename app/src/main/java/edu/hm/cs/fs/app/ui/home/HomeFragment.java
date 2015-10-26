@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.ui.home;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.fk07.R;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -68,7 +70,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
     Toolbar mToolbar;
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.listView)
+    @Bind(R.id.materialCardListView)
     MaterialListView mListView;
 
     private SharedPreferences mPrefs;
@@ -92,6 +94,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
         mListView.setOnDismissCallback(this);
         mListView.addOnItemTouchListener(this);
+
+        mSwipeRefreshLayout.setEnabled(false);
 
         setPresenter(new HomePresenter(getActivity(), this));
         getPresenter().loadHappenings(false);
@@ -120,6 +124,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void onDismiss(@NonNull Card card, int position) {
+        //noinspection ConstantConditions
         mPrefs.edit().putBoolean(card.getTag().toString(), false).apply();
     }
 
@@ -131,35 +136,28 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
     @Override
     public void showNextLesson(@Nullable Lesson lesson) {
         if (isActive(NEXT_LESSON) && lesson != null) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.DAY_OF_WEEK, lesson.getDay().getCalendarId());
-
-            final CardProvider provider = new Card.Builder(getActivity())
-                    .setTag(NEXT_LESSON)
-                    .setDismissible()
-                    .withProvider(new CardProvider())
-                    .setLayout(R.layout.material_small_image_card)
-                    .setTitle(lesson.getModule().getName())
-                    .setDrawable(R.drawable.ic_view_week_grey_600_24dp);
-
             Calendar lessonStart = Calendar.getInstance();
+            lessonStart.set(Calendar.DAY_OF_WEEK, lesson.getDay().getCalendarId());
             lessonStart.set(Calendar.HOUR_OF_DAY, lesson.getHour());
             lessonStart.set(Calendar.MINUTE, lesson.getMinute());
-            if (lesson.getSuffix() != null && lesson.getSuffix().length() > 0) {
-                provider.setDescription(
-                        getString(R.string.next_lesson_suffix, calendar, // Monday
-                                lessonStart, // 08:15
-                                lesson.getRoom(), // R2.007
-                                lesson.getTeacher().getName(), // Prof. Dr. Müller
-                                lesson.getSuffix())); // Praktikum
-            } else {
-                provider.setDescription(
-                        getString(R.string.next_lesson, calendar, // Monday
-                                lessonStart, // 08:15
-                                lesson.getRoom(), // R2.007
-                                lesson.getTeacher().getName())); // Prof. Dr. Müller
-            }
-            Card card = provider.endConfig().build();
+
+            Calendar lessonEnd = Calendar.getInstance();
+            lessonEnd.setTimeInMillis(lessonStart.getTimeInMillis());
+            lessonEnd.add(Calendar.MINUTE, 90);
+
+            final Card card = new Card.Builder(getActivity())
+                    .setTag(NEXT_LESSON)
+                    .setDismissible()
+                    .withProvider(new CardProviderNextLesson())
+                    .setLayout(R.layout.card_next_lesson)
+                    .setTitle(lesson.getModule().getName())
+                    .setSubtitle(lesson.getTeacher().getName())
+                    .setSubtitleColor(Color.GRAY)
+                    .setTime(String.format(Locale.getDefault(), "%1$tH:%1$tM - %2$tH:%2$tM",
+                            lessonStart, lessonEnd))
+                    .setPlace(lesson.getRoom())
+                    .endConfig()
+                    .build();
             add(card, true);
         }
     }
@@ -272,7 +270,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                     .setTag(LOSTFOUND)
                     .setDismissible()
                     .withProvider(new CardProvider())
-                    .setLayout(R.layout.material_basic_buttons_card)
+                    .setLayout(R.layout.card_simple_text_button)
                     .setTitle(R.string.lostfound)
                     .setDescription(getResources()
                             .getQuantityString(R.plurals.lostfound_description,
@@ -326,12 +324,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                         .setTag(FS_NEWS_ITEM + index++)
                         .setDismissible()
                         .withProvider(new CardProvider())
-                        .setLayout(R.layout.material_basic_buttons_card)
+                        .setLayout(R.layout.card_simple_text_button)
                         .setTitle(newsItem.getTitle())
                         .setDescription(newsItem.getDescription());
                 if (!TextUtils.isEmpty(newsItem.getLink())) {
                     cardConfig.addAction(R.id.right_text_button, new TextViewAction(getContext())
                             .setText(getString(R.string.read_more))
+                            .setTextResourceColor(R.color.colorAccent)
                             .setListener(new OnActionClickListener() {
                                 @Override
                                 public void onActionClicked(final View view, final Card card) {

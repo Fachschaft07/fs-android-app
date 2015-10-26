@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,6 +42,10 @@ import edu.hm.cs.fs.common.model.LessonGroup;
 public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresenter>
         implements ITimetableEditorView, Toolbar.OnMenuItemClickListener {
 
+    private static final String PREF_STUDY = "study";
+    private static final String PREF_SEMESTER = "semester";
+    private static final String PREF_LETTER = "letter";
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
@@ -60,11 +65,14 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     AppCompatSpinner mLetterSpinner;
 
     private TimetableEditorAdapter mAdapter;
+    private SharedPreferences mPrefs;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
+        mPrefs = getContext().getSharedPreferences("TimetableEditor", Context.MODE_PRIVATE);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,8 +86,11 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
         setPresenter(new TimetableEditorPresenter(getActivity(), this));
 
         mStudySpinner.setAdapter(SimpleSpinnerAdapter.create(getContext(), Study.values(), false));
+        mStudySpinner.setSelection(mPrefs.getInt(PREF_STUDY, 0));
         mSemesterSpinner.setAdapter(SimpleSpinnerAdapter.create(getContext(), Semester.values(), true));
+        mSemesterSpinner.setSelection(mPrefs.getInt(PREF_SEMESTER, 0));
         mLetterSpinner.setAdapter(SimpleSpinnerAdapter.create(getContext(), Letter.values(), true));
+        mLetterSpinner.setSelection(mPrefs.getInt(PREF_LETTER, 0));
 
         mAdapter = new TimetableEditorAdapter(getActivity(), getPresenter());
         mListView.setAdapter(mAdapter);
@@ -125,9 +136,16 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     @OnClick(R.id.search)
     @Override
     public void onRefresh() {
+        final SharedPreferences.Editor editor = mPrefs.edit();
+
         final String study = mStudySpinner.getSelectedItem().toString();
+        editor.putInt(PREF_STUDY, mStudySpinner.getSelectedItemPosition());
         final String semester = mSemesterSpinner.getSelectedItem().toString().replaceAll("-", "");
+        editor.putInt(PREF_SEMESTER, mSemesterSpinner.getSelectedItemPosition());
         final String letter = mLetterSpinner.getSelectedItem().toString().replaceAll("-", "");
+        editor.putInt(PREF_LETTER, mLetterSpinner.getSelectedItemPosition());
+
+        editor.apply();
 
         getPresenter().loadModules(Group.of(study + semester + letter));
 
