@@ -1,15 +1,15 @@
 package edu.hm.cs.fs.app.database.model;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+
+import android.content.Context;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -59,18 +59,6 @@ public class TimetableModel implements IModel {
                 .create();
     }
 
-    private static class GroupTypeAdapter extends TypeAdapter<Group> {
-        @Override
-        public void write(final JsonWriter out, final Group value) throws IOException {
-            out.value(value.toString());
-        }
-
-        @Override
-        public Group read(final JsonReader in) throws IOException {
-            return Group.of(in.nextString());
-        }
-    }
-
     public void getTimetable(final boolean refresh,
                              @NonNull final ICallback<List<Lesson>> callback) {
         try {
@@ -105,7 +93,7 @@ public class TimetableModel implements IModel {
                         final String teacherId = lessonGroup.getTeacher() != null
                                 ? lessonGroup.getTeacher().getId() : "";
 
-                        if(lessonGroupSaver.mLessonGroup.getGroups().isEmpty()) {
+                        if (lessonGroupSaver.mLessonGroup.getGroups().isEmpty()) {
                             final List<Lesson> lessons = FsRestClient.getV1()
                                     .getLessons(group, moduleId, teacherId);
                             timetable.addAll(lessons);
@@ -157,86 +145,38 @@ public class TimetableModel implements IModel {
         getTimetable(false, new ICallback<List<Lesson>>() {
             @Override
             public void onSuccess(@NonNull List<Lesson> data) {
-                callback.onSuccess(getLesson(data));
-            }
-
-            private Lesson getLesson(@NonNull final List<Lesson> data) {
-                if(data.isEmpty()) {
-                    return null;
-                }
-
-                final Calendar calendar = Calendar.getInstance();
-                for (int index = 0; index < DAYS_OF_WEEK; index++) {
-                    // Filter the lessons for the day which the calendar specifies
-                    final List<Lesson> lessons = getLessonsByDayOfWeek(
-                            calendar.get(Calendar.DAY_OF_WEEK), data);
-                    if(!lessons.isEmpty()) {
-                        // Get the times from now on
-                        final List<Time> timesAfter = getTimesAfter(calendar);
-                        if(!timesAfter.isEmpty()) {
-                            for (Time time : timesAfter) {
-                                final Calendar start = time.getStart();
-                                // Search for the lesson at the next times
-                                for (Lesson lesson : lessons) {
-                                    if (lesson.getHour() >= start.get(Calendar.HOUR_OF_DAY)
-                                            && lesson.getMinute() >= start.get(Calendar.MINUTE)) {
-                                        return lesson;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    final Calendar lesson1Start = Time.LESSON_1.getStart();
-                    calendar.set(Calendar.HOUR_OF_DAY, lesson1Start.get(Calendar.HOUR_OF_DAY));
-                    calendar.set(Calendar.MINUTE, lesson1Start.get(Calendar.MINUTE));
-                    calendar.add(Calendar.DATE, 1);
-                }
-                return null;
-            }
-
-            private List<Lesson> getLessonsByDayOfWeek(final int dayOfWeek, List<Lesson> data) {
-                List<Lesson> lessonsToday = new ArrayList<>();
-                // Filter the lessons for the day which the calendar specifies
-                for (Lesson lesson : data) {
-                    if (lesson.getDay().getCalendarId() == dayOfWeek) {
-                        lessonsToday.add(lesson);
-                    }
-                }
-                // Order found lessons by start time
-                Collections.sort(lessonsToday, new Comparator<Lesson>() {
-                    @Override
-                    public int compare(Lesson lhs, Lesson rhs) {
-                        return toCalendar(lhs).compareTo(toCalendar(rhs));
-                    }
-
-                    private Calendar toCalendar(Lesson lesson) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-                        calendar.set(Calendar.HOUR_OF_DAY, lesson.getHour());
-                        calendar.set(Calendar.MINUTE, lesson.getMinute());
-                        return calendar;
-                    }
-                });
-                return lessonsToday;
-            }
-
-            private List<Time> getTimesAfter(Calendar calendar) {
-                final List<Time> result = new ArrayList<>();
-                if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-                    result.addAll(Arrays.asList(Time.values()));
+                if (data.isEmpty()) {
+                    callback.onSuccess(null);
                 } else {
-                    for (Time time : Time.values()) {
-                        final Calendar start = time.getStart();
-                        // Remove the break time
-                        start.add(Calendar.MINUTE, -BREAK_TIME_LENGTH_MINUTES);
-                        if (start.before(calendar) && time.getEnd().after(calendar)) {
-                            // Current time found...
-                            result.add(time);
+                    Collections.sort(data, new Comparator<Lesson>() {
+                        @Override
+                        public int compare(Lesson lhs, Lesson rhs) {
+                            return toCalendar(lhs).compareTo(toCalendar(rhs));
                         }
-                    }
+
+                        private Calendar toCalendar(Lesson lesson) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(Calendar.HOUR_OF_DAY, lesson.getHour());
+                            calendar.set(Calendar.MINUTE, lesson.getMinute());
+
+                            if (lesson.getDay().getCalendarId() == calendar.get(Calendar.DAY_OF_WEEK)) {
+                                final Calendar temp = Calendar.getInstance();
+                                temp.add(Calendar.MINUTE, -75);
+                                if (temp.after(calendar)) {
+                                    calendar.add(Calendar.DATE, 7); // next week
+                                }
+                            } else {
+                                do {
+                                    calendar.add(Calendar.DATE, 1);
+                                }
+                                while (lesson.getDay().getCalendarId() != calendar.get(Calendar.DAY_OF_WEEK));
+                            }
+
+                            return calendar;
+                        }
+                    });
+                    callback.onSuccess(data.get(0));
                 }
-                return result;
             }
 
             @Override
@@ -259,7 +199,7 @@ public class TimetableModel implements IModel {
                 if (saver == null) {
                     lessonGroupSavers.add(new LessonGroupSaver(lessonGroup, pk));
                     changed = true;
-                } else if(pk != -1) {
+                } else if (pk != -1) {
                     saver.mSelectedPk = pk;
                     changed = true;
                 }
@@ -297,13 +237,13 @@ public class TimetableModel implements IModel {
 
     private String getLessonGroupId(@NonNull final LessonGroup lessonGroup) {
         StringBuilder lessonGroupId = new StringBuilder();
-        if(lessonGroup.getGroup() != null) {
+        if (lessonGroup.getGroup() != null) {
             lessonGroupId.append(lessonGroup.getGroup().toString());
         }
-        if(lessonGroup.getModule() != null) {
+        if (lessonGroup.getModule() != null) {
             lessonGroupId.append(lessonGroup.getModule().getId());
         }
-        if(lessonGroup.getTeacher() != null) {
+        if (lessonGroup.getTeacher() != null) {
             lessonGroupId.append(lessonGroup.getTeacher().getId());
         }
         return lessonGroupId.toString();
@@ -406,6 +346,18 @@ public class TimetableModel implements IModel {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private static class GroupTypeAdapter extends TypeAdapter<Group> {
+        @Override
+        public void write(final JsonWriter out, final Group value) throws IOException {
+            out.value(value.toString());
+        }
+
+        @Override
+        public Group read(final JsonReader in) throws IOException {
+            return Group.of(in.nextString());
         }
     }
 

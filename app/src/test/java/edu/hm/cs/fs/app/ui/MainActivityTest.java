@@ -18,9 +18,6 @@ import edu.hm.cs.fs.app.ui.home.HomeFragment;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-/**
- * Created by FHellman on 18.08.2015.
- */
 @Config(constants = BuildConfig.class, sdk = 21)
 @RunWith(RobolectricGradleTestRunner.class)
 public class MainActivityTest {

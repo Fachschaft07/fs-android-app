@@ -70,7 +70,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
     Toolbar mToolbar;
     @Bind(R.id.swipeContainer)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.materialCardListView)
+    @Bind(R.id.listView)
     MaterialListView mListView;
 
     private SharedPreferences mPrefs;
@@ -171,7 +171,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                     .withProvider(new ListCardProvider())
                     .setLayout(R.layout.material_list_card_layout)
                     .setTitle(R.string.blackboard)
-                    .setDescription(R.string.blackboard_current)
                     .setAdapter(new ArrayAdapter<BlackboardEntry>(
                             getActivity(), R.layout.listitem_blackboard, R.id.textTitle, news) {
                         @Override
