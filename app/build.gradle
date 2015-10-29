@@ -40,7 +40,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'se.emilsjolander:stickylistheaders:2.5.2'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.github.dexafree:materiallist:3.1.1'
+    compile 'com.github.dexafree:materiallist:3.1.2'
     compile 'com.afollestad:material-dialogs:0.7.9.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.0'

@@ -68,8 +68,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.swipeContainer)
-    SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.listView)
     MaterialListView mListView;
 
@@ -94,8 +92,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
         mListView.setOnDismissCallback(this);
         mListView.addOnItemTouchListener(this);
-
-        mSwipeRefreshLayout.setEnabled(false);
 
         setPresenter(new HomePresenter(getActivity(), this));
         getPresenter().loadHappenings(false);
@@ -363,7 +359,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
             if (atStart) {
                 adapter.addAtStart(card);
             } else {
-                adapter.add(card);
+                adapter.add(adapter.getItemCount(), card, false);
             }
         }
     }
