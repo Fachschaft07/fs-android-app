@@ -139,4 +139,5 @@
     <string name="choose_subject">Fach auswählen</string>
     <string name="not_title_set">Unbekannt</string>
     <string name="ects">%1$d ECTS</string>
+    <string name="menu_search">Suchen</string>
 </resources>

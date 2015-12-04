@@ -46,4 +46,21 @@ public class BlackBoardPresenter extends BasePresenter<IBlackBoardView, BlackBoa
             }
         });
     }
+
+    public void search(String newText) {
+        getView().showLoading();
+        getModel().getAllBySearchString(newText, new ICallback<List<BlackboardEntry>>() {
+            @Override
+            public void onSuccess(@NonNull List<BlackboardEntry> data) {
+                getView().showContent(data);
+                getView().hideLoading();
+            }
+
+            @Override
+            public void onError(@NonNull IError error) {
+                getView().showError(error);
+                getView().hideLoading();
+            }
+        });
+    }
 }

@@ -2,10 +2,14 @@ package edu.hm.cs.fs.app.ui.blackboard;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.fk07.R;
@@ -49,6 +53,24 @@ public class BlackBoardFragment extends BaseFragment<BlackBoardPresenter> implem
                 getMainActivity().openDrawer();
             }
         });
+        mToolbar.inflateMenu(R.menu.blackboard);
+
+        final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    getPresenter().search(newText);
+                    return true;
+                }
+            });
+        }
 
         mAdapter = new BlackBoardAdapter(getActivity());
         mAdapter.setListener(this);

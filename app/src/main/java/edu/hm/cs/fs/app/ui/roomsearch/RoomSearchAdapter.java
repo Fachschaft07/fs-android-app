@@ -11,6 +11,8 @@ import com.fk07.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -33,6 +35,12 @@ public class RoomSearchAdapter extends RecyclerView.Adapter<RoomSearchAdapter.Vi
 
     public void setData(List<SimpleRoom> data) {
         mData.clear();
+        Collections.sort(data, new Comparator<SimpleRoom>() {
+            @Override
+            public int compare(SimpleRoom lhs, SimpleRoom rhs) {
+                return lhs.getName().compareTo(rhs.getName());
+            }
+        });
         mData.addAll(data);
         notifyDataSetChanged();
     }

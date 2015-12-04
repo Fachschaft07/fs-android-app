@@ -95,4 +95,25 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
             }
         });
     }
+
+    public void getAllBySearchString(@NonNull final String newText,
+                                     @NonNull final ICallback<List<BlackboardEntry>> callback) {
+        FsRestClient.getV1().getEntries(newText, new Callback<List<BlackboardEntry>>() {
+            @Override
+            public void success(List<BlackboardEntry> blackboardEntries, Response response) {
+                Collections.sort(blackboardEntries, new Comparator<BlackboardEntry>() {
+                    @Override
+                    public int compare(BlackboardEntry lhs, BlackboardEntry rhs) {
+                        return -1 * lhs.getPublish().compareTo(rhs.getPublish()); // DESC
+                    }
+                });
+                callback.onSuccess(blackboardEntries);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
+    }
 }
