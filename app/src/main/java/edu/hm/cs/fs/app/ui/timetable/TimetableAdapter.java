@@ -39,8 +39,8 @@ import edu.hm.cs.fs.common.model.Lesson;
 public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.ViewHolder> {
 
     private static final int DAY_ROW = 1;
-
     private static final int TIME_COLUMN = 1;
+    private static final int DAYS_OF_WEEK = 5;
 
     private final GridManager mGridManager = new GridManager();
 
@@ -270,7 +270,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
                 return new Cell(row, column, R.drawable.listitem_timetable_lesson_border);
             }
 
-            if(column != 0) { // skip the time column
+            if(mNumberOfDays != DAYS_OF_WEEK && column != 0) { // skip the time column
                 column += selectedDay.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
                 if(column >= Calendar.SATURDAY - 1) {
                     column = 1;
