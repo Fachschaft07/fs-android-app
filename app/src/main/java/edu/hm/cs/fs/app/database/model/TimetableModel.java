@@ -45,8 +45,6 @@ public class TimetableModel implements IModel {
     private static final String TIMETABLE_CONFIG_FILE = "timetable-config.json";
 
     private static final String CHARSET = "UTF-8";
-    private static final int DAYS_OF_WEEK = 7;
-    private static final int BREAK_TIME_LENGTH_MINUTES = 15;
 
     private final Context mContext;
     private final Gson mGson;
