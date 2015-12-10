@@ -96,6 +96,6 @@ public class BlackboardNotificiationService extends Service implements Runnable 
                 mLastExecutionTime = System.currentTimeMillis();
             }
         });
-        mHandler.postDelayed(this, TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES));
+        mHandler.postDelayed(this, TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS));
     }
 }
