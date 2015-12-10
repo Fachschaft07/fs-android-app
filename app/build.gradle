@@ -8,8 +8,8 @@ android {
         applicationId "com.fk07"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 2100
-        versionName "2.1.0"
+        versionCode 2110
+        versionName "2.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,7 +41,6 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.5.2'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
     compile 'com.github.dexafree:materiallist:3.1.2'
-    compile 'com.afollestad:material-dialogs:0.7.9.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'org.mockito:mockito-core:1.10.19'
