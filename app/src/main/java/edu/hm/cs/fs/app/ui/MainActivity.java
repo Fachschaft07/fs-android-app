@@ -21,6 +21,7 @@ import com.fk07.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.service.BlackboardNotificiationService;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
 import edu.hm.cs.fs.app.ui.fs.news.FsNewsFragment;
 import edu.hm.cs.fs.app.ui.home.HomeFragment;
@@ -31,6 +32,7 @@ import edu.hm.cs.fs.app.ui.meal.MealFragment;
 import edu.hm.cs.fs.app.ui.publictransport.PublicTransportTabFragment;
 import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
+import edu.hm.cs.fs.app.util.ServiceUtils;
 import edu.hm.cs.fs.app.util.VersionManager;
 
 /**
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        setupServices();
         setupVersionManager();
         setupToolbar();
         setupNavigationDrawer();
@@ -80,6 +83,12 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         onNavigationItemSelected(mNavigationView.getMenu().findItem(currentMenuItem));
         mCurrentMenuItem = currentMenuItem;
+    }
+
+    private void setupServices() {
+        if(!ServiceUtils.isServiceRunning(this, BlackboardNotificiationService.class)) {
+            startService(new Intent(this, BlackboardNotificiationService.class));
+        }
     }
 
     private void setupVersionManager() {

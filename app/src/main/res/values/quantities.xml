@@ -8,4 +8,8 @@
         <item quantity="one">@string/next_holidays_one</item>
         <item quantity="other">@string/next_holidays_other</item>
     </plurals>
+    <plurals name="blackboard_news">
+        <item quantity="one">@string/blackboard_news_one</item>
+        <item quantity="other">@string/blackboard_news_other</item>
+    </plurals>
 </resources>

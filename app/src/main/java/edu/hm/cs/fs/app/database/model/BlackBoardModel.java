@@ -37,17 +37,7 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
     public void getAllSinceYesterday(@NonNull final ICallback<List<BlackboardEntry>> callback) {
         final Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -2);
-        FsRestClient.getV1().getEntriesSince(calendar.getTimeInMillis(), new Callback<List<BlackboardEntry>>() {
-            @Override
-            public void success(final List<BlackboardEntry> blackboardEntries, final Response response) {
-                callback.onSuccess(blackboardEntries);
-            }
-
-            @Override
-            public void failure(final RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
-            }
-        });
+        getAllSince(calendar.getTimeInMillis(), callback);
     }
 
     /**
@@ -112,6 +102,21 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
 
             @Override
             public void failure(RetrofitError error) {
+                callback.onError(ErrorFactory.http(error));
+            }
+        });
+    }
+
+    public void getAllSince(final long time,
+                            @NonNull final ICallback<List<BlackboardEntry>> callback) {
+        FsRestClient.getV1().getEntriesSince(time, new Callback<List<BlackboardEntry>>() {
+            @Override
+            public void success(final List<BlackboardEntry> blackboardEntries, final Response response) {
+                callback.onSuccess(blackboardEntries);
+            }
+
+            @Override
+            public void failure(final RetrofitError error) {
                 callback.onError(ErrorFactory.http(error));
             }
         });

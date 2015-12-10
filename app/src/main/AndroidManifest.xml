@@ -7,6 +7,8 @@
     <!-- Rest-API -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Service Startup -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +34,16 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/next_lesson_widget_info" />
         </receiver>
+        <receiver android:name="edu.hm.cs.fs.app.service.StartupIntentReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+                android:name="edu.hm.cs.fs.app.service.BlackboardNotificiationService"
+                android:launchMode="singleInstance">
+        </service>
     </application>
 
 </manifest>
