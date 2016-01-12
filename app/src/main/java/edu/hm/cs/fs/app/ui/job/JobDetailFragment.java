@@ -11,15 +11,14 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.App;
 import edu.hm.cs.fs.app.presenter.JobDetailPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
-import edu.hm.cs.fs.app.view.IJobDetailView;
+import edu.hm.cs.fs.app.ui.PerActivity;
 
-/**
- * Created by FHellman on 10.08.2015.
- */
-public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implements IJobDetailView {
+@PerActivity
+public class JobDetailFragment extends BaseFragment<JobDetailComponent, JobDetailPresenter> implements JobDetailView {
 
     public static final String ARGUMENT_TITLE = "id";
 
@@ -51,15 +50,9 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                close();
-            }
-        });
+        getToolbar().setNavigationOnClickListener(v -> close());
 
         mJobTitle = getArguments().getString(ARGUMENT_TITLE);
-        setPresenter(new JobDetailPresenter(this));
         getPresenter().loadJob(mJobTitle);
     }
 
@@ -117,5 +110,12 @@ public class JobDetailFragment extends BaseFragment<JobDetailPresenter> implemen
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    protected JobDetailComponent onCreateNonConfigurationComponent() {
+        return DaggerJobDetailComponent.builder()
+                .appComponent(App.getAppComponent(getMainActivity()))
+                .build();
     }
 }

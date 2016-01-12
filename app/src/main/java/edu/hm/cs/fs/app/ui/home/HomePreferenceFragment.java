@@ -9,7 +9,6 @@ import com.fk07.R;
  * @author Fabio
  */
 public class HomePreferenceFragment extends PreferenceFragmentCompat {
-
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences_home);

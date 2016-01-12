@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Fachschaft07</string>
-    <string name="version">Version</string>
+    <string name="version">Version %1$s</string>
     <!-- Navigation -->
     <string name="blackboard">Schwarzes Brett</string>
     <string name="roomsearch">Raumsuche</string>
@@ -142,4 +142,5 @@
     <string name="menu_search">Suchen</string>
     <string name="blackboard_news_one">%1$d neuer Eintrag auf dem Schwarzen Brett.</string>
     <string name="blackboard_news_other">%1$d neue Einträge auf dem Schwarzen Brett.</string>
+    <string name="exams">Prüfungen</string>
 </resources>

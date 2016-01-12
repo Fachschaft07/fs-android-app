@@ -16,14 +16,13 @@ import com.fk07.R;
  */
 public class Navigator {
     @NonNull
-    private MainActivity mMainActivity;
-
-    @NonNull
     protected final FragmentManager mFragmentManager;
     @IdRes
     protected final int mDefaultContainer;
     @IdRes
     protected final int mDetailContainer;
+    @NonNull
+    private MainActivity mMainActivity;
 
     /**
      * This constructor should be only called once per

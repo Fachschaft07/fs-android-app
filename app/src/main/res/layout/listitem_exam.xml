@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/list_item_margin_right"
+            android:layout_marginBottom="@dimen/list_item_margin_bottom"
+            android:layout_marginTop="@dimen/list_item_margin_top">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Subject"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:id="@+id/examSubject"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Teacher"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:id="@+id/examTeacher"/>
+    </LinearLayout>
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/pinButton"
+            android:src="@drawable/ic_star_border_grey_600_18dp"
+            android:background="?attr/selectableItemBackground"
+            android:padding="6dp"
+            android:layout_marginRight="@dimen/list_item_margin_right"
+            android:layout_marginBottom="@dimen/list_item_margin_bottom"
+            android:layout_marginTop="@dimen/list_item_margin_top"/>
+</LinearLayout>

@@ -11,15 +11,14 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.App;
 import edu.hm.cs.fs.app.presenter.TimetableLessonPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
-import edu.hm.cs.fs.app.view.ITimetableLessonView;
+import edu.hm.cs.fs.app.ui.PerActivity;
 
-/**
- * @author Fabio
- */
-public class TimetableLessonFragment extends BaseFragment<TimetableLessonPresenter> implements ITimetableLessonView {
+@PerActivity
+public class TimetableLessonFragment extends BaseFragment<TimetableLessonComponent, TimetableLessonPresenter> implements ITimetableLessonView {
     public static final String ARG_MODULE_ID = "module_id";
     public static final String ARG_TEACHER_ID = "teacher_id";
 
@@ -64,19 +63,13 @@ public class TimetableLessonFragment extends BaseFragment<TimetableLessonPresent
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                close();
-            }
-        });
+        getToolbar().setNavigationOnClickListener(v -> close());
 
         final Bundle arguments = getArguments();
         final String moduleId = arguments.getString(ARG_MODULE_ID);
         final String teacherId = arguments.getString(ARG_TEACHER_ID);
 
-        setPresenter(new TimetableLessonPresenter(getContext(), this));
-        if(moduleId != null) {
+        if (moduleId != null) {
             getPresenter().loadModule(moduleId);
         }
     }
@@ -151,5 +144,12 @@ public class TimetableLessonFragment extends BaseFragment<TimetableLessonPresent
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    protected TimetableLessonComponent onCreateNonConfigurationComponent() {
+        return DaggerTimetableLessonComponent.builder()
+                .appComponent(App.getAppComponent(getMainActivity()))
+                .build();
     }
 }

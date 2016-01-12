@@ -63,7 +63,7 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
         holder.init();
 
         holder.mModule.setText(lessonGroup.getModule().getName());
-        if(teacher != null) {
+        if (teacher != null) {
             holder.mTeacher.setText(teacher.getName());
             holder.mTeacher.setVisibility(View.VISIBLE);
         } else {
@@ -97,34 +97,35 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
         }
 
         public void init() {
-            final boolean lessonGroupSelected = mPresenter.isLessonGroupSelected(mLessonGroup);
-            if (lessonGroupSelected && !mLessonGroup.getGroups().isEmpty()) {
-                mPkGroups.setVisibility(View.VISIBLE);
+            mPresenter.isLessonGroupSelected(mLessonGroup).subscribe(selected -> {
+                if (selected && !mLessonGroup.getGroups().isEmpty()) {
+                    mPkGroups.setVisibility(View.VISIBLE);
 
-                // Select the pk which was selected previously
-                final int amountOfGroups = mLessonGroup.getGroups().size();
-                for (int index = 0; index < mPkGroupList.size(); index++) {
-                    final RadioButton radioButton = mPkGroupList.get(index);
-                    if (index < amountOfGroups) {
-                        if(mPresenter.isPkSelected(mLessonGroup, index + 1)) {
-                            mPkGroups.check(radioButton.getId());
+                    // Select the pk which was selected previously
+                    final int amountOfGroups = mLessonGroup.getGroups().size();
+                    for (int index = 0; index < mPkGroupList.size(); index++) {
+                        final RadioButton radioButton = mPkGroupList.get(index);
+                        if (index < amountOfGroups) {
+                            mPresenter.isPkSelected(mLessonGroup, index + 1)
+                                    .filter(selectedButton -> selectedButton)
+                                    .subscribe(selectedButton -> mPkGroups.check(radioButton.getId()));
+                            radioButton.setVisibility(View.VISIBLE);
+                        } else {
+                            radioButton.setVisibility(View.GONE);
                         }
-                        radioButton.setVisibility(View.VISIBLE);
-                    } else {
-                        radioButton.setVisibility(View.GONE);
                     }
+                } else {
+                    mPkGroups.setVisibility(View.GONE);
                 }
-            } else {
-                mPkGroups.setVisibility(View.GONE);
-            }
-            mCheckBox.setChecked(lessonGroupSelected);
+                mCheckBox.setChecked(selected);
+            });
         }
 
         @OnCheckedChanged({R.id.pkGroup1, R.id.pkGroup2, R.id.pkGroup3})
         public void onCheckPk() {
             for (int index = 0; index < mPkGroupList.size(); index++) {
                 final boolean checked = mPkGroupList.get(index).isChecked();
-                if(checked) {
+                if (checked) {
                     mPresenter.setPkSelected(mLessonGroup, index + 1);
                 }
             }

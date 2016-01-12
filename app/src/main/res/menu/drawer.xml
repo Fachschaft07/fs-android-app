@@ -21,6 +21,10 @@
                     android:icon="@drawable/ic_view_week_grey_600_24dp"
                     android:title="@string/timetable" />
                 <item
+                        android:id="@+id/menu_exams"
+                        android:icon="@drawable/ic_announcement_grey_600_24dp"
+                        android:title="@string/exams" />
+                <item
                     android:id="@+id/menu_roomsearch"
                     android:icon="@drawable/ic_search_grey_600_24dp"
                     android:title="@string/roomsearch" />
@@ -38,7 +42,7 @@
             <menu>
                 <item
                     android:id="@+id/menu_news"
-                    android:icon="@drawable/ic_announcement_grey_600_24dp"
+                    android:icon="@drawable/ic_assignment_grey_600_24dp"
                     android:title="@string/news" />
 
                 <!--

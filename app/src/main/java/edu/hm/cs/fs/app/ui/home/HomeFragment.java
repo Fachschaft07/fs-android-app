@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -38,12 +37,13 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.App;
 import edu.hm.cs.fs.app.presenter.HomePresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
+import edu.hm.cs.fs.app.ui.PerActivity;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment;
-import edu.hm.cs.fs.app.ui.lostfound.LostFoundFragment;
-import edu.hm.cs.fs.app.view.IHomeView;
+import edu.hm.cs.fs.app.ui.lostfound.LostFoundListFragment;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Holiday;
@@ -51,10 +51,8 @@ import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.Meal;
 import edu.hm.cs.fs.common.model.News;
 
-/**
- * @author Fabio
- */
-public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeView,
+@PerActivity
+public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> implements HomeView,
         Toolbar.OnMenuItemClickListener, OnDismissCallback,
         RecyclerItemClickListener.OnItemClickListener {
 
@@ -81,20 +79,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getMainActivity().openDrawer();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
         mToolbar.inflateMenu(R.menu.home);
         mToolbar.setOnMenuItemClickListener(this);
 
         mListView.setOnDismissCallback(this);
         mListView.addOnItemTouchListener(this);
 
-        setPresenter(new HomePresenter(getActivity(), this));
-        getPresenter().loadHappenings(false);
+        getPresenter().loadHappenings();
     }
 
     @Override
@@ -126,7 +118,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
 
     @Override
     public void onRefresh() {
-        getPresenter().loadHappenings(true);
+        getPresenter().loadHappenings();
     }
 
     @Override
@@ -277,7 +269,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                             .setListener(new OnActionClickListener() {
                                 @Override
                                 public void onActionClicked(final View view, final Card card) {
-                                    MainActivity.getNavigator().goTo(new LostFoundFragment());
+                                    MainActivity.getNavigator().goTo(new LostFoundListFragment());
                                 }
                             }))
                     .endConfig()
@@ -383,5 +375,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    protected HomeComponent onCreateNonConfigurationComponent() {
+        return DaggerHomeComponent.builder()
+                .appComponent(App.getAppComponent(getMainActivity()))
+                .build();
     }
 }

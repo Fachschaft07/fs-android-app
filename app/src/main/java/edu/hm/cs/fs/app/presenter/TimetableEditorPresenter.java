@@ -1,55 +1,32 @@
 package edu.hm.cs.fs.app.presenter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
-import java.util.List;
+import javax.inject.Inject;
 
-import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
-import edu.hm.cs.fs.app.database.model.TimetableModel;
-import edu.hm.cs.fs.app.view.ITimetableEditorView;
+import edu.hm.cs.fs.app.ui.PerActivity;
+import edu.hm.cs.fs.app.ui.timetable.TimetableEditorListView;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.LessonGroup;
+import rx.Observable;
 
-/**
- * @author Fabio
- */
-public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView, TimetableModel> {
-
-    /**
-     * @param view
-     */
-    public TimetableEditorPresenter(@NonNull final Context context, @NonNull final ITimetableEditorView view) {
-        this(view, ModelFactory.getTimetable(context));
-    }
-
-    /**
-     * Needed for testing!
-     */
-    public TimetableEditorPresenter(@NonNull final ITimetableEditorView view, @NonNull final TimetableModel model) {
-        super(view, model);
+@PerActivity
+public class TimetableEditorPresenter extends BasePresenter<TimetableEditorListView> {
+    @Inject
+    public TimetableEditorPresenter() {
     }
 
     public void loadModules(@NonNull final Group group) {
         getView().showLoading();
-        getModel().getLessonsByGroup(group, new ICallback<List<LessonGroup>>() {
+        getModel().lessonsByGroup(group).subscribe(new BasicSubscriber<LessonGroup>(getView()) {
             @Override
-            public void onSuccess(@NonNull List<LessonGroup> data) {
-                getView().showContent(data);
-                getView().hideLoading();
-            }
-
-            @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
-                getView().hideLoading();
+            public void onNext(LessonGroup lessonGroup) {
+                getView().add(lessonGroup);
             }
         });
     }
 
-    public boolean isPkSelected(@NonNull final LessonGroup lessonGroup, final int pk) {
+    public Observable<Boolean> isPkSelected(@NonNull final LessonGroup lessonGroup, final int pk) {
         return getModel().isPkSelected(lessonGroup, pk);
     }
 
@@ -57,7 +34,7 @@ public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView
         getModel().save(lessonGroup, pk, true);
     }
 
-    public boolean isLessonGroupSelected(@NonNull final LessonGroup lessonGroup) {
+    public Observable<Boolean> isLessonGroupSelected(@NonNull final LessonGroup lessonGroup) {
         return getModel().isModuleSelected(lessonGroup);
     }
 
@@ -67,6 +44,6 @@ public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView
     }
 
     public void reset() {
-        getModel().resetConfiguration();
+        getModel().resetTimetable();
     }
 }

@@ -1,48 +1,23 @@
 package edu.hm.cs.fs.app.presenter;
 
-import android.support.annotation.NonNull;
+import javax.inject.Inject;
 
-import java.util.List;
-
-import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
-import edu.hm.cs.fs.app.database.model.PublicTransportModel;
-import edu.hm.cs.fs.app.view.IPublicTransportView;
+import edu.hm.cs.fs.app.ui.PerActivity;
+import edu.hm.cs.fs.app.ui.publictransport.PublicTransportListView;
 import edu.hm.cs.fs.common.model.PublicTransport;
 
-/**
- * Created by FHellman on 10.08.2015.
- */
-public class PublicTransportPasingPresenter extends BasePresenter<IPublicTransportView, PublicTransportModel> {
-
-    /**
-     * @param view
-     */
-    public PublicTransportPasingPresenter(IPublicTransportView view) {
-        this(view, ModelFactory.getPublicTransport());
-    }
-
-    /**
-     * Needed for testing!
-     */
-    public PublicTransportPasingPresenter(IPublicTransportView view, PublicTransportModel model) {
-        super(view, model);
+@PerActivity
+public class PublicTransportPasingPresenter extends BasePresenter<PublicTransportListView> {
+    @Inject
+    public PublicTransportPasingPresenter() {
     }
 
     public void loadPublicTransports() {
         getView().showLoading();
-        getModel().getPasing(new ICallback<List<PublicTransport>>() {
+        getModel().publicTransportPasing().subscribe(new BasicSubscriber<PublicTransport>(getView()) {
             @Override
-            public void onSuccess(@NonNull List<PublicTransport> data) {
-                getView().showContent(data);
-                getView().hideLoading();
-            }
-
-            @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
-                getView().hideLoading();
+            public void onNext(PublicTransport publicTransport) {
+                getView().add(publicTransport);
             }
         });
     }

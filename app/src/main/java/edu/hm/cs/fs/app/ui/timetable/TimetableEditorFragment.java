@@ -26,21 +26,20 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.hm.cs.fs.app.App;
 import edu.hm.cs.fs.app.presenter.TimetableEditorPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
-import edu.hm.cs.fs.app.view.ITimetableEditorView;
+import edu.hm.cs.fs.app.ui.PerActivity;
 import edu.hm.cs.fs.common.constant.Letter;
 import edu.hm.cs.fs.common.constant.Semester;
 import edu.hm.cs.fs.common.constant.Study;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.LessonGroup;
 
-/**
- * @author Fabio
- */
-public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresenter>
-        implements ITimetableEditorView, Toolbar.OnMenuItemClickListener {
+@PerActivity
+public class TimetableEditorFragment extends BaseFragment<TimetableEditorComponent, TimetableEditorPresenter>
+        implements TimetableEditorListView, Toolbar.OnMenuItemClickListener {
 
     private static final String PREF_STUDY = "study";
     private static final String PREF_SEMESTER = "semester";
@@ -74,16 +73,9 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
 
         mPrefs = getContext().getSharedPreferences("TimetableEditor", Context.MODE_PRIVATE);
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.getNavigator().goOneBack();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> MainActivity.getNavigator().goOneBack());
         mToolbar.inflateMenu(R.menu.timetable_editor);
         mToolbar.setOnMenuItemClickListener(this);
-
-        setPresenter(new TimetableEditorPresenter(getActivity(), this));
 
         mStudySpinner.setAdapter(SimpleSpinnerAdapter.create(getContext(), Study.values(), false));
         mStudySpinner.setSelection(mPrefs.getInt(PREF_STUDY, 0));
@@ -167,19 +159,53 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
     }
 
     @Override
-    public void showContent(@NonNull List<LessonGroup> data) {
-        mAdapter.setData(data);
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
+    @Override
+    protected TimetableEditorComponent onCreateNonConfigurationComponent() {
+        return DaggerTimetableEditorComponent.builder()
+                .appComponent(App.getAppComponent(getMainActivity()))
+                .build();
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public void add(@NonNull LessonGroup item) {
+
+    }
+
     private static class SimpleSpinnerAdapter extends ArrayAdapter<String> {
         public SimpleSpinnerAdapter(final Context context, final String[] objects) {
             super(context, android.R.layout.simple_spinner_dropdown_item, objects);
+        }
+
+        public static ArrayAdapter<String> create(@NonNull final Context context,
+                                                  @NonNull final Enum[] type,
+                                                  final boolean emptyItem) {
+            int length = type.length;
+            if (emptyItem) {
+                length += 1;
+            }
+            final String[] items = new String[length];
+            int index = 0;
+            if (emptyItem) {
+                items[index++] = "-";
+            }
+            for (Enum item : type) {
+                String name = item.toString();
+                if (item instanceof Semester) {
+                    name = name.substring(1);
+                }
+                items[index++] = name;
+            }
+            return new SimpleSpinnerAdapter(context, items);
         }
 
         @Override
@@ -200,28 +226,6 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
             TextView textView = (TextView) view.findViewById(android.R.id.text1);
             textView.setGravity(Gravity.CENTER);
             return textView;
-        }
-
-        public static ArrayAdapter<String> create(@NonNull final Context context,
-                                                  @NonNull final Enum[] type,
-                                                  final boolean emptyItem) {
-            int length = type.length;
-            if(emptyItem) {
-                length += 1;
-            }
-            final String[] items = new String[length];
-            int index = 0;
-            if(emptyItem) {
-                items[index++] = "-";
-            }
-            for (Enum item : type) {
-                String name = item.toString();
-                if(item instanceof Semester) {
-                    name = name.substring(1);
-                }
-                items[index++] = name;
-            }
-            return new SimpleSpinnerAdapter(context, items);
         }
     }
 }

@@ -12,7 +12,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
+import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
 import edu.hm.cs.fs.app.ui.home.HomeFragment;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -48,6 +48,6 @@ public class MainActivityTest {
                 .setup(bundle)
                 .get();
 
-        assertThat(true, is(MainActivity.getNavigator().getActiveFragment() instanceof BlackBoardFragment));
+        assertThat(true, is(MainActivity.getNavigator().getActiveFragment() instanceof BlackBoardListFragment));
     }
 }

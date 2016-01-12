@@ -1,27 +1,12 @@
 package edu.hm.cs.fs.app.service;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 
-import com.fk07.R;
-
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
-import edu.hm.cs.fs.app.ui.MainActivity;
-import edu.hm.cs.fs.common.model.BlackboardEntry;
 
 /**
  * Created by FHellman on 10.12.2015.
@@ -50,6 +35,7 @@ public class BlackboardNotificiationService extends Service implements Runnable 
 
     @Override
     public void run() {
+        /*
         ModelFactory.getBlackboard().getAllSince(mLastExecutionTime, new ICallback<List<BlackboardEntry>>() {
             @Override
             public void onSuccess(List<BlackboardEntry> data) {
@@ -96,6 +82,7 @@ public class BlackboardNotificiationService extends Service implements Runnable 
                 mLastExecutionTime = System.currentTimeMillis();
             }
         });
+        */
         mHandler.postDelayed(this, TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS));
     }
 }

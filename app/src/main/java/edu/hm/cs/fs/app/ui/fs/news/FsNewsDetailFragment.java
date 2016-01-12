@@ -10,16 +10,15 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.App;
 import edu.hm.cs.fs.app.presenter.FsNewsDetailPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
-import edu.hm.cs.fs.app.view.IFsNewsDetailView;
+import edu.hm.cs.fs.app.ui.PerActivity;
 
-/**
- * @author Fabio
- */
-public class FsNewsDetailFragment extends BaseFragment<FsNewsDetailPresenter>
-        implements IFsNewsDetailView {
+@PerActivity
+public class FsNewsDetailFragment extends BaseFragment<FsNewsDetailComponent, FsNewsDetailPresenter>
+        implements FsNewsDetailView {
 
     public static final String ARGUMENT_TITLE = "title";
 
@@ -48,17 +47,12 @@ public class FsNewsDetailFragment extends BaseFragment<FsNewsDetailPresenter>
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                close();
-            }
-        });
+        getToolbar().setNavigationOnClickListener(v -> close());
 
         mNewsTitle = getArguments().getString(ARGUMENT_TITLE);
-        setPresenter(new FsNewsDetailPresenter(this));
         getPresenter().loadNews(mNewsTitle);
     }
+
     @Override
     protected int getLayout() {
         return R.layout.fragment_news_detail;
@@ -108,5 +102,12 @@ public class FsNewsDetailFragment extends BaseFragment<FsNewsDetailPresenter>
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    protected FsNewsDetailComponent onCreateNonConfigurationComponent() {
+        return DaggerFsNewsDetailComponent.builder()
+                .appComponent(App.getAppComponent(getMainActivity()))
+                .build();
     }
 }

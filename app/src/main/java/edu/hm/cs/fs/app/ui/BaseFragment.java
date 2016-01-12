@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -20,19 +19,17 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.presenter.IPresenter;
-import edu.hm.cs.fs.app.view.IView;
+import nz.bradcampbell.compartment.HasPresenter;
+import nz.bradcampbell.compartment.Presenter;
+import nz.bradcampbell.compartment.PresenterControllerFragment;
 
 /**
  * @author Fabio
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IView,
+public abstract class BaseFragment<C extends HasPresenter<P>, P extends Presenter> extends PresenterControllerFragment<C, P> implements IView,
         SwipeRefreshLayout.OnRefreshListener {
 
     Toolbar mToolbar;
-
-    private P presenter;
 
     @Nullable
     @Bind(R.id.swipeContainer)
@@ -58,7 +55,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         super.onViewCreated(view, savedInstanceState);
         setToolbar(view);
 
-        if(mSwipeRefreshLayout != null) {
+        if (mSwipeRefreshLayout != null) {
             initSwipeRefreshLayout(mSwipeRefreshLayout);
         }
     }
@@ -110,20 +107,6 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         return false;
     }
 
-    public P getPresenter() {
-        return presenter;
-    }
-
-    /**
-     * Sets the presenter to communicate with.
-     *
-     * @param presenter
-     *         to communicate with.
-     */
-    public void setPresenter(@NonNull final P presenter) {
-        this.presenter = presenter;
-    }
-
     @Override
     public void onRefresh() {
         // Default -> do nothing
@@ -138,7 +121,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
                 public void run() {
                     // BugFix: need to ask if the swipelayout is null -> if the fragment was
                     // changed during this calling time
-                    if(mSwipeRefreshLayout != null) {
+                    if (mSwipeRefreshLayout != null) {
                         mSwipeRefreshLayout.setRefreshing(mRefresh);
                     }
                 }
@@ -155,7 +138,8 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     }
 
     @Override
-    public void showError(@NonNull final IError error) {
+    public void showError(@NonNull final Throwable error) {
+        /*
         if (mViewError != null && getActivity() != null) {
             final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(getActivity()), Snackbar.LENGTH_LONG);
             if (error.getErrorCode() != null) {
@@ -163,12 +147,6 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
                 snackbar.setAction(R.string.retry, new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
-                        /*
-                        final Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:"));
-                        intent.setType("message/rfc822");
-                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});
-                        startActivity(intent);
-                        */
                         onRefresh();
                     }
                 });
@@ -186,6 +164,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
             }
             snackbar.show();
         }
+        */
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -202,6 +181,6 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         mViewError = view;
     }
 
-    public void onErrorSnackbar(@NonNull final Snackbar snackbar, @NonNull final IError error) {
+    public void onErrorSnackbar(@NonNull final Snackbar snackbar, @NonNull final Throwable error) {
     }
 }

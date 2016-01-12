@@ -42,8 +42,8 @@ public class PublicTransportTabFragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
         mAdapter = new ViewPagerAdapter(getFragmentManager());
-        mAdapter.addFrag(new LothstrFragment(), getString(R.string.lothstrasse));
-        mAdapter.addFrag(new PasingFragment(), getString(R.string.pasing));
+        mAdapter.addFrag(new LothstrListFragment(), getString(R.string.lothstrasse));
+        mAdapter.addFrag(new PasingListFragment(), getString(R.string.pasing));
         mViewPager.setAdapter(mAdapter);
 
         mTabLayout.post(new Runnable() {
@@ -94,6 +94,11 @@ public class PublicTransportTabFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    protected Object onCreateNonConfigurationComponent() {
+        return null;
     }
 
     private static final class ViewPagerAdapter extends FragmentPagerAdapter {

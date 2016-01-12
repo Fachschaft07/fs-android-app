@@ -18,30 +18,32 @@ import android.view.View;
 
 import com.fk07.R;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.App;
+import edu.hm.cs.fs.app.domain.DataMigration;
 import edu.hm.cs.fs.app.service.BlackboardNotificiationService;
-import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
-import edu.hm.cs.fs.app.ui.fs.news.FsNewsFragment;
+import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
+import edu.hm.cs.fs.app.ui.exam.ExamListFragment;
+import edu.hm.cs.fs.app.ui.fs.news.FsNewsListFragment;
 import edu.hm.cs.fs.app.ui.home.HomeFragment;
-import edu.hm.cs.fs.app.ui.info.InfoFragment;
-import edu.hm.cs.fs.app.ui.job.JobFragment;
-import edu.hm.cs.fs.app.ui.lostfound.LostFoundFragment;
-import edu.hm.cs.fs.app.ui.meal.MealFragment;
+import edu.hm.cs.fs.app.ui.info.InfoActivity;
+import edu.hm.cs.fs.app.ui.job.JobListFragment;
+import edu.hm.cs.fs.app.ui.lostfound.LostFoundListFragment;
+import edu.hm.cs.fs.app.ui.meal.MealListFragment;
 import edu.hm.cs.fs.app.ui.publictransport.PublicTransportTabFragment;
-import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchFragment;
+import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchListFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
 import edu.hm.cs.fs.app.util.ServiceUtils;
-import edu.hm.cs.fs.app.util.VersionManager;
 
 /**
  * @author Fabio
  */
 public class MainActivity extends AppCompatActivity implements DrawerLayout.DrawerListener,
-        NavigationView.OnNavigationItemSelectedListener, VersionManager.OnVersionUpgradeListener {
+        NavigationView.OnNavigationItemSelectedListener {
     public static final String NAV_ITEM_ID = "navItemId";
-    public static final int VERSION_CODE_201 = 201;
 
     private static Navigator mNavigator;
 
@@ -51,14 +53,18 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     NavigationView mNavigationView;
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
+    @Inject
+    DataMigration mMigration;
     private ActionBarDrawerToggle mDrawerToggle;
-
     @IdRes
     private int mCurrentMenuItem;
 
     private static void resetNavigator() {
         mNavigator = null;
+    }
+
+    public static Navigator getNavigator() {
+        return mNavigator;
     }
 
     @Override
@@ -67,8 +73,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        App.getAppComponent(this).inject(this);
+
+        mMigration.checkVersions();
         setupServices();
-        setupVersionManager();
         setupToolbar();
         setupNavigationDrawer();
         initNavigator();
@@ -86,14 +94,9 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     }
 
     private void setupServices() {
-        if(!ServiceUtils.isServiceRunning(this, BlackboardNotificiationService.class)) {
+        if (!ServiceUtils.isServiceRunning(this, BlackboardNotificiationService.class)) {
             startService(new Intent(this, BlackboardNotificiationService.class));
         }
-    }
-
-    private void setupVersionManager() {
-        VersionManager versionManager = new VersionManager(this, this);
-        versionManager.checkVersions();
     }
 
     private void setupToolbar() {
@@ -120,10 +123,6 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     private void setNewRootFragment(BaseFragment fragment) {
         mNavigator.setRootFragment(fragment);
         mDrawerLayout.closeDrawers();
-    }
-
-    public static Navigator getNavigator() {
-        return mNavigator;
     }
 
     public Toolbar getToolbar() {
@@ -188,39 +187,43 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 break;
 
             case R.id.menu_blackboard:
-                setNewRootFragment(new BlackBoardFragment());
+                setNewRootFragment(new BlackBoardListFragment());
                 break;
 
             case R.id.menu_timetable:
                 setNewRootFragment(new TimetableFragment());
                 break;
 
+            case R.id.menu_exams:
+                setNewRootFragment(new ExamListFragment());
+                break;
+
             case R.id.menu_roomsearch:
-                setNewRootFragment(new RoomSearchFragment());
+                setNewRootFragment(new RoomSearchListFragment());
                 break;
 
             case R.id.menu_lostfound:
-                setNewRootFragment(new LostFoundFragment());
+                setNewRootFragment(new LostFoundListFragment());
                 break;
 
             // Student council
             case R.id.menu_news:
-                setNewRootFragment(new FsNewsFragment());
+                setNewRootFragment(new FsNewsListFragment());
                 break;
 
             /*
             case R.id.menu_presence:
-                setNewRootFragment(new PresenceFragment());
+                setNewRootFragment(new PresenceListFragment());
                 break;
                 */
 
             // Offers
             case R.id.menu_food:
-                setNewRootFragment(new MealFragment());
+                setNewRootFragment(new MealListFragment());
                 break;
 
             case R.id.menu_jobs:
-                setNewRootFragment(new JobFragment());
+                setNewRootFragment(new JobListFragment());
                 break;
 
             case R.id.menu_mvv:
@@ -229,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
             // Others
             case R.id.menu_info:
-                setNewRootFragment(new InfoFragment());
+                startActivity(new Intent(this, InfoActivity.class));
                 break;
 
             case R.id.menu_feedback:
@@ -252,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
                 return false;
         }
         final MenuItem item = mNavigationView.getMenu().findItem(mCurrentMenuItem);
-        if(item != null) {
+        if (item != null) {
             item.setChecked(false);
         }
         mCurrentMenuItem = id;
@@ -261,18 +264,10 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     }
 
     @Override
-    public void onUpdate(final int oldVersion, final int newVersion) {
-        if (newVersion == VERSION_CODE_201) {
-            // Version 2.0.1
-            ModelFactory.getTimetable(this).resetConfiguration();
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else if(!mNavigator.isEmpty()) {
+        } else if (!mNavigator.isEmpty()) {
             mNavigator.goOneBack();
         } else {
             super.onBackPressed();

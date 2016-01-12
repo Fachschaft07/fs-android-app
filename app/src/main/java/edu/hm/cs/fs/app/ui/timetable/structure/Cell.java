@@ -1,11 +1,8 @@
 package edu.hm.cs.fs.app.ui.timetable.structure;
 
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.TextView;
-
-import com.fk07.R;
 
 import edu.hm.cs.fs.app.ui.timetable.TimetableAdapter;
 

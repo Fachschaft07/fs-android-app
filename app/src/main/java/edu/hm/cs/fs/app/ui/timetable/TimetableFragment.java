@@ -2,7 +2,6 @@ package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,10 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.TouchDelegate;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.fk07.R;
 
@@ -21,18 +17,17 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.App;
 import edu.hm.cs.fs.app.presenter.TimetablePresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
-import edu.hm.cs.fs.app.view.ITimetableView;
+import edu.hm.cs.fs.app.ui.PerActivity;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Lesson;
 
-/**
- * @author Fabio
- */
-public class TimetableFragment extends BaseFragment<TimetablePresenter> implements ITimetableView,
+@PerActivity
+public class TimetableFragment extends BaseFragment<TimetableComponent, TimetablePresenter> implements TimetableListView,
         TimetableAdapter.OnItemClickListener, Toolbar.OnMenuItemClickListener {
 
     private static final int PORTRAIT_DAY_COUNT = 2;
@@ -56,12 +51,7 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
         ButterKnife.bind(this, view);
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getMainActivity().openDrawer();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
         mToolbar.inflateMenu(R.menu.timetable);
         mToolbar.setOnMenuItemClickListener(this);
 
@@ -77,7 +67,6 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfDays + 1));
 
-        setPresenter(new TimetablePresenter(getActivity(), this));
         getPresenter().loadTimetable(false);
     }
 
@@ -118,11 +107,6 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     }
 
     @Override
-    public void showContent(List<Lesson> content) {
-        mAdapter.setData(content);
-    }
-
-    @Override
     public void onRefresh() {
         getPresenter().loadTimetable(true);
     }
@@ -131,7 +115,7 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     public void onItemClicked(@NonNull Lesson lesson) {
         Bundle arguments = new Bundle();
         arguments.putString(TimetableLessonFragment.ARG_MODULE_ID, lesson.getModule().getId());
-        if(lesson.getTeacher() != null) {
+        if (lesson.getTeacher() != null) {
             arguments.putString(TimetableLessonFragment.ARG_TEACHER_ID, lesson.getTeacher().getId());
         }
 
@@ -155,5 +139,22 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    protected TimetableComponent onCreateNonConfigurationComponent() {
+        return DaggerTimetableComponent.builder()
+                .appComponent(App.getAppComponent(getMainActivity()))
+                .build();
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public void add(@NonNull Lesson item) {
+
     }
 }

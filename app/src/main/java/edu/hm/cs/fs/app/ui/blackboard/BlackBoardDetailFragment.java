@@ -11,15 +11,12 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.App;
 import edu.hm.cs.fs.app.presenter.BlackBoardDetailPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
-import edu.hm.cs.fs.app.view.IBlackBoardDetailView;
 
-/**
- * Created by FHellman on 12.08.2015.
- */
-public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPresenter> implements IBlackBoardDetailView {
+public class BlackBoardDetailFragment extends BaseFragment<BlackboardDetailComponent, BlackBoardDetailPresenter> implements BlackBoardDetailView {
 
     public static final String ARGUMENT_ID = "id";
 
@@ -51,15 +48,9 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                close();
-            }
-        });
+        getToolbar().setNavigationOnClickListener(v -> close());
 
         mBlackBoardEntryId = getArguments().getString(ARGUMENT_ID);
-        setPresenter(new BlackBoardDetailPresenter(this));
         getPresenter().loadBlackBoardEntry(mBlackBoardEntryId);
     }
 
@@ -125,5 +116,12 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackBoardDetailPrese
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    protected BlackboardDetailComponent onCreateNonConfigurationComponent() {
+        return DaggerBlackboardDetailComponent.builder()
+                .appComponent(App.getAppComponent(getMainActivity()))
+                .build();
     }
 }

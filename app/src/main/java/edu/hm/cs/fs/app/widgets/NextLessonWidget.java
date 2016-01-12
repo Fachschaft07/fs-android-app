@@ -3,20 +3,6 @@ package edu.hm.cs.fs.app.widgets;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.widget.RemoteViews;
-
-import com.fk07.R;
-
-import java.util.Calendar;
-import java.util.Locale;
-
-import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
-import edu.hm.cs.fs.app.database.model.TimetableModel;
-import edu.hm.cs.fs.common.model.Lesson;
 
 /**
  * Implementation of App Widget functionality.
@@ -44,6 +30,7 @@ public class NextLessonWidget extends AppWidgetProvider {
 
     private void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager,
                                  final int appWidgetId) {
+        /*
         final TimetableModel timetable = ModelFactory.getTimetable(context);
         timetable.getNextLesson(new ICallback<Lesson>() {
             @Override
@@ -90,5 +77,6 @@ public class NextLessonWidget extends AppWidgetProvider {
                 // TODO Add error message?
             }
         });
+        */
     }
 }

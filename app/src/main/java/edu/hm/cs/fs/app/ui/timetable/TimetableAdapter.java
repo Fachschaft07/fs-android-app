@@ -135,26 +135,19 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        public final Context mContext;
         @Bind(R.id.cell)
         public LinearLayout mCell;
-
         @Bind(R.id.layoutSubject)
         public RelativeLayout mLayoutSubject;
-
         @Bind(R.id.multipleLessons)
         public ImageView mCount;
-
         @Bind(R.id.textSubject)
         public TextView mSubject;
-
         @Bind(R.id.textRoom)
         public TextView mRoom;
-
         @Bind(R.id.textInfo)
         public TextView mInfo;
-
-        public final Context mContext;
-
         public OnItemClickListener mListener;
 
         private Cell mCellInfo;
@@ -266,13 +259,13 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
             int column = position % (mNumberOfDays + TIME_COLUMN);
 
             // BugFix: If the timetable configurator was opened, the cells haven't been updated yet
-            if(mCells.isEmpty()) {
+            if (mCells.isEmpty()) {
                 return new Cell(row, column, R.drawable.listitem_timetable_lesson_border);
             }
 
-            if(mNumberOfDays != DAYS_OF_WEEK && column != 0) { // skip the time column
+            if (mNumberOfDays != DAYS_OF_WEEK && column != 0) { // skip the time column
                 column += selectedDay.get(Calendar.DAY_OF_WEEK) - Calendar.MONDAY;
-                if(column >= Calendar.SATURDAY - 1) {
+                if (column >= Calendar.SATURDAY - 1) {
                     column = 1;
                 }
             }
