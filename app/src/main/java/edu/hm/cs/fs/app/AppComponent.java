@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import edu.hm.cs.fs.app.domain.DataMigration;
-import edu.hm.cs.fs.app.domain.DataService;
-import edu.hm.cs.fs.app.domain.SchedulerProvider;
+import edu.hm.cs.fs.app.service.BlackboardNotificationService;
 import edu.hm.cs.fs.app.ui.MainActivity;
+import edu.hm.cs.fs.app.widgets.NextLessonWidget;
+import edu.hm.cs.fs.domain.DataMigration;
+import edu.hm.cs.fs.domain.DataService;
+import edu.hm.cs.fs.domain.SchedulerProvider;
 
 @Component(modules = {AppModule.class})
 @Singleton
@@ -24,5 +26,9 @@ public interface AppComponent {
 
     DataService getDataService();
 
-    MainActivity inject(MainActivity activity);
+    MainActivity inject(MainActivity mainActivity);
+
+    BlackboardNotificationService inject(BlackboardNotificationService service);
+
+    NextLessonWidget inject(NextLessonWidget widget);
 }

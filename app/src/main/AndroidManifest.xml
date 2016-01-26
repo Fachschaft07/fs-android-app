@@ -8,7 +8,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!-- Service Startup -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
             android:allowBackup="true"
@@ -36,14 +37,14 @@
                     android:name="android.appwidget.provider"
                     android:resource="@xml/next_lesson_widget_info"/>
         </receiver>
-        <receiver android:name="edu.hm.cs.fs.app.service.StartupIntentReceiver">
+
+        <receiver android:name="edu.hm.cs.fs.app.service.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-
         <service
-                android:name="edu.hm.cs.fs.app.service.BlackboardNotificiationService"
+                android:name="edu.hm.cs.fs.app.service.BlackboardNotificationService"
                 android:launchMode="singleInstance">
         </service>
     </application>

@@ -17,11 +17,14 @@ import android.view.ViewGroup;
 
 import com.fk07.R;
 
+import java.net.SocketTimeoutException;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import nz.bradcampbell.compartment.HasPresenter;
 import nz.bradcampbell.compartment.Presenter;
 import nz.bradcampbell.compartment.PresenterControllerFragment;
+import retrofit.RetrofitError;
 
 /**
  * @author Fabio
@@ -139,32 +142,10 @@ public abstract class BaseFragment<C extends HasPresenter<P>, P extends Presente
 
     @Override
     public void showError(@NonNull final Throwable error) {
-        /*
         if (mViewError != null && getActivity() != null) {
-            final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(getActivity()), Snackbar.LENGTH_LONG);
-            if (error.getErrorCode() != null) {
-                snackbar.setText(getString(R.string.unknown_error));
-                snackbar.setAction(R.string.retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        onRefresh();
-                    }
-                });
-            } else if (!error.isConnected()) {
-                snackbar.setText(R.string.internet_connection_error);
-                snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onRefresh();
-                    }
-                });
-            } else {
-                onErrorSnackbar(snackbar, error);
-            }
+            final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
-        */
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -179,8 +160,5 @@ public abstract class BaseFragment<C extends HasPresenter<P>, P extends Presente
 
     public void initErrorSnackbar(@NonNull final View view) {
         mViewError = view;
-    }
-
-    public void onErrorSnackbar(@NonNull final Snackbar snackbar, @NonNull final Throwable error) {
     }
 }

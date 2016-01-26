@@ -47,7 +47,12 @@ public class FsNewsDetailFragment extends BaseFragment<FsNewsDetailComponent, Fs
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        getToolbar().setNavigationOnClickListener(v -> close());
+        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+            }
+        });
 
         mNewsTitle = getArguments().getString(ARGUMENT_TITLE);
         getPresenter().loadNews(mNewsTitle);

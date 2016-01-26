@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -62,6 +63,16 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     public void setData(@NonNull final List<Lesson> data) {
         mGridManager.update(data);
         notifyDataSetChanged();
+    }
+
+    public void clear() {
+        notifyItemRangeRemoved(0, mGridManager.mCells.size());
+        mGridManager.clear();
+    }
+
+    public void add(Lesson item) {
+        mGridManager.update(item);
+        notifyItemInserted(mGridManager.mCells.size());
     }
 
     @Override
@@ -208,10 +219,54 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
     private final class GridManager {
         private final List<Cell> mCells = new ArrayList<>();
 
-        public void update(@NonNull final List<Lesson> lessons) {
-            // Reset everything
-            mCells.clear();
+        public GridManager() {
+            // Add empty left upper corner
+            mCells.add(new Cell(0, 0, R.drawable.listitem_timetable_day_border));
 
+            // Add days
+            int dayIndex = 1; // skip first column
+            for (Day day : Day.values()) {
+                mCells.add(new DayCell(0, dayIndex++, day));
+            }
+
+            // Add times
+            int timeIndex = 1; // skip first row
+            for (Time time : Time.values()) {
+                mCells.add(new TimeCell(timeIndex++, 0, time));
+            }
+
+            // Add default empty lessons
+            for (int col = 1; col < Day.values().length - 2; col++) {
+                for (int row = 1; row < Time.values().length; row++) {
+                    mCells.add(new LessonCell(row, col));
+                }
+            }
+        }
+
+        public void clear() {
+            // Reset everything
+            for (Cell cell : mCells) {
+                if(cell instanceof LessonCell) {
+                    LessonCell lessonCell = (LessonCell) cell;
+                    lessonCell.getLessons().clear();
+                }
+            }
+        }
+
+        public void update(@NonNull final Lesson lesson) {
+            final LessonCell lessonCell = findBy(lesson.getDay(), lesson.getHour(), lesson.getMinute());
+            if (lessonCell == null) {
+                final int column = Arrays.asList(Day.values())
+                        .indexOf(lesson.getDay()) + TIME_COLUMN;
+                final int row = Arrays.asList(Time.values())
+                        .indexOf(getTimeByInt(lesson.getHour(), lesson.getMinute())) + DAY_ROW;
+                mCells.add(new LessonCell(row, column, lesson));
+            } else {
+                lessonCell.getLessons().add(lesson);
+            }
+        }
+
+        public void update(@NonNull final List<Lesson> lessons) {
             // Add empty left upper corner
             mCells.add(new Cell(0, 0, R.drawable.listitem_timetable_day_border));
 

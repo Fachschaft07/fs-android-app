@@ -2,10 +2,14 @@ package edu.hm.cs.fs.app.ui.exam;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.fk07.R;
@@ -17,6 +21,7 @@ import edu.hm.cs.fs.app.presenter.ExamListPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.PerActivity;
 import edu.hm.cs.fs.common.model.Exam;
+import rx.Observable;
 
 @PerActivity
 public class ExamListFragment extends BaseFragment<ExamListComponent, ExamListPresenter> implements ExamListView, ExamListAdapter.OnPinListener {
@@ -45,8 +50,19 @@ public class ExamListFragment extends BaseFragment<ExamListComponent, ExamListPr
             }
         });
 
-        /*
-        mToolbar.inflateMenu(R.menu.blackboard);
+        mToolbar.inflateMenu(R.menu.exam);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_import_from_timetable:
+                        getPresenter().importFromTimetable();
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                }
+                return false;
+            }
+        });
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.menu_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         if (searchView != null) {
@@ -58,19 +74,20 @@ public class ExamListFragment extends BaseFragment<ExamListComponent, ExamListPr
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    //getPresenter().search(newText);
+                    if(TextUtils.isEmpty(newText)) {
+                        getPresenter().loadExams(false);
+                    } else {
+                        getPresenter().search(newText);
+                    }
                     return true;
                 }
             });
         }
-        */
 
         mAdapter = new ExamListAdapter(getActivity());
         mAdapter.setListener(this);
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         getPresenter().loadExams(false);
     }
@@ -91,8 +108,13 @@ public class ExamListFragment extends BaseFragment<ExamListComponent, ExamListPr
     }
 
     @Override
-    public void onPin(@NonNull Exam exam) {
+    public Observable<Boolean> onPin(@NonNull Exam exam) {
+        return getPresenter().pin(exam);
+    }
 
+    @Override
+    public Observable<Boolean> isPined(@NonNull Exam exam) {
+        return getPresenter().isPined(exam);
     }
 
     @Override
@@ -104,11 +126,11 @@ public class ExamListFragment extends BaseFragment<ExamListComponent, ExamListPr
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull Exam item) {
-
+        mAdapter.add(item);
     }
 }

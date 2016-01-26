@@ -21,9 +21,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.common.model.PublicTransport;
 
-/**
- * Created by FHellman on 10.08.2015.
- */
 public class PublicTransportAdapter extends RecyclerView.Adapter<PublicTransportAdapter.ViewHolder> {
 
     private final List<PublicTransport> mData = new ArrayList<>();
@@ -38,6 +35,16 @@ public class PublicTransportAdapter extends RecyclerView.Adapter<PublicTransport
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public void clear() {
+        notifyItemRangeRemoved(0, mData.size());
+        mData.clear();
+    }
+
+    public void add(PublicTransport item) {
+        mData.add(item);
+        notifyItemInserted(mData.size());
     }
 
     @Override

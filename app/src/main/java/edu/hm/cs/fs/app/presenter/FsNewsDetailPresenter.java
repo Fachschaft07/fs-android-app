@@ -18,7 +18,7 @@ public class FsNewsDetailPresenter extends BasePresenter<FsNewsDetailView> {
 
     public void loadNews(@NonNull final String title) {
         getView().showLoading();
-        getModel().fsNewsByTitle(title).subscribe(new BasicSubscriber<News>(getView()) {
+        getModel().fsNewsByTitle(false, title).subscribe(new BasicSubscriber<News>(getView()) {
             @Override
             public void onNext(News data) {
                 if (data != null) {

@@ -45,6 +45,16 @@ public class RoomSearchListAdapter extends RecyclerView.Adapter<RoomSearchListAd
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        notifyItemRangeRemoved(0, mData.size());
+        mData.clear();
+    }
+
+    public void add(SimpleRoom item) {
+        mData.add(item);
+        notifyItemInserted(mData.size());
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         return new ViewHolder(LayoutInflater.from(mContext)

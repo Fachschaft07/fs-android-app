@@ -30,6 +30,7 @@ import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListAdapter;
 import com.dexafree.materialList.view.MaterialListView;
 import com.fk07.R;
+import com.github.curioustechizen.ago.RelativeTimeTextView;
 
 import java.util.Calendar;
 import java.util.List;
@@ -45,11 +46,14 @@ import edu.hm.cs.fs.app.ui.PerActivity;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailFragment;
 import edu.hm.cs.fs.app.ui.lostfound.LostFoundListFragment;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
+import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.Meal;
 import edu.hm.cs.fs.common.model.News;
+import edu.hm.cs.fs.common.model.Room;
+import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 
 @PerActivity
 public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> implements HomeView,
@@ -63,6 +67,7 @@ public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> imp
     private static final String LOSTFOUND = "lostfound";
     private static final String FS_NEWS = "student_council";
     private static final String FS_NEWS_ITEM = "student_council_";
+    private static final String EXAMS = "exams";
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -79,7 +84,12 @@ public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> imp
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
         mToolbar.inflateMenu(R.menu.home);
         mToolbar.setOnMenuItemClickListener(this);
 
@@ -141,7 +151,7 @@ public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> imp
                     .setTitle(lesson.getModule().getName())
                     .setSubtitle(lesson.getTeacher().getName())
                     .setSubtitleColor(Color.GRAY)
-                    .setTime(String.format(Locale.getDefault(), "%1$tH:%1$tM - %2$tH:%2$tM",
+                    .setTime(String.format(Locale.getDefault(), "%1$ta %1$tH:%1$tM - %2$tH:%2$tM",
                             lessonStart, lessonEnd))
                     .setPlace(lesson.getRoom())
                     .endConfig()
@@ -152,7 +162,7 @@ public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> imp
 
     @Override
     public void showBlackboardNews(@NonNull List<BlackboardEntry> news) {
-        if (isActive(BLACKBOARD) && !news.isEmpty()) {
+        if (isActive(BLACKBOARD)) {
             Card card = new Card.Builder(getActivity())
                     .setTag(BLACKBOARD)
                     .setDismissible()
@@ -195,13 +205,13 @@ public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> imp
                     .setDividerVisible(true)
                     .endConfig()
                     .build();
-            add(card, true);
+            add(card, false);
         }
     }
 
     @Override
     public void showMealsOfToday(@NonNull List<Meal> meals) {
-        if (isActive(MENSA) && !meals.isEmpty()) {
+        if (isActive(MENSA)) {
             Card card = new Card.Builder(getActivity())
                     .setTag(MENSA)
                     .setDismissible()
@@ -246,7 +256,7 @@ public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> imp
                             return view;
                         }
                     }).setDividerVisible(true).endConfig().build();
-            add(card, true);
+            add(card, false);
         }
     }
 
@@ -330,6 +340,49 @@ public class HomeFragment extends BaseFragment<HomeComponent, HomePresenter> imp
                 Card card = cardConfig.endConfig().build();
                 add(card, false);
             }
+        }
+    }
+
+    @Override
+    public void showExams(@NonNull List<Exam> exams) {
+        if (isActive(EXAMS)) {
+            final Card card = new Card.Builder(getActivity())
+                    .setTag(NEXT_LESSON)
+                    .setDismissible()
+                    .withProvider(new ListCardProvider())
+                    .setLayout(R.layout.material_list_card_layout)
+                    .setBackgroundResourceColor(R.color.exam)
+                    .setTitle(R.string.exams)
+                    .setTitleColor(Color.WHITE)
+                    .setAdapter(new ArrayAdapter<Exam>(
+                            getActivity(), R.layout.listitem_exam_card, R.id.textTitle, exams) {
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            final View view = super.getView(position, convertView, parent);
+
+                            final Exam exam = getItem(position);
+
+                            final TextView textTitle = (TextView) view.findViewById(R.id.textTitle);
+                            textTitle.setText(exam.getModule().getName());
+
+                            final RelativeTimeTextView daysLeft = (RelativeTimeTextView) view.findViewById(R.id.textTimeLeft);
+                            daysLeft.setReferenceTime(exam.getDate().getTime());
+                            StringBuilder rooms = new StringBuilder();
+                            int index = 0;
+                            for (String room : exam.getRooms()) {
+                                if (index++ > 0) {
+                                    rooms.append(", ");
+                                }
+                                rooms.append(room);
+                            }
+                            daysLeft.setSuffix(" in " + rooms);
+
+                            return view;
+                        }
+                    })
+                    .endConfig()
+                    .build();
+            add(card, true);
         }
     }
 

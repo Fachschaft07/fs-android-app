@@ -5,6 +5,15 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/group"
+            android:contentDescription="@null"
+            android:layout_marginLeft="@dimen/list_item_margin_right"
+            android:layout_marginBottom="@dimen/list_item_margin_bottom"
+            android:layout_marginTop="@dimen/list_item_margin_top"/>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -18,12 +27,14 @@
                 android:layout_height="wrap_content"
                 tools:text="Subject"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:singleLine="true"
                 android:id="@+id/examSubject"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Teacher"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:singleLine="true"
                 android:id="@+id/examTeacher"/>
     </LinearLayout>
     <ImageButton
@@ -32,6 +43,7 @@
             android:id="@+id/pinButton"
             android:src="@drawable/ic_star_border_grey_600_18dp"
             android:background="?attr/selectableItemBackground"
+            android:contentDescription="@null"
             android:padding="6dp"
             android:layout_marginRight="@dimen/list_item_margin_right"
             android:layout_marginBottom="@dimen/list_item_margin_bottom"

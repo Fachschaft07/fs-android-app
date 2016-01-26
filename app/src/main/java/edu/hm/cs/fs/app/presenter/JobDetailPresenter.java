@@ -17,7 +17,7 @@ public class JobDetailPresenter extends BasePresenter<JobDetailView> {
 
     public void loadJob(@NonNull final String title) {
         getView().showLoading();
-        getModel().jobByTitle(title).subscribe(new BasicSubscriber<SimpleJob>(getView()) {
+        getModel().jobByTitle(false, title).subscribe(new BasicSubscriber<SimpleJob>(getView()) {
             @Override
             public void onNext(SimpleJob data) {
                 getView().showSubject(MarkdownUtil.toHtml(data.getTitle()));

@@ -3,9 +3,6 @@ package edu.hm.cs.fs.app.util;
 import android.app.ActivityManager;
 import android.content.Context;
 
-/**
- * Created by FHellman on 10.12.2015.
- */
 public final class ServiceUtils {
     private ServiceUtils() {
     }

@@ -38,7 +38,12 @@ public class PresenceListFragment extends BaseFragment<PresenceListComponent, Pr
         ButterKnife.bind(this, view);
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
 
         mAdapter = new PresenceListAdapter(getActivity());
         mListView.setAdapter(mAdapter);
@@ -84,11 +89,11 @@ public class PresenceListFragment extends BaseFragment<PresenceListComponent, Pr
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull Presence item) {
-
+        mAdapter.add(item);
     }
 }

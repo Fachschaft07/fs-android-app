@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -50,7 +53,12 @@ public class BlackBoardListFragment extends BaseFragment<BlackboardListComponent
         ButterKnife.bind(this, view);
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
         mToolbar.inflateMenu(R.menu.blackboard);
 
         final MenuItem searchItem = mToolbar.getMenu().findItem(R.id.menu_search);
@@ -64,7 +72,11 @@ public class BlackBoardListFragment extends BaseFragment<BlackboardListComponent
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    getPresenter().search(newText);
+                    if(TextUtils.isEmpty(newText)) {
+                        getPresenter().loadBlackBoard(false);
+                    } else {
+                        getPresenter().search(newText);
+                    }
                     return true;
                 }
             });
@@ -73,9 +85,8 @@ public class BlackBoardListFragment extends BaseFragment<BlackboardListComponent
         mAdapter = new BlackBoardListAdapter(getActivity());
         mAdapter.setListener(this);
         mListView.setAdapter(mAdapter);
+        mListView.setItemAnimator(new DefaultItemAnimator());
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        initSwipeRefreshLayout(mSwipeRefreshLayout);
 
         getPresenter().loadBlackBoard(false);
     }

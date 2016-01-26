@@ -27,7 +27,7 @@ public class BlackBoardListPresenter extends BasePresenter<BlackBoardListView> {
     public void search(String newText) {
         getView().showLoading();
         getView().clear();
-        getModel().blackboardEntriesBySearchString(newText)
+        getModel().blackboardEntriesBySearchString(false, newText)
                 .subscribe(new BasicSubscriber<BlackboardEntry>(getView()) {
                     @Override
                     public void onNext(BlackboardEntry blackboardEntry) {

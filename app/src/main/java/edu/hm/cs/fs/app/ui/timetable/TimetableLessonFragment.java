@@ -63,7 +63,12 @@ public class TimetableLessonFragment extends BaseFragment<TimetableLessonCompone
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        getToolbar().setNavigationOnClickListener(v -> close());
+        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+            }
+        });
 
         final Bundle arguments = getArguments();
         final String moduleId = arguments.getString(ARG_MODULE_ID);

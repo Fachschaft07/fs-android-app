@@ -181,11 +181,11 @@ public class RoomSearchListFragment extends BaseFragment<RoomSearchListComponent
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull SimpleRoom item) {
-
+        mAdapter.add(item);
     }
 }

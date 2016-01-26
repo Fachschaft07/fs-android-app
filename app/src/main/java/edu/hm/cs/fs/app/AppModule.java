@@ -9,12 +9,12 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import edu.hm.cs.fs.app.database.cloud.RestApiService;
-import edu.hm.cs.fs.app.database.disk.DiskService;
-import edu.hm.cs.fs.app.database.memory.MemoryService;
-import edu.hm.cs.fs.app.domain.DataMigration;
-import edu.hm.cs.fs.app.domain.DataService;
-import edu.hm.cs.fs.app.domain.SchedulerProvider;
+import edu.hm.cs.fs.domain.DataMigration;
+import edu.hm.cs.fs.domain.DataService;
+import edu.hm.cs.fs.domain.SchedulerProvider;
+import edu.hm.cs.fs.domain.cloud.RestApiService;
+import edu.hm.cs.fs.domain.disk.DiskService;
+import edu.hm.cs.fs.domain.memory.MemoryService;
 
 @Module
 public class AppModule {
@@ -48,18 +48,18 @@ public class AppModule {
     }
 
     @Provides
-    public RestApiService provideCloudCacheService() {
-        return new RestApiService();
+    public RestApiService provideCloudCacheService(SharedPreferences prefs) {
+        return new RestApiService(prefs);
     }
 
     @Provides
-    public DiskService provideDiskCacheService() {
-        return new DiskService(mApp);
+    public DiskService provideDiskCacheService(SharedPreferences prefs) {
+        return new DiskService(prefs);
     }
 
     @Provides
-    public MemoryService provideMemoryCacheService(SharedPreferences prefs) {
-        return new MemoryService(prefs);
+    public MemoryService provideMemoryCacheService() {
+        return new MemoryService();
     }
 
     @Provides

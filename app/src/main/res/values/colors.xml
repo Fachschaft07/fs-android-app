@@ -15,4 +15,5 @@
     <color name="meal_meat">#C80A4B</color>
     <color name="timetable_grid">#dcdcdc</color>
     <color name="lesson_count_background">#aaaaaaaa</color>
+    <color name="exam">#ff3531</color>
 </resources>

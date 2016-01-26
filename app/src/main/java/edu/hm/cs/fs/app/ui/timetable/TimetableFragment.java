@@ -51,7 +51,12 @@ public class TimetableFragment extends BaseFragment<TimetableComponent, Timetabl
         ButterKnife.bind(this, view);
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
         mToolbar.inflateMenu(R.menu.timetable);
         mToolbar.setOnMenuItemClickListener(this);
 
@@ -150,11 +155,11 @@ public class TimetableFragment extends BaseFragment<TimetableComponent, Timetabl
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull Lesson item) {
-
+        mAdapter.add(item);
     }
 }

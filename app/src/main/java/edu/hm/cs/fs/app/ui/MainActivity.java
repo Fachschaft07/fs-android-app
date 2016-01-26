@@ -23,8 +23,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.hm.cs.fs.app.App;
-import edu.hm.cs.fs.app.domain.DataMigration;
-import edu.hm.cs.fs.app.service.BlackboardNotificiationService;
+import edu.hm.cs.fs.app.service.BlackboardNotificationService;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardListFragment;
 import edu.hm.cs.fs.app.ui.exam.ExamListFragment;
 import edu.hm.cs.fs.app.ui.fs.news.FsNewsListFragment;
@@ -37,6 +36,7 @@ import edu.hm.cs.fs.app.ui.publictransport.PublicTransportTabFragment;
 import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchListFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
 import edu.hm.cs.fs.app.util.ServiceUtils;
+import edu.hm.cs.fs.domain.DataMigration;
 
 /**
  * @author Fabio
@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     }
 
     private void setupServices() {
-        if (!ServiceUtils.isServiceRunning(this, BlackboardNotificiationService.class)) {
-            startService(new Intent(this, BlackboardNotificiationService.class));
+        if (!ServiceUtils.isServiceRunning(this, BlackboardNotificationService.class)) {
+            startService(new Intent(this, BlackboardNotificationService.class));
         }
     }
 

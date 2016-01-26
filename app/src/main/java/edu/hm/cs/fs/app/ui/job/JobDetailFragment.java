@@ -50,7 +50,12 @@ public class JobDetailFragment extends BaseFragment<JobDetailComponent, JobDetai
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        getToolbar().setNavigationOnClickListener(v -> close());
+        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+            }
+        });
 
         mJobTitle = getArguments().getString(ARGUMENT_TITLE);
         getPresenter().loadJob(mJobTitle);

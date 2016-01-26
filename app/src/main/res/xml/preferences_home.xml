@@ -12,6 +12,11 @@
             android:summary="@string/timetable_summary"
             android:title="@string/timetable" />
         <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="exams"
+                android:summary="@string/exam_summary"
+                android:title="@string/exams" />
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="student_council"
             android:summary="@string/student_council_summary"

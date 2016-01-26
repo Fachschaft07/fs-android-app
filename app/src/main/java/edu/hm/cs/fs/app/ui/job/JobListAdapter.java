@@ -19,9 +19,6 @@ import butterknife.OnClick;
 import edu.hm.cs.fs.app.util.MarkdownUtil;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
 
-/**
- * Created by FHellman on 10.08.2015.
- */
 public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
 
     private final List<SimpleJob> mData = new ArrayList<>();
@@ -38,6 +35,16 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         mData.clear();
         mData.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public void clear() {
+        notifyItemRangeRemoved(0, mData.size());
+        mData.clear();
+    }
+
+    public void add(SimpleJob item) {
+        mData.add(item);
+        notifyItemInserted(mData.size());
     }
 
     @Override

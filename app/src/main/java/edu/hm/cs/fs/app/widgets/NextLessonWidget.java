@@ -3,12 +3,35 @@ package edu.hm.cs.fs.app.widgets;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
+import android.widget.RemoteViews;
+
+import com.fk07.R;
+
+import java.util.Calendar;
+
+import javax.inject.Inject;
+
+import edu.hm.cs.fs.app.App;
+import edu.hm.cs.fs.common.model.Lesson;
+import edu.hm.cs.fs.domain.DataService;
+import rx.Subscriber;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class NextLessonWidget extends AppWidgetProvider {
     private static final String DAY_TIME_FORMAT = "%1$ta. %1$tH:%1$tM - %2$tH:%2$tM";
+
+    @Inject
+    DataService mDataService;
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+
+        App.getAppComponent(context).inject(this);
+    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -30,23 +53,29 @@ public class NextLessonWidget extends AppWidgetProvider {
 
     private void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager,
                                  final int appWidgetId) {
-        /*
-        final TimetableModel timetable = ModelFactory.getTimetable(context);
-        timetable.getNextLesson(new ICallback<Lesson>() {
+        mDataService.nextLesson().subscribe(new Subscriber<Lesson>() {
             @Override
-            public void onSuccess(@Nullable Lesson data) {
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(Lesson lesson) {
                 final String subject;
                 final String dateTime;
                 final String room;
 
-                if (data != null) {
-                    subject = data.getModule().getName();
-                    room = data.getRoom();
+                if (lesson != null) {
+                    subject = lesson.getModule().getName();
+                    room = lesson.getRoom();
 
                     Calendar calendarLessonStart = Calendar.getInstance();
-                    calendarLessonStart.set(Calendar.DAY_OF_WEEK, data.getDay().getCalendarId());
-                    calendarLessonStart.set(Calendar.HOUR_OF_DAY, data.getHour());
-                    calendarLessonStart.set(Calendar.MINUTE, data.getMinute());
+                    calendarLessonStart.set(Calendar.DAY_OF_WEEK, lesson.getDay().getCalendarId());
+                    calendarLessonStart.set(Calendar.HOUR_OF_DAY, lesson.getHour());
+                    calendarLessonStart.set(Calendar.MINUTE, lesson.getMinute());
 
                     Calendar calendarLessonEnd = Calendar.getInstance();
                     calendarLessonEnd.setTime(calendarLessonStart.getTime());
@@ -71,12 +100,6 @@ public class NextLessonWidget extends AppWidgetProvider {
                 // Instruct the widget manager to updateOnline the widget
                 appWidgetManager.updateAppWidget(appWidgetId, views);
             }
-
-            @Override
-            public void onError(@NonNull IError error) {
-                // TODO Add error message?
-            }
         });
-        */
     }
 }

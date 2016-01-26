@@ -68,11 +68,11 @@ public class PasingListFragment extends BaseFragment<PasingListComponent, Public
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull PublicTransport item) {
-
+        mAdapter.add(item);
     }
 }

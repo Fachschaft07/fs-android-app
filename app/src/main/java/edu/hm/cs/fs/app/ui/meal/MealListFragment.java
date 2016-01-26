@@ -154,11 +154,11 @@ public class MealListFragment extends BaseFragment<MealListComponent, MealListPr
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull Meal item) {
-
+        mAdapter.add(item);
     }
 }

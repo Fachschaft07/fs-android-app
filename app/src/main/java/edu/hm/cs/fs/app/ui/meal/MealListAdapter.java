@@ -22,9 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.hm.cs.fs.common.model.Meal;
 
-/**
- * Created by Fabio on 12.07.2015.
- */
 public class MealListAdapter extends ArrayAdapter<Meal> implements StickyListHeadersAdapter {
 
     private static final String DATE_FORMAT = "%1$tA, %1$td.%1$tm.%1$tY";

@@ -45,7 +45,12 @@ public class FsNewsListFragment extends BaseFragment<FsNewsListComponent, FsNews
         ButterKnife.bind(this, view);
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
 
         mAdapter = new FsNewsListAdapter(getActivity());
         mAdapter.setListener(this);
@@ -96,11 +101,11 @@ public class FsNewsListFragment extends BaseFragment<FsNewsListComponent, FsNews
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull News item) {
-
+        mAdapter.add(item);
     }
 }

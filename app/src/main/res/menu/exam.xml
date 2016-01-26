@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+            android:id="@+id/menu_search"
+            android:actionLayout="@layout/search_layout"
+            android:icon="@drawable/ic_search_white_24dp"
+            app:actionViewClass="android.support.v7.widget.SearchView"
+            app:showAsAction="always|collapseActionView"
+            android:title="@string/menu_search"/>
+    <item
+            android:id="@+id/menu_import_from_timetable"
+            app:showAsAction="never"
+            android:title="@string/menu_import_from_timetable"/>
+</menu>

@@ -22,6 +22,8 @@ import butterknife.OnCheckedChanged;
 import edu.hm.cs.fs.app.presenter.TimetableEditorPresenter;
 import edu.hm.cs.fs.common.model.LessonGroup;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;
+import rx.Subscriber;
+import rx.functions.Func1;
 
 /**
  * @author Fabio
@@ -42,9 +44,18 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
 
     public void setData(@NonNull final List<LessonGroup> data) {
         mData.clear();
-        notifyDataSetChanged();
         mData.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public void clear() {
+        notifyItemRangeRemoved(0, mData.size());
+        mData.clear();
+    }
+
+    public void add(LessonGroup item) {
+        mData.add(item);
+        notifyItemInserted(mData.size());
     }
 
     @Override
@@ -97,28 +108,58 @@ public class TimetableEditorAdapter extends RecyclerView.Adapter<TimetableEditor
         }
 
         public void init() {
-            mPresenter.isLessonGroupSelected(mLessonGroup).subscribe(selected -> {
-                if (selected && !mLessonGroup.getGroups().isEmpty()) {
-                    mPkGroups.setVisibility(View.VISIBLE);
-
-                    // Select the pk which was selected previously
-                    final int amountOfGroups = mLessonGroup.getGroups().size();
-                    for (int index = 0; index < mPkGroupList.size(); index++) {
-                        final RadioButton radioButton = mPkGroupList.get(index);
-                        if (index < amountOfGroups) {
-                            mPresenter.isPkSelected(mLessonGroup, index + 1)
-                                    .filter(selectedButton -> selectedButton)
-                                    .subscribe(selectedButton -> mPkGroups.check(radioButton.getId()));
-                            radioButton.setVisibility(View.VISIBLE);
-                        } else {
-                            radioButton.setVisibility(View.GONE);
+            mPresenter.isLessonGroupSelected(mLessonGroup)
+                    .subscribe(new Subscriber<Boolean>() {
+                        @Override
+                        public void onCompleted() {
                         }
-                    }
-                } else {
-                    mPkGroups.setVisibility(View.GONE);
-                }
-                mCheckBox.setChecked(selected);
-            });
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(Boolean selected) {
+                            if (selected && !mLessonGroup.getGroups().isEmpty()) {
+                                mPkGroups.setVisibility(View.VISIBLE);
+
+                                // Select the pk which was selected previously
+                                final int amountOfGroups = mLessonGroup.getGroups().size();
+                                for (int index = 0; index < mPkGroupList.size(); index++) {
+                                    final RadioButton radioButton = mPkGroupList.get(index);
+                                    if (index < amountOfGroups) {
+                                        mPresenter.isPkSelected(mLessonGroup, index + 1)
+                                                .filter(new Func1<Boolean, Boolean>() {
+                                                    @Override
+                                                    public Boolean call(Boolean aBoolean) {
+                                                        return aBoolean;
+                                                    }
+                                                })
+                                                .subscribe(new Subscriber<Boolean>() {
+                                                    @Override
+                                                    public void onCompleted() {
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                    }
+
+                                                    @Override
+                                                    public void onNext(Boolean aBoolean) {
+                                                        mPkGroups.check(radioButton.getId());
+                                                    }
+                                                });
+                                        radioButton.setVisibility(View.VISIBLE);
+                                    } else {
+                                        radioButton.setVisibility(View.GONE);
+                                    }
+                                }
+                            } else {
+                                mPkGroups.setVisibility(View.GONE);
+                            }
+                            mCheckBox.setChecked(selected);
+                        }
+                    });
         }
 
         @OnCheckedChanged({R.id.pkGroup1, R.id.pkGroup2, R.id.pkGroup3})

@@ -48,7 +48,12 @@ public class BlackBoardDetailFragment extends BaseFragment<BlackboardDetailCompo
         mSwipeRefreshLayout.setEnabled(false);
         initSwipeRefreshLayout(mSwipeRefreshLayout);
 
-        getToolbar().setNavigationOnClickListener(v -> close());
+        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+            }
+        });
 
         mBlackBoardEntryId = getArguments().getString(ARGUMENT_ID);
         getPresenter().loadBlackBoardEntry(mBlackBoardEntryId);

@@ -68,11 +68,11 @@ public class LothstrListFragment extends BaseFragment<LothstrListComponent, Publ
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull PublicTransport item) {
-
+        mAdapter.add(item);
     }
 }

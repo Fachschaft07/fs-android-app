@@ -35,8 +35,8 @@ public class BlackBoardListAdapter extends RecyclerView.Adapter<BlackBoardListAd
     }
 
     public void clear() {
+        notifyItemRangeRemoved(0, mData.size());
         mData.clear();
-        notifyDataSetChanged();
     }
 
     public void add(BlackboardEntry blackboardEntry) {

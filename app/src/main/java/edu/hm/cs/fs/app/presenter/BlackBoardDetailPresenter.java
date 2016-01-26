@@ -17,7 +17,7 @@ public class BlackBoardDetailPresenter extends BasePresenter<BlackBoardDetailVie
 
     public void loadBlackBoardEntry(@NonNull final String id) {
         getView().showLoading();
-        getModel().blackboardEntrieById(id)
+        getModel().blackboardEntrieById(false, id)
                 .subscribe(new BasicSubscriber<BlackboardEntry>(getView()) {
                     @Override
                     public void onNext(BlackboardEntry data) {

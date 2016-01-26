@@ -27,9 +27,6 @@ public class LostFoundListFragment extends BaseFragment<LostFoundListComponent, 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.swipeContainer)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-
     @Bind(R.id.listView)
     RecyclerView mListView;
 
@@ -41,15 +38,18 @@ public class LostFoundListFragment extends BaseFragment<LostFoundListComponent, 
         ButterKnife.bind(this, view);
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
 
         mAdapter = new LostFoundListAdapter(getActivity());
         mListView.setAdapter(mAdapter);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        initSwipeRefreshLayout(mSwipeRefreshLayout);
-
-        getPresenter().loadLostFound();
+        getPresenter().loadLostFound(false);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class LostFoundListFragment extends BaseFragment<LostFoundListComponent, 
 
     @Override
     public void onRefresh() {
-        getPresenter().loadLostFound();
+        getPresenter().loadLostFound(true);
     }
 
     @Override
@@ -82,11 +82,11 @@ public class LostFoundListFragment extends BaseFragment<LostFoundListComponent, 
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull LostFound item) {
-
+        mAdapter.add(item);
     }
 }

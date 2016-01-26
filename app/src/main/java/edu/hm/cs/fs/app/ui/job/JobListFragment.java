@@ -40,7 +40,12 @@ public class JobListFragment extends BaseFragment<JobListComponent, JobListPrese
         ButterKnife.bind(this, view);
 
         mToolbar.setNavigationIcon(getMainActivity().getToolbar().getNavigationIcon());
-        mToolbar.setNavigationOnClickListener(v -> getMainActivity().openDrawer());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMainActivity().openDrawer();
+            }
+        });
 
         mAdapter = new JobListAdapter(getActivity());
         mAdapter.setListener(this);
@@ -96,11 +101,11 @@ public class JobListFragment extends BaseFragment<JobListComponent, JobListPrese
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull SimpleJob item) {
-
+        mAdapter.add(item);
     }
 }

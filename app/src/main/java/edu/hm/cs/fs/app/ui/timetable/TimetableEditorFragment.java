@@ -73,7 +73,12 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorCompone
 
         mPrefs = getContext().getSharedPreferences("TimetableEditor", Context.MODE_PRIVATE);
 
-        mToolbar.setNavigationOnClickListener(v -> MainActivity.getNavigator().goOneBack());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.getNavigator().goOneBack();
+            }
+        });
         mToolbar.inflateMenu(R.menu.timetable_editor);
         mToolbar.setOnMenuItemClickListener(this);
 
@@ -173,12 +178,12 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorCompone
 
     @Override
     public void clear() {
-
+        mAdapter.clear();
     }
 
     @Override
     public void add(@NonNull LessonGroup item) {
-
+        mAdapter.add(item);
     }
 
     private static class SimpleSpinnerAdapter extends ArrayAdapter<String> {

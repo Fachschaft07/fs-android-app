@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.hm.cs.fs.app.ui.IView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
+import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.Meal;
@@ -28,6 +29,8 @@ public interface HomeView extends IView {
     void showNextHoliday(@Nullable final Holiday holiday);
 
     void showFsNews(@NonNull final List<News> news);
+
+    void showExams(@NonNull final List<Exam> exams);
 
     /**
      * Removes all cards from the home screen.

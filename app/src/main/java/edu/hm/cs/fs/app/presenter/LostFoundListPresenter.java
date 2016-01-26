@@ -1,5 +1,7 @@
 package edu.hm.cs.fs.app.presenter;
 
+import android.support.annotation.NonNull;
+
 import javax.inject.Inject;
 
 import edu.hm.cs.fs.app.ui.PerActivity;
@@ -12,9 +14,9 @@ public class LostFoundListPresenter extends BasePresenter<LostFoundListView> {
     public LostFoundListPresenter() {
     }
 
-    public void loadLostFound() {
+    public void loadLostFound(@NonNull final Boolean refresh) {
         getView().showLoading();
-        getModel().lostfound().subscribe(new BasicSubscriber<LostFound>(getView()) {
+        getModel().lostfound(refresh).subscribe(new BasicSubscriber<LostFound>(getView()) {
             @Override
             public void onNext(LostFound lostFound) {
                 getView().add(lostFound);

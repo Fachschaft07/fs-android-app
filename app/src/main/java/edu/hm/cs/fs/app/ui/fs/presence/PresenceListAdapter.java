@@ -32,10 +32,14 @@ public class PresenceListAdapter extends RecyclerView.Adapter<PresenceListAdapte
         mContext = context;
     }
 
-    public void setData(@NonNull final List<Presence> data) {
+    public void clear() {
+        notifyItemRangeRemoved(0, mData.size());
         mData.clear();
-        mData.addAll(data);
-        notifyDataSetChanged();
+    }
+
+    public void add(@NonNull final Presence item) {
+        mData.add(item);
+        notifyItemInserted(mData.size());
     }
 
     @Override

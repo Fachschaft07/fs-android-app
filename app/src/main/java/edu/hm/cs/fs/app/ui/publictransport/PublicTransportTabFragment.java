@@ -18,12 +18,15 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import edu.hm.cs.fs.app.App;
+import edu.hm.cs.fs.app.presenter.PublicTransportTabPresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
+import edu.hm.cs.fs.app.ui.IView;
 
 /**
  * Created by FHellman on 10.08.2015.
  */
-public class PublicTransportTabFragment extends BaseFragment {
+public class PublicTransportTabFragment extends BaseFragment<PublicTransportComponent, PublicTransportTabPresenter> {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -97,8 +100,10 @@ public class PublicTransportTabFragment extends BaseFragment {
     }
 
     @Override
-    protected Object onCreateNonConfigurationComponent() {
-        return null;
+    protected PublicTransportComponent onCreateNonConfigurationComponent() {
+        return DaggerPublicTransportComponent.builder()
+                .appComponent(App.getAppComponent(getMainActivity()))
+                .build();
     }
 
     private static final class ViewPagerAdapter extends FragmentPagerAdapter {

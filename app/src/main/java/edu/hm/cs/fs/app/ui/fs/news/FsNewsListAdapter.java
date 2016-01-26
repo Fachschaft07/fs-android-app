@@ -30,10 +30,14 @@ public class FsNewsListAdapter extends RecyclerView.Adapter<FsNewsListAdapter.Vi
         mContext = context;
     }
 
-    public void setData(@NonNull final List<News> data) {
+    public void clear() {
+        notifyItemRangeRemoved(0, mData.size());
         mData.clear();
-        mData.addAll(data);
-        notifyDataSetChanged();
+    }
+
+    public void add(@NonNull final News item) {
+        mData.add(item);
+        notifyItemInserted(mData.size());
     }
 
     @Override
