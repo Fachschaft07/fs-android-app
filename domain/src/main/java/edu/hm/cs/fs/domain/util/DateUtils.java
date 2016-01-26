@@ -4,9 +4,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by FHellman on 12.01.2016.
+ * Everything which is necessary for {@link Date}.
  */
-public class DateUtils {
+public final class DateUtils {
+    private DateUtils() {
+    }
+
+    /**
+     * Check if only the date part of the date-time is today.
+     *
+     * @param date to check.
+     * @return <code>true</code> if the date is today.
+     */
     public static boolean isToday(Date date) {
         Calendar today = Calendar.getInstance();
 
