@@ -37,6 +37,8 @@ import edu.hm.cs.fs.domain.helper.GroupTypeAdapter;
 import edu.hm.cs.fs.domain.helper.LessonGroupSaver;
 import edu.hm.cs.fs.restclient.RestClient;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
+import retrofit.ErrorHandler;
+import retrofit.RetrofitError;
 import rx.Observable;
 
 /**
@@ -55,7 +57,11 @@ public class RestApiService extends AbstractService {
                 .registerTypeAdapter(Group.class, new GroupTypeAdapter())
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .create();
-        mRestClient = new RestClient.Builder().build();
+        mRestClient = new RestClient.Builder()
+                .setErrorHandler(cause -> {
+                    cause.printStackTrace();
+                    return cause;
+                }).build();
     }
 
     @Override
@@ -166,7 +172,7 @@ public class RestApiService extends AbstractService {
         final String key = LessonGroupSaver.class.getSimpleName() + "_cache";
 
         if (!mPrefs.contains(key)) {
-            return Observable.never();
+            return Observable.empty();
         }
 
         List<LessonGroupSaver> cache;
@@ -175,7 +181,7 @@ public class RestApiService extends AbstractService {
                     new TypeToken<List<LessonGroupSaver>>() {
                     }.getType());
             if (cache.isEmpty()) {
-                return Observable.never();
+                return Observable.empty();
             }
         } catch (Exception e) {
             return Observable.error(e);

@@ -15,7 +15,7 @@ public class Cell {
     @DrawableRes
     private final int mBackgroundId;
 
-    public Cell(int row, int column, int backgroundId) {
+    public Cell(int row, int column, @DrawableRes int backgroundId) {
         mRow = row;
         mColumn = column;
         mBackgroundId = backgroundId;

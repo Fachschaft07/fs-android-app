@@ -2,6 +2,7 @@ package edu.hm.cs.fs.app.ui.timetable.structure;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -35,6 +36,14 @@ public class LessonCell extends Cell {
 
     public Lesson getSelectedLesson() {
         return mLessons.get(mSelectedLessonPosition);
+    }
+
+    public void clearLessons() {
+        mLessons.clear();
+    }
+
+    public void addLesson(@NonNull final Lesson lesson) {
+        mLessons.add(lesson);
     }
 
     public List<Lesson> getLessons() {

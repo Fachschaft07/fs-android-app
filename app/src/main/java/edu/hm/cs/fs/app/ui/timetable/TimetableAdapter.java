@@ -2,7 +2,6 @@ package edu.hm.cs.fs.app.ui.timetable;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -60,11 +59,6 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
         skipWeekend();
     }
 
-    public void setData(@NonNull final List<Lesson> data) {
-        mGridManager.update(data);
-        notifyDataSetChanged();
-    }
-
     public void clear() {
         notifyItemRangeRemoved(0, mGridManager.mCells.size());
         mGridManager.clear();
@@ -72,7 +66,6 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
 
     public void add(Lesson item) {
         mGridManager.update(item);
-        notifyItemInserted(mGridManager.mCells.size());
     }
 
     @Override
@@ -236,36 +229,33 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
             }
 
             // Add default empty lessons
-            for (int col = 1; col < Day.values().length - 2; col++) {
-                for (int row = 1; row < Time.values().length; row++) {
+            for (int col = 1; col <= Day.values().length - 2; col++) {
+                for (int row = 1; row <= Time.values().length; row++) {
                     mCells.add(new LessonCell(row, col));
                 }
             }
+
+            notifyDataSetChanged();
         }
 
         public void clear() {
             // Reset everything
             for (Cell cell : mCells) {
-                if(cell instanceof LessonCell) {
+                if (cell instanceof LessonCell) {
                     LessonCell lessonCell = (LessonCell) cell;
-                    lessonCell.getLessons().clear();
+                    lessonCell.clearLessons();
                 }
             }
         }
 
         public void update(@NonNull final Lesson lesson) {
             final LessonCell lessonCell = findBy(lesson.getDay(), lesson.getHour(), lesson.getMinute());
-            if (lessonCell == null) {
-                final int column = Arrays.asList(Day.values())
-                        .indexOf(lesson.getDay()) + TIME_COLUMN;
-                final int row = Arrays.asList(Time.values())
-                        .indexOf(getTimeByInt(lesson.getHour(), lesson.getMinute())) + DAY_ROW;
-                mCells.add(new LessonCell(row, column, lesson));
-            } else {
-                lessonCell.getLessons().add(lesson);
-            }
+            lessonCell.addLesson(lesson);
+            notifyItemChanged(mCells.indexOf(lessonCell));
+            notifyDataSetChanged();
         }
 
+        /*
         public void update(@NonNull final List<Lesson> lessons) {
             // Add empty left upper corner
             mCells.add(new Cell(0, 0, R.drawable.listitem_timetable_day_border));
@@ -296,6 +286,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
                 }
             }
         }
+        */
 
         @Nullable
         private Time getTimeByInt(final int hour, final int minute) {
@@ -329,7 +320,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
             return cell != null ? cell : new LessonCell(row, column);
         }
 
-        @Nullable
+        @NonNull
         private LessonCell findBy(@NonNull final Day day, final int hour, final int minute) {
             for (Cell cell : mCells) {
                 if (cell instanceof LessonCell) {
@@ -342,7 +333,7 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
                     }
                 }
             }
-            return null;
+            throw new IllegalStateException("Is the timetable not initialized?");
         }
 
         @Nullable
