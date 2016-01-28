@@ -24,7 +24,7 @@ public interface Migration {
      * @param oldVersion  of the backend.
      * @param newVersion  of the backend.
      */
-    default void onUpdate(@NonNull final Context context,
+    static void onUpdate(@NonNull final Context context,
                           @NonNull final IDataService dataService,
                           @NonNull final Long oldVersion,
                           @NonNull final Long newVersion) {

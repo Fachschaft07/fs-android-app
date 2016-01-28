@@ -9,7 +9,7 @@ import android.util.Log;
 /**
  * @author Fabio
  */
-public class DataServiceMigration implements Migration {
+public class DataServiceMigration {
     private static final String LAST_VERSION = "last_version";
     private static final String NEW_VERSION = "new_version";
     private final Context mContext;
@@ -27,7 +27,7 @@ public class DataServiceMigration implements Migration {
         if (getLastVersion() != getCurrVersion()) {
             mPreferences.edit().putLong(LAST_VERSION, getNewVersion()).apply();
             mPreferences.edit().putLong(NEW_VERSION, getCurrVersion()).apply();
-            onUpdate(mContext, mDataService, getLastVersion(), getNewVersion());
+            Migration.onUpdate(mContext, mDataService, getLastVersion(), getNewVersion());
         }
     }
 
