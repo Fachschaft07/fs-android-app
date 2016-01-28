@@ -17,6 +17,7 @@ public class MealListPresenter extends BasePresenter<MealListView> {
      */
     public void loadMeals(final boolean refresh) {
         getView().showLoading();
+        getView().clear();
         getModel().meals(refresh).subscribe(new BasicSubscriber<Meal>(getView()) {
             @Override
             public void onNext(Meal meal) {

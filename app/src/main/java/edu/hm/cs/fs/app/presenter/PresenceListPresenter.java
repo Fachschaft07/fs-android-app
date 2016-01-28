@@ -14,6 +14,7 @@ public class PresenceListPresenter extends BasePresenter<PresenceListView> {
 
     public void loadPresence() {
         getView().showLoading();
+        getView().clear();
         getModel().fsPresence().subscribe(new BasicSubscriber<Presence>(getView()) {
             @Override
             public void onNext(Presence presence) {

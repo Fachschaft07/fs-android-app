@@ -14,6 +14,7 @@ public class JobListPresenter extends BasePresenter<JobListView> {
 
     public void loadJobs(final boolean refresh) {
         getView().showLoading();
+        getView().clear();
         getModel().jobs(refresh).subscribe(new BasicSubscriber<SimpleJob>(getView()) {
             @Override
             public void onNext(SimpleJob simpleJob) {

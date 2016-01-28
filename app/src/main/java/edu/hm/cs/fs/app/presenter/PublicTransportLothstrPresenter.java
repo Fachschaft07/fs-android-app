@@ -14,6 +14,7 @@ public class PublicTransportLothstrPresenter extends BasePresenter<PublicTranspo
 
     public void loadPublicTransports() {
         getView().showLoading();
+        getView().clear();
         getModel().publicTransportLothstrasse().subscribe(new BasicSubscriber<PublicTransport>(getView()) {
             @Override
             public void onNext(PublicTransport publicTransport) {

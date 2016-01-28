@@ -6,15 +6,15 @@ import android.support.annotation.NonNull;
 /**
  *
  */
-public interface Migration {
+public class Migration {
     /**
      * Version 2.0.1.0
      **/
-    int VERSION_CODE_2010 = 201;
+    private static final int VERSION_CODE_2010 = 201;
     /**
      * Version 2.1.1.0
      **/
-    int VERSION_CODE_2110 = 2110;
+    private static final int VERSION_CODE_2110 = 2110;
 
     /**
      * Migrate from an older backend version to a newer one.
@@ -24,7 +24,7 @@ public interface Migration {
      * @param oldVersion  of the backend.
      * @param newVersion  of the backend.
      */
-    static void onUpdate(@NonNull final Context context,
+    public static void onUpdate(@NonNull final Context context,
                           @NonNull final IDataService dataService,
                           @NonNull final Long oldVersion,
                           @NonNull final Long newVersion) {

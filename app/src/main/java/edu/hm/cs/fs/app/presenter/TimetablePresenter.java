@@ -14,6 +14,7 @@ public class TimetablePresenter extends BasePresenter<TimetableListView> {
 
     public void loadTimetable(final boolean refresh) {
         getView().showLoading();
+        getView().clear();
         getModel().timetable(refresh).subscribe(new BasicSubscriber<Lesson>(getView()) {
             @Override
             public void onNext(Lesson lesson) {

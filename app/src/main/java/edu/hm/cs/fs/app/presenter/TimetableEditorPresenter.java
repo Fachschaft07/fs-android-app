@@ -18,6 +18,7 @@ public class TimetableEditorPresenter extends BasePresenter<TimetableEditorListV
 
     public void loadModules(@NonNull final Group group) {
         getView().showLoading();
+        getView().clear();
         getModel().lessonsByGroup(group).subscribe(new BasicSubscriber<LessonGroup>(getView()) {
             @Override
             public void onNext(LessonGroup lessonGroup) {

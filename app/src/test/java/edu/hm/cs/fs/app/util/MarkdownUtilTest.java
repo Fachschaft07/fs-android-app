@@ -22,6 +22,12 @@ public class MarkdownUtilTest {
     private static final String LIST_INPUT = " .Test\n.Hello\n.World\n";
     private static final Spanned LIST_OUTPUT = Html.fromHtml("<br/><br/><br/>&#8226; " +
             "Test<br/>&#8226; Hello<br/>&#8226; World<br/><br/><br/>");
+    private static final String LINK_INPUT = "Welcome to https://stackoverflow.com/ and here is " +
+            "another link http://www.google.com/ \\n which is a great search engine";
+    private static final Spanned LINK_OUTPUT = Html.fromHtml("Welcome to " +
+            "<a href='https://stackoverflow.com/'>https://stackoverflow.com/</a> and here is " +
+            "another link <a href='http://www.google.com/'>http://www.google.com/</a> \\n which " +
+            "is a great search engine");
 
     @Test
     public void testMarkdownBold() {
@@ -39,5 +45,11 @@ public class MarkdownUtilTest {
     public void testMarkdownList() {
         final Spanned result = MarkdownUtil.toHtml(LIST_INPUT);
         Assert.assertThat(LIST_OUTPUT, CoreMatchers.equalTo(result));
+    }
+
+    @Test
+    public void testMarkdownLink() {
+        final Spanned result = MarkdownUtil.toHtml(LINK_INPUT);
+        Assert.assertThat(LINK_OUTPUT, CoreMatchers.equalTo(result));
     }
 }

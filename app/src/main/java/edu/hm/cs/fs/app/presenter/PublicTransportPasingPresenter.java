@@ -14,6 +14,7 @@ public class PublicTransportPasingPresenter extends BasePresenter<PublicTranspor
 
     public void loadPublicTransports() {
         getView().showLoading();
+        getView().clear();
         getModel().publicTransportPasing().subscribe(new BasicSubscriber<PublicTransport>(getView()) {
             @Override
             public void onNext(PublicTransport publicTransport) {

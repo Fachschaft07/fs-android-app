@@ -41,7 +41,7 @@ public class MemoryService extends AbstractCacheService {
     @Override
     public <T> Observable<Void> cleanCache(@NonNull final Class<T> classType) {
         if (mCache.containsKey(classType.getName())) {
-            mCache.put(classType.getName(), new ArrayList<>());
+            mCache.remove(classType.getName());
         }
         return Observable.never();
     }
