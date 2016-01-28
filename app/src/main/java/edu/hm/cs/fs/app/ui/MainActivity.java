@@ -36,7 +36,7 @@ import edu.hm.cs.fs.app.ui.publictransport.PublicTransportTabFragment;
 import edu.hm.cs.fs.app.ui.roomsearch.RoomSearchListFragment;
 import edu.hm.cs.fs.app.ui.timetable.TimetableFragment;
 import edu.hm.cs.fs.app.util.ServiceUtils;
-import edu.hm.cs.fs.domain.DataMigration;
+import edu.hm.cs.fs.domain.DataServiceMigration;
 
 /**
  * @author Fabio
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Inject
-    DataMigration mMigration;
+    DataServiceMigration mMigration;
     private ActionBarDrawerToggle mDrawerToggle;
     @IdRes
     private int mCurrentMenuItem;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements DrawerLayout.Draw
 
         App.getAppComponent(this).inject(this);
 
-        mMigration.checkVersions();
+        mMigration.check();
         setupServices();
         setupToolbar();
         setupNavigationDrawer();

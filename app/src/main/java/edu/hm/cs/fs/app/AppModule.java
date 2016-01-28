@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import edu.hm.cs.fs.domain.DataMigration;
+import edu.hm.cs.fs.domain.DataServiceMigration;
 import edu.hm.cs.fs.domain.DataService;
 import edu.hm.cs.fs.domain.SchedulerProvider;
 import edu.hm.cs.fs.domain.cloud.RestApiService;
@@ -33,7 +33,7 @@ public class AppModule {
     @Provides
     @Singleton
     public SharedPreferences provideSharedPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(mApp);
+        return mApp.getSharedPreferences("FSAppData", Context.MODE_PRIVATE);
     }
 
     @Provides
@@ -43,8 +43,8 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public DataMigration provideVersionManager(DataService dataService) {
-        return new DataMigration(mApp, dataService);
+    public DataServiceMigration provideVersionManager(DataService dataService) {
+        return new DataServiceMigration(mApp, dataService);
     }
 
     @Provides

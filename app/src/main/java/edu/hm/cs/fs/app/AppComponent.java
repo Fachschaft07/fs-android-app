@@ -9,7 +9,7 @@ import dagger.Component;
 import edu.hm.cs.fs.app.service.BlackboardNotificationService;
 import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.widgets.NextLessonWidget;
-import edu.hm.cs.fs.domain.DataMigration;
+import edu.hm.cs.fs.domain.DataServiceMigration;
 import edu.hm.cs.fs.domain.DataService;
 import edu.hm.cs.fs.domain.SchedulerProvider;
 
@@ -22,7 +22,7 @@ public interface AppComponent {
 
     SchedulerProvider getSchedulerProvider();
 
-    DataMigration getVersionManager();
+    DataServiceMigration getVersionManager();
 
     DataService getDataService();
 

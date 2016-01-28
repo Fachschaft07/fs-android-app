@@ -35,8 +35,7 @@ import edu.hm.cs.fs.common.model.simple.SimpleRoom;
 import edu.hm.cs.fs.domain.AbstractService;
 import edu.hm.cs.fs.domain.helper.GroupTypeAdapter;
 import edu.hm.cs.fs.domain.helper.LessonGroupSaver;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import edu.hm.cs.fs.restclient.RestClientV1;
+import edu.hm.cs.fs.restclient.RestClient;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
 import rx.Observable;
 
@@ -44,10 +43,10 @@ import rx.Observable;
  * @author Fabio
  */
 public class RestApiService extends AbstractService {
-    private final RestClientV1 mRestClient;
     @NonNull
     private final SharedPreferences mPrefs;
     private final Gson mGson;
+    private final RestClient mRestClient;
 
     @Inject
     public RestApiService(@NonNull final SharedPreferences prefs) {
@@ -56,8 +55,7 @@ public class RestApiService extends AbstractService {
                 .registerTypeAdapter(Group.class, new GroupTypeAdapter())
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .create();
-
-        mRestClient = FsRestClient.getV1("http://10.128.12.158:8080");
+        mRestClient = new RestClient.Builder().build();
     }
 
     @Override
