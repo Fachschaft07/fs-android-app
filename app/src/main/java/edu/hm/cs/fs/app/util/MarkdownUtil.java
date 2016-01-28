@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 public final class MarkdownUtil {
     private static final Pattern REGEX_BOLD = Pattern.compile("\\*([^\\*]+)\\*");
     private static final Pattern REGEX_LIST = Pattern.compile("\\s(?:(\\.(?!\\.)[^\\n]+)+|\\.\\s)");
+    private static final Pattern REGEX_LINK = Pattern.compile("((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)", Pattern.CASE_INSENSITIVE);
     private static final String NEW_LINE_TAG = "<br/>";
     private static final String BOLD_OPENING_TAG = "<b>";
     private static final String BOLD_CLOSING_TAG = "</b>";
@@ -33,7 +34,32 @@ public final class MarkdownUtil {
         result = result.replaceAll("#", "\n"); // replace all # with new lines
         result = replaceList(result); // replace the list syntax with a unicode sign
         result = result.replaceAll("\n", NEW_LINE_TAG); // replace all new lines with html tags
+        result = replaceLink(result);
         return Html.fromHtml(result); // create the html code
+    }
+
+    @NonNull
+    private static String replaceLink(@NonNull final String raw) {
+        StringBuilder result = new StringBuilder();
+        int lastSubStringEnd = 0;
+
+        Matcher urlMatcher = REGEX_LINK.matcher(raw);
+        while(urlMatcher.find()) {
+            final int start = urlMatcher.start(0);
+
+            result.append(raw.substring(lastSubStringEnd, start));
+            result.append("<a href='").append(urlMatcher.group(0)).append("'>");
+            result.append(urlMatcher.group(0));
+            result.append("</a>");
+
+            lastSubStringEnd = start + urlMatcher.group().length(); // save the last position
+        }
+
+        if (lastSubStringEnd != raw.length()) { // if the last position is not the end of string
+            result.append(raw.substring(lastSubStringEnd, raw.length())); // append the rest of the string
+        }
+
+        return result.toString();
     }
 
     @NonNull
