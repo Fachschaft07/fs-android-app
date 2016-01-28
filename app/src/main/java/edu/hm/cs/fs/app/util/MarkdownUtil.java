@@ -39,7 +39,7 @@ public final class MarkdownUtil {
     }
 
     @NonNull
-    private static String replaceLink(@NonNull final String raw) {
+    public static String replaceLink(@NonNull final String raw) {
         StringBuilder result = new StringBuilder();
         int lastSubStringEnd = 0;
 
@@ -63,7 +63,7 @@ public final class MarkdownUtil {
     }
 
     @NonNull
-    private static String replaceBoldStrings(@NonNull final String raw) {
+    public static String replaceBoldStrings(@NonNull final String raw) {
         StringBuilder result = new StringBuilder();
         int lastSubStringEnd = 0;
 
@@ -87,7 +87,7 @@ public final class MarkdownUtil {
     }
 
     @NonNull
-    private static String replaceList(@NonNull final String raw) {
+    public static String replaceList(@NonNull final String raw) {
         StringBuilder result = new StringBuilder();
         int lastSubStringEnd = 0;
         boolean listDetected = false;

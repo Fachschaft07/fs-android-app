@@ -16,40 +16,49 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricGradleTestRunner.class)
 public class MarkdownUtilTest {
     private static final String BOLD_INPUT = "this is a *test*.";
-    private static final Spanned BOLD_OUTPUT = Html.fromHtml("this is a <b>test</b>.");
-    private static final String NEW_LINE_INPUT = "this #is #a #test.";
-    private static final Spanned NEW_LINE_OUTPUT = Html.fromHtml("this <br/>is <br/>a <br/>test.");
+    private static final String BOLD_OUTPUT = "this is a <b>test</b>.";
     private static final String LIST_INPUT = " .Test\n.Hello\n.World\n";
-    private static final Spanned LIST_OUTPUT = Html.fromHtml("<br/><br/><br/>&#8226; " +
-            "Test<br/>&#8226; Hello<br/>&#8226; World<br/><br/><br/>");
-    private static final String LINK_INPUT = "Welcome to https://stackoverflow.com/ and here is " +
-            "another link http://www.google.com/ \\n which is a great search engine";
-    private static final Spanned LINK_OUTPUT = Html.fromHtml("Welcome to " +
-            "<a href='https://stackoverflow.com/'>https://stackoverflow.com/</a> and here is " +
-            "another link <a href='http://www.google.com/'>http://www.google.com/</a> \\n which " +
-            "is a great search engine");
+    private static final String LIST_OUTPUT = "<br/><br/><br/>&#8226; " +
+            "Test<br/>&#8226; Hello<br/>&#8226; World<br/><br/><br/>";
+    private static final String LINK_INPUT = "Vom 01.02. bis 05.02.2016 findet in München zum 25. " +
+            "Mal die OOP-Konferenz statt, mit einer Fülle an Themen rund um Software Engineering " +
+            "und Softwarearchitektur. Details finden Sie hier: http://www.oop-konferenz.de/ #Die " +
+            "Teilnahme ist vergleichsweise teuer. Es gibt aber für Studierende eine begrenzte Zahl " +
+            "an kostenfreien Tickets für ausgewählte Tage. Dafür bewerben können Sie sich hier: " +
+            "https://www.andrena.de/oop-2016-studi #Außerdem werden noch Student Volunteers " +
+            "gesucht, die bei der Organisation unterstützen (Unterlagen verteilen, " +
+            "Eingangskontrolle etc.). Als Gegenleistung gibt es kostenfreien Eintritt. Weitere " +
+            "Informationen finden Sie hier: " +
+            "http://www.oop-konferenz.de/oop2016/konferenz/student-volunteers.html";
+    private static final String LINK_OUTPUT = "Vom 01.02. bis 05.02.2016 findet in München zum 25. " +
+            "Mal die OOP-Konferenz statt, mit einer Fülle an Themen rund um Software Engineering " +
+            "und Softwarearchitektur. Details finden Sie hier: " +
+            "<a href='http://www.oop-konferenz.de/'>http://www.oop-konferenz.de/</a> #Die " +
+            "Teilnahme ist vergleichsweise teuer. Es gibt aber für Studierende eine begrenzte Zahl " +
+            "an kostenfreien Tickets für ausgewählte Tage. Dafür bewerben können Sie sich hier: " +
+            "<a href='https://www.andrena.de/oop-2016-studi'>" +
+            "https://www.andrena.de/oop-2016-studi</a> #Außerdem werden noch Student Volunteers " +
+            "gesucht, die bei der Organisation unterstützen (Unterlagen verteilen, " +
+            "Eingangskontrolle etc.). Als Gegenleistung gibt es kostenfreien Eintritt. Weitere " +
+            "Informationen finden Sie hier: " +
+            "<a href='http://www.oop-konferenz.de/oop2016/konferenz/student-volunteers.html'>" +
+            "http://www.oop-konferenz.de/oop2016/konferenz/student-volunteers.html</a>";
 
     @Test
     public void testMarkdownBold() {
-        final Spanned result = MarkdownUtil.toHtml(BOLD_INPUT);
+        final String result = MarkdownUtil.replaceBoldStrings(BOLD_INPUT);
         Assert.assertThat(BOLD_OUTPUT, CoreMatchers.equalTo(result));
     }
 
     @Test
-    public void testMarkdownNewLine() {
-        final Spanned result = MarkdownUtil.toHtml(NEW_LINE_INPUT);
-        Assert.assertThat(NEW_LINE_OUTPUT, CoreMatchers.equalTo(result));
-    }
-
-    @Test
     public void testMarkdownList() {
-        final Spanned result = MarkdownUtil.toHtml(LIST_INPUT);
+        final String result = MarkdownUtil.replaceList(LIST_INPUT);
         Assert.assertThat(LIST_OUTPUT, CoreMatchers.equalTo(result));
     }
 
     @Test
     public void testMarkdownLink() {
-        final Spanned result = MarkdownUtil.toHtml(LINK_INPUT);
+        final String result = MarkdownUtil.replaceLink(LINK_INPUT);
         Assert.assertThat(LINK_OUTPUT, CoreMatchers.equalTo(result));
     }
 }
