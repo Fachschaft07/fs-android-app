@@ -10,8 +10,6 @@ import android.util.Log;
  * @author Fabio
  */
 public class DataServiceMigration {
-    private static final String LAST_VERSION = "last_version";
-    private static final String NEW_VERSION = "new_version";
     private final Context mContext;
     @NonNull
     private final DataService mDataService;
@@ -24,27 +22,20 @@ public class DataServiceMigration {
     }
 
     public void check() {
-        if (getLastVersion() != getCurrVersion()) {
-            mPreferences.edit().putLong(LAST_VERSION, getNewVersion()).apply();
-            mPreferences.edit().putLong(NEW_VERSION, getCurrVersion()).apply();
-            Migration.onUpdate(mContext, mDataService, getLastVersion(), getNewVersion());
-        }
-    }
-
-    private long getLastVersion() {
-        return mPreferences.getLong(LAST_VERSION, 0);
-    }
-
-    private long getNewVersion() {
-        return mPreferences.getLong(NEW_VERSION, 0);
-    }
-
-    private long getCurrVersion() {
+        final long lastVersion = mPreferences.getLong("last_version", 0);
+        long currVersion;
         try {
-            return mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
+            currVersion = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
         } catch (PackageManager.NameNotFoundException ignore) {
             Log.w(getClass().getSimpleName(), "Failed to update from old to new version");
+            currVersion = 0;
         }
-        return 0;
+
+        if (lastVersion != currVersion) {
+            final long newVersion = mPreferences.getLong("new_version", 0);
+            mPreferences.edit().putLong("last_version", newVersion).apply();
+            mPreferences.edit().putLong("new_version", currVersion).apply();
+            Migration.onUpdate(mContext, mDataService, lastVersion, newVersion);
+        }
     }
 }

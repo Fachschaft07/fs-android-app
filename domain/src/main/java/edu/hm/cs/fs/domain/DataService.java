@@ -23,7 +23,7 @@ import edu.hm.cs.fs.domain.disk.DiskService;
 import edu.hm.cs.fs.domain.memory.MemoryService;
 import rx.Observable;
 
-public class DataService extends AbstractService {
+public class DataService implements IDataService {
     @NonNull
     private final SchedulerProvider mSchedulerProvider;
     @NonNull
@@ -250,15 +250,15 @@ public class DataService extends AbstractService {
                 // If the memory has no data, try the disk - the fast solution
                 disk
                         .doOnSubscribe(() -> mMemoryCacheService.cleanCache(type))
-                        .doOnNext(mMemoryCacheService::addCache),
+                        .doOnNext(mMemoryCacheService::addToCache),
                 // If nothing helps, ask the cloud for data - the slowest solution
                 cloud
                         .doOnSubscribe(() -> {
                             mMemoryCacheService.cleanCache(type);
                             mDiskCacheService.cleanCache(type);
                         })
-                        .doOnNext(mDiskCacheService::addCache)
-                        .doOnNext(mMemoryCacheService::addCache)
+                        .doOnNext(mDiskCacheService::addToCache)
+                        .doOnNext(mMemoryCacheService::addToCache)
         );
     }
 }

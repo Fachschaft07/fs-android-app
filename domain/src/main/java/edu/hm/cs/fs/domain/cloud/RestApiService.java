@@ -32,19 +32,17 @@ import edu.hm.cs.fs.common.model.Presence;
 import edu.hm.cs.fs.common.model.PublicTransport;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
-import edu.hm.cs.fs.domain.AbstractService;
+import edu.hm.cs.fs.domain.IDataService;
 import edu.hm.cs.fs.domain.helper.GroupTypeAdapter;
 import edu.hm.cs.fs.domain.helper.LessonGroupSaver;
 import edu.hm.cs.fs.restclient.RestClient;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
-import retrofit.ErrorHandler;
-import retrofit.RetrofitError;
 import rx.Observable;
 
 /**
  * @author Fabio
  */
-public class RestApiService extends AbstractService {
+public class RestApiService implements IDataService {
     @NonNull
     private final SharedPreferences mPrefs;
     private final Gson mGson;
@@ -206,12 +204,6 @@ public class RestApiService extends AbstractService {
     @Override
     public Observable<LessonGroup> lessonsByGroup(@NonNull final Group group) {
         return mRestClient.getLessonGroups(group).flatMap(Observable::from);
-    }
-
-    @Override
-    public Observable<Void> save(@NonNull final LessonGroup lessonGroup,
-                                 @NonNull final Boolean selected) {
-        throw new UnsupportedOperationException("Method is not supported by the rest api");
     }
 
     @Override

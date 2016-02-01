@@ -255,39 +255,6 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.View
             notifyDataSetChanged();
         }
 
-        /*
-        public void update(@NonNull final List<Lesson> lessons) {
-            // Add empty left upper corner
-            mCells.add(new Cell(0, 0, R.drawable.listitem_timetable_day_border));
-
-            // Add days
-            int dayIndex = 1; // skip first column
-            for (Day day : Day.values()) {
-                mCells.add(new DayCell(0, dayIndex++, day));
-            }
-
-            // Add times
-            int timeIndex = 1; // skip first row
-            for (Time time : Time.values()) {
-                mCells.add(new TimeCell(timeIndex++, 0, time));
-            }
-
-            // Add lessons
-            for (Lesson lesson : lessons) {
-                final LessonCell lessonCell = findBy(lesson.getDay(), lesson.getHour(), lesson.getMinute());
-                if (lessonCell == null) {
-                    final int column = Arrays.asList(Day.values())
-                            .indexOf(lesson.getDay()) + TIME_COLUMN;
-                    final int row = Arrays.asList(Time.values())
-                            .indexOf(getTimeByInt(lesson.getHour(), lesson.getMinute())) + DAY_ROW;
-                    mCells.add(new LessonCell(row, column, lesson));
-                } else {
-                    lessonCell.getLessons().add(lesson);
-                }
-            }
-        }
-        */
-
         @Nullable
         private Time getTimeByInt(final int hour, final int minute) {
             for (Time time : Time.values()) {

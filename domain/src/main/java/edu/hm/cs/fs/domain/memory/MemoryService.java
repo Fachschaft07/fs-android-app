@@ -1,7 +1,6 @@
 package edu.hm.cs.fs.domain.memory;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,10 +17,10 @@ import edu.hm.cs.fs.common.model.LessonGroup;
 import edu.hm.cs.fs.common.model.Module;
 import edu.hm.cs.fs.common.model.PublicTransport;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
-import edu.hm.cs.fs.domain.AbstractCacheService;
+import edu.hm.cs.fs.domain.ICachedDataService;
 import rx.Observable;
 
-public class MemoryService extends AbstractCacheService {
+public class MemoryService implements ICachedDataService {
     private final Map<String, List<Object>> mCache = new HashMap<>();
 
     @Inject
@@ -29,7 +28,7 @@ public class MemoryService extends AbstractCacheService {
     }
 
     @Override
-    public <T> Observable<T> addCache(@NonNull final T item) {
+    public <T> Observable<T> addToCache(@NonNull final T item) {
         if (!mCache.containsKey(item.getClass().getName())) {
             mCache.put(item.getClass().getName(), new ArrayList<>());
         }
@@ -48,7 +47,7 @@ public class MemoryService extends AbstractCacheService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> List<T> getCache(@NonNull final Class<T> classType) {
+    public <T> List<T> getFromCache(@NonNull final Class<T> classType) {
         if (mCache.containsKey(classType.getName())) {
             return (List<T>) mCache.get(classType.getName());
         }
@@ -92,11 +91,6 @@ public class MemoryService extends AbstractCacheService {
 
     @Override
     public Observable<LessonGroup> lessonsByGroup(@NonNull Group group) {
-        throw new UnsupportedOperationException("Method is not supported by the memory service");
-    }
-
-    @Override
-    public Observable<Void> save(@NonNull LessonGroup lessonGroup, @NonNull Boolean selected) {
         throw new UnsupportedOperationException("Method is not supported by the memory service");
     }
 

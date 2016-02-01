@@ -22,6 +22,8 @@ public final class DateUtils {
         Calendar calMeal = Calendar.getInstance();
         calMeal.setTime(date);
 
-        return today.get(Calendar.YEAR) == calMeal.get(Calendar.YEAR) && today.get(Calendar.MONTH) == calMeal.get(Calendar.MONTH) && today.get(Calendar.DAY_OF_MONTH) == calMeal.get(Calendar.DAY_OF_MONTH);
+        return today.get(Calendar.YEAR) == calMeal.get(Calendar.YEAR)
+                && today.get(Calendar.MONTH) == calMeal.get(Calendar.MONTH)
+                && today.get(Calendar.DAY_OF_MONTH) == calMeal.get(Calendar.DAY_OF_MONTH);
     }
 }

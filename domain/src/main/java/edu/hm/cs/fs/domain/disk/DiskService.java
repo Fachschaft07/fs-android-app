@@ -32,7 +32,7 @@ import edu.hm.cs.fs.common.model.Presence;
 import edu.hm.cs.fs.common.model.PublicTransport;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
-import edu.hm.cs.fs.domain.AbstractCacheService;
+import edu.hm.cs.fs.domain.ICachedDataService;
 import edu.hm.cs.fs.domain.helper.GroupTypeAdapter;
 import edu.hm.cs.fs.domain.helper.LessonGroupSaver;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
@@ -41,7 +41,7 @@ import rx.Observable;
 /**
  * @author Fabio
  */
-public class DiskService extends AbstractCacheService {
+public class DiskService implements ICachedDataService {
     private final Map<String, Type> mTypeMapping = new HashMap<>();
     @NonNull
     private final SharedPreferences mPrefs;
@@ -82,7 +82,7 @@ public class DiskService extends AbstractCacheService {
     }
 
     @Override
-    public <T> Observable<T> addCache(@NonNull final T item) {
+    public <T> Observable<T> addToCache(@NonNull final T item) {
         final String key = item.getClass().getSimpleName() + "_cache";
 
         final List<T> cache;
@@ -115,7 +115,7 @@ public class DiskService extends AbstractCacheService {
     }
 
     @Override
-    public <T> List<T> getCache(@NonNull final Class<T> classType) {
+    public <T> List<T> getFromCache(@NonNull final Class<T> classType) {
         final String key = classType.getSimpleName() + "_cache";
 
         if (!mPrefs.contains(key)) {
@@ -127,29 +127,15 @@ public class DiskService extends AbstractCacheService {
 
     @Override
     public Observable<Exam> examsOfUser() {
-        return Observable.from(getCache(PinedExam.class))
+        return Observable.from(getFromCache(PinedExam.class))
                 .map(pined -> pined.mExam)
                 .toSortedList((exam, exam2) -> exam.getDate().compareTo(exam2.getDate()))
                 .flatMap(Observable::from);
     }
 
     @Override
-    public Observable<Boolean> isExamPined(@NonNull Exam exam) {
-        final List<PinedExam> cache = getCache(PinedExam.class);
-        boolean found = false;
-        for (PinedExam pined : cache) {
-            if (pined.mExam.getCode().equals(exam.getCode()) &&
-                    pined.mExam.getStudy() == exam.getStudy()) {
-                found = true;
-                break;
-            }
-        }
-        return Observable.just(found);
-    }
-
-    @Override
     public Observable<Boolean> pinExam(@NonNull Exam exam) {
-        final List<PinedExam> cache = getCache(PinedExam.class);
+        final List<PinedExam> cache = getFromCache(PinedExam.class);
         boolean found = false;
         int index = 0;
         for (PinedExam pined : cache) {
@@ -165,7 +151,7 @@ public class DiskService extends AbstractCacheService {
             cache.remove(index);
             setCache(cache);
         } else {
-            addCache(new PinedExam(exam));
+            addToCache(new PinedExam(exam));
         }
 
         return Observable.just(found);
@@ -197,13 +183,8 @@ public class DiskService extends AbstractCacheService {
     }
 
     @Override
-    public Observable<Void> save(@NonNull LessonGroup lessonGroup, @NonNull Boolean selected) {
-        return save(lessonGroup, -1, selected);
-    }
-
-    @Override
     public Observable<Void> save(@NonNull LessonGroup lessonGroup, @NonNull Integer pk, @NonNull Boolean selected) {
-        final List<LessonGroupSaver> lessonGroupSavers = getCache(LessonGroupSaver.class);
+        final List<LessonGroupSaver> lessonGroupSavers = getFromCache(LessonGroupSaver.class);
 
         boolean changed = false;
         if (selected) {
@@ -261,7 +242,7 @@ public class DiskService extends AbstractCacheService {
 
     @Override
     public Observable<Boolean> isPkSelected(@NonNull LessonGroup lessonGroup, @NonNull Integer pk) {
-        final List<LessonGroupSaver> lessonGroupSavers = getCache(LessonGroupSaver.class);
+        final List<LessonGroupSaver> lessonGroupSavers = getFromCache(LessonGroupSaver.class);
         for (LessonGroupSaver saver : lessonGroupSavers) {
             if (getLessonGroupId(saver.getLessonGroup()).equals(getLessonGroupId(lessonGroup))
                     && saver.getSelectedPk() == pk) {
@@ -273,7 +254,7 @@ public class DiskService extends AbstractCacheService {
 
     @Override
     public Observable<Boolean> isModuleSelected(@NonNull LessonGroup lessonGroup) {
-        final List<LessonGroupSaver> lessonGroupSavers = getCache(LessonGroupSaver.class);
+        final List<LessonGroupSaver> lessonGroupSavers = getFromCache(LessonGroupSaver.class);
         for (LessonGroupSaver saver : lessonGroupSavers) {
             if (getLessonGroupId(saver.getLessonGroup()).equals(getLessonGroupId(lessonGroup))) {
                 return Observable.just(true);
@@ -286,7 +267,7 @@ public class DiskService extends AbstractCacheService {
     public Observable<Void> resetTimetable() {
         cleanCache(LessonGroupSaver.class);
         cleanCache(Lesson.class);
-        return Observable.empty();
+        return Observable.never();
     }
 
     private static class PinedExam {

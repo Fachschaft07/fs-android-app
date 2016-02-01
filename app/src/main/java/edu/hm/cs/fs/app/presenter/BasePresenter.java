@@ -4,7 +4,6 @@ import android.content.Context;
 
 import javax.inject.Inject;
 
-import edu.hm.cs.fs.app.App;
 import edu.hm.cs.fs.app.ui.IView;
 import edu.hm.cs.fs.domain.DataService;
 import edu.hm.cs.fs.domain.IDataService;
