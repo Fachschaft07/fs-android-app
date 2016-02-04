@@ -5,6 +5,8 @@
 
 This is the official Android app of the faculty 07 of the University of Applied Sciences Munich. It is developed by students from the Student Council: [Playstore](https://play.google.com/store/apps/details?id=com.fk07)
 
+[<img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" width="200px" />](https://play.google.com/store/apps/details?id=com.fk07&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1)
+
 ## UI-Design
 The design of the app is modeled on the [Material Design](https://www.google.com/design/spec/material-design/introduction.html) of Google.
 
