@@ -148,4 +148,5 @@
     <string name="news_error">FS Neuigkeiten nicht verfügbar</string>
     <string name="menu_import_from_timetable">Aus Stundenplan importieren</string>
     <string name="days_left">Noch %1$d Tage</string>
+    <string name="rest_service_down">Der Server ist nicht erreichbar</string>
 </resources>

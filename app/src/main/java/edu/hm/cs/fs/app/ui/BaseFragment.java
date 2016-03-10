@@ -143,9 +143,18 @@ public abstract class BaseFragment<C extends HasPresenter<P>, P extends Presente
     @Override
     public void showError(@NonNull final Throwable error) {
         if (mViewError != null && getActivity() != null) {
-            final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(), Snackbar.LENGTH_LONG);
-            snackbar.show();
+            if (error instanceof RetrofitError) {
+                final RetrofitError retrofitError = (RetrofitError) error;
+                if (retrofitError.getResponse().getStatus() == 502) { // Bad Gateway
+                    Snackbar.make(getErrorView(), R.string.rest_service_down, Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mViewError, retrofitError.getResponse().getReason(), Snackbar.LENGTH_LONG).show();
+                }
+            } else {
+                Snackbar.make(mViewError, error.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
         }
+
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -160,5 +169,9 @@ public abstract class BaseFragment<C extends HasPresenter<P>, P extends Presente
 
     public void initErrorSnackbar(@NonNull final View view) {
         mViewError = view;
+    }
+
+    public View getErrorView() {
+        return mViewError;
     }
 }

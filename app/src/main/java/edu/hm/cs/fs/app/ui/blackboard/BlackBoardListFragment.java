@@ -9,15 +9,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.fk07.R;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,7 +69,7 @@ public class BlackBoardListFragment extends BaseFragment<BlackboardListComponent
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    if(TextUtils.isEmpty(newText)) {
+                    if (TextUtils.isEmpty(newText)) {
                         getPresenter().loadBlackBoard(false);
                     } else {
                         getPresenter().search(newText);
@@ -129,11 +126,6 @@ public class BlackBoardListFragment extends BaseFragment<BlackboardListComponent
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void showError(@NonNull Throwable error) {
-
     }
 
     @Override
