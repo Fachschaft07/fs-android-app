@@ -59,6 +59,10 @@ public class BlackboardNotificationService extends Service implements Runnable {
 
     @Override
     public void run() {
+        if(mDataService == null) {
+            return;
+        }
+
         mDataService.blackboardEntriesSince(true, mLastExecutionTime)
                 .collect(new Func0<ArrayList<BlackboardEntry>>() {
                     @Override

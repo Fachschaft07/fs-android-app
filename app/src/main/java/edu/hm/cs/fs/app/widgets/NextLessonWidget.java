@@ -28,9 +28,9 @@ public class NextLessonWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
-
         App.getAppComponent(context).inject(this);
+
+        super.onReceive(context, intent);
     }
 
     @Override
@@ -39,16 +39,6 @@ public class NextLessonWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-    }
-
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
     }
 
     private void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager,
