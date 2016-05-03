@@ -17,14 +17,17 @@ public class TimetableEditorPresenter extends BasePresenter<TimetableEditorListV
     }
 
     public void loadModules(@NonNull final Group group) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().lessonsByGroup(group).subscribe(new BasicSubscriber<LessonGroup>(getView()) {
+        setSubscriber(getModel().lessonsByGroup(group).subscribe(new BasicSubscriber<LessonGroup>(getView()) {
             @Override
             public void onNext(LessonGroup lessonGroup) {
                 getView().add(lessonGroup);
             }
-        });
+        }));
     }
 
     public Observable<Boolean> isPkSelected(@NonNull final LessonGroup lessonGroup, final int pk) {

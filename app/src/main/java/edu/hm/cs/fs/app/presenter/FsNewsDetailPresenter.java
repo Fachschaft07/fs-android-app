@@ -17,8 +17,11 @@ public class FsNewsDetailPresenter extends BasePresenter<FsNewsDetailView> {
     }
 
     public void loadNews(@NonNull final String title) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
-        getModel().fsNewsByTitle(false, title).subscribe(new BasicSubscriber<News>(getView()) {
+        setSubscriber(getModel().fsNewsByTitle(false, title).subscribe(new BasicSubscriber<News>(getView()) {
             @Override
             public void onNext(News data) {
                 if (data != null) {
@@ -28,6 +31,6 @@ public class FsNewsDetailPresenter extends BasePresenter<FsNewsDetailView> {
                     getView().showLink(data.getLink());
                 }
             }
-        });
+        }));
     }
 }

@@ -46,13 +46,16 @@ public class RoomSearchListPresenter extends BasePresenter<RoomSearchListView> {
     }
 
     public void loadFreeRooms(@NonNull final Day day, @NonNull final Time time) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().freeRooms(day, time).subscribe(new BasicSubscriber<SimpleRoom>(getView()) {
+        setSubscriber(getModel().freeRooms(day, time).subscribe(new BasicSubscriber<SimpleRoom>(getView()) {
             @Override
             public void onNext(SimpleRoom simpleRoom) {
                 getView().add(simpleRoom);
             }
-        });
+        }));
     }
 }

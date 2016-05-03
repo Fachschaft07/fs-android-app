@@ -16,25 +16,31 @@ public class ExamListPresenter extends BasePresenter<ExamListView> {
     }
 
     public void loadExams(boolean refresh) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().exams(refresh).subscribe(new BasicSubscriber<Exam>(getView()) {
+        setSubscriber(getModel().exams(refresh).subscribe(new BasicSubscriber<Exam>(getView()) {
             @Override
             public void onNext(Exam exam) {
                 getView().add(exam);
             }
-        });
+        }));
     }
 
     public void search(String search) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().exams(false, search).subscribe(new BasicSubscriber<Exam>(getView()) {
+        setSubscriber(getModel().exams(false, search).subscribe(new BasicSubscriber<Exam>(getView()) {
             @Override
             public void onNext(Exam exam) {
                 getView().add(exam);
             }
-        });
+        }));
     }
 
     public Observable<Boolean> pin(Exam exam) {

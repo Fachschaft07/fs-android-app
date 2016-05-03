@@ -8,16 +8,23 @@ import edu.hm.cs.fs.app.ui.PerActivity;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardDetailView;
 import edu.hm.cs.fs.app.util.MarkdownUtil;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
+import rx.Subscription;
 
 @PerActivity
 public class BlackBoardDetailPresenter extends BasePresenter<BlackBoardDetailView> {
+
+    private Subscription mSubscribe;
+
     @Inject
     public BlackBoardDetailPresenter() {
     }
 
     public void loadBlackBoardEntry(@NonNull final String id) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
-        getModel().blackboardEntrieById(false, id)
+        setSubscriber(getModel().blackboardEntrieById(false, id)
                 .subscribe(new BasicSubscriber<BlackboardEntry>(getView()) {
                     @Override
                     public void onNext(BlackboardEntry data) {
@@ -28,6 +35,6 @@ public class BlackBoardDetailPresenter extends BasePresenter<BlackBoardDetailVie
                         getView().showAuthor(data.getAuthor().getName());
                         getView().showUrl(data.getUrl());
                     }
-                });
+                }));
     }
 }

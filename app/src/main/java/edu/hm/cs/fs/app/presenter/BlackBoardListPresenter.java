@@ -13,26 +13,32 @@ public class BlackBoardListPresenter extends BasePresenter<BlackBoardListView> {
     }
 
     public void loadBlackBoard(final boolean refresh) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().blackboardEntries(refresh)
+        setSubscriber(getModel().blackboardEntries(refresh)
                 .subscribe(new BasicSubscriber<BlackboardEntry>(getView()) {
                     @Override
                     public void onNext(BlackboardEntry blackboardEntry) {
                         getView().add(blackboardEntry);
                     }
-                });
+                }));
     }
 
     public void search(String newText) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().blackboardEntriesBySearchString(false, newText)
+        setSubscriber(getModel().blackboardEntriesBySearchString(false, newText)
                 .subscribe(new BasicSubscriber<BlackboardEntry>(getView()) {
                     @Override
                     public void onNext(BlackboardEntry blackboardEntry) {
                         getView().add(blackboardEntry);
                     }
-                });
+                }));
     }
 }

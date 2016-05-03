@@ -16,13 +16,16 @@ public class MealListPresenter extends BasePresenter<MealListView> {
      * @param refresh
      */
     public void loadMeals(final boolean refresh) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().meals(refresh).subscribe(new BasicSubscriber<Meal>(getView()) {
+        setSubscriber(getModel().meals(refresh).subscribe(new BasicSubscriber<Meal>(getView()) {
             @Override
             public void onNext(Meal meal) {
                 getView().add(meal);
             }
-        });
+        }));
     }
 }

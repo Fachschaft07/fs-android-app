@@ -13,13 +13,16 @@ public class PublicTransportLothstrPresenter extends BasePresenter<PublicTranspo
     }
 
     public void loadPublicTransports() {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().publicTransportLothstrasse().subscribe(new BasicSubscriber<PublicTransport>(getView()) {
+        setSubscriber(getModel().publicTransportLothstrasse().subscribe(new BasicSubscriber<PublicTransport>(getView()) {
             @Override
             public void onNext(PublicTransport publicTransport) {
                 getView().add(publicTransport);
             }
-        });
+        }));
     }
 }

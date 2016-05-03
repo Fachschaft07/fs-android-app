@@ -16,8 +16,11 @@ public class JobDetailPresenter extends BasePresenter<JobDetailView> {
     }
 
     public void loadJob(@NonNull final String title) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
-        getModel().jobByTitle(false, title).subscribe(new BasicSubscriber<SimpleJob>(getView()) {
+        setSubscriber(getModel().jobByTitle(false, title).subscribe(new BasicSubscriber<SimpleJob>(getView()) {
             @Override
             public void onNext(SimpleJob data) {
                 getView().showSubject(MarkdownUtil.toHtml(data.getTitle()));
@@ -27,6 +30,6 @@ public class JobDetailPresenter extends BasePresenter<JobDetailView> {
                 getView().showAuthor(data.getContact().getName());
                 getView().hideLoading();
             }
-        });
+        }));
     }
 }

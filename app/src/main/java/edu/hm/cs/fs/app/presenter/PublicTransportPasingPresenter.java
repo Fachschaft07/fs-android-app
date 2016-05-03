@@ -13,13 +13,16 @@ public class PublicTransportPasingPresenter extends BasePresenter<PublicTranspor
     }
 
     public void loadPublicTransports() {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().publicTransportPasing().subscribe(new BasicSubscriber<PublicTransport>(getView()) {
+        setSubscriber(getModel().publicTransportPasing().subscribe(new BasicSubscriber<PublicTransport>(getView()) {
             @Override
             public void onNext(PublicTransport publicTransport) {
                 getView().add(publicTransport);
             }
-        });
+        }));
     }
 }

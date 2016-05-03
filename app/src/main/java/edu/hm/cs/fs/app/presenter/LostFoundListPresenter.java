@@ -15,12 +15,15 @@ public class LostFoundListPresenter extends BasePresenter<LostFoundListView> {
     }
 
     public void loadLostFound(@NonNull final Boolean refresh) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
-        getModel().lostfound(refresh).subscribe(new BasicSubscriber<LostFound>(getView()) {
+        setSubscriber(getModel().lostfound(refresh).subscribe(new BasicSubscriber<LostFound>(getView()) {
             @Override
             public void onNext(LostFound lostFound) {
                 getView().add(lostFound);
             }
-        });
+        }));
     }
 }

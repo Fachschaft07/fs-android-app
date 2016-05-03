@@ -13,13 +13,16 @@ public class FsNewsListPresenter extends BasePresenter<FsNewsListView> {
     }
 
     public void loadNews(final boolean refresh) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().fsNews(refresh).subscribe(new BasicSubscriber<News>(getView()) {
+        setSubscriber(getModel().fsNews(refresh).subscribe(new BasicSubscriber<News>(getView()) {
             @Override
             public void onNext(News news) {
                 getView().add(news);
             }
-        });
+        }));
     }
 }

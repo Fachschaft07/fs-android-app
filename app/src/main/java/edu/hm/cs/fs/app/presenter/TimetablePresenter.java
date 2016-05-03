@@ -13,13 +13,16 @@ public class TimetablePresenter extends BasePresenter<TimetableListView> {
     }
 
     public void loadTimetable(final boolean refresh) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
         getView().clear();
-        getModel().timetable(refresh).subscribe(new BasicSubscriber<Lesson>(getView()) {
+        setSubscriber(getModel().timetable(refresh).subscribe(new BasicSubscriber<Lesson>(getView()) {
             @Override
             public void onNext(Lesson lesson) {
                 getView().add(lesson);
             }
-        });
+        }));
     }
 }

@@ -18,8 +18,11 @@ public class TimetableLessonPresenter extends BasePresenter<ITimetableLessonView
     }
 
     public void loadModule(@NonNull final String moduleId) {
+        if(checkSubscriber()) {
+            return;
+        }
         getView().showLoading();
-        getModel().moduleById(moduleId).subscribe(new BasicSubscriber<Module>(getView()) {
+        setSubscriber(getModel().moduleById(moduleId).subscribe(new BasicSubscriber<Module>(getView()) {
             @Override
             public void onNext(Module data) {
                 getView().showModuleTitle(data.getName());
@@ -41,7 +44,7 @@ public class TimetableLessonPresenter extends BasePresenter<ITimetableLessonView
                 getView().showModuleLiterature(MarkdownUtil.toHtml(data.getLiterature()));
                 getView().hideLoading();
             }
-        });
+        }));
     }
 
     private Locale getLocaleByTag(@NonNull final String tag) {
