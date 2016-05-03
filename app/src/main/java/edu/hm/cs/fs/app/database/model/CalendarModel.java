@@ -7,10 +7,10 @@ import java.util.List;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.common.model.Holiday;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import edu.hm.cs.fs.restclient.RestClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Requests the data only for calendar.
@@ -18,20 +18,21 @@ import retrofit.client.Response;
  * @author Fabio
  */
 public class CalendarModel implements IModel {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
 
     /**
      * @param callback
      */
     public void getHolidays(@NonNull final ICallback<List<Holiday>> callback) {
-        FsRestClient.getV1().getHolidays(new Callback<List<Holiday>>() {
+        REST_CLIENT.getHolidays().enqueue(new Callback<List<Holiday>>() {
             @Override
-            public void success(List<Holiday> holidays, Response response) {
-                callback.onSuccess(holidays);
+            public void onResponse(Call<List<Holiday>> call, Response<List<Holiday>> response) {
+                callback.onSuccess(response.body());
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<Holiday>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }

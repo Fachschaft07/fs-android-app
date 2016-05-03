@@ -2,17 +2,15 @@ package edu.hm.cs.fs.app.database.model;
 
 import android.support.annotation.NonNull;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.common.model.LostFound;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import edu.hm.cs.fs.restclient.RestClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Requests the data only for lost & found.
@@ -20,20 +18,21 @@ import retrofit.client.Response;
  * @author Fabio
  */
 public class LostFoundModel implements IModel {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
+
     /**
-     *
      * @param callback
      */
     public void getLostFound(@NonNull final ICallback<List<LostFound>> callback) {
-        FsRestClient.getV1().getLostAndFound(new Callback<List<LostFound>>() {
+        REST_CLIENT.getLostAndFound().enqueue(new Callback<List<LostFound>>() {
             @Override
-            public void success(List<LostFound> lostFounds, Response response) {
-                callback.onSuccess(lostFounds);
+            public void onResponse(Call<List<LostFound>> call, Response<List<LostFound>> response) {
+                callback.onSuccess(response.body());
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<LostFound>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }

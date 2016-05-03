@@ -5,26 +5,28 @@ import android.support.annotation.NonNull;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.common.model.Module;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import edu.hm.cs.fs.restclient.RestClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author Fabio
  */
 public class ModuleModel implements IModel {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
+
     public void getModuleById(@NonNull final String moduleId,
                               @NonNull final ICallback<Module> callback) {
-        FsRestClient.getV1().getModuleById(moduleId, new Callback<Module>() {
+        REST_CLIENT.getModuleById(moduleId).enqueue(new Callback<Module>() {
             @Override
-            public void success(Module module, Response response) {
-                callback.onSuccess(module);
+            public void onResponse(Call<Module> call, Response<Module> response) {
+                callback.onSuccess(response.body());
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<Module> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }

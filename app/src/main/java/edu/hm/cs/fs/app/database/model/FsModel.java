@@ -9,10 +9,10 @@ import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.common.model.News;
 import edu.hm.cs.fs.common.model.Presence;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import edu.hm.cs.fs.restclient.RestClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Requests the data only for Fs.
@@ -20,23 +20,23 @@ import retrofit.client.Response;
  * @author Fabio
  */
 public class FsModel extends CachedModel<News> {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
 
     /**
      * Get the presence.
      *
-     * @param callback
-     *         to retrieve the result.
+     * @param callback to retrieve the result.
      */
     public void getPresence(@NonNull final ICallback<List<Presence>> callback) {
-        FsRestClient.getV1().getPresence(new Callback<List<Presence>>() {
+        REST_CLIENT.getPresence().enqueue(new Callback<List<Presence>>() {
             @Override
-            public void success(List<Presence> presences, Response response) {
-                callback.onSuccess(presences);
+            public void onResponse(Call<List<Presence>> call, Response<List<Presence>> response) {
+                callback.onSuccess(response.body());
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<Presence>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }
@@ -53,7 +53,7 @@ public class FsModel extends CachedModel<News> {
             @Override
             public void onSuccess(final List<News> data) {
                 for (News newsItem : data) {
-                    if(title.equalsIgnoreCase(newsItem.getTitle())) {
+                    if (title.equalsIgnoreCase(newsItem.getTitle())) {
                         callback.onSuccess(newsItem);
                         return;
                     }
@@ -70,15 +70,15 @@ public class FsModel extends CachedModel<News> {
 
     @Override
     protected void update(@NonNull final ICallback<List<News>> callback) {
-        FsRestClient.getV1().getNews(new Callback<List<News>>() {
+        REST_CLIENT.getNews().enqueue(new Callback<List<News>>() {
             @Override
-            public void success(final List<News> newses, final Response response) {
-                callback.onSuccess(newses);
+            public void onResponse(Call<List<News>> call, Response<List<News>> response) {
+                callback.onSuccess(response.body());
             }
 
             @Override
-            public void failure(final RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<News>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }

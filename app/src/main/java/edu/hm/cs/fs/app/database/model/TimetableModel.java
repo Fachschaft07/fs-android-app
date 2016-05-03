@@ -1,5 +1,9 @@
 package edu.hm.cs.fs.app.database.model;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -7,16 +11,11 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,20 +25,23 @@ import java.util.List;
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.LessonGroup;
-import edu.hm.cs.fs.restclient.FsRestClient;
+import edu.hm.cs.fs.restclient.RestClient;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author Fabio
  */
 public class TimetableModel implements IModel {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
 
     private static final String TIMETABLE_FILE = "timetable.json";
     private static final String TIMETABLE_CONFIG_FILE = "timetable-config.json";
@@ -92,14 +94,18 @@ public class TimetableModel implements IModel {
                                 ? lessonGroup.getTeacher().getId() : "";
 
                         if (lessonGroupSaver.mLessonGroup.getGroups().isEmpty()) {
-                            final List<Lesson> lessons = FsRestClient.getV1()
-                                    .getLessons(group, moduleId, teacherId);
-                            timetable.addAll(lessons);
+                            final Response<List<Lesson>> response = REST_CLIENT
+                                    .getLessons(group, moduleId, teacherId).execute();
+                            if(response.isSuccessful()) {
+                                timetable.addAll(response.body());
+                            }
                         } else {
-                            final List<Lesson> lessons = FsRestClient.getV1()
+                            final Response<List<Lesson>> response = REST_CLIENT
                                     .getLessons(group, moduleId, teacherId,
-                                            lessonGroupSaver.mSelectedPk);
-                            timetable.addAll(lessons);
+                                            lessonGroupSaver.mSelectedPk).execute();
+                            if(response.isSuccessful()) {
+                                timetable.addAll(response.body());
+                            }
                         }
                     }
                     writeTimetable(timetable);
@@ -125,18 +131,18 @@ public class TimetableModel implements IModel {
 
     public void getLessonsByGroup(@NonNull final Group group,
                                   @NonNull final ICallback<List<LessonGroup>> callback) {
-        FsRestClient.getV1()
-                .getLessonGroups(group, new Callback<List<LessonGroup>>() {
-                    @Override
-                    public void success(List<LessonGroup> lessonGroups, Response response) {
-                        callback.onSuccess(lessonGroups);
-                    }
+        REST_CLIENT
+                .getLessonGroups(group).enqueue(new Callback<List<LessonGroup>>() {
+            @Override
+            public void onResponse(Call<List<LessonGroup>> call, Response<List<LessonGroup>> response) {
+                callback.onSuccess(response.body());
+            }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        callback.onError(ErrorFactory.http(error));
-                    }
-                });
+            @Override
+            public void onFailure(Call<List<LessonGroup>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
+            }
+        });
     }
 
     public void getNextLesson(@NonNull final ICallback<Lesson> callback) {

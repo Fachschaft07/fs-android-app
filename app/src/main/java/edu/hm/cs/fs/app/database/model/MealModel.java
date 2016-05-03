@@ -8,10 +8,10 @@ import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.common.constant.StudentWorkMunich;
 import edu.hm.cs.fs.common.model.Meal;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import edu.hm.cs.fs.restclient.RestClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Requests the data only for mensa.
@@ -19,6 +19,7 @@ import retrofit.client.Response;
  * @author Fabio
  */
 public class MealModel extends CachedModel<Meal> {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
 
     /**
      * Get all meal entries.
@@ -33,15 +34,15 @@ public class MealModel extends CachedModel<Meal> {
 
     @Override
     protected void update(@NonNull final ICallback<List<Meal>> callback) {
-        FsRestClient.getV1().getMeals(StudentWorkMunich.MENSA_LOTHSTRASSE, new Callback<List<Meal>>() {
+        REST_CLIENT.getMeals(StudentWorkMunich.MENSA_LOTHSTRASSE).enqueue(new Callback<List<Meal>>() {
             @Override
-            public void success(final List<Meal> meals, final Response response) {
-                callback.onSuccess(meals);
+            public void onResponse(Call<List<Meal>> call, Response<List<Meal>> response) {
+                callback.onSuccess(response.body());
             }
 
             @Override
-            public void failure(final RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<Meal>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }

@@ -11,10 +11,10 @@ import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import edu.hm.cs.fs.restclient.RestClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Requests the data only for blackboard.
@@ -22,6 +22,7 @@ import retrofit.client.Response;
  * @author Fabio
  */
 public class BlackBoardModel extends CachedModel<BlackboardEntry> {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
 
     /**
      * Get all blackboard entries.
@@ -67,9 +68,10 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
 
     @Override
     public void update(@NonNull final ICallback<List<BlackboardEntry>> callback) {
-        FsRestClient.getV1().getEntries(new Callback<List<BlackboardEntry>>() {
+        REST_CLIENT.getEntries().enqueue(new Callback<List<BlackboardEntry>>() {
             @Override
-            public void success(List<BlackboardEntry> blackboardEntries, Response response) {
+            public void onResponse(Call<List<BlackboardEntry>> call, Response<List<BlackboardEntry>> response) {
+                final List<BlackboardEntry> blackboardEntries = response.body();
                 Collections.sort(blackboardEntries, new Comparator<BlackboardEntry>() {
                     @Override
                     public int compare(BlackboardEntry lhs, BlackboardEntry rhs) {
@@ -80,17 +82,18 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<BlackboardEntry>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }
 
     public void getAllBySearchString(@NonNull final String newText,
                                      @NonNull final ICallback<List<BlackboardEntry>> callback) {
-        FsRestClient.getV1().getEntries(newText, new Callback<List<BlackboardEntry>>() {
+        REST_CLIENT.getEntries(newText).enqueue(new Callback<List<BlackboardEntry>>() {
             @Override
-            public void success(List<BlackboardEntry> blackboardEntries, Response response) {
+            public void onResponse(Call<List<BlackboardEntry>> call, Response<List<BlackboardEntry>> response) {
+                final List<BlackboardEntry> blackboardEntries = response.body();
                 Collections.sort(blackboardEntries, new Comparator<BlackboardEntry>() {
                     @Override
                     public int compare(BlackboardEntry lhs, BlackboardEntry rhs) {
@@ -101,23 +104,23 @@ public class BlackBoardModel extends CachedModel<BlackboardEntry> {
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<BlackboardEntry>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }
 
     public void getAllSince(final long time,
                             @NonNull final ICallback<List<BlackboardEntry>> callback) {
-        FsRestClient.getV1().getEntriesSince(time, new Callback<List<BlackboardEntry>>() {
+        REST_CLIENT.getEntriesSince(time).enqueue(new Callback<List<BlackboardEntry>>() {
             @Override
-            public void success(final List<BlackboardEntry> blackboardEntries, final Response response) {
-                callback.onSuccess(blackboardEntries);
+            public void onResponse(Call<List<BlackboardEntry>> call, Response<List<BlackboardEntry>> response) {
+                callback.onSuccess(response.body());
             }
 
             @Override
-            public void failure(final RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<BlackboardEntry>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }

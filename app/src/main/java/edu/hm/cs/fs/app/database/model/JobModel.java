@@ -8,10 +8,10 @@ import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import edu.hm.cs.fs.restclient.RestClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Requests the data only for jobs.
@@ -19,6 +19,7 @@ import retrofit.client.Response;
  * @author Fabio
  */
 public class JobModel extends CachedModel<SimpleJob> {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
 
     /**
      * Get all job entries.
@@ -58,15 +59,15 @@ public class JobModel extends CachedModel<SimpleJob> {
 
     @Override
     protected void update(@NonNull final ICallback<List<SimpleJob>> callback) {
-        FsRestClient.getV1().getJobs(new Callback<List<SimpleJob>>() {
+        REST_CLIENT.getJobs().enqueue(new Callback<List<SimpleJob>>() {
             @Override
-            public void success(List<SimpleJob> jobs, Response response) {
-                callback.onSuccess(jobs);
+            public void onResponse(Call<List<SimpleJob>> call, Response<List<SimpleJob>> response) {
+                callback.onSuccess(response.body());
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
+            public void onFailure(Call<List<SimpleJob>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
             }
         });
     }

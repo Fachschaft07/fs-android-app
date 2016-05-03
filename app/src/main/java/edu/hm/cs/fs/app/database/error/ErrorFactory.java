@@ -1,7 +1,5 @@
 package edu.hm.cs.fs.app.database.error;
 
-import retrofit.RetrofitError;
-
 /**
  * A factory class for creating error messages of the specified type.
  *
@@ -18,7 +16,7 @@ public final class ErrorFactory {
      * @param error which occurs.
      * @return the error.
      */
-    public static IError http(RetrofitError error) {
+    public static IError http(Throwable error) {
         return new HttpError(error);
     }
 

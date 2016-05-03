@@ -11,10 +11,10 @@ import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.RoomType;
 import edu.hm.cs.fs.common.constant.Time;
 import edu.hm.cs.fs.common.model.simple.SimpleRoom;
-import edu.hm.cs.fs.restclient.FsRestClient;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import edu.hm.cs.fs.restclient.RestClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Requests the data only for rooms.
@@ -22,6 +22,7 @@ import retrofit.client.Response;
  * @author Fabio
  */
 public class RoomSearchModel implements IModel {
+    private static final RestClient REST_CLIENT = new RestClient.Builder().build();
 
     /**
      * Get all free rooms at the specified day and time (time also later ones).
@@ -32,21 +33,21 @@ public class RoomSearchModel implements IModel {
      */
     public void getFreeRooms(@NonNull final Day day, @NonNull final Time time,
                              @NonNull final ICallback<List<SimpleRoom>> callback) {
-        FsRestClient.getV1().getRoomByDateTime(
+        REST_CLIENT.getRoomByDateTime(
                 RoomType.ALL,
                 day,
                 time.getStart().get(Calendar.HOUR_OF_DAY),
-                time.getStart().get(Calendar.MINUTE),
-                new Callback<List<SimpleRoom>>() {
-            @Override
-            public void success(List<SimpleRoom> rooms, Response response) {
-                callback.onSuccess(rooms);
-            }
+                time.getStart().get(Calendar.MINUTE))
+                .enqueue(new Callback<List<SimpleRoom>>() {
+                    @Override
+                    public void onResponse(Call<List<SimpleRoom>> call, Response<List<SimpleRoom>> response) {
+                        callback.onSuccess(response.body());
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                callback.onError(ErrorFactory.http(error));
-            }
-        });
+                    @Override
+                    public void onFailure(Call<List<SimpleRoom>> call, Throwable t) {
+                        callback.onError(ErrorFactory.http(t));
+                    }
+                });
     }
 }
