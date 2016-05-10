@@ -27,7 +27,15 @@ public class CalendarModel implements IModel {
         REST_CLIENT.getHolidays().enqueue(new Callback<List<Holiday>>() {
             @Override
             public void onResponse(Call<List<Holiday>> call, Response<List<Holiday>> response) {
-                callback.onSuccess(response.body());
+                final List<Holiday> body = response.body();
+                for(int index = 0; index < body.size();) {
+                    if(body.get(index).getStart().getTime() < System.currentTimeMillis()) {
+                        body.remove(index);
+                    } else {
+                        index++;
+                    }
+                }
+                callback.onSuccess(body);
             }
 
             @Override

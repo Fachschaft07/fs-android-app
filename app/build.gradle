@@ -8,8 +8,8 @@ android {
         applicationId "com.fk07"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 2110
-        versionName "2.1.1"
+        versionCode 2201
+        versionName "2.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -38,12 +38,15 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.google.code.gson:gson:2.6.2'
     compile 'se.emilsjolander:stickylistheaders:2.5.2'
     compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
-    compile 'com.github.dexafree:materiallist:3.1.2'
+    compile 'com.github.dexafree:materiallist:3.2.0'
     compile('com.github.afollestad.material-dialogs:core:0.8.5.2@aar') {
         transitive = true
     }
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'org.mockito:mockito-core:1.10.19'

@@ -60,7 +60,6 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
             }
         });
 
-        /*
         mBackgroundProcesses++;
         getModel().getMealsOfToday(refresh, new ICallback<List<Meal>>() {
             @Override
@@ -135,7 +134,6 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
                 hideLoading();
             }
         });
-        */
     }
 
     private void hideLoading() {

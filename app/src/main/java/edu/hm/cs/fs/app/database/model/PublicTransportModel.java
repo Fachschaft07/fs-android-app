@@ -3,6 +3,7 @@ package edu.hm.cs.fs.app.database.model;
 import android.support.annotation.NonNull;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
@@ -49,7 +50,15 @@ public class PublicTransportModel implements IModel {
         REST_CLIENT.getPublicTransports(location).enqueue(new Callback<List<PublicTransport>>() {
             @Override
             public void onResponse(Call<List<PublicTransport>> call, Response<List<PublicTransport>> response) {
-                callback.onSuccess(response.body());
+                final List<PublicTransport> body = response.body();
+                for (int index = 0; index < body.size();) {
+                    if(body.get(index).getDepartureIn(TimeUnit.MINUTES) < 0) {
+                        body.remove(index);
+                    } else {
+                        index++;
+                    }
+                }
+                callback.onSuccess(body);
             }
 
             @Override

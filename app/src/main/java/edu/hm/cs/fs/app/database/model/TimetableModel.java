@@ -30,9 +30,6 @@ import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.LessonGroup;
 import edu.hm.cs.fs.restclient.RestClient;
 import edu.hm.cs.fs.restclient.typeadapter.DateTypeAdapter;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -96,14 +93,14 @@ public class TimetableModel implements IModel {
                         if (lessonGroupSaver.mLessonGroup.getGroups().isEmpty()) {
                             final Response<List<Lesson>> response = REST_CLIENT
                                     .getLessons(group, moduleId, teacherId).execute();
-                            if(response.isSuccessful()) {
+                            if (response.isSuccessful()) {
                                 timetable.addAll(response.body());
                             }
                         } else {
                             final Response<List<Lesson>> response = REST_CLIENT
                                     .getLessons(group, moduleId, teacherId,
                                             lessonGroupSaver.mSelectedPk).execute();
-                            if(response.isSuccessful()) {
+                            if (response.isSuccessful()) {
                                 timetable.addAll(response.body());
                             }
                         }

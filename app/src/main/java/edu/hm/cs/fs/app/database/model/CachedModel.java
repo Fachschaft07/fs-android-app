@@ -1,6 +1,7 @@
 package edu.hm.cs.fs.app.database.model;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,11 @@ public abstract class CachedModel<T> implements IModel {
         if (mDataCache.isEmpty() || refresh) {
             update(new ICallback<List<T>>() {
                 @Override
-                public void onSuccess(@NonNull List<T> data) {
+                public void onSuccess(@Nullable List<T> data) {
                     mDataCache.clear();
-                    mDataCache.addAll(data);
+                    if(data != null) {
+                        mDataCache.addAll(data);
+                    }
                     callback.onSuccess(mDataCache);
                 }
 
