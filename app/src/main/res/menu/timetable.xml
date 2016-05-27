@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/menu_prev_day"
-        android:icon="@drawable/ic_chevron_left_white_24dp"
-        android:title="@string/prev_day"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_next_day"
-        android:icon="@drawable/ic_chevron_right_white_24dp"
-        android:title="@string/next_day"
-        app:showAsAction="ifRoom"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_today"
         android:icon="@drawable/ic_today_white_24dp"
         android:title="@string/today"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_week_view"
-        android:title="@string/week_view"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom" />
+    <group
+        android:checkableBehavior="single"
+        android:menuCategory="container">
+        <item
+            android:id="@+id/menu_two_day_view"
+            android:checked="true"
+            android:title="@string/two_day_view"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/menu_week_view"
+            android:title="@string/week_view"
+            app:showAsAction="never" />
+    </group>
     <item
         android:id="@+id/menu_lesson_selection"
         android:title="@string/lesson_selection"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 </menu>
