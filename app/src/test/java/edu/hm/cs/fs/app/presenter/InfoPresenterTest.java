@@ -10,8 +10,7 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.InfoModel;
+import edu.hm.cs.fs.app.database.InfoModel;
 import edu.hm.cs.fs.app.view.IInfoView;
 
 import static org.mockito.Matchers.anyString;

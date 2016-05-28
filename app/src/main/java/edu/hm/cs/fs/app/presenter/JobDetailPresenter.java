@@ -3,9 +3,8 @@ package edu.hm.cs.fs.app.presenter;
 import android.support.annotation.NonNull;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.JobModel;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.JobModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.util.MarkdownUtil;
 import edu.hm.cs.fs.app.view.IJobDetailView;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
@@ -43,8 +42,8 @@ public class JobDetailPresenter extends BasePresenter<IJobDetailView, JobModel> 
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

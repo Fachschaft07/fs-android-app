@@ -18,8 +18,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 
@@ -91,7 +90,7 @@ public class BlackboardNotificiationService extends Service implements Runnable 
             }
 
             @Override
-            public void onError(@NonNull IError error) {
+            public void onError(@NonNull Throwable e) {
                 // Do nothing...
                 mLastExecutionTime = System.currentTimeMillis();
             }

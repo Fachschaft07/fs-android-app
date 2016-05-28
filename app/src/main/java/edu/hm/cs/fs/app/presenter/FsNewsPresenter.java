@@ -5,9 +5,8 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.FsModel;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.FsModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.view.IFsNewsView;
 import edu.hm.cs.fs.common.model.News;
 
@@ -42,8 +41,8 @@ public class FsNewsPresenter extends BasePresenter<IFsNewsView, FsModel> {
             }
 
             @Override
-            public void onError(@NonNull final IError error) {
-                getView().showError(error);
+            public void onError(@NonNull final Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

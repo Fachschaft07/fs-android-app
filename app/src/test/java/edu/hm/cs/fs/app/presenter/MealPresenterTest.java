@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.MealModel;
+import edu.hm.cs.fs.app.database.MealModel;
 import edu.hm.cs.fs.app.view.IMealView;
 import edu.hm.cs.fs.common.model.Meal;
 

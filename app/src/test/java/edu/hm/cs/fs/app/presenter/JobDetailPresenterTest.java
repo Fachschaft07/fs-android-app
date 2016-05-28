@@ -16,8 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.JobModel;
+import edu.hm.cs.fs.app.database.JobModel;
 import edu.hm.cs.fs.app.view.IJobDetailView;
 import edu.hm.cs.fs.common.model.simple.SimpleJob;
 import edu.hm.cs.fs.common.model.simple.SimplePerson;

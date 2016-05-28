@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
@@ -148,27 +149,20 @@ public class TimetableEditorFragment extends BaseFragment<TimetableEditorPresent
         editor.apply();
 
         getPresenter().loadModules(Group.of(study + semester + letter));
-
-        /*
-        final EditText editText = mTextGroup.getEditText();
-        if (editText != null) {
-            InputMethodManager imm = (InputMethodManager) getContext()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-            final Group group = Group.of(editText.getText().toString());
-            if (group.getStudy() != null) {
-                mTextGroup.setError("");
-                getPresenter().loadModules(group);
-            } else {
-                mTextGroup.setError(getString(R.string.group_format));
-            }
-        }
-        */
     }
 
     @Override
     public void showContent(@NonNull List<LessonGroup> data) {
         mAdapter.setData(data);
+    }
+
+    @Override
+    public boolean onErrorSnackbar(@NonNull Snackbar snackbar, @NonNull Throwable error) {
+        if(error instanceof IllegalArgumentException) {
+            snackbar.setText(R.string.illegal_group);
+            return true;
+        }
+        return false;
     }
 
     @Override

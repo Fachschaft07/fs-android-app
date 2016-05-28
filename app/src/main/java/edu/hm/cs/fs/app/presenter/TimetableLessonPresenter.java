@@ -6,9 +6,8 @@ import android.support.annotation.NonNull;
 import java.util.Locale;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
-import edu.hm.cs.fs.app.database.model.TimetableModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
+import edu.hm.cs.fs.app.database.TimetableModel;
 import edu.hm.cs.fs.app.util.MarkdownUtil;
 import edu.hm.cs.fs.app.view.ITimetableLessonView;
 import edu.hm.cs.fs.common.model.Module;
@@ -73,8 +72,8 @@ public class TimetableLessonPresenter extends BasePresenter<ITimetableLessonView
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

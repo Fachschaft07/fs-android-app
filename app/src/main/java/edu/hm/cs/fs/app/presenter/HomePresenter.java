@@ -7,9 +7,8 @@ import android.support.annotation.Nullable;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.HomeModel;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.HomeModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.view.IHomeView;
 import edu.hm.cs.fs.common.model.BlackboardEntry;
 import edu.hm.cs.fs.common.model.Holiday;
@@ -54,8 +53,8 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 hideLoading();
             }
         });
@@ -69,8 +68,8 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 hideLoading();
             }
         });
@@ -84,8 +83,8 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 hideLoading();
             }
         });
@@ -99,8 +98,8 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 hideLoading();
             }
         });
@@ -114,8 +113,8 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 hideLoading();
             }
         });
@@ -129,8 +128,8 @@ public class HomePresenter extends BasePresenter<IHomeView, HomeModel> {
             }
 
             @Override
-            public void onError(@NonNull final IError error) {
-                getView().showError(error);
+            public void onError(@NonNull final Throwable e) {
+                getView().showError(e);
                 hideLoading();
             }
         });

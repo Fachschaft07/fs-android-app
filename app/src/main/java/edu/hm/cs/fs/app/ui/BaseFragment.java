@@ -20,7 +20,6 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.presenter.IPresenter;
 import edu.hm.cs.fs.app.view.IView;
 
@@ -58,7 +57,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         super.onViewCreated(view, savedInstanceState);
         setToolbar(view);
 
-        if(mSwipeRefreshLayout != null) {
+        if (mSwipeRefreshLayout != null) {
             initSwipeRefreshLayout(mSwipeRefreshLayout);
         }
     }
@@ -117,8 +116,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     /**
      * Sets the presenter to communicate with.
      *
-     * @param presenter
-     *         to communicate with.
+     * @param presenter to communicate with.
      */
     public void setPresenter(@NonNull final P presenter) {
         this.presenter = presenter;
@@ -138,7 +136,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
                 public void run() {
                     // BugFix: need to ask if the swipelayout is null -> if the fragment was
                     // changed during this calling time
-                    if(mSwipeRefreshLayout != null) {
+                    if (mSwipeRefreshLayout != null) {
                         mSwipeRefreshLayout.setRefreshing(mRefresh);
                     }
                 }
@@ -155,36 +153,12 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     }
 
     @Override
-    public void showError(@NonNull final IError error) {
+    public void showError(@NonNull final Throwable error) {
         if (mViewError != null && getActivity() != null) {
-            final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(getActivity()), Snackbar.LENGTH_LONG);
-            if (error.getErrorCode() != null) {
-                snackbar.setText(getString(R.string.unknown_error));
-                snackbar.setAction(R.string.retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        /*
-                        final Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:"));
-                        intent.setType("message/rfc822");
-                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"app@fs.cs.hm.edu"});
-                        startActivity(intent);
-                        */
-                        onRefresh();
-                    }
-                });
-            } else if (!error.isConnected()) {
-                snackbar.setText(R.string.internet_connection_error);
-                snackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onRefresh();
-                    }
-                });
-            } else {
-                onErrorSnackbar(snackbar, error);
+            final Snackbar snackbar = Snackbar.make(mViewError, error.getMessage(), Snackbar.LENGTH_LONG);
+            if(onErrorSnackbar(snackbar, error)) {
+                snackbar.show();
             }
-            snackbar.show();
         }
     }
 
@@ -202,6 +176,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         mViewError = view;
     }
 
-    public void onErrorSnackbar(@NonNull final Snackbar snackbar, @NonNull final IError error) {
+    public boolean onErrorSnackbar(@NonNull final Snackbar snackbar, @NonNull final Throwable error) {
+        return false;
     }
 }

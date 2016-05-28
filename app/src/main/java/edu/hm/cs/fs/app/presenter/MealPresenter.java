@@ -2,13 +2,11 @@ package edu.hm.cs.fs.app.presenter;
 
 import android.support.annotation.NonNull;
 
-import java.util.Calendar;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.MealModel;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.MealModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.view.IMealView;
 import edu.hm.cs.fs.common.model.Meal;
 
@@ -44,8 +42,8 @@ public class MealPresenter extends BasePresenter<IMealView, MealModel> {
             }
 
             @Override
-            public void onError(@NonNull final IError error) {
-                getView().showError(error);
+            public void onError(@NonNull final Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

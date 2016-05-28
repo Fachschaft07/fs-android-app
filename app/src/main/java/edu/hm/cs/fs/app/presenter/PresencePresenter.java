@@ -5,9 +5,8 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.FsModel;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.FsModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.view.IPresenceView;
 import edu.hm.cs.fs.common.model.Presence;
 
@@ -40,8 +39,8 @@ public class PresencePresenter extends BasePresenter<IPresenceView, FsModel> {
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

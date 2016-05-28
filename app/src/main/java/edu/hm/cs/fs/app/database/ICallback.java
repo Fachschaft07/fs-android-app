@@ -2,8 +2,6 @@ package edu.hm.cs.fs.app.database;
 
 import android.support.annotation.NonNull;
 
-import edu.hm.cs.fs.app.database.error.IError;
-
 /**
  * The communication interface between the presenter and database layer.
  *
@@ -22,7 +20,7 @@ public interface ICallback<T> {
     /**
      * Is called from the model if an error occurred.
      *
-     * @param error with the message.
+     * @param e with the message.
      */
-    void onError(@NonNull final IError error);
+    void onError(@NonNull final Throwable e);
 }

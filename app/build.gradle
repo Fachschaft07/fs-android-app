@@ -8,7 +8,7 @@ android {
         applicationId "com.fk07"
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 2300
+        versionCode 2301
         versionName "2.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

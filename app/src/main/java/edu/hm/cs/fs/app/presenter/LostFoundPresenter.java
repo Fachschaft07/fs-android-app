@@ -7,9 +7,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.LostFoundModel;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.LostFoundModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.view.ILostFoundView;
 import edu.hm.cs.fs.common.model.LostFound;
 
@@ -48,8 +47,8 @@ public class LostFoundPresenter extends BasePresenter<ILostFoundView, LostFoundM
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

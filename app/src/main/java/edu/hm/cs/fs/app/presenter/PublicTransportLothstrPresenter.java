@@ -5,9 +5,8 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
-import edu.hm.cs.fs.app.database.model.PublicTransportModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
+import edu.hm.cs.fs.app.database.PublicTransportModel;
 import edu.hm.cs.fs.app.view.IPublicTransportView;
 import edu.hm.cs.fs.common.model.PublicTransport;
 
@@ -40,8 +39,8 @@ public class PublicTransportLothstrPresenter extends BasePresenter<IPublicTransp
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

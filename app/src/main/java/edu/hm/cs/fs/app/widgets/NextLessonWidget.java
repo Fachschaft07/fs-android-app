@@ -10,12 +10,10 @@ import android.widget.RemoteViews;
 import com.fk07.R;
 
 import java.util.Calendar;
-import java.util.Locale;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
-import edu.hm.cs.fs.app.database.model.TimetableModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
+import edu.hm.cs.fs.app.database.TimetableModel;
 import edu.hm.cs.fs.common.model.Lesson;
 
 /**
@@ -86,7 +84,7 @@ public class NextLessonWidget extends AppWidgetProvider {
             }
 
             @Override
-            public void onError(@NonNull IError error) {
+            public void onError(@NonNull Throwable e) {
                 // TODO Add error message?
             }
         });

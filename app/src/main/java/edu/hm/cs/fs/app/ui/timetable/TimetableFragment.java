@@ -1,10 +1,12 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
+import android.content.SharedPreferences;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -53,6 +55,7 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
             R.color.subject_color_8,
             R.color.subject_color_9
     };
+    public static final String TIMETABLE_VISIBLE_DAYS = "timetable_visible_days";
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -67,6 +70,9 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     private List<Holiday> mHolidays = new ArrayList<>();
     private Map<Integer, Lesson> mContent = new HashMap<>();
     private Map<String, Integer> mSubjectColorMap = new HashMap<>();
+
+    private SharedPreferences mPrefs;
+    private int mVisibleDays;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -102,6 +108,22 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
             }
         });
 
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        mVisibleDays = mPrefs.getInt(TIMETABLE_VISIBLE_DAYS, NUMBER_OF_VISIBLE_DAYS_WEEK);
+        mWeekView.setNumberOfVisibleDays(mVisibleDays);
+
+        // is in portrait mode?
+        if(mToolbar.getMenu().findItem(R.id.menu_week_view) != null) {
+            // YES! --> Portrait Mode
+            if (mVisibleDays == NUMBER_OF_VISIBLE_DAYS_WEEK) {
+                mToolbar.getMenu().findItem(R.id.menu_two_day_view).setChecked(false);
+                mToolbar.getMenu().findItem(R.id.menu_week_view).setChecked(true);
+            } else {
+                mToolbar.getMenu().findItem(R.id.menu_two_day_view).setChecked(true);
+                mToolbar.getMenu().findItem(R.id.menu_week_view).setChecked(false);
+            }
+        }
+
         setPresenter(new TimetablePresenter(getActivity(), this));
         getPresenter().loadTimetable(false);
     }
@@ -125,14 +147,18 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
                 return true;
             case R.id.menu_week_view:
                 final Calendar date1 = mWeekView.getFirstVisibleDay();
-                mWeekView.setNumberOfVisibleDays(NUMBER_OF_VISIBLE_DAYS_WEEK);
+                mVisibleDays = NUMBER_OF_VISIBLE_DAYS_WEEK;
+                mPrefs.edit().putInt(TIMETABLE_VISIBLE_DAYS, mVisibleDays).apply();
+                mWeekView.setNumberOfVisibleDays(mVisibleDays);
                 mWeekView.goToDate(date1);
                 mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 item.setChecked(true);
                 return true;
             case R.id.menu_two_day_view:
                 final Calendar date2 = mWeekView.getFirstVisibleDay();
-                mWeekView.setNumberOfVisibleDays(NUMBER_OF_VISIBLE_DAYS_TWO_DAYS);
+                mVisibleDays = NUMBER_OF_VISIBLE_DAYS_TWO_DAYS;
+                mPrefs.edit().putInt(TIMETABLE_VISIBLE_DAYS, mVisibleDays).apply();
+                mWeekView.setNumberOfVisibleDays(mVisibleDays);
                 mWeekView.goToDate(date2);
                 mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 item.setChecked(true);

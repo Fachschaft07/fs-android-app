@@ -20,7 +20,7 @@ import com.fk07.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.service.BlackboardNotificiationService;
 import edu.hm.cs.fs.app.ui.blackboard.BlackBoardFragment;
 import edu.hm.cs.fs.app.ui.fs.news.FsNewsFragment;

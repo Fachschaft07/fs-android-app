@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.PublicTransportModel;
+import edu.hm.cs.fs.app.database.PublicTransportModel;
 import edu.hm.cs.fs.app.view.IPublicTransportView;
 import edu.hm.cs.fs.common.model.PublicTransport;
 

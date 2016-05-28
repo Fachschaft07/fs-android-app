@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.RoomSearchModel;
+import edu.hm.cs.fs.app.database.RoomSearchModel;
 import edu.hm.cs.fs.app.view.IRoomSearchView;
 import edu.hm.cs.fs.common.constant.Day;
 import edu.hm.cs.fs.common.constant.Time;

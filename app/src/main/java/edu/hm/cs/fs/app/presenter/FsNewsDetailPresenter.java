@@ -6,9 +6,8 @@ import android.support.annotation.Nullable;
 import java.util.Locale;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.FsModel;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
+import edu.hm.cs.fs.app.database.FsModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.view.IFsNewsDetailView;
 import edu.hm.cs.fs.common.model.News;
 
@@ -48,8 +47,8 @@ public class FsNewsDetailPresenter extends BasePresenter<IFsNewsDetailView, FsMo
             }
 
             @Override
-            public void onError(@NonNull final IError error) {
-                getView().showError(error);
+            public void onError(@NonNull final Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

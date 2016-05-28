@@ -2,13 +2,13 @@ package edu.hm.cs.fs.app.presenter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
-import edu.hm.cs.fs.app.database.error.IError;
-import edu.hm.cs.fs.app.database.model.ModelFactory;
-import edu.hm.cs.fs.app.database.model.TimetableModel;
+import edu.hm.cs.fs.app.database.ModelFactory;
+import edu.hm.cs.fs.app.database.TimetableModel;
 import edu.hm.cs.fs.app.view.ITimetableEditorView;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.LessonGroup;
@@ -36,14 +36,18 @@ public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView
         getView().showLoading();
         getModel().getLessonsByGroup(group, new ICallback<List<LessonGroup>>() {
             @Override
-            public void onSuccess(@NonNull List<LessonGroup> data) {
-                getView().showContent(data);
+            public void onSuccess(@Nullable List<LessonGroup> data) {
+                if(data != null) {
+                    getView().showContent(data);
+                } else {
+                    getView().showError(new IllegalArgumentException());
+                }
                 getView().hideLoading();
             }
 
             @Override
-            public void onError(@NonNull IError error) {
-                getView().showError(error);
+            public void onError(@NonNull Throwable e) {
+                getView().showError(e);
                 getView().hideLoading();
             }
         });

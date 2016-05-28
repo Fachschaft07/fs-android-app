@@ -11,11 +11,11 @@
         android:menuCategory="container">
         <item
             android:id="@+id/menu_two_day_view"
-            android:checked="true"
             android:title="@string/two_day_view"
             app:showAsAction="never" />
         <item
             android:id="@+id/menu_week_view"
+            android:checked="true"
             android:title="@string/week_view"
             app:showAsAction="never" />
     </group>
