@@ -19,6 +19,9 @@
             android:title="@string/week_view"
             app:showAsAction="never" />
     </group>
+    <item android:id="@+id/menu_refresh"
+        android:title="@string/refresh"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_lesson_selection"
         android:title="@string/lesson_selection"

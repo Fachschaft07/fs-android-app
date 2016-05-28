@@ -1,23 +1,16 @@
 package edu.hm.cs.fs.app.ui.timetable;
 
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.ColorRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.TouchDelegate;
 import android.view.View;
-import android.widget.LinearLayout;
 
+import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
@@ -27,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -35,8 +29,7 @@ import edu.hm.cs.fs.app.presenter.TimetablePresenter;
 import edu.hm.cs.fs.app.ui.BaseFragment;
 import edu.hm.cs.fs.app.ui.MainActivity;
 import edu.hm.cs.fs.app.view.ITimetableView;
-import edu.hm.cs.fs.common.constant.Day;
-import edu.hm.cs.fs.common.constant.Time;
+import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 
 /**
@@ -44,6 +37,22 @@ import edu.hm.cs.fs.common.model.Lesson;
  */
 public class TimetableFragment extends BaseFragment<TimetablePresenter> implements ITimetableView,
         Toolbar.OnMenuItemClickListener, MonthLoader.MonthChangeListener, WeekView.EventClickListener {
+
+    private static final int NUMBER_OF_VISIBLE_DAYS_WEEK = 5;
+    private static final int NUMBER_OF_VISIBLE_DAYS_TWO_DAYS = 2;
+    @ColorRes
+    private static final int[] SUBJECT_COLORS = {
+            R.color.subject_color_0,
+            R.color.subject_color_1,
+            R.color.subject_color_2,
+            R.color.subject_color_3,
+            R.color.subject_color_4,
+            R.color.subject_color_5,
+            R.color.subject_color_6,
+            R.color.subject_color_7,
+            R.color.subject_color_8,
+            R.color.subject_color_9
+    };
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -54,10 +63,10 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     @Bind(R.id.weekView)
     WeekView mWeekView;
 
-    private List<Lesson> mLessons;
+    private List<Lesson> mLessons = new ArrayList<>();
+    private List<Holiday> mHolidays = new ArrayList<>();
     private Map<Integer, Lesson> mContent = new HashMap<>();
-
-    private int mVisibleDays = 2;
+    private Map<String, Integer> mSubjectColorMap = new HashMap<>();
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -80,12 +89,16 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
         mWeekView.setOnEventClickListener(this);
         mWeekView.setShowNowLine(true);
         mWeekView.setOverlappingEventGap(2);
-        mWeekView.setNumberOfVisibleDays(mVisibleDays);
         mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-        mWeekView.setScrollListener(new WeekView.ScrollListener() {
+        mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
-            public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
+            public String interpretDate(Calendar date) {
+                return String.format(Locale.getDefault(), "%1$ta %1$td.%1$tm", date);
+            }
 
+            @Override
+            public String interpretTime(int hour) {
+                return String.format(Locale.getDefault(), "%2d", hour);
             }
         });
 
@@ -111,14 +124,21 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
                 mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 return true;
             case R.id.menu_week_view:
-                mVisibleDays = 5;
-                mWeekView.setNumberOfVisibleDays(mVisibleDays);
+                final Calendar date1 = mWeekView.getFirstVisibleDay();
+                mWeekView.setNumberOfVisibleDays(NUMBER_OF_VISIBLE_DAYS_WEEK);
+                mWeekView.goToDate(date1);
+                mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 item.setChecked(true);
                 return true;
             case R.id.menu_two_day_view:
-                mVisibleDays = 2;
-                mWeekView.setNumberOfVisibleDays(mVisibleDays);
+                final Calendar date2 = mWeekView.getFirstVisibleDay();
+                mWeekView.setNumberOfVisibleDays(NUMBER_OF_VISIBLE_DAYS_TWO_DAYS);
+                mWeekView.goToDate(date2);
+                mWeekView.goToHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
                 item.setChecked(true);
+                return true;
+            case R.id.menu_refresh:
+                onRefresh();
                 return true;
             case R.id.menu_lesson_selection:
                 MainActivity.getNavigator().goTo(new TimetableEditorFragment());
@@ -131,8 +151,19 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
     @Override
     public void showContent(List<Lesson> content) {
         mLessons = content;
-        mContent.clear();
         mWeekView.notifyDatasetChanged();
+    }
+
+    @Override
+    public void showHolidays(List<Holiday> content) {
+        mHolidays = content;
+        mWeekView.notifyDatasetChanged();
+    }
+
+    @Override
+    public void clearContent() {
+        mContent.clear();
+        mSubjectColorMap.clear();
     }
 
     @Override
@@ -146,23 +177,71 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(newYear, newMonth - 1, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
 
         final int maxDaysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int dayOfMonth = 1; dayOfMonth <= maxDaysOfMonth; dayOfMonth++) {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-            for (Lesson lesson : mLessons) {
-                if(lesson.getDay().getCalendarId() == calendar.get(Calendar.DAY_OF_WEEK)) {
-                    Calendar start = Calendar.getInstance();
-                    start.set(newYear, newMonth - 1, dayOfMonth, lesson.getHour(), lesson.getMinute(), 0);
+            boolean skipLesson = false;
 
-                    Calendar end = Calendar.getInstance();
-                    end.setTimeInMillis(start.getTimeInMillis());
-                    end.add(Calendar.MINUTE, 90);
+            for (Holiday holiday : mHolidays) {
+                final Calendar timeRangeStart = Calendar.getInstance();
+                timeRangeStart.setTime(holiday.getStart());
+                final Calendar timeRangeEnd = Calendar.getInstance();
+                timeRangeEnd.setTime(holiday.getEnd());
+                timeRangeEnd.set(Calendar.HOUR_OF_DAY, 23);
+                timeRangeEnd.set(Calendar.MINUTE, 59);
 
-                    final WeekViewEvent weekViewEvent = new WeekViewEvent(mContent.size(), lesson.getModule().getName(), lesson.getRoom(), start, end);
-                    events.add(weekViewEvent);
-                    mContent.put(mContent.size(), lesson);
+                if (timeRangeStart.before(calendar) && timeRangeEnd.after(calendar)) {
+                    skipLesson = true;
+
+                    final Calendar start = (Calendar) calendar.clone();
+                    start.set(Calendar.HOUR_OF_DAY, 0);
+                    start.set(Calendar.MINUTE, 0);
+                    final Calendar end = (Calendar) calendar.clone();
+                    end.set(Calendar.HOUR_OF_DAY, 23);
+                    end.set(Calendar.MINUTE, 59);
+
+                    final WeekViewEvent holidayEvent = new WeekViewEvent(-mContent.size(), holiday.getName(), start, end);
+                    holidayEvent.setColor(getResources().getColor(R.color.holiday));
+                    events.add(holidayEvent);
+                    break;
+                }
+            }
+
+            if (!skipLesson) {
+                for (Lesson lesson : mLessons) {
+                    if (lesson.getDay().getCalendarId() == calendar.get(Calendar.DAY_OF_WEEK)) {
+                        Calendar start = Calendar.getInstance();
+                        start.set(newYear, newMonth - 1, dayOfMonth, lesson.getHour(), lesson.getMinute(), 0);
+
+                        Calendar end = Calendar.getInstance();
+                        end.setTimeInMillis(start.getTimeInMillis());
+                        end.add(Calendar.MINUTE, 90);
+
+                        final String moduleId = lesson.getModule().getId();
+
+                        final String name = lesson.getModule().getName();
+                        final String roomAndType = lesson.getRoom() + (TextUtils.isEmpty(lesson.getSuffix()) ? "" : " - " + lesson.getSuffix());
+                        final WeekViewEvent weekViewEvent = new WeekViewEvent(mContent.size(), name, roomAndType, start, end);
+
+                        final int color;
+                        if (mSubjectColorMap.containsKey(moduleId)) {
+                            color = mSubjectColorMap.get(moduleId);
+                        } else {
+                            int indexOf = mSubjectColorMap.size();
+                            while (indexOf >= SUBJECT_COLORS.length) {
+                                indexOf -= SUBJECT_COLORS.length;
+                            }
+                            color = getResources().getColor(SUBJECT_COLORS[indexOf]);
+                            mSubjectColorMap.put(moduleId, color);
+                        }
+                        weekViewEvent.setColor(color);
+                        events.add(weekViewEvent);
+                        mContent.put(mContent.size(), lesson);
+                    }
                 }
             }
         }
@@ -172,16 +251,20 @@ public class TimetableFragment extends BaseFragment<TimetablePresenter> implemen
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        if (event.getId() < 0) {
+            return;
+        }
+
         final Lesson foundLesson = mContent.get((int) event.getId());
 
-        if(foundLesson == null || TextUtils.isEmpty(foundLesson.getModule().getId()) || foundLesson.getModule().getId().contains(" ")) {
+        if (foundLesson == null || TextUtils.isEmpty(foundLesson.getModule().getId()) || foundLesson.getModule().getId().contains(" ")) {
             Snackbar.make(mWeekView, R.string.no_detail_subject_info, Snackbar.LENGTH_SHORT);
             return;
         }
 
         Bundle arguments = new Bundle();
         arguments.putString(TimetableLessonFragment.ARG_MODULE_ID, foundLesson.getModule().getId());
-        if(foundLesson.getTeacher() != null) {
+        if (foundLesson.getTeacher() != null) {
             arguments.putString(TimetableLessonFragment.ARG_TEACHER_ID, foundLesson.getTeacher().getId());
         }
 

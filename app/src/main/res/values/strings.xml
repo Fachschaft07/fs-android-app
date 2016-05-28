@@ -143,4 +143,5 @@
     <string name="blackboard_news_one">%1$d neuer Eintrag auf dem Schwarzen Brett.</string>
     <string name="blackboard_news_other">%1$d neue Einträge auf dem Schwarzen Brett.</string>
     <string name="no_detail_subject_info">Es gibt keine Informationen zu diesem Fach.</string>
+    <string name="refresh">Aktualisieren</string>
 </resources>

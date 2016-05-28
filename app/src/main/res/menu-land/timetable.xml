@@ -6,6 +6,9 @@
         android:icon="@drawable/ic_today_white_24dp"
         android:title="@string/today"
         app:showAsAction="ifRoom"/>
+    <item android:id="@+id/menu_refresh"
+        android:title="@string/refresh"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/menu_lesson_selection"
         android:title="@string/lesson_selection"

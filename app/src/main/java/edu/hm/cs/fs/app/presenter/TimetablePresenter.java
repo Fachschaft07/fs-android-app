@@ -10,6 +10,7 @@ import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.app.database.model.ModelFactory;
 import edu.hm.cs.fs.app.database.model.TimetableModel;
 import edu.hm.cs.fs.app.view.ITimetableView;
+import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 
 /**
@@ -34,10 +35,24 @@ public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableM
 
     public void loadTimetable(final boolean refresh) {
         getView().showLoading();
+        getView().clearContent();
         getModel().getTimetable(refresh, new ICallback<List<Lesson>>() {
             @Override
             public void onSuccess(@NonNull List<Lesson> data) {
                 getView().showContent(data);
+                getView().hideLoading();
+            }
+
+            @Override
+            public void onError(@NonNull IError error) {
+                getView().showError(error);
+                getView().hideLoading();
+            }
+        });
+        getModel().getHolidays(new ICallback<List<Holiday>>() {
+            @Override
+            public void onSuccess(List<Holiday> data) {
+                getView().showHolidays(data);
                 getView().hideLoading();
             }
 

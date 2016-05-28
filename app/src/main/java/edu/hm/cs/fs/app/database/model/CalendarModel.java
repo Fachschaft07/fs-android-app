@@ -23,13 +23,13 @@ public class CalendarModel implements IModel {
     /**
      * @param callback
      */
-    public void getHolidays(@NonNull final ICallback<List<Holiday>> callback) {
+    public void getNextHolidays(@NonNull final ICallback<List<Holiday>> callback) {
         REST_CLIENT.getHolidays().enqueue(new Callback<List<Holiday>>() {
             @Override
             public void onResponse(Call<List<Holiday>> call, Response<List<Holiday>> response) {
                 final List<Holiday> body = response.body();
-                for(int index = 0; index < body.size();) {
-                    if(body.get(index).getStart().getTime() < System.currentTimeMillis()) {
+                for (int index = 0; index < body.size(); ) {
+                    if (body.get(index).getStart().getTime() < System.currentTimeMillis()) {
                         body.remove(index);
                     } else {
                         index++;

@@ -15,4 +15,15 @@
     <color name="meal_meat">#C80A4B</color>
     <color name="timetable_grid">#dcdcdc</color>
     <color name="lesson_count_background">#aaaaaaaa</color>
+
+    <color name="subject_color_0">#cc9dbe33</color>
+    <color name="subject_color_1">#cc33be79</color>
+    <color name="subject_color_2">#cc333cbe</color>
+    <color name="subject_color_3">#ccbe7f33</color>
+    <color name="subject_color_4">#ccbe338b</color>
+    <color name="subject_color_5">#ccbe4f33</color>
+    <color name="subject_color_6">#cc33bebc</color>
+    <color name="subject_color_7">#ccbe336b</color>
+    <color name="subject_color_8">#cc46be33</color>
+    <color name="subject_color_9">#ccbeae33</color>
 </resources>

@@ -26,6 +26,7 @@ import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.error.ErrorFactory;
 import edu.hm.cs.fs.app.database.error.IError;
 import edu.hm.cs.fs.common.model.Group;
+import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 import edu.hm.cs.fs.common.model.LessonGroup;
 import edu.hm.cs.fs.restclient.RestClient;
@@ -54,6 +55,23 @@ public class TimetableModel implements IModel {
                 .registerTypeAdapter(Group.class, new GroupTypeAdapter())
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .create();
+    }
+
+    /**
+     * @param callback
+     */
+    public void getHolidays(@NonNull final ICallback<List<Holiday>> callback) {
+        REST_CLIENT.getHolidays().enqueue(new Callback<List<Holiday>>() {
+            @Override
+            public void onResponse(Call<List<Holiday>> call, Response<List<Holiday>> response) {
+                callback.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Holiday>> call, Throwable t) {
+                callback.onError(ErrorFactory.http(t));
+            }
+        });
     }
 
     public void getTimetable(final boolean refresh,

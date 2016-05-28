@@ -149,7 +149,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements IHomeVi
                     .setTitle(lesson.getModule().getName())
                     .setSubtitle(lesson.getTeacher().getName())
                     .setSubtitleColor(Color.GRAY)
-                    .setTime(String.format(Locale.getDefault(), "%1$tH:%1$tM - %2$tH:%2$tM",
+                    .setTime(String.format(Locale.getDefault(), "%1$ta %1$tH:%1$tM - %2$tH:%2$tM",
                             lessonStart, lessonEnd))
                     .setPlace(lesson.getRoom())
                     .endConfig()

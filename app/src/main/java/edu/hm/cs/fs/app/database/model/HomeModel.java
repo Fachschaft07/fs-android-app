@@ -135,7 +135,7 @@ public class HomeModel implements IModel {
      * @param callback
      */
     public void getNextHolidays(@NonNull final ICallback<Holiday> callback) {
-        ModelFactory.getCalendar().getHolidays(new ICallback<List<Holiday>>() {
+        ModelFactory.getCalendar().getNextHolidays(new ICallback<List<Holiday>>() {
             @Override
             public void onSuccess(List<Holiday> data) {
                 if (!data.isEmpty()) {
