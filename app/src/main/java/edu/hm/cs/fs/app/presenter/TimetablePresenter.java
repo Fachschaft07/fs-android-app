@@ -3,12 +3,15 @@ package edu.hm.cs.fs.app.presenter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
 import edu.hm.cs.fs.app.database.ModelFactory;
 import edu.hm.cs.fs.app.database.TimetableModel;
+import edu.hm.cs.fs.app.model.EventWrapper;
 import edu.hm.cs.fs.app.view.ITimetableView;
+import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
 
@@ -16,6 +19,7 @@ import edu.hm.cs.fs.common.model.Lesson;
  * @author Fabio
  */
 public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableModel> {
+    private final List<EventWrapper> mEventCache = new ArrayList<>();
 
     /**
      * @param context
@@ -32,13 +36,15 @@ public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableM
         super(view, model);
     }
 
-    public void loadTimetable(final boolean refresh) {
+    public void loadTimetable(final boolean refresh, final int newYear, final int newMonth) {
         getView().showLoading();
-        getView().clearContent();
+        if(refresh) {
+            mEventCache.clear();
+        }
         getModel().getTimetable(refresh, new ICallback<List<Lesson>>() {
             @Override
             public void onSuccess(@NonNull List<Lesson> data) {
-                getView().showContent(data);
+                getView().showContent(cache(EventWrapper.wrap(data, newYear, newMonth)));
                 getView().hideLoading();
             }
 
@@ -48,18 +54,42 @@ public class TimetablePresenter extends BasePresenter<ITimetableView, TimetableM
                 getView().hideLoading();
             }
         });
-        getModel().getHolidays(new ICallback<List<Holiday>>() {
-            @Override
-            public void onSuccess(List<Holiday> data) {
-                getView().showHolidays(data);
-                getView().hideLoading();
-            }
+        if (refresh) {
+            getModel().getHolidays(new ICallback<List<Holiday>>() {
+                @Override
+                public void onSuccess(List<Holiday> data) {
+                    getView().showContent(cache(EventWrapper.wrap(data)));
+                    getView().hideLoading();
+                }
 
-            @Override
-            public void onError(@NonNull Throwable e) {
-                getView().showError(e);
-                getView().hideLoading();
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    getView().showError(e);
+                    getView().hideLoading();
+                }
+            });
+            getModel().getExams(new ICallback<List<Exam>>() {
+                @Override
+                public void onSuccess(List<Exam> data) {
+                    getView().showContent(cache(EventWrapper.wrap(data)));
+                    getView().hideLoading();
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    getView().showError(e);
+                    getView().hideLoading();
+                }
+            });
+        }
+    }
+
+    private List<EventWrapper> cache(@NonNull final List<EventWrapper> wrap) {
+        for (EventWrapper event : wrap) {
+            if (!mEventCache.contains(event)) {
+                mEventCache.add(event);
             }
-        });
+        }
+        return mEventCache;
     }
 }

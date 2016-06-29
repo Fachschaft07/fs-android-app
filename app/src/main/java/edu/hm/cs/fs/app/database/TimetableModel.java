@@ -22,6 +22,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import edu.hm.cs.fs.app.util.NetworkUtils;
+import edu.hm.cs.fs.common.model.Exam;
 import edu.hm.cs.fs.common.model.Group;
 import edu.hm.cs.fs.common.model.Holiday;
 import edu.hm.cs.fs.common.model.Lesson;
@@ -71,10 +73,57 @@ public class TimetableModel implements IModel {
         });
     }
 
+    public void getExams(@NonNull final ICallback<List<Exam>> callback) {
+        new AsyncTask<Void, Void, Object>() {
+            @Override
+            protected Object doInBackground(Void... params) {
+                try {
+                    final List<Exam> result = new ArrayList<>();
+                    final List<LessonGroupSaver> config = readTimetableConfig();
+                    for (LessonGroupSaver lessonGroupSaver : config) {
+                        final LessonGroup lessonGroup = lessonGroupSaver.mLessonGroup;
+
+                        final Group group = lessonGroup.getGroup();
+                        final String moduleId = lessonGroup.getModule().getId();
+
+                        final List<Exam> body = REST_CLIENT.getExams(group.toString(), moduleId).execute().body();
+                        result.add(body.get(0));
+                        /*
+                        for(Exam exam : body) {
+                            boolean duplicated = false;
+                            for(Exam insideExam : result) {
+                                duplicated |= exam.getCode().equals(insideExam.getCode()) && exam.getModule().getId().equals(insideExam.getModule().getId());
+                            }
+                            if(!duplicated) {
+                                result.add(exam);
+                            }
+                        }
+                        */
+                    }
+                    return result;
+                } catch (Exception e) {
+                    return e;
+                }
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void onPostExecute(Object data) {
+                if (data instanceof List) {
+                    callback.onSuccess((List<Exam>) data);
+                } else {
+                    final Exception exception = (Exception) data;
+                    //exception.printStackTrace();
+                    callback.onError(exception);
+                }
+            }
+        }.execute();
+    }
+
     public void getTimetable(final boolean refresh,
                              @NonNull final ICallback<List<Lesson>> callback) {
         try {
-            if (isTimetableUpToDate() && !refresh) {
+            if (isTimetableUpToDate() && !refresh || !NetworkUtils.isNetworkAvailable(mContext)) {
                 callback.onSuccess(readTimetable());
             } else {
                 updateTimetable(callback);
