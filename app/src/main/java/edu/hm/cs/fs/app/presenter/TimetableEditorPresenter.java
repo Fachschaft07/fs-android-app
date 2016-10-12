@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.hm.cs.fs.app.database.ICallback;
@@ -38,7 +39,13 @@ public class TimetableEditorPresenter extends BasePresenter<ITimetableEditorView
             @Override
             public void onSuccess(@Nullable List<LessonGroup> data) {
                 if(data != null) {
-                    getView().showContent(data);
+                    final List<LessonGroup> result = new ArrayList<>();
+                    for (LessonGroup tmp : data) {
+                        if(tmp.getModule() != null && tmp.getTeacher() != null && tmp.getGroup() != null) {
+                            result.add(tmp);
+                        }
+                    }
+                    getView().showContent(result);
                 } else {
                     getView().showError(new IllegalArgumentException());
                 }
